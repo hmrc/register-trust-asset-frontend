@@ -16,32 +16,19 @@
 
 package forms.behaviours
 
+import org.scalacheck.Gen
 import play.api.data.{Form, FormError}
 
 trait IntFieldBehaviours extends FieldBehaviours {
 
-  def intField(form: Form[_],
-               fieldName: String,
-               nonNumericError: FormError,
-               wholeNumberError: FormError): Unit = {
+  def intFieldWithNoMaxValue(form: Form[_],
+                             fieldName: String,
+                             nonNumericError: FormError,
+                             wholeNumberError: FormError): Unit = {
 
-    "not bind non-numeric numbers" in {
+    numericField(form, fieldName, nonNumericError)
 
-      forAll(nonNumerics -> "nonNumeric") {
-        nonNumeric =>
-          val result = form.bind(Map(fieldName -> nonNumeric)).apply(fieldName)
-          result.errors shouldEqual Seq(nonNumericError)
-      }
-    }
-
-    "not bind decimals" in {
-
-      forAll(decimals -> "decimal") {
-        decimal =>
-          val result = form.bind(Map(fieldName -> decimal)).apply(fieldName)
-          result.errors shouldEqual Seq(wholeNumberError)
-      }
-    }
+    nonDecimalField(form, fieldName, wholeNumberError)
 
     "not bind integers larger than Int.MaxValue" in {
 
@@ -51,6 +38,53 @@ trait IntFieldBehaviours extends FieldBehaviours {
           result.errors shouldEqual Seq(nonNumericError)
       }
     }
+
+    nonMassiveNegativeField(form, fieldName, nonNumericError)
+  }
+
+  def intFieldWithMaxValue(form: Form[_],
+                           fieldName: String,
+                           nonNumericError: FormError,
+                           wholeNumberError: FormError): Unit = {
+
+    numericField(form, fieldName, nonNumericError)
+
+    nonDecimalField(form, fieldName, wholeNumberError)
+
+    nonMassiveNegativeField(form, fieldName, nonNumericError)
+  }
+
+  def numericField(form: Form[_],
+                   fieldName: String,
+                   nonNumericError: FormError): Unit = {
+
+    "not bind non-numeric numbers" in {
+      forAll(nonNumerics -> "nonNumeric") {
+        nonNumeric =>
+          val result = form.bind(Map(fieldName -> nonNumeric)).apply(fieldName)
+          result.errors shouldEqual Seq(nonNumericError)
+      }
+    }
+  }
+
+  def nonDecimalField(form: Form[_],
+                      fieldName: String,
+                      wholeNumberError: FormError,
+                      maxLength: Option[Int] = None): Unit = {
+
+    "not bind decimals" in {
+
+      forAll(decimals(maxLength) -> "decimal") {
+        decimal =>
+          val result = form.bind(Map(fieldName -> decimal)).apply(fieldName)
+          result.errors shouldEqual Seq(wholeNumberError)
+      }
+    }
+  }
+
+  private def nonMassiveNegativeField(form: Form[_],
+                                      fieldName: String,
+                                      nonNumericError: FormError): Unit = {
 
     "not bind integers smaller than Int.MinValue" in {
 
@@ -70,6 +104,22 @@ trait IntFieldBehaviours extends FieldBehaviours {
     s"not bind integers below $minimum" in {
 
       forAll(intsBelowValue(minimum) -> "intBelowMin") {
+        number: Int =>
+          val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
+          result.errors shouldEqual Seq(expectedError)
+      }
+    }
+  }
+
+  def intFieldWithMinimumWithGenerator(form: Form[_],
+                                       fieldName: String,
+                                       minimum: Int,
+                                       generator : Gen[Int],
+                                       expectedError: FormError): Unit = {
+
+    s"not bind integers below $minimum" in {
+
+      forAll(generator -> "intBelowMin") {
         number: Int =>
           val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
           result.errors shouldEqual Seq(expectedError)

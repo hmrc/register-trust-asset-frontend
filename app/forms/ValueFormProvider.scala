@@ -22,17 +22,35 @@ import play.api.data.Form
 
 class ValueFormProvider @Inject() extends Mappings {
 
-  def withPrefix(prefix: String): Form[String] =
-    Form(
-      "value"-> currency(s"$prefix.error.required", s"$prefix.error.invalid")
-      .verifying(
-        firstError(
-          isNotEmpty("value", s"$prefix.error.required"),
-          maxLength(12, s"$prefix.error.length"),
-          regexp(Validation.onlyNumbersRegex, s"$prefix.error.invalid"),
-          regexp(Validation.decimalCheck, s"$prefix.error.wholeNumber"),
-          minimumValue("1", s"$prefix.error.zero")
+  def withConfig(prefix: String, maxValue: Option[String] = None): Form[String] = {
+
+    maxValue match {
+      case Some(value) =>
+        Form(
+          "value" -> currency(s"$prefix.error.required", s"$prefix.error.invalid")
+            .verifying(
+              firstError(
+                isNotEmpty("value", s"$prefix.error.required"),
+                regexp(Validation.decimalCheck, s"$prefix.error.whole"),
+                regexp(Validation.onlyNumbersRegex, s"$prefix.error.invalid"),
+                maximumValue(value, s"$prefix.error.moreThanTotal"),
+                minimumValue("1", s"$prefix.error.zero")
+              )
+            )
         )
-      )
-    )
+      case _ =>
+        Form(
+          "value"-> currency(s"$prefix.error.required", s"$prefix.error.invalid")
+            .verifying(
+              firstError(
+                isNotEmpty("value", s"$prefix.error.required"),
+                maxLength(12, s"$prefix.error.length"),
+                regexp(Validation.decimalCheck, s"$prefix.error.whole"),
+                regexp(Validation.onlyNumbersRegex, s"$prefix.error.invalid"),
+                minimumValue("1", s"$prefix.error.zero")
+              )
+            )
+        )
+    }
+  }
 }

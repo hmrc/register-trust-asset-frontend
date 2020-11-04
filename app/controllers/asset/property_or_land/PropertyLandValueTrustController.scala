@@ -21,8 +21,9 @@ import controllers.filters.IndexActionFilterProvider
 import forms.ValueFormProvider
 import javax.inject.Inject
 import models.Mode
+import models.requests.RegistrationDataRequest
 import navigation.Navigator
-import pages.asset.property_or_land.PropertyLandValueTrustPage
+import pages.asset.property_or_land.{PropertyLandValueTrustPage, PropertyOrLandTotalValuePage}
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -46,8 +47,6 @@ class PropertyLandValueTrustController @Inject()(
                                                   view: PropertyLandValueTrustView
                                                 )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  private val form = formProvider.withPrefix("propertyOrLand.valueInTrust")
-
   private def actions(index: Int, draftId: String) =
     identify andThen
       getData(draftId) andThen
@@ -57,9 +56,11 @@ class PropertyLandValueTrustController @Inject()(
   def onPageLoad(mode: Mode, index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
     implicit request =>
 
+      val configuredForm = form(index)
+
       val preparedForm = request.userAnswers.get(PropertyLandValueTrustPage(index)) match {
-        case None => form
-        case Some(value) => form.fill(value)
+        case None => configuredForm
+        case Some(value) => configuredForm.fill(value)
       }
 
       Ok(view(preparedForm, mode, index, draftId))
@@ -68,7 +69,7 @@ class PropertyLandValueTrustController @Inject()(
   def onSubmit(mode: Mode, index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
     implicit request =>
 
-      form.bindFromRequest().fold(
+      form(index).bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
           Future.successful(BadRequest(view(formWithErrors, mode, index, draftId))),
 
@@ -79,5 +80,9 @@ class PropertyLandValueTrustController @Inject()(
           } yield Redirect(navigator.nextPage(PropertyLandValueTrustPage(index), mode, draftId)(updatedAnswers))
         }
       )
+  }
+
+  private def form(index: Int)(implicit request: RegistrationDataRequest[AnyContent]): Form[String] = {
+    formProvider.withConfig("propertyOrLand.valueInTrust", request.userAnswers.get(PropertyOrLandTotalValuePage(index)))
   }
 }
