@@ -33,7 +33,7 @@ class ValueFormProvider @Inject() extends Mappings {
                 isNotEmpty("value", s"$prefix.error.required"),
                 regexp(Validation.decimalCheck, s"$prefix.error.whole"),
                 regexp(Validation.onlyNumbersRegex, s"$prefix.error.invalid"),
-                maximumValue(value, s"$prefix.error.moreThanTotal"),
+                isLessThan(value, s"$prefix.error.moreThanTotal"),
                 minimumValue("1", s"$prefix.error.zero")
               )
             )
