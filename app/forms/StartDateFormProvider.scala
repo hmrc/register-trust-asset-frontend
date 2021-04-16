@@ -25,7 +25,13 @@ import javax.inject.Inject
 
 class StartDateFormProvider @Inject()(appConfig: FrontendAppConfig) extends Mappings {
 
-  def withPrefix(prefix: String): Form[LocalDate] =
+  def withConfig(prefix: String, trustSetupDate: Option[LocalDate] = None): Form[LocalDate] = {
+
+    val minimumDate: (LocalDate, String) = trustSetupDate match {
+      case Some(value) => (value, s"$prefix.error.beforeTrustSetup")
+      case None => (appConfig.minDate, s"$prefix.error.past")
+    }
+
     Form(
       "value" -> localDate(
         invalidKey     = s"$prefix.error.invalid",
@@ -34,7 +40,8 @@ class StartDateFormProvider @Inject()(appConfig: FrontendAppConfig) extends Mapp
         requiredKey    = s"$prefix.error.required"
       ).verifying(firstError(
         maxDate(LocalDate.now, s"$prefix.error.future", "day", "month", "year"),
-        minDate(appConfig.minDate, s"$prefix.error.past", "day", "month", "year")
+        minDate(minimumDate._1, minimumDate._2, "day", "month", "year")
       ))
     )
+  }
 }

@@ -17,26 +17,33 @@
 package controllers.asset.noneeabusiness
 
 import base.SpecBase
+import connectors.SubmissionDraftConnector
 import controllers.IndexValidation
 import forms.StartDateFormProvider
 import models.UserAnswers
+import org.mockito.Matchers.any
+import org.mockito.Mockito.{reset, when}
 import org.scalacheck.Arbitrary.arbitrary
+import org.scalatest.BeforeAndAfterEach
 import pages.asset.noneeabusiness.{NamePage, StartDatePage}
+import play.api.inject.bind
 import play.api.mvc.{AnyContentAsEmpty, AnyContentAsFormUrlEncoded}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{route, _}
 import views.html.asset.noneeabusiness.StartDateView
 
 import java.time.LocalDate
+import scala.concurrent.Future
 
-class StartDateControllerSpec extends SpecBase with IndexValidation {
+class StartDateControllerSpec extends SpecBase with IndexValidation with BeforeAndAfterEach {
 
   private val formProvider = new StartDateFormProvider(frontendAppConfig)
   private val prefix: String = "nonEeaBusiness.startDate"
-  private val form = formProvider.withPrefix(prefix)
+  private val form = formProvider.withConfig(prefix)
   private val index = 0
   private val name = "Test"
 
+  private val trustSetupDate: LocalDate = LocalDate.parse("1980-03-31")
   private val validAnswer: LocalDate = LocalDate.parse("1996-02-03")
 
   private lazy val onPageLoadRoute = routes.StartDateController.onPageLoad(index, fakeDraftId).url
@@ -44,11 +51,22 @@ class StartDateControllerSpec extends SpecBase with IndexValidation {
   private val baseAnswers: UserAnswers = emptyUserAnswers
     .set(NamePage(index), name).success.value
 
+  private val mockSubmissionDraftConnector = mock[SubmissionDraftConnector]
+
+  override def beforeEach(): Unit = {
+    reset(mockSubmissionDraftConnector)
+
+    when(mockSubmissionDraftConnector.getTrustSetupDate(any())(any(), any()))
+      .thenReturn(Future.successful(Some(trustSetupDate)))
+  }
+
   "StartDateController" must {
 
     "return OK and the correct view for a GET" in {
 
-      val application = applicationBuilder(userAnswers = Some(baseAnswers)).build()
+      val application = applicationBuilder(userAnswers = Some(baseAnswers))
+        .overrides(bind[SubmissionDraftConnector].toInstance(mockSubmissionDraftConnector))
+        .build()
 
       val request = FakeRequest(GET, onPageLoadRoute)
 
@@ -69,7 +87,9 @@ class StartDateControllerSpec extends SpecBase with IndexValidation {
       val userAnswers = baseAnswers
         .set(StartDatePage(index), validAnswer).success.value
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      val application = applicationBuilder(userAnswers = Some(userAnswers))
+        .overrides(bind[SubmissionDraftConnector].toInstance(mockSubmissionDraftConnector))
+        .build()
 
       val request = FakeRequest(GET, onPageLoadRoute)
 
@@ -87,7 +107,9 @@ class StartDateControllerSpec extends SpecBase with IndexValidation {
 
     "redirect to name page when name is not answered" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
+        .overrides(bind[SubmissionDraftConnector].toInstance(mockSubmissionDraftConnector))
+        .build()
 
       val request = FakeRequest(GET, onPageLoadRoute)
 
@@ -102,15 +124,16 @@ class StartDateControllerSpec extends SpecBase with IndexValidation {
 
     "redirect to the next page when valid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(baseAnswers)).build()
+      val application = applicationBuilder(userAnswers = Some(baseAnswers))
+        .overrides(bind[SubmissionDraftConnector].toInstance(mockSubmissionDraftConnector))
+        .build()
 
-      val request =
-        FakeRequest(POST, onPageLoadRoute)
-          .withFormUrlEncodedBody(
-            "value.day" -> validAnswer.getDayOfMonth.toString,
-            "value.month" -> validAnswer.getMonthValue.toString,
-            "value.year" -> validAnswer.getYear.toString
-          )
+      val request = FakeRequest(POST, onPageLoadRoute)
+        .withFormUrlEncodedBody(
+          "value.day" -> validAnswer.getDayOfMonth.toString,
+          "value.month" -> validAnswer.getMonthValue.toString,
+          "value.year" -> validAnswer.getYear.toString
+        )
 
       val result = route(application, request).value
 
@@ -123,11 +146,12 @@ class StartDateControllerSpec extends SpecBase with IndexValidation {
 
     "return a Bad Request and errors when invalid data is submitted" in {
 
-      val application = applicationBuilder(userAnswers = Some(baseAnswers)).build()
+      val application = applicationBuilder(userAnswers = Some(baseAnswers))
+        .overrides(bind[SubmissionDraftConnector].toInstance(mockSubmissionDraftConnector))
+        .build()
 
-      val request =
-        FakeRequest(POST, onPageLoadRoute)
-          .withFormUrlEncodedBody(("value", "invalid value"))
+      val request = FakeRequest(POST, onPageLoadRoute)
+        .withFormUrlEncodedBody(("value", "invalid value"))
 
       val boundForm = form.bind(Map("value" -> "invalid value"))
 
@@ -139,6 +163,28 @@ class StartDateControllerSpec extends SpecBase with IndexValidation {
 
       contentAsString(result) mustEqual
         view(boundForm, index, fakeDraftId, name)(fakeRequest, messages).toString
+
+      application.stop()
+    }
+
+    "return a Bad Request when submitted date precedes trust setup date" in {
+
+      val dateBeforeTrustSetupDate = trustSetupDate.minusDays(1)
+
+      val application = applicationBuilder(userAnswers = Some(baseAnswers))
+        .overrides(bind[SubmissionDraftConnector].toInstance(mockSubmissionDraftConnector))
+        .build()
+
+      val request = FakeRequest(POST, onPageLoadRoute)
+        .withFormUrlEncodedBody(
+          "value.day" -> dateBeforeTrustSetupDate.getDayOfMonth.toString,
+          "value.month" -> dateBeforeTrustSetupDate.getMonthValue.toString,
+          "value.year" -> dateBeforeTrustSetupDate.getYear.toString
+        )
+
+      val result = route(application, request).value
+
+      status(result) mustEqual BAD_REQUEST
 
       application.stop()
     }
@@ -161,13 +207,12 @@ class StartDateControllerSpec extends SpecBase with IndexValidation {
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val request =
-        FakeRequest(POST, onPageLoadRoute)
-          .withFormUrlEncodedBody(
-            "value.day" -> validAnswer.getDayOfMonth.toString,
-            "value.month" -> validAnswer.getMonthValue.toString,
-            "value.year" -> validAnswer.getYear.toString
-          )
+      val request = FakeRequest(POST, onPageLoadRoute)
+        .withFormUrlEncodedBody(
+          "value.day" -> validAnswer.getDayOfMonth.toString,
+          "value.month" -> validAnswer.getMonthValue.toString,
+          "value.year" -> validAnswer.getYear.toString
+        )
 
       val result = route(application, request).value
 

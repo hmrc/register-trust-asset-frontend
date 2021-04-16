@@ -32,7 +32,7 @@ class PartnershipStartDateControllerSpec extends SpecBase with IndexValidation {
 
   private val formProvider = new StartDateFormProvider(frontendAppConfig)
   private val prefix: String = "partnership.startDate"
-  private val form = formProvider.withPrefix(prefix)
+  private val form = formProvider.withConfig(prefix)
   private val index = 0
 
   private val validAnswer = LocalDate.now(ZoneOffset.UTC)

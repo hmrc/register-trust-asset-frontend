@@ -17,6 +17,7 @@
 package controllers.asset.noneeabusiness
 
 import config.annotations.NonEeaBusiness
+import connectors.SubmissionDraftConnector
 import controllers.actions._
 import controllers.filters.IndexActionFilterProvider
 import forms.StartDateFormProvider
@@ -44,10 +45,11 @@ class StartDateController @Inject()(
                                      requiredAnswer: RequiredAnswerActionProvider,
                                      formProvider: StartDateFormProvider,
                                      val controllerComponents: MessagesControllerComponents,
-                                     view: StartDateView
+                                     view: StartDateView,
+                                     submissionDraftConnector: SubmissionDraftConnector
                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  private val form = formProvider.withPrefix("nonEeaBusiness.startDate")
+  private val messageKeyPrefix: String = "nonEeaBusiness.startDate"
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen
@@ -56,17 +58,21 @@ class StartDateController @Inject()(
       validateIndex(index, sections.Assets) andThen
       requiredAnswer(RequiredAnswer(NamePage(index), routes.NameController.onPageLoad(index, draftId)))
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
     implicit request =>
 
       val name = request.userAnswers.get(NamePage(index)).get
 
-      val preparedForm = request.userAnswers.get(StartDatePage(index)) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
+      submissionDraftConnector.getTrustSetupDate(draftId) map { trustSetupDate =>
+        val form = formProvider.withConfig(messageKeyPrefix, trustSetupDate)
 
-      Ok(view(preparedForm, index, draftId, name))
+        val preparedForm = request.userAnswers.get(StartDatePage(index)) match {
+          case None => form
+          case Some(value) => form.fill(value)
+        }
+
+        Ok(view(preparedForm, index, draftId, name))
+      }
   }
 
   def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
@@ -74,16 +80,20 @@ class StartDateController @Inject()(
 
       val name = request.userAnswers.get(NamePage(index)).get
 
-      form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, index, draftId, name))),
+      submissionDraftConnector.getTrustSetupDate(draftId) flatMap { trustSetupDate =>
+        val form = formProvider.withConfig(messageKeyPrefix, trustSetupDate)
 
-        value => {
-          for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(StartDatePage(index), value))
-            _ <- repository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(StartDatePage(index), draftId)(updatedAnswers))
-        }
-      )
+        form.bindFromRequest().fold(
+          (formWithErrors: Form[_]) =>
+            Future.successful(BadRequest(view(formWithErrors, index, draftId, name))),
+
+          value => {
+            for {
+              updatedAnswers <- Future.fromTry(request.userAnswers.set(StartDatePage(index), value))
+              _ <- repository.set(updatedAnswers)
+            } yield Redirect(navigator.nextPage(StartDatePage(index), draftId)(updatedAnswers))
+          }
+        )
+      }
   }
 }
