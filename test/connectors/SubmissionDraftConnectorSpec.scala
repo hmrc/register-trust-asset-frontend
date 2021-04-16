@@ -29,7 +29,7 @@ import play.api.test.Helpers.CONTENT_TYPE
 import uk.gov.hmrc.http.HeaderCarrier
 import utils.WireMockHelper
 
-import java.time.LocalDateTime
+import java.time.{LocalDate, LocalDateTime}
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
@@ -162,6 +162,47 @@ class SubmissionDraftConnectorSpec extends SpecBase with MustMatchers with Optio
 
         val result: Boolean = Await.result(connector.getIsTrustTaxable(testDraftId), Duration.Inf)
         result.booleanValue() mustBe true
+      }
+    }
+
+    "getTrustSetupDate" must {
+
+      "return Some(date) when OK response with start date" in {
+
+        val date = "2000-01-01"
+
+        val json =
+          s"""
+            |{
+            |  "startDate": "$date"
+            |}
+            |""".stripMargin
+
+        server.stubFor(
+          get(urlEqualTo(s"$submissionsUrl/$testDraftId/when-trust-setup"))
+            .willReturn(
+              aResponse()
+                .withStatus(Status.OK)
+                .withBody(json)
+            )
+        )
+
+        val result: Option[LocalDate] = Await.result(connector.getTrustSetupDate(testDraftId), Duration.Inf)
+        result mustBe Some(LocalDate.parse(date))
+      }
+
+      "return None when non-OK response" in {
+
+        server.stubFor(
+          get(urlEqualTo(s"$submissionsUrl/$testDraftId/when-trust-setup"))
+            .willReturn(
+              aResponse()
+                .withStatus(Status.INTERNAL_SERVER_ERROR)
+            )
+        )
+
+        val result: Option[LocalDate] = Await.result(connector.getTrustSetupDate(testDraftId), Duration.Inf)
+        result mustBe None
       }
     }
   }
