@@ -24,31 +24,59 @@ import java.time.{LocalDate, ZoneOffset}
 
 class StartDateFormProviderSpec extends DateBehaviours with FakeTrustsApp {
 
-  private val min = frontendAppConfig.minDate
   private val max = LocalDate.now(ZoneOffset.UTC)
   private val prefix: String = "partnership.startDate"
-  private val form = new StartDateFormProvider(frontendAppConfig).withPrefix(prefix)
 
-  ".value" should {
+  "StartDateFormProvider" when {
 
-    val validData = datesBetween(
-      min = min,
-      max = max
-    )
+    "trust setup date defined" should {
 
-    behave like dateField(form, "value", validData)
+      val min = LocalDate.parse("1996-02-03")
+      val form = new StartDateFormProvider(frontendAppConfig).withConfig(prefix, Some(min))
 
-    behave like mandatoryDateField(form, "value", s"$prefix.error.required.all")
+      val validData = datesBetween(
+        min = min,
+        max = max
+      )
 
-    behave like dateFieldWithMax(form, "value",
-      max = max,
-      FormError("value", s"$prefix.error.future", List("day", "month", "year"))
-    )
+      behave like dateField(form, "value", validData)
 
-    behave like dateFieldWithMin(form, "value",
-      min = min,
-      FormError("value", s"$prefix.error.past", List("day", "month", "year"))
-    )
+      behave like mandatoryDateField(form, "value", s"$prefix.error.required.all")
 
+      behave like dateFieldWithMax(form, "value",
+        max = max,
+        FormError("value", s"$prefix.error.future", List("day", "month", "year"))
+      )
+
+      behave like dateFieldWithMin(form, "value",
+        min = min,
+        FormError("value", s"$prefix.error.beforeTrustSetup", List("day", "month", "year"))
+      )
+    }
+
+    "trust setup date not defined" should {
+
+      val min = frontendAppConfig.minDate
+      val form = new StartDateFormProvider(frontendAppConfig).withConfig(prefix)
+
+      val validData = datesBetween(
+        min = min,
+        max = max
+      )
+
+      behave like dateField(form, "value", validData)
+
+      behave like mandatoryDateField(form, "value", s"$prefix.error.required.all")
+
+      behave like dateFieldWithMax(form, "value",
+        max = max,
+        FormError("value", s"$prefix.error.future", List("day", "month", "year"))
+      )
+
+      behave like dateFieldWithMin(form, "value",
+        min = min,
+        FormError("value", s"$prefix.error.past", List("day", "month", "year"))
+      )
+    }
   }
 }

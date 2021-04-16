@@ -20,8 +20,9 @@ import config.FrontendAppConfig
 import models.{RegistrationSubmission, SubmissionDraftResponse}
 import play.api.libs.json.{JsValue, Json}
 import uk.gov.hmrc.http.HttpReads.Implicits._
-import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse, HttpClient}
+import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, HttpResponse}
 
+import java.time.LocalDate
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -43,6 +44,15 @@ class SubmissionDraftConnector @Inject()(http: HttpClient, config: FrontendAppCo
                        (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Boolean] = {
     http.GET[Boolean](s"$submissionsBaseUrl/$draftId/is-trust-taxable").recover {
       case _ => true
+    }
+  }
+
+  def getTrustSetupDate(draftId: String)(implicit hc:HeaderCarrier, ec: ExecutionContext): Future[Option[LocalDate]] = {
+    http.GET[HttpResponse](s"$submissionsBaseUrl/$draftId/when-trust-setup").map {
+      response =>
+        (response.json \ "startDate").asOpt[LocalDate]
+    }.recover {
+      case _ => None
     }
   }
 }
