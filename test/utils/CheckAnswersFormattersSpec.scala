@@ -47,7 +47,7 @@ class CheckAnswersFormattersSpec extends SpecBase {
             result mustBe Html("25 January 2015")
           }
 
-          "old date" ignore {
+          "old date" in {
             val result: Html = checkAnswersFormatters.formatDate(oldDate)(messages("en"))
             result mustBe Html("1 December 1840")
           }
@@ -61,7 +61,7 @@ class CheckAnswersFormattersSpec extends SpecBase {
             result mustBe Html("25 Ionawr 2015")
           }
 
-          "old date" ignore {
+          "old date" in {
             val result: Html = checkAnswersFormatters.formatDate(oldDate)(messages("cy"))
             result mustBe Html("1 Rhagfyr 1840")
           }
