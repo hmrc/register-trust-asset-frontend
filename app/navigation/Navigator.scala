@@ -70,7 +70,11 @@ object AssetsRoutes extends Navigation {
     val assets = answers.get(sections.Assets).getOrElse(List.empty)
 
     if (answers.isTaxable) {
-      val index = assets.size
+      val index = assets match {
+        case Nil => 0
+        case x if !x.last.isComplete => x.size - 1
+        case x => x.size
+      }
       WhatKindOfAssetController.onPageLoad(index, draftId)
     } else {
       // assets includes an in progress non-EEA business asset as we have just set the value in WhatKindOfAssetPage
