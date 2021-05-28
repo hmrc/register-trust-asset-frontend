@@ -19,10 +19,12 @@ package navigation
 import base.SpecBase
 import controllers.asset._
 import generators.Generators
+import models.Status.Completed
 import models.WhatKindOfAsset._
 import models.{AddAssets, UserAnswers}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
+import pages.AssetStatus
 import pages.asset.{AddAnAssetYesNoPage, AddAssetsPage, AssetInterruptPage, TrustOwnsNonEeaBusinessYesNoPage, WhatKindOfAssetPage}
 import play.api.mvc.Call
 
@@ -148,15 +150,29 @@ class NavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generato
 
         val baseAnswers = emptyUserAnswers.copy(isTaxable = true)
 
-        "add them now selected" must {
-          "go to the WhatKindOfAssetPage" in {
+        "add them now selected" when {
 
-            val answers = baseAnswers
-              .set(WhatKindOfAssetPage(0), Money).success.value
-              .set(AddAssetsPage, AddAssets.YesNow).success.value
+          "last asset is in progress" must {
+            "go to the WhatKindOfAssetPage at in-progress index" in {
+              val answers = baseAnswers
+                .set(WhatKindOfAssetPage(0), Money).success.value
+                .set(AddAssetsPage, AddAssets.YesNow).success.value
 
-            navigator.nextPage(AddAssetsPage, fakeDraftId)(answers)
-              .mustBe(controllers.asset.routes.WhatKindOfAssetController.onPageLoad(1, fakeDraftId))
+              navigator.nextPage(AddAssetsPage, fakeDraftId)(answers)
+                .mustBe(controllers.asset.routes.WhatKindOfAssetController.onPageLoad(0, fakeDraftId))
+            }
+          }
+
+          "last asset is complete" must {
+            "go to the WhatKindOfAssetPage at next index" in {
+              val answers = baseAnswers
+                .set(WhatKindOfAssetPage(0), Money).success.value
+                .set(AssetStatus(0), Completed).success.value
+                .set(AddAssetsPage, AddAssets.YesNow).success.value
+
+              navigator.nextPage(AddAssetsPage, fakeDraftId)(answers)
+                .mustBe(controllers.asset.routes.WhatKindOfAssetController.onPageLoad(1, fakeDraftId))
+            }
           }
         }
 

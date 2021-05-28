@@ -24,6 +24,8 @@ trait AssetViewModel {
   val `type`: WhatKindOfAsset
   val status: Status
   val label: Option[String]
+
+  def isComplete: Boolean = status == Status.Completed
 }
 
 object AssetViewModel {
