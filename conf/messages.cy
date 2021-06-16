@@ -17,6 +17,14 @@ addAssets.singular.heading=Ychwanegu asedion
 addAssets.singular.title=Ychwanegu asedion
 addAssets.title=Ychwanegu asedion
 
+addAssets.nonTaxable.add-them-later=Iawn, rwyf am ei ychwanegu yn nes ymlaen
+addAssets.nonTaxable.add-them-now=Iawn, rwyf am ei ychwanegu nawr
+addAssets.nonTaxable.additional-content=A ydych am ychwanegu cwmni arall nad yw’n rhan o’r AEE?
+addAssets.nonTaxable.error.required=Dewiswch ‘Iawn’ os ydych am ychwanegu cwmni arall nad yw’n rhan o’r AEE
+addAssets.nonTaxable.heading=Ychwanegu cwmni nad yw’n rhan o’r AEE
+addAssets.nonTaxable.no-complete=Nac ydw, rwyf wedi ychwanegu pob cwmni nad yw’n rhan o’r AEE
+addAssets.nonTaxable.title=Ychwanegu cwmni nad yw’n rhan o’r AEE
+
 address.country=Gwlad
 
 answerPage.section.assets.heading=Asedion
@@ -67,6 +75,16 @@ assetInterruptPage.subheading5=Partneriaethau
 assetInterruptPage.subheading6=Asedion eraill
 assetInterruptPage.subheading7=Cwmni Ardal Economaidd nad yw’n Ewropeaidd (AEE)
 assetInterruptPage.title=Yr wybodaeth y bydd angen i chi ei rhoi
+
+assetInterruptPage.nonTaxable.bullet1=enw’r cwmni
+assetInterruptPage.nonTaxable.bullet2=cyfeiriad y cwmni
+assetInterruptPage.nonTaxable.bullet3=cyfreithiau pa wlad sy’n llywodraethu’r cwmni
+assetInterruptPage.nonTaxable.bullet4=y dyddiad y dechreuodd yr ymddiriedolaeth ei pherchnogaeth neu gyfran reolaethol yn y cwmni
+assetInterruptPage.nonTaxable.caption=Perchnogaeth y cwmni neu gyfran reolaethol
+assetInterruptPage.nonTaxable.caption.hidden=Teitl yr adran hon yw
+assetInterruptPage.nonTaxable.heading=Cwmni Ardal Economaidd nad yw’n Ewropeaidd (AEE)
+assetInterruptPage.nonTaxable.paragraph1=Os oes gan yr ymddiriedolaeth berchnogaeth neu gyfran reolaethol mewn cwmni nad yw’n rhan o’r AEE, mae angen i chi roi gwybod i CThEM:
+assetInterruptPage.nonTaxable.title=Cwmni Ardal Economaidd nad yw’n Ewropeaidd (AEE)
 
 assets.defaultText=yr ased
 assets.removeYesNo.error.required=Dewiswch ‘Iawn’ os ydych am dynnu’r ased
@@ -125,6 +143,9 @@ entities.no.addressOrDescription.added=Dim cyfeiriad na disgrifiad wedi’u hych
 entities.no.description.added=Dim disgrifiad wedi’i ychwanegu
 entities.no.name.added=Dim enw wedi’i ychwanegu
 entities.no.value.added=Dim gwerth wedi’i ychwanegu
+
+entity.asset=Asedion
+entity.nonTaxable.asset=Cwmnïau nad ydynt yn rhan o’r AEE
 
 error.boolean=Rhowch ateb
 error.browser.title.prefix=Gwall:
@@ -198,6 +219,7 @@ nonEeaBusiness.name.heading=Beth yw enw’r cwmni?
 nonEeaBusiness.name.title=Beth yw enw’r cwmni?
 
 nonEeaBusiness.startDate.checkYourAnswersLabel=Pryd y gwnaeth yr ymddiriedolaeth ddechrau ei pherchnogaeth neu gyfran reolaethol yn {0}?
+nonEeaBusiness.startDate.error.beforeTrustSetup=Ni all y dyddiad y dechreuodd yr ymddiriedolaeth ei pherchnogaeth neu gyfran reolaethol yn y cwmni fod cyn dyddiad dechrau’r ymddiriedolaeth
 nonEeaBusiness.startDate.error.future=Mae’n rhaid i’r dyddiad y dechreuodd yr ymddiriedolaeth ei pherchnogaeth neu gyfran reolaethol yn y cwmni fod heddiw neu yn y gorffennol
 nonEeaBusiness.startDate.error.invalid=Nodwch ddyddiad go iawn ar gyfer y dyddiad y dechreuodd yr ymddiriedolaeth ei pherchnogaeth neu gyfran reolaethol yn y cwmni
 nonEeaBusiness.startDate.error.past=Mae’n rhaid i’r dyddiad y dechreuodd yr ymddiriedolaeth ei pherchnogaeth neu gyfran reolaethol yn y cwmni fod ar ôl 31 Rhagfyr 1499
@@ -439,6 +461,10 @@ site.yes=Iawn
 timeout.keep-alive-button=Yn eich blaen â’r cais
 timeout.message=Byddwn yn eich allgofnodi os na fyddwch yn ymateb ymhen
 timeout.title=Bydd eich cais yn dod i ben cyn hir
+
+trustOwnsNonEeaBusinessYesNo.error.required=Dewiswch ‘Iawn’ os yw’r ymddiriedolaeth yn berchen ar gwmni nad yw’n rhan o’r AEE neu a oes ganddi gyfran reolaethol ynddo
+trustOwnsNonEeaBusinessYesNo.heading=A yw’r ymddiriedolaeth yn berchen ar gwmni nad yw’n rhan o’r AEE neu a oes ganddi gyfran reolaethol ynddo?
+trustOwnsNonEeaBusinessYesNo.title=A yw’r ymddiriedolaeth yn berchen ar gwmni nad yw’n rhan o’r AEE neu a oes ganddi gyfran reolaethol ynddo?
 
 ukAddress.error.line1.invalidCharacters=Mae’n rhaid i gyfeiriad – llinell 1 gynnwys y llythrennau a i z yn unig
 ukAddress.error.line1.length=Mae’n rhaid i gyfeiriad – llinell 1 fod yn 35 o gymeriadau neu lai
