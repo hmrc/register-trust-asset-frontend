@@ -64,7 +64,7 @@ class WhatKindOfAssetControllerSpec extends SpecBase with IndexValidation {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form, fakeDraftId, index, options)(fakeRequest, messages).toString
+          view(form, fakeDraftId, index, options)(request, messages).toString
 
         application.stop()
       }
@@ -85,7 +85,7 @@ class WhatKindOfAssetControllerSpec extends SpecBase with IndexValidation {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form.fill(Shares), fakeDraftId, index, options)(fakeRequest, messages).toString
+          view(form.fill(Shares), fakeDraftId, index, options)(request, messages).toString
 
         application.stop()
       }
@@ -173,7 +173,7 @@ class WhatKindOfAssetControllerSpec extends SpecBase with IndexValidation {
         status(result) mustEqual BAD_REQUEST
 
         contentAsString(result) mustEqual
-          view(boundForm, fakeDraftId, index, options)(fakeRequest, messages).toString
+          view(boundForm, fakeDraftId, index, options)(request, messages).toString
 
         application.stop()
       }
@@ -198,7 +198,7 @@ class WhatKindOfAssetControllerSpec extends SpecBase with IndexValidation {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form, fakeDraftId, index, options)(fakeRequest, messages).toString
+          view(form, fakeDraftId, index, options)(request, messages).toString
 
         application.stop()
       }
@@ -219,7 +219,7 @@ class WhatKindOfAssetControllerSpec extends SpecBase with IndexValidation {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form.fill(Shares), fakeDraftId, index, options)(fakeRequest, messages).toString
+          view(form.fill(Shares), fakeDraftId, index, options)(request, messages).toString
 
         application.stop()
       }
@@ -307,7 +307,7 @@ class WhatKindOfAssetControllerSpec extends SpecBase with IndexValidation {
         status(result) mustEqual BAD_REQUEST
 
         contentAsString(result) mustEqual
-          view(boundForm, fakeDraftId, index, options)(fakeRequest, messages).toString
+          view(boundForm, fakeDraftId, index, options)(request, messages).toString
 
         application.stop()
       }

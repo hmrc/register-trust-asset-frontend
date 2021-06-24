@@ -50,7 +50,7 @@ class TrustOwnAllThePropertyOrLandControllerSpec extends SpecBase with IndexVali
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, index, fakeDraftId)(fakeRequest, messages).toString
+        view(form, index, fakeDraftId)(request, messages).toString
 
       application.stop()
     }
@@ -70,7 +70,7 @@ class TrustOwnAllThePropertyOrLandControllerSpec extends SpecBase with IndexVali
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(true), index, fakeDraftId)(fakeRequest, messages).toString
+        view(form.fill(true), index, fakeDraftId)(request, messages).toString
 
       application.stop()
     }
@@ -110,7 +110,7 @@ class TrustOwnAllThePropertyOrLandControllerSpec extends SpecBase with IndexVali
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, index, fakeDraftId)(fakeRequest, messages).toString
+        view(boundForm, index, fakeDraftId)(request, messages).toString
 
       application.stop()
     }

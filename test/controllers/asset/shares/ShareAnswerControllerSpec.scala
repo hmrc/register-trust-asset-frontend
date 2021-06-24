@@ -61,7 +61,7 @@ class ShareAnswerControllerSpec extends SpecBase {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(index, fakeDraftId, expectedSections)(fakeRequest, messages).toString
+          view(index, fakeDraftId, expectedSections)(request, messages).toString
 
         application.stop()
       }
@@ -91,7 +91,7 @@ class ShareAnswerControllerSpec extends SpecBase {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(index, fakeDraftId, expectedSections)(fakeRequest, messages).toString
+          view(index, fakeDraftId, expectedSections)(request, messages).toString
 
         application.stop()
       }
@@ -118,7 +118,7 @@ class ShareAnswerControllerSpec extends SpecBase {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(index, fakeDraftId, expectedSections)(fakeRequest, messages).toString
+          view(index, fakeDraftId, expectedSections)(request, messages).toString
 
         application.stop()
       }

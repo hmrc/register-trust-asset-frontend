@@ -63,7 +63,7 @@ class BusinessInternationalAddressControllerSpec extends SpecBase with IndexVali
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, countryOptions, index, fakeDraftId, businessName)(fakeRequest, messages).toString
+        view(form, countryOptions, index, fakeDraftId, businessName)(request, messages).toString
 
       application.stop()
     }
@@ -86,7 +86,7 @@ class BusinessInternationalAddressControllerSpec extends SpecBase with IndexVali
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), countryOptions, index, fakeDraftId, businessName)(fakeRequest, messages).toString
+        view(form.fill(validAnswer), countryOptions, index, fakeDraftId, businessName)(request, messages).toString
 
       application.stop()
     }
@@ -149,7 +149,7 @@ class BusinessInternationalAddressControllerSpec extends SpecBase with IndexVali
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, countryOptions, index, fakeDraftId, businessName)(fakeRequest, messages).toString
+        view(boundForm, countryOptions, index, fakeDraftId, businessName)(request, messages).toString
 
       application.stop()
     }

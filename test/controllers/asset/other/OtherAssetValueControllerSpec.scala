@@ -59,7 +59,7 @@ class OtherAssetValueControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, fakeDraftId, index, description)(fakeRequest, messages).toString
+        view(form, fakeDraftId, index, description)(request, messages).toString
 
       application.stop()
     }
@@ -80,7 +80,7 @@ class OtherAssetValueControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), fakeDraftId, index, description)(fakeRequest, messages).toString
+        view(form.fill(validAnswer), fakeDraftId, index, description)(request, messages).toString
 
       application.stop()
     }
@@ -138,7 +138,7 @@ class OtherAssetValueControllerSpec extends SpecBase {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, fakeDraftId, index, description)(fakeRequest, messages).toString
+        view(boundForm, fakeDraftId, index, description)(request, messages).toString
 
       application.stop()
     }
