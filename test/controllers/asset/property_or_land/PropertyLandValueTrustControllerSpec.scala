@@ -76,7 +76,7 @@ class PropertyLandValueTrustControllerSpec extends SpecBase with IndexValidation
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), index, fakeDraftId)(fakeRequest, messages).toString
+        view(form.fill(validAnswer), index, fakeDraftId)(request, messages).toString
 
       application.stop()
     }
@@ -113,7 +113,7 @@ class PropertyLandValueTrustControllerSpec extends SpecBase with IndexValidation
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, index, fakeDraftId)(fakeRequest, messages).toString
+        view(boundForm, index, fakeDraftId)(request, messages).toString
 
       application.stop()
     }

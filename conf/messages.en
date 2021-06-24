@@ -27,8 +27,6 @@ entities.assets = Assets
 entity.asset = Assets
 entity.nonTaxable.asset = Non-EEA Companies
 
-footer.links.accessibility.text = Accessibility
-
 session_expired.title = For your security, we signed you out
 session_expired.heading = For your security, we signed you out
 session_expired.guidance = This is because you have been inactive on the service for 15 minutes.

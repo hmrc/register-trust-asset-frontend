@@ -55,7 +55,7 @@ class BusinessValueControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, fakeDraftId, index, businessName)(fakeRequest, messages).toString
+        view(form, fakeDraftId, index, businessName)(request, messages).toString
 
       application.stop()
     }
@@ -76,7 +76,7 @@ class BusinessValueControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), fakeDraftId, index, businessName)(fakeRequest, messages).toString
+        view(form.fill(validAnswer), fakeDraftId, index, businessName)(request, messages).toString
 
       application.stop()
     }
@@ -133,7 +133,7 @@ class BusinessValueControllerSpec extends SpecBase {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, fakeDraftId, index, businessName)(fakeRequest, messages).toString
+        view(boundForm, fakeDraftId, index, businessName)(request, messages).toString
 
       application.stop()
     }

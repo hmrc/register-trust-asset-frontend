@@ -54,7 +54,7 @@ class ShareClassControllerSpec extends SpecBase with ModelGenerators with IndexV
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, fakeDraftId, index, companyName)(fakeRequest, messages).toString
+        view(form, fakeDraftId, index, companyName)(request, messages).toString
 
       application.stop()
     }
@@ -75,7 +75,7 @@ class ShareClassControllerSpec extends SpecBase with ModelGenerators with IndexV
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(ShareClass.allValues.head), fakeDraftId, index, companyName)(fakeRequest, messages).toString
+        view(form.fill(ShareClass.allValues.head), fakeDraftId, index, companyName)(request, messages).toString
 
       application.stop()
     }
@@ -119,7 +119,7 @@ class ShareClassControllerSpec extends SpecBase with ModelGenerators with IndexV
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, fakeDraftId, index, companyName)(fakeRequest, messages).toString
+        view(boundForm, fakeDraftId, index, companyName)(request, messages).toString
 
       application.stop()
     }

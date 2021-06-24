@@ -50,7 +50,7 @@ class AssetInterruptPageControllerSpec extends SpecBase {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(fakeDraftId, is5mldEnabled)(fakeRequest, messages).toString
+          view(fakeDraftId, is5mldEnabled)(request, messages).toString
 
         application.stop()
       }
@@ -73,7 +73,7 @@ class AssetInterruptPageControllerSpec extends SpecBase {
           status(result) mustEqual OK
 
           contentAsString(result) mustEqual
-            view(fakeDraftId, is5mldEnabled)(fakeRequest, messages).toString
+            view(fakeDraftId, is5mldEnabled)(request, messages).toString
 
           application.stop()
         }
@@ -94,7 +94,7 @@ class AssetInterruptPageControllerSpec extends SpecBase {
           status(result) mustEqual OK
 
           contentAsString(result) mustEqual
-            view(fakeDraftId)(fakeRequest, messages).toString
+            view(fakeDraftId)(request, messages).toString
 
           application.stop()
         }

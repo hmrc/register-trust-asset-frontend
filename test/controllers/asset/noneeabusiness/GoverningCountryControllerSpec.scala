@@ -83,7 +83,7 @@ class GoverningCountryControllerSpec extends SpecBase with IndexValidation {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), countryOptions, fakeDraftId, index, name)(fakeRequest, messages).toString
+        view(form.fill(validAnswer), countryOptions, fakeDraftId, index, name)(request, messages).toString
 
       application.stop()
     }
@@ -137,7 +137,7 @@ class GoverningCountryControllerSpec extends SpecBase with IndexValidation {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, countryOptions, fakeDraftId, index, name)(fakeRequest, messages).toString
+        view(boundForm, countryOptions, fakeDraftId, index, name)(request, messages).toString
 
       application.stop()
     }
