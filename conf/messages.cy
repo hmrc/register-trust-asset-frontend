@@ -168,8 +168,6 @@ featureNotAvailable.p1=Os oes angen i chi wneud unrhyw newidiadau i’r ymddirie
 featureNotAvailable.p2=Byddwch yn gallu diweddaru’r manylion hyn ar-lein yn y dyfodol.
 featureNotAvailable.title=Nid yw rhan hon y gwasanaeth ar-lein ar gael eto
 
-footer.links.accessibility.text=Hygyrchedd
-
 internationalAddress.error.country.required=Dewiswch wlad
 internationalAddress.error.line1.invalidCharacters=Mae’n rhaid i gyfeiriad – llinell 1 gynnwys y llythrennau a i z yn unig
 internationalAddress.error.line1.length=Mae’n rhaid i gyfeiriad – llinell 1 fod yn 35 o gymeriadau neu lai
