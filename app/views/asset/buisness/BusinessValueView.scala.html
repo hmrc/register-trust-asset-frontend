@@ -39,9 +39,8 @@
         @inputText(
             field = form("value"),
             label = messages("business.currentValue.heading", businessName),
-            labelClass=Some("govuk-heading-l"),
-            symbol = Some("currency"),
-            symbolText = Some(messages(s"symbolText.asSterling")),
+            labelClass = Some("govuk-heading-l"),
+            prefix = Some(messages(s"symbolText.asSterling")),
             hint = Some(messages(s"business.currentValue.hint")),
             labelAsHeading = true,
             inputMode = Some("numeric")
