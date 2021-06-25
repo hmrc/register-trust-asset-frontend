@@ -16,13 +16,17 @@
 
 @import controllers.asset.business.routes._
 @import viewmodels.{AnswerSection, RepeaterAnswerSection, Section}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{HtmlContent, Text}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.summarylist._
+@import utils.SectionFormatter.formatSections
 @import views.html.components.{SubmitButton, Heading}
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
     submitButton: SubmitButton,
-    heading: Heading
+    heading: Heading,
+    govukSummaryList: GovukSummaryList
 )
 
 @(index: Int, draftId: String, answerSections: Seq[Section])(implicit request: Request[_], messages: Messages)
@@ -32,18 +36,12 @@
     showBackLink = true
 ) {
 
-    @heading("business.answers.heading")
-
-    @for(section <- answerSections){
-        @{
-            section match {
-                case a: AnswerSection => components.answer_section(a)
-                case r: RepeaterAnswerSection => components.repeater_answer_section(r)
-            }
-        }
-    }
-
     @formHelper(action = BusinessAnswersController.onSubmit(index, draftId), 'autoComplete -> "off") {
+
+        @heading("business.answers.heading")
+
+        @govukSummaryList(SummaryList(rows = formatSections(answerSections)))
+
         @submitButton()
     }
 }
