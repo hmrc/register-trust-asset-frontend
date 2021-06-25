@@ -24,12 +24,11 @@
 @(draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = messages("assetInterruptPage.nonTaxable.title")
+    title = messages("assetInterruptPage.nonTaxable.title"),
+    showBackLink = true
 ) {
 
     @formHelper(action = AssetInterruptPageController.onSubmit(draftId), 'autoComplete -> "off") {
-
-        @components.back_link()
 
         @components.heading_with_caption("assetInterruptPage.nonTaxable")
 

@@ -27,12 +27,11 @@
 @(form: Form[_], draftId: String, inProgressAssets: Seq[AddRow], completeAssets: Seq[AddRow], heading: String, prefix: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} $heading"
+    title = s"${errorPrefix(form)} $heading",
+    showBackLink = true
 ) {
 
     @formHelper(action = AddAssetsController.submitAnother(draftId), 'autoComplete -> "off") {
-
-        @components.back_link()
 
         @components.error_summary(form.errors)
 

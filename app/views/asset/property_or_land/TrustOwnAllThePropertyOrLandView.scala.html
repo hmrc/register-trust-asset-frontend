@@ -24,12 +24,11 @@
 @(form: Form[_], index: Int, draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} ${messages("propertyOrLand.trustOwnAllYesNo.title")}"
+    title = s"${errorPrefix(form)} ${messages("propertyOrLand.trustOwnAllYesNo.title")}",
+    showBackLink = true
 ) {
 
     @formHelper(action = TrustOwnAllThePropertyOrLandController.onSubmit(index, draftId), 'autoComplete -> "off") {
-
-        @components.back_link()
 
         @components.error_summary(form.errors)
 

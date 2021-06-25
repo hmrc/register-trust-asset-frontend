@@ -24,12 +24,11 @@
 @(form: Form[_], draftId: String, index: Int)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} ${messages("shares.portfolioQuantityInTrust.title")}"
+    title = s"${errorPrefix(form)} ${messages("shares.portfolioQuantityInTrust.title")}",
+    showBackLink = true
 ) {
 
     @formHelper(action = SharePortfolioQuantityInTrustController.onSubmit(index, draftId), 'autoComplete -> "off") {
-
-        @components.back_link()
 
         @components.error_summary(form.errors)
 
