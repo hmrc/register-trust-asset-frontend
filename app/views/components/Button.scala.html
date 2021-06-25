@@ -14,8 +14,16 @@
  * limitations under the License.
  *@
 
-@()(implicit messages: Messages)
+@import uk.gov.hmrc.govukfrontend.views.html.components._
 
-<div class="js-visible">
-  <p><a id="back-link" class="link-back" href="#">@messages("site.back")</a></p>
-</div>
+@this(govukButton : GovukButton)
+
+@(
+messageKey: String = "site.continue",
+isStartButton:Boolean = false,
+)(implicit messages: Messages)
+
+@govukButton(Button(
+ isStartButton = isStartButton,
+ content = Text(messages(messageKey))
+))
