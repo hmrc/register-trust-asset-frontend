@@ -15,13 +15,13 @@
  *@
 
 @import controllers.asset.business.routes._
-@import views.html.components.{ErrorSummary, InputText, UkAddress, SubmitButton}
+@import views.html.components.{ErrorSummary, UkAddress, SubmitButton}
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
     errorSummary: ErrorSummary,
-    internationalAddress: UkAddress,
+    ukAddress: UkAddress,
     submitButton: SubmitButton
 )
 
@@ -34,7 +34,7 @@
 
     @formHelper(action = BusinessUkAddressController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
-        @components.error_summary(form.errors)
+        @errorSummary(form.errors)
 
         @ukAddress(
             form = form,
@@ -42,6 +42,6 @@
             legendAsHeading = true
         )
 
-        @components.submit_button()
+        @submitButton()
     }
 }

@@ -15,10 +15,14 @@
  *@
 
 @import controllers.asset.noneeabusiness.routes._
+@import views.html.components.{ErrorSummary, InputDate, SubmitButton}
 
 @this(
     main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+    errorSummary: ErrorSummary,
+    inputDate: InputDate,
+    submitButton: SubmitButton
 )
 
 @(form: Form[_], index: Int, draftId: String, name: String)(implicit request: Request[_], messages: Messages)
@@ -30,16 +34,16 @@
 
     @formHelper(action = StartDateController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
-        @components.error_summary(form.errors)
+        @errorSummary(form.errors)
 
-        @components.input_date(
-            field = form("value"),
-            legend = messages("nonEeaBusiness.startDate.heading", name),
-            legendClass = "govuk-heading-l",
+        @inputDate(
+            field           = form("value"),
+            legend          = messages("nonEeaBusiness.startDate.heading", name),
+            legendClass     = "govuk-heading-l",
             legendAsHeading = true,
-            hint = Some(messages("nonEeaBusiness.startDate.hint"))
+            hint            = Some(messages("nonEeaBusiness.startDate.hint"))
         )
 
-        @components.submit_button()
+        @submitButton()
     }
 }
