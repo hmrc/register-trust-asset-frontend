@@ -7,6 +7,8 @@
 ->         /partnership                                 partnership.Routes
 ->         /other                                       other.Routes
 ->         /non-eea-business                            nonEeaBusiness.Routes
+->         /govuk-frontend                              govuk.Routes
+->         /hmrc-frontend                               hmrcfrontend.Routes
 
 GET        /:draftId/start                              controllers.IndexController.onPageLoad(draftId: String)
 

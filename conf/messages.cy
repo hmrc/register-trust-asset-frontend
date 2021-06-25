@@ -1,3 +1,5 @@
+service_name=Cofrestru Ymddiriedolaeth a’i Chynnal
+
 addAnAssetYesNo.error.required=Dewiswch ‘Iawn’ os ydych am ychwanegu ased
 addAnAssetYesNo.heading=A ydych am ychwanegu ased?
 addAnAssetYesNo.title=A ydych am ychwanegu ased?
@@ -450,7 +452,6 @@ site.inprogress=Ar y gweill
 site.no=Na
 site.onlyContinue=Yn eich blaen
 site.save.continue=Cadw ac yn eich blaen
-site.service_name=Cofrestru Ymddiriedolaeth a’i Chynnal
 site.sign_in=Mewngofnodi
 site.sign_out=Allgofnodi
 site.textarea.char_limit=(Y terfyn yw {0} o gymeriadau)
