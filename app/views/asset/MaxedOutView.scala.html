@@ -23,7 +23,14 @@
     formHelper: FormWithCSRF
 )
 
-@(draftId: String, inProgressAssets: Seq[AddRow], completeAssets: Seq[AddRow], heading: String, maxLimit: Int, prefix: String)(implicit request: Request[_], messages: Messages)
+@(
+    draftId: String,
+    inProgressAssets: Seq[AddRow],
+    completeAssets: Seq[AddRow],
+    heading: String,
+    maxLimit: Int,
+    prefix: String
+)(implicit request: Request[_], messages: Messages)
 
 @main_template(
     title = heading

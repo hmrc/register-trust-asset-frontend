@@ -14,13 +14,25 @@
  * limitations under the License.
  */
 
-package viewmodels
+package implicits
 
-case class AddToRows(inProgress : List[AddRow], complete: List[AddRow]) {
+object Implicits {
 
-  def count: Int = inProgress.size + complete.size
+  implicit class StringImplicits(str: String) {
+    def uncapitalize: String = str.split(' ').foldLeft("")((acc, word) => {
+      def uncapitalizeWord = s"${word.head.toLower}${word.tail}"
+      if (acc.isEmpty) {
+        uncapitalizeWord
+      } else {
+        s"$acc $uncapitalizeWord"
+      }
+    })
+  }
 
-  def nonEmpty: Boolean = count > 0
-  def isEmpty: Boolean = !nonEmpty
-
+  implicit class ListImplicits[T](list: List[T]) {
+    def asSomeIf(condition: Boolean): Option[List[T]] = list match {
+      case _ if !condition => None
+      case _ => Some(list)
+    }
+  }
 }

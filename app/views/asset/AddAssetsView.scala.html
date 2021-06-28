@@ -15,16 +15,24 @@
  *@
 
 @import controllers.asset.routes._
+@import implicits.Implicits._
 @import models.AddAssets
 @import viewmodels.AddRow
-
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF
 )
 
-@(form: Form[_], draftId: String, inProgressAssets: Seq[AddRow], completeAssets: Seq[AddRow], heading: String, prefix: String)(implicit request: Request[_], messages: Messages)
+@(
+    form: Form[_],
+    draftId: String,
+    inProgressAssets: Seq[AddRow],
+    completeAssets: Seq[AddRow],
+    heading: String,
+    prefix: String,
+    maxedOut: List[(String, Int)]
+)(implicit request: Request[_], messages: Messages)
 
 @main_template(
     title = s"${errorPrefix(form)} $heading"
@@ -41,6 +49,25 @@
         @components.data_list(inProgressAssets, "inprogress", "asset")
 
         @components.data_list(completeAssets, "complete", "asset")
+
+        @if(maxedOut.size == 1) {
+            <ul>
+                <li class="panel-indent"><p>@messages(s"$prefix.maxedOut.just1", messages(maxedOut.head._1).uncapitalize, maxedOut.head._2.toString)</p></li>
+                <li class="panel-indent"><p>@messages(s"$prefix.maxedOut.just1.paragraph")</p></li>
+            </ul>
+        } else if(maxedOut.size > 1) {
+            <ul>
+                <li class="panel-indent">
+                    <p>@messages(s"$prefix.maxedOut.moreThan1")</p>
+                    <ul class="govuk-list">
+                        @for(option <- maxedOut) {
+                        <li>@messages(option._1)</li>
+                        }
+                    </ul>
+                </li>
+                <li class="panel-indent"><p>@messages(s"$prefix.maxedOut.moreThan1.paragraph")</p></li>
+            </ul>
+        }
 
         @components.input_radio(
             field = form("value"),
