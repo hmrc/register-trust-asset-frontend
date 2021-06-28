@@ -22,7 +22,7 @@
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
     submitButton: SubmitButton,
-    heading: Heading,
+    headingComp: Heading,
     addToList: AddToList
 )
 
@@ -35,7 +35,7 @@
 
     @formHelper(action = AddAssetsController.submitComplete(draftId), 'autoComplete -> "off") {
 
-        @heading(heading)
+        @headingComp(heading)
 
         @addToList(inProgressAssets, "inprogress", "asset")
 

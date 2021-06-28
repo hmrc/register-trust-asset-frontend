@@ -23,7 +23,7 @@
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
     submitButton: SubmitButton,
-    heading: Heading,
+    headingComp: Heading,
     inputRadio: InputRadio,
     errorSummary: ErrorSummary,
     addToList: AddToList
@@ -40,7 +40,7 @@
 
         @errorSummary(form.errors)
 
-        @heading(heading)
+        @headingComp(heading)
 
         @addToList(inProgressAssets, "inprogress", "asset")
 
