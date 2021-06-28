@@ -17,7 +17,7 @@
 package models
 
 object Constants {
-  
+
   final val MAX_MONEY_ASSETS = 1
   final val MAX_PROPERTY_OR_LAND_ASSETS = 10
   final val MAX_SHARES_ASSETS = 10

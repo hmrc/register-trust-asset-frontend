@@ -86,13 +86,13 @@ final case class UserAnswers(
   val assets: AssetViewModels = {
     val allAssets = this.get(sections.Assets).getOrElse(Nil)
     AssetViewModels(
-      allAssets.collect { case x: MoneyAssetViewModel => x}.asSomeIf(isTaxable),
-      allAssets.collect { case x: PropertyOrLandAssetViewModel => x}.asSomeIf(isTaxable),
-      allAssets.collect { case x: ShareAssetViewModel => x}.asSomeIf(isTaxable),
-      allAssets.collect { case x: BusinessAssetViewModel => x}.asSomeIf(isTaxable),
-      allAssets.collect { case x: PartnershipAssetViewModel => x}.asSomeIf(isTaxable),
-      allAssets.collect { case x: OtherAssetViewModel => x}.asSomeIf(isTaxable),
-      allAssets.collect { case x: NonEeaBusinessAssetViewModel => x}.asSomeIf(is5mldEnabled)
+      allAssets.collect { case x: MoneyAssetViewModel => x }.asSomeIf(isTaxable),
+      allAssets.collect { case x: PropertyOrLandAssetViewModel => x }.asSomeIf(isTaxable),
+      allAssets.collect { case x: ShareAssetViewModel => x }.asSomeIf(isTaxable),
+      allAssets.collect { case x: BusinessAssetViewModel => x }.asSomeIf(isTaxable),
+      allAssets.collect { case x: PartnershipAssetViewModel => x }.asSomeIf(isTaxable),
+      allAssets.collect { case x: OtherAssetViewModel => x }.asSomeIf(isTaxable),
+      allAssets.collect { case x: NonEeaBusinessAssetViewModel => x }.asSomeIf(is5mldEnabled)
     )
   }
 }
