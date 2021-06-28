@@ -29,7 +29,7 @@ import play.api.mvc.{Action, ActionBuilder, AnyContent, MessagesControllerCompon
 import repositories.RegistrationsRepository
 import sections.Assets
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import views.html.asset.buisness.BusinessDescriptionView
+import views.html.asset.business.BusinessDescriptionView
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}

@@ -24,7 +24,7 @@ import pages.asset.business.{BusinessNamePage, BusinessValuePage}
 import play.api.data.Form
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import views.html.asset.buisness.BusinessValueView
+import views.html.asset.business.BusinessValueView
 
 class BusinessValueControllerSpec extends SpecBase {
 

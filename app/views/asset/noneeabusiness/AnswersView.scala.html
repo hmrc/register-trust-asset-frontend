@@ -38,7 +38,7 @@
     @formHelper(action = AnswersController.onSubmit(index, draftId), 'autoComplete -> "off") {
         @heading("nonEeaBusiness.answers.heading")
 
-        @govukSummaryList(SummaryList(rows = SectionFormatter.formatSections(answerSections)))
+        @govukSummaryList(SummaryList(rows = formatSections(answerSections)))
 
         @submitButton()
     }

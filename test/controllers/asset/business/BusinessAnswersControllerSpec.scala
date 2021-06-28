@@ -26,7 +26,7 @@ import play.api.inject.bind
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import utils.print.BusinessPrintHelper
-import views.html.asset.buisness.BusinessAnswersView
+import views.html.asset.business.BusinessAnswersView
 
 class BusinessAnswersControllerSpec extends SpecBase {
 

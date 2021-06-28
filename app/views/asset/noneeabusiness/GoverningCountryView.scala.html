@@ -45,7 +45,7 @@
             options          = countryOptions,
             placeholder      = Some(messages("site.address.country.select")),
             formGroupClasses = Set("autocomplete-wrapper form-control-3-4"),
-            selectAttribute  = Set("data-all-countries")
+            selectAttribute  = Map("data-all-countries" -> "")
         )
 
         @submitButton()

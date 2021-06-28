@@ -114,7 +114,7 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
                          key: String,
                          args: String*): Unit = {
 
-    val fields = Seq(s"${key}_day", s"${key}_month", s"${key}_year")
+    val fields = Seq(s"${key}.day", s"${key}.month", s"${key}.year")
 
     "behave like a question page" when {
 
