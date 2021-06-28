@@ -23,7 +23,7 @@ import uk.gov.hmrc.auth.core.AffinityGroup
 
 trait Navigator {
 
-  def nextPage(page: Page, draftId: String, af :AffinityGroup = AffinityGroup.Organisation): UserAnswers => Call = {
+  def nextPage(page: Page, draftId: String, af: AffinityGroup = AffinityGroup.Organisation): UserAnswers => Call = {
     route(draftId)(page)(af)
   }
 
