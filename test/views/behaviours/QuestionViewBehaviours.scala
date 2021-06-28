@@ -155,7 +155,7 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
         s"show an error in the legend" in {
 
           val doc = asDocument(createView(form.withError(FormError(key, "error"))))
-          assertRenderedById(doc, s"error-message-$key-input")
+          assertRenderedById(doc, s"$key-error")
         }
       }
     }
