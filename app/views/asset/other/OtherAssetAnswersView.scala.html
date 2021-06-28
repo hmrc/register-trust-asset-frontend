@@ -16,10 +16,14 @@
 
 @import controllers.asset.other.routes._
 @import viewmodels.{AnswerSection, RepeaterAnswerSection, Section}
+@import views.html.components.{SubmitButton, Heading}
 
 @this(
     main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+    submitButton: SubmitButton,
+    heading: Heading,
+    govukSummaryList: GovukSummaryList
 )
 
 @(index: Int, draftId: String, answerSections: Seq[Section])(implicit request: Request[_], messages: Messages)
@@ -29,19 +33,14 @@
     showBackLink = true
 ) {
 
-    @components.heading("other.answers.heading")
-
-    @for(section <- answerSections){
-        @{section match {
-            case a: AnswerSection => components.answer_section(a)
-            case r: RepeaterAnswerSection => components.repeater_answer_section(r)
-            }
-        }
-    }
 
     @formHelper(action = OtherAssetAnswersController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
-        @components.submit_button()
+        @heading("other.answers.heading")
+
+        @govukSummaryList(SummaryList(rows = formatSections(answerSections)))
+
+        @submitButton()
 
     }
 }
