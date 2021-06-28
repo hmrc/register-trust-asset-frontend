@@ -43,7 +43,9 @@
             labelAsHeading = true,
             hint = Some(messages("propertyOrLand.totalValue.hint")),
             prefix = Some(messages(s"symbolText.asSterling")),
-            inputMode = Some("numeric")
+            inputMode = Some("numeric"),
+            pattern = Some("[0-9]*"),
+            inputClass = Some("govuk-input--width-10")
         )
 
         @submitButton()
