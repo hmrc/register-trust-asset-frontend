@@ -50,10 +50,8 @@ class WhatKindOfAssetController @Inject()(
   val form: Form[WhatKindOfAsset] = formProvider()
 
   private def options(userAnswers: UserAnswers, index: Int): List[RadioOption] = {
-    val assets = userAnswers.get(sections.Assets).getOrElse(Nil)
     val assetTypeAtIndex = userAnswers.get(WhatKindOfAssetPage(index))
-
-    WhatKindOfAsset.nonMaxedOutOptions(assets, assetTypeAtIndex, userAnswers.is5mldEnabled)
+    WhatKindOfAsset.nonMaxedOutOptions(userAnswers.assets, assetTypeAtIndex)
   }
 
   private def actions (index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =

@@ -28,8 +28,6 @@ case class AssetViewModels(monetary: Option[List[MoneyAssetViewModel]],
                            other: Option[List[OtherAssetViewModel]],
                            nonEEABusiness: Option[List[NonEeaBusinessAssetViewModel]]) {
 
-  case class AssetSize(kindOfAsset: WhatKindOfAsset, size: Int, maxSize: Int)
-
   def nonMaxedOutOptions: List[AssetSize] = {
     assetSizes
       .filterNot(x => x.size >= x.maxSize)
@@ -41,7 +39,7 @@ case class AssetViewModels(monetary: Option[List[MoneyAssetViewModel]],
       .map(x => (s"$prefix.${x.kindOfAsset}", x.size))
   }
 
-  private def assetSizes: List[AssetSize] = List(
+  def assetSizes: List[AssetSize] = List(
     (Money, monetary, MAX_MONEY_ASSETS),
     (PropertyOrLand, propertyOrLand, MAX_PROPERTY_OR_LAND_ASSETS),
     (Shares, shares, MAX_SHARES_ASSETS),

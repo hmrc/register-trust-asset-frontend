@@ -16,7 +16,6 @@
 
 package models
 
-import models.Constants._
 import models.WhatKindOfAsset.prefix
 import play.api.i18n.Messages
 import viewmodels._
@@ -51,44 +50,13 @@ object WhatKindOfAsset extends Enumerable.Implicits {
   implicit val enumerable: Enumerable[WhatKindOfAsset] =
     Enumerable(values.map(v => v.toString -> v): _*)
 
-  type AssetTypeCount = (WhatKindOfAsset, Int)
+  def nonMaxedOutOptions(assets: AssetViewModels,
+                         assetTypeAtIndex: Option[WhatKindOfAsset]): List[RadioOption] = {
 
-  def nonMaxedOutOptions(assets: List[AssetViewModel],
-                         assetTypeAtIndex: Option[WhatKindOfAsset],
-                         is5mldEnabled: Boolean): List[RadioOption] = {
-
-    val assetTypeCounts: List[AssetTypeCount] = List(
-      (Money, assets.count(_.isInstanceOf[MoneyAssetViewModel])),
-      (PropertyOrLand, assets.count(_.isInstanceOf[PropertyOrLandAssetViewModel])),
-      (Shares, assets.count(_.isInstanceOf[ShareAssetViewModel])),
-      (Business, assets.count(_.isInstanceOf[BusinessAssetViewModel])),
-      (NonEeaBusiness, assets.count(_.isInstanceOf[NonEeaBusinessAssetViewModel])),
-      (Partnership, assets.count(_.isInstanceOf[PartnershipAssetViewModel])),
-      (Other, assets.count(_.isInstanceOf[OtherAssetViewModel]))
-    )
-
-    def meetsLimitConditions(assetTypeCount: AssetTypeCount): Boolean = {
-
-      def meetsCondition(maxLimit: Int, assetType: WhatKindOfAsset): Boolean = {
-        (assetTypeCount._2 < maxLimit || assetTypeAtIndex.contains(assetType)) && assetTypeCount._1 == assetType
-      }
-
-      val meetsMoneyAssetConditions: Boolean = meetsCondition(MAX_MONEY_ASSETS, Money)
-
-      val meetsNonMoneyAssetsConditions: Boolean = {
-        values.filterNot(_ == Money).foldLeft(false)((conditionAlreadyMet, assetType) => {
-          val limit: Int = assetType match {
-            case NonEeaBusiness if is5mldEnabled => MAX_NON_EEA_BUSINESS_ASSETS
-            case NonEeaBusiness => 0
-            case _ => MAX_LIMIT_FOR_MOST_ASSET_TYPES
-          }
-          meetsCondition(limit, assetType) || conditionAlreadyMet
-        })
-      }
-
-      meetsMoneyAssetConditions || meetsNonMoneyAssetsConditions
+    def meetsLimitConditions(assetSize: AssetSize): Boolean = {
+      assetSize.size < assetSize.maxSize || assetTypeAtIndex.contains(assetSize.kindOfAsset)
     }
 
-    options(assetTypeCounts.filter(meetsLimitConditions).map(_._1))
+    options(assets.assetSizes.filter(meetsLimitConditions).map(_.kindOfAsset))
   }
 }
