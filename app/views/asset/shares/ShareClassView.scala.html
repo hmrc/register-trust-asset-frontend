@@ -41,7 +41,7 @@
             field = form("value"),
             legend = messages("shares.class.heading", companyName),
             legendClass = Some("govuk-heading-l"),
-            inputs = ShareClass.allOptions,
+            inputs = mapRadioOptionsToRadioItems(form("value"), trackGa = false, ShareClass.allOptions),
             legendAsHeading = true
         )
 

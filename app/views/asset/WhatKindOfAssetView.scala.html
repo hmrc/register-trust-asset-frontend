@@ -17,18 +17,14 @@
 @import controllers.asset.routes._
 @import models.WhatKindOfAsset
 @import viewmodels.RadioOption
-@import views.html.components.{SubmitButton, InputRadio, ErrorSummary}
+@import views.html.components.{SubmitButton, ErrorSummary, InputRadio}
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
-    errorSummary: ErrorSummary,
-    submitButton: SubmitButton,
-    inputRadio: InputRadio
-)
-@this(
-    main_template: MainTemplate,
-    formHelper: FormWithCSRF
+        submitButton: SubmitButton,
+        errorSummary: ErrorSummary,
+        inputRadio: InputRadio,
 )
 
 @(form: Form[_], draftId: String, index: Int, options: List[RadioOption])(implicit request: Request[_], messages: Messages)
@@ -54,7 +50,7 @@
             field = form("value"),
             legend = heading.toString,
             legendClass = Some("govuk-heading-l"),
-            inputs = options,
+            inputs = mapRadioOptionsToRadioItems(form("value"), trackGa = false, options),
             legendAsHeading = true
         )
 

@@ -17,7 +17,7 @@
 @import controllers.asset.routes._
 @import models.AddAssets
 @import viewmodels.AddRow
-@import views.html.components.{SubmitButton, Heading, InputRadio, ErrorSummary}
+@import views.html.components.{SubmitButton, Heading, InputRadio, ErrorSummary, AddToList}
 
 @this(
     main_template: MainTemplate,
@@ -26,7 +26,7 @@
     heading: Heading,
     inputRadio: InputRadio,
     errorSummary: ErrorSummary,
-    dataList: ?
+    addToList: AddToList
 )
 
 @(form: Form[_], draftId: String, inProgressAssets: Seq[AddRow], completeAssets: Seq[AddRow], heading: String, prefix: String)(implicit request: Request[_], messages: Messages)
@@ -42,18 +42,17 @@
 
         @heading(heading)
 
-        @dataList(inProgressAssets, "inprogress", "asset")
+        @addToList(inProgressAssets, "inprogress", "asset")
 
-        @dataList(completeAssets, "complete", "asset")
+        @addToList(completeAssets, "complete", "asset")
 
         @inputRadio(
             field = form("value"),
             legend = messages(s"$prefix.additional-content"),
-            legendClass = Some("govuk-heading-m"),
-            inputs = AddAssets.options(prefix),
-            legendAsH2Heading = true
+            legendAsHeading = false,
+            legendClass = Some("govuk-fieldset__legend--m"),
+            inputs = mapRadioOptionsToRadioItems(form("value"), trackGa = false, AddAssets.options(prefix)),
         )
-
         @submitButton()
     }
 }

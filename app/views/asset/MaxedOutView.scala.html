@@ -16,14 +16,14 @@
 
 @import controllers.asset.routes._
 @import viewmodels.AddRow
-@import views.html.components.{SubmitButton, Heading}
+@import views.html.components.{SubmitButton, Heading, AddToList}
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
     submitButton: SubmitButton,
     heading: Heading,
-    dataList: ?
+    addToList: AddToList
 )
 
 @(draftId: String, inProgressAssets: Seq[AddRow], completeAssets: Seq[AddRow], heading: String, maxLimit: Int, prefix: String)(implicit request: Request[_], messages: Messages)
@@ -37,9 +37,9 @@
 
         @heading(heading)
 
-        @dataList(inProgressAssets, "inprogress", "asset")
+        @addToList(inProgressAssets, "inprogress", "asset")
 
-        @dataList(completeAssets, "complete", "asset")
+        @addToList(completeAssets, "complete", "asset")
 
         <ul>
             <li class="panel-indent"><p>@messages(s"$prefix.maxedOut.p1", maxLimit)</p></li>
