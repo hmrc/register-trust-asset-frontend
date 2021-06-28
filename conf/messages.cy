@@ -1,4 +1,5 @@
 service_name=Cofrestru Ymddiriedolaeth a’i Chynnal
+symbolText.asSterling = £
 
 addAnAssetYesNo.error.required=Dewiswch ‘Iawn’ os ydych am ychwanegu ased
 addAnAssetYesNo.heading=A ydych am ychwanegu ased?
