@@ -48,7 +48,7 @@ trait SpecBase extends PlaySpec
 
   def emptyUserAnswers: UserAnswers = UserAnswers(draftId, Json.obj(), internalAuthId = userInternalId)
 
-  lazy val fakeNavigator: FakeNavigator = new FakeNavigator(frontendAppConfig)
+  lazy val fakeNavigator: FakeNavigator = new FakeNavigator()
 
   private def fakeDraftIdAction(userAnswers: Option[UserAnswers]): FakeDraftIdRetrievalActionProvider =
     new FakeDraftIdRetrievalActionProvider(
@@ -66,6 +66,7 @@ trait SpecBase extends PlaySpec
     new GuiceApplicationBuilder()
       .overrides(
         bind[Navigator].toInstance(navigator),
+        bind[Navigator].qualifiedWith(classOf[Asset]).toInstance(navigator),
         bind[Navigator].qualifiedWith(classOf[Money]).toInstance(navigator),
         bind[Navigator].qualifiedWith(classOf[PropertyOrLand]).toInstance(navigator),
         bind[Navigator].qualifiedWith(classOf[Shares]).toInstance(navigator),

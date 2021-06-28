@@ -27,17 +27,18 @@ import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import pages.AssetStatus
 import pages.asset.{AddAnAssetYesNoPage, AddAssetsPage, AssetInterruptPage, TrustOwnsNonEeaBusinessYesNoPage, WhatKindOfAssetPage}
 import play.api.mvc.Call
+import uk.gov.hmrc.http.HttpVerbs.GET
 
-class NavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
+class AssetNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
 
-  private val navigator: Navigator = injector.instanceOf[Navigator]
+  private val navigator: AssetNavigator = injector.instanceOf[AssetNavigator]
   private val index = 0
 
   private val assetsCompletedRoute: Call = {
-    Call("GET", frontendAppConfig.registrationProgressUrl(fakeDraftId))
+    Call(GET, frontendAppConfig.registrationProgressUrl(fakeDraftId))
   }
 
-  "Navigator" when {
+  "AssetNavigator" when {
 
     "trust owns non-EEA business yes no page" when {
 

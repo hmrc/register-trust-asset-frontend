@@ -16,6 +16,7 @@
 
 package controllers.asset
 
+import config.annotations.Asset
 import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
 import controllers.filters.IndexActionFilterProvider
 import forms.WhatKindOfAssetFormProvider
@@ -37,7 +38,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class WhatKindOfAssetController @Inject()(
                                            override val messagesApi: MessagesApi,
                                            repository: RegistrationsRepository,
-                                           navigator: Navigator,
+                                           @Asset navigator: Navigator,
                                            identify: RegistrationIdentifierAction,
                                            getData: DraftIdRetrievalActionProvider,
                                            requireData: RegistrationDataRequiredAction,
@@ -47,7 +48,7 @@ class WhatKindOfAssetController @Inject()(
                                            view: WhatKindOfAssetView
                                          )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport with Enumerable.Implicits {
 
-  val form: Form[WhatKindOfAsset] = formProvider()
+  private val form: Form[WhatKindOfAsset] = formProvider()
 
   private def options(userAnswers: UserAnswers, index: Int): List[RadioOption] = {
     val assetTypeAtIndex = userAnswers.get(WhatKindOfAssetPage(index))

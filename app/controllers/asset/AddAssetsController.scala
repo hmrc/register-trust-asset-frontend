@@ -16,6 +16,7 @@
 
 package controllers.asset
 
+import config.annotations.Asset
 import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
 import forms.{AddAssetsFormProvider, YesNoFormProvider}
 import models.AddAssets.NoComplete
@@ -37,7 +38,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class AddAssetsController @Inject()(
                                      override val messagesApi: MessagesApi,
                                      repository: RegistrationsRepository,
-                                     navigator: Navigator,
+                                     @Asset navigator: Navigator,
                                      identify: RegistrationIdentifierAction,
                                      getData: DraftIdRetrievalActionProvider,
                                      requireData: RegistrationDataRequiredAction,

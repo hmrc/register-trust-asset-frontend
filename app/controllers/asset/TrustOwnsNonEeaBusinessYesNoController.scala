@@ -16,6 +16,7 @@
 
 package controllers.asset
 
+import config.annotations.Asset
 import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
 import forms.YesNoFormProvider
 import models.requests.RegistrationDataRequest
@@ -34,7 +35,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class TrustOwnsNonEeaBusinessYesNoController @Inject()(
                                                         override val messagesApi: MessagesApi,
                                                         repository: RegistrationsRepository,
-                                                        navigator: Navigator,
+                                                        @Asset navigator: Navigator,
                                                         identify: RegistrationIdentifierAction,
                                                         getData: DraftIdRetrievalActionProvider,
                                                         requireData: RegistrationDataRequiredAction,

@@ -16,6 +16,7 @@
 
 package controllers.asset
 
+import config.annotations.Asset
 import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
 import navigation.Navigator
 import pages.asset.AssetInterruptPage
@@ -33,7 +34,7 @@ class AssetInterruptPageController @Inject()(
                                               identify: RegistrationIdentifierAction,
                                               getData: DraftIdRetrievalActionProvider,
                                               requireData: RegistrationDataRequiredAction,
-                                              navigator: Navigator,
+                                              @Asset navigator: Navigator,
                                               val controllerComponents: MessagesControllerComponents,
                                               taxableView: TaxableInfoView,
                                               nonTaxableView: NonTaxableInfoView

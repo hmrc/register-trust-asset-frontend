@@ -16,7 +16,6 @@
 
 package navigation
 
-import config.FrontendAppConfig
 import controllers.asset.other.routes._
 import models.UserAnswers
 import pages.Page
@@ -24,10 +23,10 @@ import pages.asset.other._
 import play.api.mvc.Call
 import uk.gov.hmrc.auth.core.AffinityGroup
 
-import javax.inject.{Inject, Singleton}
+import javax.inject.Singleton
 
 @Singleton
-class OtherNavigator @Inject()(config: FrontendAppConfig) extends Navigator(config) {
+class OtherNavigator extends Navigator {
 
   override protected def route(draftId: String): PartialFunction[Page, AffinityGroup => UserAnswers => Call] = {
     case OtherAssetDescriptionPage(index) => _ => _ => OtherAssetValueController.onPageLoad(index, draftId)

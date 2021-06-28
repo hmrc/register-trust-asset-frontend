@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-package navigation
+package config.annotations;
 
-import models.UserAnswers
-import pages.QuestionPage
-import play.api.mvc.Call
+import com.google.inject.BindingAnnotation;
 
-trait Navigation {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-  def yesNoNav(ua: UserAnswers, fromPage: QuestionPage[Boolean], yesCall: => Call, noCall: => Call): Call = {
-    ua.get(fromPage)
-      .map(if (_) yesCall else noCall)
-      .getOrElse(controllers.routes.SessionExpiredController.onPageLoad())
-  }
-
-}
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.PARAMETER, ElementType.METHOD, ElementType.FIELD})
+@BindingAnnotation
+public @interface Asset {}
