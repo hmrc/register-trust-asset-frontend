@@ -15,10 +15,14 @@
  *@
 
 @import controllers.asset.routes._
+@import views.html.components.{SubmitButton, BulletList, HeadingWithCaption}
 
 @this(
     main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+    submitButton: SubmitButton,
+    bulletList: BulletList,
+    headingWithCaption: HeadingWithCaption
 )
 
 @(draftId: String)(implicit request: Request[_], messages: Messages)
@@ -30,11 +34,11 @@
 
     @formHelper(action = AssetInterruptPageController.onSubmit(draftId), 'autoComplete -> "off") {
 
-        @components.heading_with_caption("assetInterruptPage.nonTaxable")
+        @headingWithCaption("assetInterruptPage.nonTaxable")
 
         <p>@messages("assetInterruptPage.nonTaxable.paragraph1")</p>
 
-        @components.bullet_list(
+        @bulletList(
             "assetInterruptPage.nonTaxable",
             List(
                 "bullet1",
@@ -44,6 +48,6 @@
             )
         )
 
-        @components.submit_button(Some("site.onlyContinue"))
+        @submitButton(Some("site.onlyContinue"))
     }
 }

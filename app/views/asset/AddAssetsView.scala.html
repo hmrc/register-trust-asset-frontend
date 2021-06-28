@@ -17,11 +17,16 @@
 @import controllers.asset.routes._
 @import models.AddAssets
 @import viewmodels.AddRow
-
+@import views.html.components.{SubmitButton, Heading, InputRadio, ErrorSummary}
 
 @this(
     main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+    submitButton: SubmitButton,
+    heading: Heading,
+    inputRadio: InputRadio,
+    errorSummary: ErrorSummary,
+    dataList: ?
 )
 
 @(form: Form[_], draftId: String, inProgressAssets: Seq[AddRow], completeAssets: Seq[AddRow], heading: String, prefix: String)(implicit request: Request[_], messages: Messages)
@@ -33,15 +38,15 @@
 
     @formHelper(action = AddAssetsController.submitAnother(draftId), 'autoComplete -> "off") {
 
-        @components.error_summary(form.errors)
+        @errorSummary(form.errors)
 
-        @components.heading(heading)
+        @heading(heading)
 
-        @components.data_list(inProgressAssets, "inprogress", "asset")
+        @dataList(inProgressAssets, "inprogress", "asset")
 
-        @components.data_list(completeAssets, "complete", "asset")
+        @dataList(completeAssets, "complete", "asset")
 
-        @components.input_radio(
+        @inputRadio(
             field = form("value"),
             legend = messages(s"$prefix.additional-content"),
             legendClass = Some("govuk-heading-m"),
@@ -49,6 +54,6 @@
             legendAsH2Heading = true
         )
 
-        @components.submit_button()
+        @submitButton()
     }
 }

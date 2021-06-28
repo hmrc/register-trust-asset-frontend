@@ -15,12 +15,15 @@
  *@
 
 @import controllers.asset.routes._
-@import models.AddAssets
 @import viewmodels.AddRow
+@import views.html.components.{SubmitButton, Heading}
 
 @this(
     main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+    submitButton: SubmitButton,
+    heading: Heading,
+    dataList: ?
 )
 
 @(draftId: String, inProgressAssets: Seq[AddRow], completeAssets: Seq[AddRow], heading: String, maxLimit: Int, prefix: String)(implicit request: Request[_], messages: Messages)
@@ -32,17 +35,17 @@
 
     @formHelper(action = AddAssetsController.submitComplete(draftId), 'autoComplete -> "off") {
 
-        @components.heading(heading)
+        @heading(heading)
 
-        @components.data_list(inProgressAssets, "inprogress", "asset")
+        @dataList(inProgressAssets, "inprogress", "asset")
 
-        @components.data_list(completeAssets, "complete", "asset")
+        @dataList(completeAssets, "complete", "asset")
 
         <ul>
             <li class="panel-indent"><p>@messages(s"$prefix.maxedOut.p1", maxLimit)</p></li>
             <li class="panel-indent"><p>@messages(s"$prefix.maxedOut.p2")</p></li>
         </ul>
 
-        @components.submit_button()
+        @submitButton()
     }
 }
