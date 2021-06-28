@@ -28,7 +28,7 @@ object ViewUtils {
   }
 
   def breadcrumbTitle(title: String)(implicit messages: Messages): String = {
-    s"$title - ${messages("entities.assets")} - ${messages("site.service_name")} - GOV.UK"
+    s"$title - ${messages("site.service_section")} - ${messages("service.name")} - GOV.UK"
   }
 
   def errorHref(error: FormError, radioOptions: Seq[RadioOption] = Nil): String = {
