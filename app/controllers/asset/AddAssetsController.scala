@@ -112,7 +112,7 @@ class AddAssetsController @Inject()(
         },
         value => {
           for {
-            answersWithAssetTypeIfNonTaxable <- Future.fromTry(setAssetTypeIfNonTaxable(request.userAnswers, 0))
+            answersWithAssetTypeIfNonTaxable <- Future.fromTry(setAssetType(request.userAnswers, 0))
             updatedAnswers <- Future.fromTry(answersWithAssetTypeIfNonTaxable.set(AddAnAssetYesNoPage, value))
             _ <- repository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(AddAnAssetYesNoPage, draftId)(updatedAnswers))
@@ -146,7 +146,7 @@ class AddAssetsController @Inject()(
         },
         value => {
           for {
-            answersWithAssetTypeIfNonTaxable <- Future.fromTry(setAssetTypeIfNonTaxable(userAnswers, rows.count, value))
+            answersWithAssetTypeIfNonTaxable <- Future.fromTry(setAssetType(userAnswers, rows.count, value))
             updatedAnswers <- Future.fromTry(answersWithAssetTypeIfNonTaxable.set(AddAssetsPage, value))
             _ <- repository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(AddAssetsPage, draftId)(updatedAnswers))

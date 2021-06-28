@@ -22,15 +22,14 @@ import generators.Generators
 import models.AddAssets.{NoComplete, YesNow}
 import models.Status.{Completed, InProgress}
 import models.WhatKindOfAsset._
-import models.{AddAssets, ShareClass, UserAnswers}
+import models.{AddAssets, Status, UserAnswers}
 import org.mockito.ArgumentCaptor
 import org.mockito.Matchers.any
 import org.mockito.Mockito.{reset, verify, when}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks.forAll
 import pages.AssetStatus
-import pages.asset.other.OtherAssetDescriptionPage
-import pages.asset.shares._
+import pages.asset.noneeabusiness.NamePage
 import pages.asset.{AddAnAssetYesNoPage, AddAssetsPage, WhatKindOfAssetPage}
 import play.api.data.Form
 import play.api.test.FakeRequest
@@ -48,14 +47,8 @@ class AddAssetsControllerSpec extends SpecBase with Generators {
   lazy val addAnotherPostRoute: String = routes.AddAssetsController.submitAnother(fakeDraftId).url
   lazy val completePostRoute: String = routes.AddAssetsController.submitComplete(fakeDraftId).url
 
-  def changeMoneyAssetRoute(index: Int): String =
-    money.routes.AssetMoneyValueController.onPageLoad(index, fakeDraftId).url
-
-  def changeSharesAssetRoute(index: Int): String =
-    shares.routes.ShareAnswerController.onPageLoad(index, fakeDraftId).url
-
-  def changeOtherAssetRoute(index: Int): String =
-    other.routes.OtherAssetAnswersController.onPageLoad(index, fakeDraftId).url
+  def changeNonEeaAssetRoute(index: Int): String =
+    noneeabusiness.routes.AnswersController.onPageLoad(index, fakeDraftId).url
 
   def removeAssetYesNoRoute(index: Int): String =
     routes.RemoveAssetYesNoController.onPageLoad(index, fakeDraftId).url
@@ -64,24 +57,19 @@ class AddAssetsControllerSpec extends SpecBase with Generators {
   val addNonTaxableAssetsForm: Form[AddAssets] = new AddAssetsFormProvider().withPrefix("addAssets.nonTaxable")
   val yesNoForm: Form[Boolean] = new YesNoFormProvider().withPrefix("addAnAssetYesNo")
 
-  lazy val oneAsset: List[AddRow] = List(AddRow("Description", typeLabel = "Other", changeOtherAssetRoute(0), removeAssetYesNoRoute(0)))
+  lazy val oneAsset: List[AddRow] = List(AddRow("Name", typeLabel = "Non-EEA Company", changeNonEeaAssetRoute(0), removeAssetYesNoRoute(0)))
 
-  lazy val multipleAssets: List[AddRow] = oneAsset :+ AddRow("Share Company Name", typeLabel = "Shares", changeSharesAssetRoute(1), removeAssetYesNoRoute(1))
+  lazy val multipleAssets: List[AddRow] = oneAsset :+ AddRow("Name", typeLabel = "Non-EEA Company", changeNonEeaAssetRoute(1), removeAssetYesNoRoute(1))
 
   val userAnswersWithOneAsset: UserAnswers = emptyUserAnswers
-    .set(WhatKindOfAssetPage(0), Other).success.value
-    .set(OtherAssetDescriptionPage(0), "Description").success.value
+    .set(WhatKindOfAssetPage(0), NonEeaBusiness).success.value
+    .set(NamePage(0), "Name").success.value
     .set(AssetStatus(0), Completed).success.value
 
-  val userAnswersWithMultipleAssets: UserAnswers = userAnswersWithOneAsset
-    .set(WhatKindOfAssetPage(1), Shares).success.value
-    .set(SharesInAPortfolioPage(1), false).success.value
-    .set(ShareCompanyNamePage(1), "Share Company Name").success.value
-    .set(SharesOnStockExchangePage(1), true).success.value
-    .set(ShareClassPage(1), ShareClass.Ordinary).success.value
-    .set(ShareQuantityInTrustPage(1), 1000L).success.value
-    .set(ShareValueInTrustPage(1), 10L).success.value
-    .set(AssetStatus(1), Completed).success.value
+  def userAnswersWithMultipleAssets(status: Status = Completed): UserAnswers = userAnswersWithOneAsset
+    .set(WhatKindOfAssetPage(1), NonEeaBusiness).success.value
+    .set(NamePage(1), "Name").success.value
+    .set(AssetStatus(1), status).success.value
 
   "AddAssets Controller" when {
 
@@ -291,7 +279,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators {
 
         "taxable" in {
 
-          val application = applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets.copy(isTaxable = true))).build()
+          val application = applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(isTaxable = true))).build()
 
           val request = FakeRequest(GET, addAssetsRoute)
 
@@ -309,7 +297,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators {
 
         "non-taxable" in {
 
-          val application = applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets.copy(is5mldEnabled = true, isTaxable = false))).build()
+          val application = applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(is5mldEnabled = true, isTaxable = false))).build()
 
           val request = FakeRequest(GET, addAssetsRoute)
 
@@ -338,7 +326,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators {
             val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
 
             val application =
-              applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets.copy(isTaxable = true))).build()
+              applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(isTaxable = true))).build()
 
             val request = FakeRequest(POST, addAnotherPostRoute)
               .withFormUrlEncodedBody(("value", YesNow.toString))
@@ -365,7 +353,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators {
             val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
 
             val application =
-              applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets.copy(is5mldEnabled = true, isTaxable = false))).build()
+              applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(is5mldEnabled = true, isTaxable = false))).build()
 
             val request = FakeRequest(POST, addAnotherPostRoute)
               .withFormUrlEncodedBody(("value", YesNow.toString))
@@ -379,6 +367,31 @@ class AddAssetsControllerSpec extends SpecBase with Generators {
             verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
             uaCaptor.getValue.get(AddAssetsPage).get mustBe YesNow
             uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)).get mustBe NonEeaBusiness
+
+            application.stop()
+          }
+
+          "not set value in WhatKindOfAssetPage when last asset is in progress" in {
+
+            reset(registrationsRepository)
+            when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+            val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+
+            val application =
+              applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets(InProgress).copy(is5mldEnabled = true, isTaxable = false))).build()
+
+            val request = FakeRequest(POST, addAnotherPostRoute)
+              .withFormUrlEncodedBody(("value", YesNow.toString))
+
+            val result = route(application, request).value
+
+            status(result) mustEqual SEE_OTHER
+
+            redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
+
+            verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+            uaCaptor.getValue.get(AddAssetsPage).get mustBe YesNow
+            uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)) mustNot be(defined)
 
             application.stop()
           }
@@ -400,7 +413,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators {
                 val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
 
                 val application =
-                  applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets.copy(isTaxable = true))).build()
+                  applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(isTaxable = true))).build()
 
                 val request = FakeRequest(POST, addAnotherPostRoute)
                   .withFormUrlEncodedBody(("value", addAssets.toString))
@@ -431,7 +444,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators {
                 val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
 
                 val application =
-                  applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets.copy(is5mldEnabled = true, isTaxable = false))).build()
+                  applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(is5mldEnabled = true, isTaxable = false))).build()
 
                 val request = FakeRequest(POST, addAnotherPostRoute)
                   .withFormUrlEncodedBody(("value", addAssets.toString))
@@ -454,7 +467,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators {
 
       "return a Bad Request and errors when invalid data is submitted" in {
 
-        val application = applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets)).build()
+        val application = applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets())).build()
 
         val request =
           FakeRequest(POST, addAnotherPostRoute)

@@ -17,8 +17,10 @@
 package controllers.asset
 
 import models.AddAssets.YesNow
+import models.Status.Completed
 import models.WhatKindOfAsset.NonEeaBusiness
 import models.{AddAssets, UserAnswers}
+import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
 import play.api.i18n.I18nSupport
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
@@ -27,9 +29,12 @@ import scala.util.{Success, Try}
 
 trait AddAssetController extends FrontendBaseController with I18nSupport {
 
-  def setAssetTypeIfNonTaxable(userAnswers: UserAnswers, index: Int, addAssets: AddAssets = YesNow): Try[UserAnswers] = {
-    if (!userAnswers.isTaxable && addAssets == YesNow) {
-      userAnswers.set(WhatKindOfAssetPage(index), NonEeaBusiness)
+  def setAssetType(userAnswers: UserAnswers, index: Int, selection: AddAssets = YesNow): Try[UserAnswers] = {
+    if (selection == YesNow && !userAnswers.isTaxable) {
+      (index, userAnswers.get(AssetStatus(index - 1))) match {
+        case (0, _) | (_, Some(Completed)) => userAnswers.set(WhatKindOfAssetPage(index), NonEeaBusiness)
+        case _ => Success(userAnswers)
+      }
     } else {
       Success(userAnswers)
     }
