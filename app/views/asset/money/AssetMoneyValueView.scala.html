@@ -15,14 +15,15 @@
  *@
 
 @import controllers.asset.money.routes._
-@import views.html.components.{InputText, ErrorSummary, SubmitButton}
+@import views.html.components.{InputText, ErrorSummary, SubmitButton, Heading}
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
     errorSummary: ErrorSummary,
     inputText: InputText,
-    submitButton: SubmitButton
+    submitButton: SubmitButton,
+    heading: Heading
 )
 
 @(form: Form[_], draftId: String, index: Int)(implicit request: Request[_], messages: Messages)
@@ -38,14 +39,17 @@
 
         @errorSummary(form.errors)
 
+        @heading("money.value.heading")
+
+        @optionalHtmlContent
+
         @inputText(
             field = form("value"),
             label = messages("money.value.heading"),
             labelClass = Some("govuk-heading-l"),
             prefix = Some(messages(s"symbolText.asSterling")),
             hint = Some(messages(s"money.value.hint")),
-            optionalHtmlContent = Some(optionalHtmlContent),
-            labelAsHeading = true,
+            labelAsHeading = false,
             inputMode = Some("numeric")
         )
 
