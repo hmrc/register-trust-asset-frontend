@@ -14,23 +14,25 @@
  * limitations under the License.
  */
 
-package navigation
+package implicitConversions
 
-import controllers.asset.other.routes._
-import models.UserAnswers
-import pages.Page
-import pages.asset.other._
-import play.api.mvc.Call
-import uk.gov.hmrc.auth.core.AffinityGroup
+object Implicits {
 
-import javax.inject.Singleton
-
-@Singleton
-class OtherNavigator extends Navigator {
-
-  override protected def route(draftId: String): PartialFunction[Page, AffinityGroup => UserAnswers => Call] = {
-    case OtherAssetDescriptionPage(index) => _ => _ => OtherAssetValueController.onPageLoad(index, draftId)
-    case OtherAssetValuePage(index) => _ => _ => OtherAssetAnswersController.onPageLoad(index, draftId)
+  implicit class StringImplicits(str: String) {
+    def uncapitalize: String = str.split(' ').foldLeft("")((acc, word) => {
+      def uncapitalizeWord = s"${word.head.toLower}${word.tail}"
+      if (acc.isEmpty) {
+        uncapitalizeWord
+      } else {
+        s"$acc $uncapitalizeWord"
+      }
+    })
   }
 
+  implicit class ListImplicits[T](list: List[T]) {
+    def asSomeIf(condition: Boolean): Option[List[T]] = list match {
+      case _ if !condition => None
+      case _ => Some(list)
+    }
+  }
 }

@@ -17,10 +17,10 @@
 package config
 
 import com.google.inject.AbstractModule
+import config.annotations._
 import controllers.actions._
 import navigation._
 import repositories.{DefaultRegistrationsRepository, RegistrationsRepository}
-import config.annotations._
 
 class Module extends AbstractModule {
 
@@ -29,6 +29,7 @@ class Module extends AbstractModule {
     bind(classOf[RegistrationDataRequiredAction]).to(classOf[RegistrationDataRequiredActionImpl]).asEagerSingleton()
     bind(classOf[DraftIdRetrievalActionProvider]).to(classOf[DraftIdDataRetrievalActionProviderImpl]).asEagerSingleton()
 
+    bind(classOf[Navigator]).annotatedWith(classOf[Asset]).to(classOf[AssetNavigator])
     bind(classOf[Navigator]).annotatedWith(classOf[Money]).to(classOf[MoneyNavigator])
     bind(classOf[Navigator]).annotatedWith(classOf[PropertyOrLand]).to(classOf[PropertyOrLandNavigator])
     bind(classOf[Navigator]).annotatedWith(classOf[Shares]).to(classOf[SharesNavigator])

@@ -16,9 +16,12 @@
 
 package models
 
+import implicitConversions.Implicits._
 import play.api.Logging
+import play.api.libs.functional.syntax._
 import play.api.libs.json._
 import queries.{Gettable, Settable}
+import viewmodels._
 
 import scala.util.{Failure, Success, Try}
 
@@ -79,33 +82,36 @@ final case class UserAnswers(
       result => Success(result)
     )
   }
+
+  val assets: AssetViewModels = {
+    val allAssets = this.get(sections.Assets).getOrElse(Nil)
+    AssetViewModels(
+      allAssets.collect { case x: MoneyAssetViewModel => x }.asSomeIf(isTaxable),
+      allAssets.collect { case x: PropertyOrLandAssetViewModel => x }.asSomeIf(isTaxable),
+      allAssets.collect { case x: ShareAssetViewModel => x }.asSomeIf(isTaxable),
+      allAssets.collect { case x: BusinessAssetViewModel => x }.asSomeIf(isTaxable),
+      allAssets.collect { case x: PartnershipAssetViewModel => x }.asSomeIf(isTaxable),
+      allAssets.collect { case x: OtherAssetViewModel => x }.asSomeIf(isTaxable),
+      allAssets.collect { case x: NonEeaBusinessAssetViewModel => x }.asSomeIf(is5mldEnabled)
+    )
+  }
 }
 
 object UserAnswers {
 
-  implicit lazy val reads: Reads[UserAnswers] = {
+  implicit lazy val reads: Reads[UserAnswers] = (
+    (__ \ "_id").read[String] and
+      (__ \ "data").read[JsObject] and
+      (__ \ "internalId").read[String] and
+      (__ \ "is5mldEnabled").readWithDefault[Boolean](false) and
+      (__ \ "isTaxable").readWithDefault[Boolean](true)
+    )(UserAnswers.apply _)
 
-    import play.api.libs.functional.syntax._
-
-    (
-      (__ \ "_id").read[String] and
-        (__ \ "data").read[JsObject] and
-        (__ \ "internalId").read[String] and
-        (__ \ "is5mldEnabled").readWithDefault[Boolean](false) and
-        (__ \ "isTaxable").readWithDefault[Boolean](true)
-      ) (UserAnswers.apply _)
-  }
-
-  implicit lazy val writes: OWrites[UserAnswers] = {
-
-    import play.api.libs.functional.syntax._
-
-    (
-      (__ \ "_id").write[String] and
-        (__ \ "data").write[JsObject] and
-        (__ \ "internalId").write[String] and
-        (__ \ "is5mldEnabled").write[Boolean] and
-        (__ \ "isTaxable").write[Boolean]
-      ) (unlift(UserAnswers.unapply))
-  }
+  implicit lazy val writes: Writes[UserAnswers] = (
+    (__ \ "_id").write[String] and
+      (__ \ "data").write[JsObject] and
+      (__ \ "internalId").write[String] and
+      (__ \ "is5mldEnabled").write[Boolean] and
+      (__ \ "isTaxable").write[Boolean]
+    )(unlift(UserAnswers.unapply))
 }

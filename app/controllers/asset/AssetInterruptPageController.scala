@@ -16,6 +16,7 @@
 
 package controllers.asset
 
+import config.annotations.Asset
 import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
 import navigation.Navigator
 import pages.asset.AssetInterruptPage
@@ -33,7 +34,7 @@ class AssetInterruptPageController @Inject()(
                                               identify: RegistrationIdentifierAction,
                                               getData: DraftIdRetrievalActionProvider,
                                               requireData: RegistrationDataRequiredAction,
-                                              navigator: Navigator,
+                                              @Asset navigator: Navigator,
                                               val controllerComponents: MessagesControllerComponents,
                                               taxableView: TaxableInfoView,
                                               nonTaxableView: NonTaxableInfoView
@@ -53,7 +54,7 @@ class AssetInterruptPageController @Inject()(
   def onSubmit(draftId: String): Action[AnyContent] = (identify andThen getData(draftId) andThen requireData).async {
     implicit request =>
       for {
-        updatedAnswers <- Future.fromTry(setAssetTypeIfNonTaxable(request.userAnswers, 0))
+        updatedAnswers <- Future.fromTry(setAssetType(request.userAnswers, 0))
         _ <- repository.set(updatedAnswers)
       } yield {
         Redirect(navigator.nextPage(AssetInterruptPage, draftId)(updatedAnswers))

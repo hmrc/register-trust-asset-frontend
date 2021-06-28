@@ -18,6 +18,9 @@ package viewmodels
 
 case class AddToRows(inProgress : List[AddRow], complete: List[AddRow]) {
 
-  def count : Int = inProgress.size + complete.size
+  def count: Int = inProgress.size + complete.size
+
+  def nonEmpty: Boolean = count > 0
+  def isEmpty: Boolean = !nonEmpty
 
 }
