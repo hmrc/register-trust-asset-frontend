@@ -14,18 +14,25 @@
  * limitations under the License.
  */
 
-package navigation
+package implicits
 
-import models.UserAnswers
-import pages.QuestionPage
-import play.api.mvc.Call
+object Implicits {
 
-trait Navigation {
-
-  def yesNoNav(ua: UserAnswers, fromPage: QuestionPage[Boolean], yesCall: => Call, noCall: => Call): Call = {
-    ua.get(fromPage)
-      .map(if (_) yesCall else noCall)
-      .getOrElse(controllers.routes.SessionExpiredController.onPageLoad())
+  implicit class StringImplicits(str: String) {
+    def uncapitalize: String = str.split(' ').foldLeft("")((acc, word) => {
+      def uncapitalizeWord = s"${word.head.toLower}${word.tail}"
+      if (acc.isEmpty) {
+        uncapitalizeWord
+      } else {
+        s"$acc $uncapitalizeWord"
+      }
+    })
   }
 
+  implicit class ListImplicits[T](list: List[T]) {
+    def asSomeIf(condition: Boolean): Option[List[T]] = list match {
+      case _ if !condition => None
+      case _ => Some(list)
+    }
+  }
 }

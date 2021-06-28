@@ -16,7 +16,6 @@
 
 package navigation
 
-import config.FrontendAppConfig
 import controllers.asset.partnership.routes._
 import controllers.asset.routes._
 import models.UserAnswers
@@ -25,10 +24,10 @@ import pages.asset.partnership._
 import play.api.mvc.Call
 import uk.gov.hmrc.auth.core.AffinityGroup
 
-import javax.inject.{Inject, Singleton}
+import javax.inject.Singleton
 
 @Singleton
-class PartnershipNavigator @Inject()(config: FrontendAppConfig) extends Navigator(config) {
+class PartnershipNavigator extends Navigator {
 
   override protected def route(draftId: String): PartialFunction[Page, AffinityGroup => UserAnswers => Call] = {
     case PartnershipDescriptionPage(index) => _ => _ => PartnershipStartDateController.onPageLoad(index, draftId)

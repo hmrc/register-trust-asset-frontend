@@ -14,15 +14,6 @@
  * limitations under the License.
  */
 
-package navigation
+package models
 
-import models.UserAnswers
-import pages._
-import play.api.mvc.Call
-import uk.gov.hmrc.auth.core.AffinityGroup
-
-class FakeNavigator(val desiredRoute: Call = Call("GET", "/foo")) extends Navigator {
-
-  override def nextPage(page: Page, fakeDraftId: String, affinityGroup: AffinityGroup): UserAnswers => Call = _ => desiredRoute
-}
-
+case class AssetSize(kindOfAsset: WhatKindOfAsset, size: Int, maxSize: Int)

@@ -19,6 +19,7 @@ package navigation
 import base.SpecBase
 import controllers.asset._
 import generators.Generators
+import models.Constants._
 import models.Status.Completed
 import models.WhatKindOfAsset._
 import models.{AddAssets, UserAnswers}
@@ -27,17 +28,18 @@ import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import pages.AssetStatus
 import pages.asset.{AddAnAssetYesNoPage, AddAssetsPage, AssetInterruptPage, TrustOwnsNonEeaBusinessYesNoPage, WhatKindOfAssetPage}
 import play.api.mvc.Call
+import uk.gov.hmrc.http.HttpVerbs.GET
 
-class NavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
+class AssetNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
 
-  private val navigator: Navigator = injector.instanceOf[Navigator]
+  private val navigator: AssetNavigator = injector.instanceOf[AssetNavigator]
   private val index = 0
 
   private val assetsCompletedRoute: Call = {
-    Call("GET", frontendAppConfig.registrationProgressUrl(fakeDraftId))
+    Call(GET, frontendAppConfig.registrationProgressUrl(fakeDraftId))
   }
 
-  "Navigator" when {
+  "AssetNavigator" when {
 
     "trust owns non-EEA business yes no page" when {
 
@@ -148,7 +150,7 @@ class NavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generato
 
       "taxable" when {
 
-        val baseAnswers = emptyUserAnswers.copy(isTaxable = true)
+        val baseAnswers = emptyUserAnswers.copy(is5mldEnabled = true, isTaxable = true)
 
         "add them now selected" when {
 
@@ -172,6 +174,146 @@ class NavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generato
 
               navigator.nextPage(AddAssetsPage, fakeDraftId)(answers)
                 .mustBe(controllers.asset.routes.WhatKindOfAssetController.onPageLoad(1, fakeDraftId))
+            }
+          }
+
+          "all types maxed out except money" must {
+            "redirect to money journey" in {
+              val answers = (0 until (MAX_5MLD_TAXABLE_ASSETS - MAX_MONEY_ASSETS)).foldLeft(baseAnswers)((acc, i) => {
+                acc
+                  .set(WhatKindOfAssetPage(i), i match {
+                    case x if 0 until 10 contains x => PropertyOrLand
+                    case x if 10 until 20 contains x => Shares
+                    case x if 20 until 30 contains x => Business
+                    case x if 30 until 40 contains x => Partnership
+                    case x if 40 until 50 contains x => Other
+                    case x if 50 until 75 contains x => NonEeaBusiness
+                  }).success.value
+                  .set(AssetStatus(i), Completed).success.value
+              }).set(AddAssetsPage, AddAssets.YesNow).success.value
+
+              navigator.nextPage(AddAssetsPage, fakeDraftId)(answers)
+                .mustBe(money.routes.AssetMoneyValueController.onPageLoad(75, fakeDraftId))
+            }
+          }
+
+          "all types maxed out except property or land" must {
+            "redirect to property or land journey" in {
+              val answers = (0 until (MAX_5MLD_TAXABLE_ASSETS - MAX_PROPERTY_OR_LAND_ASSETS)).foldLeft(baseAnswers)((acc, i) => {
+                acc
+                  .set(WhatKindOfAssetPage(i), i match {
+                    case x if 0 until 1 contains x => Money
+                    case x if 1 until 11 contains x => Shares
+                    case x if 11 until 21 contains x => Business
+                    case x if 21 until 31 contains x => Partnership
+                    case x if 31 until 41 contains x => Other
+                    case x if 41 until 66 contains x => NonEeaBusiness
+                  }).success.value
+                  .set(AssetStatus(i), Completed).success.value
+              }).set(AddAssetsPage, AddAssets.YesNow).success.value
+
+              navigator.nextPage(AddAssetsPage, fakeDraftId)(answers)
+                .mustBe(property_or_land.routes.PropertyOrLandAddressYesNoController.onPageLoad(66, fakeDraftId))
+            }
+          }
+
+          "all types maxed out except shares" must {
+            "redirect to shares journey" in {
+              val answers = (0 until (MAX_5MLD_TAXABLE_ASSETS - MAX_SHARES_ASSETS)).foldLeft(baseAnswers)((acc, i) => {
+                acc
+                  .set(WhatKindOfAssetPage(i), i match {
+                    case x if 0 until 1 contains x => Money
+                    case x if 1 until 11 contains x => PropertyOrLand
+                    case x if 11 until 21 contains x => Business
+                    case x if 21 until 31 contains x => Partnership
+                    case x if 31 until 41 contains x => Other
+                    case x if 41 until 66 contains x => NonEeaBusiness
+                  }).success.value
+                  .set(AssetStatus(i), Completed).success.value
+              }).set(AddAssetsPage, AddAssets.YesNow).success.value
+
+              navigator.nextPage(AddAssetsPage, fakeDraftId)(answers)
+                .mustBe(shares.routes.SharesInAPortfolioController.onPageLoad(66, fakeDraftId))
+            }
+          }
+
+          "all types maxed out except business" must {
+            "redirect to business journey" in {
+              val answers = (0 until (MAX_5MLD_TAXABLE_ASSETS - MAX_BUSINESS_ASSETS)).foldLeft(baseAnswers)((acc, i) => {
+                acc
+                  .set(WhatKindOfAssetPage(i), i match {
+                    case x if 0 until 1 contains x => Money
+                    case x if 1 until 11 contains x => PropertyOrLand
+                    case x if 11 until 21 contains x => Shares
+                    case x if 21 until 31 contains x => Partnership
+                    case x if 31 until 41 contains x => Other
+                    case x if 41 until 66 contains x => NonEeaBusiness
+                  }).success.value
+                  .set(AssetStatus(i), Completed).success.value
+              }).set(AddAssetsPage, AddAssets.YesNow).success.value
+
+              navigator.nextPage(AddAssetsPage, fakeDraftId)(answers)
+                .mustBe(business.routes.BusinessNameController.onPageLoad(66, fakeDraftId))
+            }
+          }
+
+          "all types maxed out except partnership" must {
+            "redirect to partnership journey" in {
+              val answers = (0 until (MAX_5MLD_TAXABLE_ASSETS - MAX_PARTNERSHIP_ASSETS)).foldLeft(baseAnswers)((acc, i) => {
+                acc
+                  .set(WhatKindOfAssetPage(i), i match {
+                    case x if 0 until 1 contains x => Money
+                    case x if 1 until 11 contains x => PropertyOrLand
+                    case x if 11 until 21 contains x => Shares
+                    case x if 21 until 31 contains x => Business
+                    case x if 31 until 41 contains x => Other
+                    case x if 41 until 66 contains x => NonEeaBusiness
+                  }).success.value
+                  .set(AssetStatus(i), Completed).success.value
+              }).set(AddAssetsPage, AddAssets.YesNow).success.value
+
+              navigator.nextPage(AddAssetsPage, fakeDraftId)(answers)
+                .mustBe(partnership.routes.PartnershipDescriptionController.onPageLoad(66, fakeDraftId))
+            }
+          }
+
+          "all types maxed out except other" must {
+            "redirect to other journey" in {
+              val answers = (0 until (MAX_5MLD_TAXABLE_ASSETS - MAX_OTHER_ASSETS)).foldLeft(baseAnswers)((acc, i) => {
+                acc
+                  .set(WhatKindOfAssetPage(i), i match {
+                    case x if 0 until 1 contains x => Money
+                    case x if 1 until 11 contains x => PropertyOrLand
+                    case x if 11 until 21 contains x => Shares
+                    case x if 21 until 31 contains x => Business
+                    case x if 31 until 41 contains x => Partnership
+                    case x if 41 until 66 contains x => NonEeaBusiness
+                  }).success.value
+                  .set(AssetStatus(i), Completed).success.value
+              }).set(AddAssetsPage, AddAssets.YesNow).success.value
+
+              navigator.nextPage(AddAssetsPage, fakeDraftId)(answers)
+                .mustBe(other.routes.OtherAssetDescriptionController.onPageLoad(66, fakeDraftId))
+            }
+          }
+
+          "all types maxed out except non-EEA business" must {
+            "redirect to non-EEA business journey" in {
+              val answers = (0 until (MAX_5MLD_TAXABLE_ASSETS - MAX_NON_EEA_BUSINESS_ASSETS)).foldLeft(baseAnswers)((acc, i) => {
+                acc
+                  .set(WhatKindOfAssetPage(i), i match {
+                    case x if 0 until 1 contains x => Money
+                    case x if 1 until 11 contains x => PropertyOrLand
+                    case x if 11 until 21 contains x => Shares
+                    case x if 21 until 31 contains x => Business
+                    case x if 31 until 41 contains x => Partnership
+                    case x if 41 until 51 contains x => Other
+                  }).success.value
+                  .set(AssetStatus(i), Completed).success.value
+              }).set(AddAssetsPage, AddAssets.YesNow).success.value
+
+              navigator.nextPage(AddAssetsPage, fakeDraftId)(answers)
+                .mustBe(noneeabusiness.routes.NameController.onPageLoad(51, fakeDraftId))
             }
           }
         }
@@ -203,13 +345,13 @@ class NavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generato
 
       "non-taxable" when {
 
-        val baseAnswers = emptyUserAnswers.copy(isTaxable = false)
+        val baseAnswers = emptyUserAnswers.copy(is5mldEnabled = true, isTaxable = false)
 
         "add them now selected" must {
           "go to the non-EEA business asset name page" in {
 
             val answers = baseAnswers
-              .set(WhatKindOfAssetPage(0), Money).success.value
+              .set(WhatKindOfAssetPage(0), NonEeaBusiness).success.value
               .set(WhatKindOfAssetPage(1), NonEeaBusiness).success.value
               .set(AddAssetsPage, AddAssets.YesNow).success.value
 
@@ -222,7 +364,7 @@ class NavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generato
           "go to RegistrationProgress" in {
 
             val answers = baseAnswers
-              .set(WhatKindOfAssetPage(0), Money).success.value
+              .set(WhatKindOfAssetPage(0), NonEeaBusiness).success.value
               .set(AddAssetsPage, AddAssets.YesLater).success.value
 
             navigator.nextPage(AddAssetsPage, fakeDraftId)(answers)

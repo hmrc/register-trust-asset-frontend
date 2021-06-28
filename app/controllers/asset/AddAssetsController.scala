@@ -16,6 +16,7 @@
 
 package controllers.asset
 
+import config.annotations.Asset
 import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
 import forms.{AddAssetsFormProvider, YesNoFormProvider}
 import models.AddAssets.NoComplete
@@ -37,7 +38,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class AddAssetsController @Inject()(
                                      override val messagesApi: MessagesApi,
                                      repository: RegistrationsRepository,
-                                     navigator: Navigator,
+                                     @Asset navigator: Navigator,
                                      identify: RegistrationIdentifierAction,
                                      getData: DraftIdRetrievalActionProvider,
                                      requireData: RegistrationDataRequiredAction,
@@ -70,25 +71,35 @@ class AddAssetsController @Inject()(
       val userAnswers: UserAnswers = request.userAnswers
       val isTaxable = userAnswers.isTaxable
 
-      val assets = new AddAssetViewHelper(userAnswers, draftId).rows
-
-      val maxLimit: Int = (userAnswers.is5mldEnabled, isTaxable) match {
-        case (true, true) => MAX_5MLD_TAXABLE_ASSETS
-        case (true, false) => MAX_5MLD_NON_TAXABLE_ASSETS
-        case _ => MAX_4MLD_ASSETS
-      }
+      val rows = new AddAssetViewHelper(userAnswers, draftId).rows
 
       val prefix = determinePrefix(isTaxable)
 
-      assets.count match {
-        case 0 if isTaxable =>
-          Ok(yesNoView(yesNoForm, draftId))
-        case 0 =>
-          Redirect(routes.TrustOwnsNonEeaBusinessYesNoController.onPageLoad(draftId))
-        case c if c >= maxLimit =>
-          Ok(maxedOutView(draftId, assets.inProgress, assets.complete, heading(c, prefix), maxLimit, prefix))
-        case c =>
-          Ok(addAssetsView(addAnotherForm(isTaxable), draftId, assets.inProgress, assets.complete, heading(c, prefix), prefix))
+      if (userAnswers.assets.nonMaxedOutOptions.isEmpty) {
+        val maxLimit: Int = (userAnswers.is5mldEnabled, isTaxable) match {
+          case (true, true) => MAX_5MLD_TAXABLE_ASSETS
+          case (true, false) => MAX_5MLD_NON_TAXABLE_ASSETS
+          case _ => MAX_4MLD_ASSETS
+        }
+        Ok(maxedOutView(draftId, rows.inProgress, rows.complete, heading(rows.count, prefix), maxLimit, prefix))
+      } else {
+        if (rows.nonEmpty) {
+          Ok(addAssetsView(
+            addAnotherForm(isTaxable),
+            draftId,
+            rows.inProgress,
+            rows.complete,
+            heading(rows.count, prefix),
+            prefix,
+            userAnswers.assets.maxedOutOptions
+          ))
+        } else {
+          if (isTaxable) {
+            Ok(yesNoView(yesNoForm, draftId))
+          } else {
+            Redirect(routes.TrustOwnsNonEeaBusinessYesNoController.onPageLoad(draftId))
+          }
+        }
       }
   }
 
@@ -101,7 +112,7 @@ class AddAssetsController @Inject()(
         },
         value => {
           for {
-            answersWithAssetTypeIfNonTaxable <- Future.fromTry(setAssetTypeIfNonTaxable(request.userAnswers, 0))
+            answersWithAssetTypeIfNonTaxable <- Future.fromTry(setAssetType(request.userAnswers, 0))
             updatedAnswers <- Future.fromTry(answersWithAssetTypeIfNonTaxable.set(AddAnAssetYesNoPage, value))
             _ <- repository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(AddAnAssetYesNoPage, draftId)(updatedAnswers))
@@ -115,19 +126,27 @@ class AddAssetsController @Inject()(
       val userAnswers = request.userAnswers
       val isTaxable = userAnswers.isTaxable
 
-      val assets = new AddAssetViewHelper(userAnswers, draftId).rows
+      val rows = new AddAssetViewHelper(userAnswers, draftId).rows
 
       val prefix = determinePrefix(isTaxable)
 
       addAnotherForm(isTaxable).bindFromRequest().fold(
         (formWithErrors: Form[_]) => {
           Future.successful(
-            BadRequest(addAssetsView(formWithErrors, draftId, assets.inProgress, assets.complete, heading(assets.count, prefix), prefix))
+            BadRequest(addAssetsView(
+              formWithErrors,
+              draftId,
+              rows.inProgress,
+              rows.complete,
+              heading(rows.count, prefix),
+              prefix,
+              userAnswers.assets.maxedOutOptions
+            ))
           )
         },
         value => {
           for {
-            answersWithAssetTypeIfNonTaxable <- Future.fromTry(setAssetTypeIfNonTaxable(userAnswers, assets.count, value))
+            answersWithAssetTypeIfNonTaxable <- Future.fromTry(setAssetType(userAnswers, rows.count, value))
             updatedAnswers <- Future.fromTry(answersWithAssetTypeIfNonTaxable.set(AddAssetsPage, value))
             _ <- repository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(AddAssetsPage, draftId)(updatedAnswers))

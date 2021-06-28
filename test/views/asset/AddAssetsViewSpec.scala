@@ -42,11 +42,16 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
   private val view: AddAssetsView = viewFor[AddAssetsView](Some(emptyUserAnswers))
 
   private def applyView(form: Form[_]): HtmlFormat.Appendable =
-    view.apply(form, fakeDraftId, Nil, Nil, "Add assets", messageKeyPrefix)(fakeRequest, messages)
+    view.apply(form, fakeDraftId, Nil, Nil, "Add assets", messageKeyPrefix, Nil)(fakeRequest, messages)
 
   private def applyView(form: Form[_], inProgressAssets: Seq[AddRow], completeAssets: Seq[AddRow], count: Int): HtmlFormat.Appendable = {
     val title = if (count > 1) s"You have added $count assets" else "Add assets"
-    view.apply(form, fakeDraftId, inProgressAssets, completeAssets, title, messageKeyPrefix)(fakeRequest, messages)
+    view.apply(form, fakeDraftId, inProgressAssets, completeAssets, title, messageKeyPrefix, Nil)(fakeRequest, messages)
+  }
+
+  def applyView(form: Form[_], completeAssets: Seq[AddRow], count: Int, maxedOut: List[(String, Int)]): HtmlFormat.Appendable = {
+    val title = if (count > 1) s"You have added $count assets" else "Add assets"
+    view.apply(form, fakeDraftId, Nil, completeAssets, title, messageKeyPrefix, maxedOut)(fakeRequest, messages)
   }
 
   "AddAssetsView" when {
@@ -86,6 +91,46 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
       behave like pageWithCompleteTabularData(viewWithData, completeAssets)
 
       behave like pageWithOptions(form, applyView, AddAssets.options(messageKeyPrefix).toSet)
+    }
+
+    "there is one maxed out asset type" must {
+
+      val viewWithData = applyView(form, completeAssets, 10, List(("Partnership", 10)))
+
+      behave like dynamicTitlePage(viewWithData, s"$messageKeyPrefix.count", "10")
+
+      behave like pageWithBackLink(viewWithData)
+
+      behave like pageWithCompleteTabularData(viewWithData, completeAssets)
+
+      behave like pageWithOptions(form, applyView, AddAssets.options(messageKeyPrefix).toSet)
+
+      "render content" in {
+        val doc = asDocument(viewWithData)
+
+        assertContainsText(doc, "You cannot add another partnership asset as you have entered a maximum of 10.")
+        assertContainsText(doc, "Check the assets you have added. If you have further assets to add within this type, write to HMRC with their details.")
+      }
+    }
+
+    "there is more than one maxed out asset type" must {
+
+      val viewWithData = applyView(form, completeAssets, 11, List(("Money", 1), ("Partnership", 10)))
+
+      behave like dynamicTitlePage(viewWithData, s"$messageKeyPrefix.count", "11")
+
+      behave like pageWithBackLink(viewWithData)
+
+      behave like pageWithCompleteTabularData(viewWithData, completeAssets)
+
+      behave like pageWithOptions(form, applyView, AddAssets.options(messageKeyPrefix).toSet)
+
+      "render content" in {
+        val doc = asDocument(viewWithData)
+
+        assertContainsText(doc, "You have entered the maximum number of assets for:")
+        assertContainsText(doc, "Check the assets you have added. If you have further assets to add within these types, write to HMRC with their details.")
+      }
     }
 
   }
