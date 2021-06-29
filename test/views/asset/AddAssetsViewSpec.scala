@@ -63,7 +63,7 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
 
       behave like pageWithBackLink(applyView(form))
 
-      behave like pageWithOptions(form, applyView, AddAssets.options(messageKeyPrefix).toSet)
+      behave like pageWithOptions(form, applyView, AddAssets.options(messageKeyPrefix))
     }
 
     "there is data in progress" must {
@@ -76,8 +76,7 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
 
       behave like pageWithInProgressTabularData(viewWithData, inProgressAssets)
 
-      behave like pageWithOptions(form, applyView, AddAssets.options(messageKeyPrefix).toSet)
-
+      behave like pageWithOptions(form, applyView, AddAssets.options(messageKeyPrefix))
     }
 
     "there is complete data" must {
@@ -90,7 +89,7 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
 
       behave like pageWithCompleteTabularData(viewWithData, completeAssets)
 
-      behave like pageWithOptions(form, applyView, AddAssets.options(messageKeyPrefix).toSet)
+      behave like pageWithOptions(form, applyView, AddAssets.options(messageKeyPrefix))
     }
 
     "there is one maxed out asset type" must {
@@ -103,7 +102,7 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
 
       behave like pageWithCompleteTabularData(viewWithData, completeAssets)
 
-      behave like pageWithOptions(form, applyView, AddAssets.options(messageKeyPrefix).toSet)
+      behave like pageWithOptions(form, applyView, AddAssets.options(messageKeyPrefix))
 
       "render content" in {
         val doc = asDocument(viewWithData)
@@ -123,7 +122,7 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
 
       behave like pageWithCompleteTabularData(viewWithData, completeAssets)
 
-      behave like pageWithOptions(form, applyView, AddAssets.options(messageKeyPrefix).toSet)
+      behave like pageWithOptions(form, applyView, AddAssets.options(messageKeyPrefix))
 
       "render content" in {
         val doc = asDocument(viewWithData)

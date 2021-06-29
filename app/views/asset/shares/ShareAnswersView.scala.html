@@ -16,31 +16,29 @@
 
 @import controllers.asset.shares.routes._
 @import viewmodels.{AnswerSection, RepeaterAnswerSection, Section}
+@import views.html.components.{SubmitButton, Heading}
+@import utils.SectionFormatter.formatSections
 
 @this(
-main_template: MainTemplate,
-formHelper: FormWithCSRF
+    main_template: MainTemplate,
+    formHelper: FormWithCSRF,
+    submitButton: SubmitButton,
+    heading: Heading,
+    govukSummaryList: GovukSummaryList
 )
 
 @(index: Int, draftId: String, answerSections: Seq[Section])(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = messages("shares.answers.title")
+    title = messages("shares.answers.title"),
+    showBackLink = true
 ) {
 
-@components.back_link()
-
-@components.heading("shares.answers.heading")
-
-    @for(section <- answerSections){
-        @{section match {
-            case a: AnswerSection => components.answer_section(a)
-            case r: RepeaterAnswerSection => components.repeater_answer_section(r)
-            }
-        }
-    }
-
     @formHelper(action = ShareAnswerController.onSubmit(index, draftId), 'autoComplete -> "off") {
-        @components.submit_button()
+        @heading("shares.answers.heading")
+
+        @govukSummaryList(SummaryList(rows = formatSections(answerSections)))
+
+        @submitButton()
     }
 }

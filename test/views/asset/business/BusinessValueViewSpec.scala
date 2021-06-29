@@ -20,7 +20,7 @@ import forms.ValueFormProvider
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
 import views.behaviours.LongViewBehaviours
-import views.html.asset.buisness.BusinessValueView
+import views.html.asset.business.BusinessValueView
 
 class BusinessValueViewSpec extends LongViewBehaviours {
 

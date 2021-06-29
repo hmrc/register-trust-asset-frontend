@@ -1,7 +1,10 @@
+service.name = Register and Maintain a Trust
+
 date.day = Day
 date.month = Month
 date.year = Year
 
+symbolText.asSterling = £
 error.browser.title.prefix = Error:
 error.boolean = Please give an answer
 error.invalid_date = Give a correct date
@@ -42,7 +45,6 @@ site.yes = Yes
 site.continue = Continue
 site.save.continue = Save and continue
 site.onlyContinue = Continue
-site.service_name = Register and Maintain a Trust
 site.address = Address
 site.inprogress = In Progress
 site.complete = Completed

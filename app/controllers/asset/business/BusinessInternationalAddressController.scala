@@ -31,7 +31,7 @@ import repositories.RegistrationsRepository
 import sections.Assets
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import utils.countryOptions.CountryOptionsNonUK
-import views.html.asset.buisness.BusinessInternationalAddressView
+import views.html.asset.business.BusinessInternationalAddressView
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}

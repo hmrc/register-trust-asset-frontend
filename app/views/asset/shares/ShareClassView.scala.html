@@ -16,32 +16,35 @@
 
 @import controllers.asset.shares.routes._
 @import models.ShareClass
+@import views.html.components.{ErrorSummary, InputRadio, SubmitButton}
 
 @this(
     main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+    errorSummary: ErrorSummary,
+    inputRadio: InputRadio,
+    submitButton: SubmitButton
 )
 
 @(form: Form[_], draftId: String, index : Int, companyName: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} ${messages("shares.class.title")}"
+    title = s"${errorPrefix(form)} ${messages("shares.class.title")}",
+    showBackLink = true
 ) {
 
     @formHelper(action = ShareClassController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
-        @components.back_link()
+        @errorSummary(form.errors)
 
-        @components.error_summary(form.errors)
-
-        @components.input_radio(
+        @inputRadio(
             field = form("value"),
             legend = messages("shares.class.heading", companyName),
-            legendClass = Some("heading-large"),
-            inputs = ShareClass.allOptions,
+            legendClass = Some("govuk-heading-l"),
+            inputs = mapRadioOptionsToRadioItems(form("value"), trackGa = false, ShareClass.allOptions),
             legendAsHeading = true
         )
 
-        @components.submit_button()
+        @submitButton()
     }
 }

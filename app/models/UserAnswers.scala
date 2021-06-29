@@ -16,7 +16,7 @@
 
 package models
 
-import implicits.Implicits._
+import implicitConversions.Implicits._
 import play.api.Logging
 import play.api.libs.functional.syntax._
 import play.api.libs.json._

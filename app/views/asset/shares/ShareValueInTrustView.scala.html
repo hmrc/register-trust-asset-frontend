@@ -15,35 +15,37 @@
  *@
 
 @import controllers.asset.shares.routes._
+@import views.html.components.{ErrorSummary, InputText, SubmitButton}
 
 @this(
     main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+    errorSummary: ErrorSummary,
+    inputText: InputText,
+    submitButton: SubmitButton
 )
 
 @(form: Form[_], draftId: String, index: Int, companyName: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} ${messages("shares.valueInTrust.title")}"
+    title = s"${errorPrefix(form)} ${messages("shares.valueInTrust.title")}",
+    showBackLink = true
 ) {
 
     @formHelper(action = ShareValueInTrustController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
-        @components.back_link()
+        @errorSummary(form.errors)
 
-        @components.error_summary(form.errors)
-
-        @components.input_text(
+        @inputText(
             field = form("value"),
             label = messages("shares.valueInTrust.heading", companyName),
-            symbolText = Some(messages(s"symbolText.asSterling")),
-            symbol = Some("currency"),
-            labelClass = Some("heading-large"),
+            prefix = Some(messages(s"symbolText.asSterling")),
+            labelClass = Some("govuk-heading-l"),
             labelAsHeading = true,
             hint = Some(messages("shares.valueInTrust.hint")),
             inputMode = Some("numeric")
         )
 
-        @components.submit_button()
+        @submitButton()
     }
 }
