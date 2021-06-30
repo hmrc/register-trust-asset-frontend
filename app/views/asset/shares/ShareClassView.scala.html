@@ -35,7 +35,7 @@
 
     @formHelper(action = ShareClassController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
-        @errorSummary(form.errors)
+        @errorSummary(form.errors, ShareClass.allOptions)
 
         @inputRadio(
             field = form("value"),

@@ -44,7 +44,7 @@
 
     @formHelper(action = WhatKindOfAssetController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
-        @errorSummary(form.errors)
+        @errorSummary(form.errors, options)
 
         @inputRadio(
             field = form("value"),
