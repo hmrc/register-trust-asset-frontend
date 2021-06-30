@@ -56,22 +56,26 @@
         @addToList(completeAssets, "complete", "asset")
 
         @if(maxedOut.size == 1) {
-            <ul>
-                <li class="panel-indent"><p>@messages(s"$prefix.maxedOut.just1", messages(maxedOut.head._1).uncapitalize, maxedOut.head._2.toString)</p></li>
-                <li class="panel-indent"><p>@messages(s"$prefix.maxedOut.just1.paragraph")</p></li>
-            </ul>
+            <div class="govuk-inset-text">
+                <ul class="govuk-list">
+                    <li><p>@messages(s"$prefix.maxedOut.just1", messages(maxedOut.head._1).uncapitalize, maxedOut.head._2.toString)</p></li>
+                    <li><p>@messages(s"$prefix.maxedOut.just1.paragraph")</p></li>
+                </ul>
+            </div>
         } else if(maxedOut.size > 1) {
-            <ul>
-                <li class="panel-indent">
-                    <p>@messages(s"$prefix.maxedOut.moreThan1")</p>
-                    <ul class="govuk-list">
-                        @for(option <- maxedOut) {
-                        <li>@messages(option._1)</li>
-                        }
-                    </ul>
-                </li>
-                <li class="panel-indent"><p>@messages(s"$prefix.maxedOut.moreThan1.paragraph")</p></li>
-            </ul>
+            <div class="govuk-inset-text">
+                <ul class="govuk-list">
+                    <li>
+                        <p>@messages(s"$prefix.maxedOut.moreThan1")</p>
+                        <ul class="govuk-list">
+                            @for(option <- maxedOut) {
+                            <li>@messages(option._1)</li>
+                            }
+                        </ul>
+                    </li>
+                    <li><p>@messages(s"$prefix.maxedOut.moreThan1.paragraph")</p></li>
+                </ul>
+            </div>
         }
 
         @inputRadio(

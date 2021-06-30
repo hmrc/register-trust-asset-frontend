@@ -48,10 +48,12 @@
 
         @addToList(completeAssets, "complete", "asset")
 
-        <ul>
-            <li class="panel-indent"><p>@messages(s"$prefix.maxedOut.p1", maxLimit)</p></li>
-            <li class="panel-indent"><p>@messages(s"$prefix.maxedOut.p2")</p></li>
-        </ul>
+        <div class="govuk-inset-text">
+            <ul class="govuk-list">
+                <li><p>@messages(s"$prefix.maxedOut.p1", maxLimit)</p></li>
+                <li><p>@messages(s"$prefix.maxedOut.p2")</p></li>
+            </ul>
+        </div>
 
         @submitButton()
     }
