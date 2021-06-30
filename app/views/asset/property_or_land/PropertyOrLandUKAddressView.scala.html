@@ -15,34 +15,33 @@
  *@
 
 @import controllers.asset.property_or_land.routes._
+@import views.html.components.{ErrorSummary, UkAddress, SubmitButton}
 
 @this(
     main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+    errorSummary: ErrorSummary,
+    ukAddress: UkAddress,
+    submitButton: SubmitButton
 )
 
 @(form: Form[_], draftId: String, index: Int)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} ${messages("propertyOrLand.ukAddress.title")}"
+    title = s"${errorPrefix(form)} ${messages("propertyOrLand.ukAddress.title")}",
+    showBackLink = true
 ) {
 
     @formHelper(action = PropertyOrLandUKAddressController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
-        @components.back_link()
+        @errorSummary(form.errors)
 
-        @components.error_summary(form.errors)
+        @ukAddress(
+            form = form,
+            legend = messages("propertyOrLand.ukAddress.heading"),
+            legendAsHeading = true
+        )
 
-        <fieldset>
-
-            <legend>
-                @components.heading("propertyOrLand.ukAddress.heading")
-            </legend>
-
-            @components.uk_address(form)
-
-        </fieldset>
-
-        @components.submit_button()
+        @submitButton()
     }
 }

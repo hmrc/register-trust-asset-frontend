@@ -17,10 +17,14 @@
 @import controllers.asset.routes._
 @import models.WhatKindOfAsset
 @import viewmodels.RadioOption
+@import views.html.components.{SubmitButton, ErrorSummary, InputRadio}
 
 @this(
     main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+        submitButton: SubmitButton,
+        errorSummary: ErrorSummary,
+        inputRadio: InputRadio,
 )
 
 @(form: Form[_], draftId: String, index: Int, options: List[RadioOption])(implicit request: Request[_], messages: Messages)
@@ -34,23 +38,23 @@
 }
 
 @main_template(
-    title = s"${errorPrefix(form)} $title"
+    title = s"${errorPrefix(form)} $title",
+    showBackLink = true
     ) {
 
     @formHelper(action = WhatKindOfAssetController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
-        @components.back_link()
+        @errorSummary(form.errors, options)
 
-        @components.error_summary(form.errors)
-
-        @components.input_radio(
+        @inputRadio(
             field = form("value"),
             legend = heading.toString,
-            legendClass = Some("heading-large"),
-            inputs = options,
-            legendAsHeading = true
+            legendClass = Some("govuk-heading-l"),
+            inputs = mapRadioOptionsToRadioItems(form("value"), trackGa = false, options),
+            legendAsHeading = true,
+            inline = false
         )
 
-        @components.submit_button()
+        @submitButton()
     }
 }

@@ -17,7 +17,7 @@
 package views.asset.business
 
 import views.behaviours.ViewBehaviours
-import views.html.asset.buisness.BusinessAnswersView
+import views.html.asset.business.BusinessAnswersView
 
 class BusinessAnswersViewSpec extends ViewBehaviours {
 

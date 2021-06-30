@@ -15,31 +15,33 @@
  *@
 
 @import controllers.asset.routes._
+@import views.html.components.{SubmitButton, ErrorSummary, InputYesNo}
 
 @this(
-    main_template: MainTemplate,
-    formHelper: FormWithCSRF
+        main_template: MainTemplate,
+        formHelper: FormWithCSRF,
+        submitButton: SubmitButton,
+        inputYesNo: InputYesNo,
+        errorSummary: ErrorSummary
 )
-
 @(form: Form[_], draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} ${messages("addAnAssetYesNo.title")}"
+    title = s"${errorPrefix(form)} ${messages("addAnAssetYesNo.title")}",
+    showBackLink = true
 ) {
 
 @formHelper(action = AddAssetsController.submitOne(draftId), 'autoComplete -> "off") {
 
-    @components.back_link()
+    @errorSummary(form.errors)
 
-    @components.error_summary(form.errors)
-
-    @components.input_yes_no(
+    @inputYesNo(
       field = form("value"),
       label = messages("addAnAssetYesNo.heading"),
-      legendClass = Some("heading-large"),
+      legendClass = Some("govuk-heading-l"),
       legendAsHeading = true
     )
 
-    @components.submit_button()
+    @submitButton()
   }
 }

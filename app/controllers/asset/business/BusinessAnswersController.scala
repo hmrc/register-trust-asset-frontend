@@ -26,7 +26,7 @@ import play.api.mvc.{Action, ActionBuilder, AnyContent, MessagesControllerCompon
 import repositories.RegistrationsRepository
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import utils.print.BusinessPrintHelper
-import views.html.asset.buisness.BusinessAnswersView
+import views.html.asset.business.BusinessAnswersView
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}

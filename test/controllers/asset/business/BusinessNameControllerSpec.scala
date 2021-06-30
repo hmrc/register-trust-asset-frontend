@@ -27,7 +27,7 @@ import play.api.data.Form
 import play.api.mvc.{AnyContentAsEmpty, AnyContentAsFormUrlEncoded}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{route, _}
-import views.html.asset.buisness.BusinessNameView
+import views.html.asset.business.BusinessNameView
 
 class BusinessNameControllerSpec extends SpecBase  with IndexValidation {
 

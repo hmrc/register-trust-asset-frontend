@@ -15,13 +15,19 @@
  *@
 
 @import controllers.asset.routes._
-@import implicits.Implicits._
 @import models.AddAssets
+@import implicitConversions.Implicits._
 @import viewmodels.AddRow
+@import views.html.components.{SubmitButton, Heading, InputRadio, ErrorSummary, AddToList}
 
 @this(
     main_template: MainTemplate,
-    formHelper: FormWithCSRF
+    formHelper: FormWithCSRF,
+    submitButton: SubmitButton,
+    headingComp: Heading,
+    inputRadio: InputRadio,
+    errorSummary: ErrorSummary,
+    addToList: AddToList
 )
 
 @(
@@ -35,20 +41,19 @@
 )(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = s"${errorPrefix(form)} $heading"
+    title = s"${errorPrefix(form)} $heading",
+    showBackLink = true
 ) {
 
     @formHelper(action = AddAssetsController.submitAnother(draftId), 'autoComplete -> "off") {
 
-        @components.back_link()
+        @errorSummary(form.errors, AddAssets.options(prefix))
 
-        @components.error_summary(form.errors)
+        @headingComp(heading)
 
-        @components.heading(heading)
+        @addToList(inProgressAssets, "inprogress", "asset")
 
-        @components.data_list(inProgressAssets, "inprogress", "asset")
-
-        @components.data_list(completeAssets, "complete", "asset")
+        @addToList(completeAssets, "complete", "asset")
 
         @if(maxedOut.size == 1) {
             <ul>
@@ -69,14 +74,14 @@
             </ul>
         }
 
-        @components.input_radio(
+        @inputRadio(
             field = form("value"),
             legend = messages(s"$prefix.additional-content"),
-            legendClass = Some("heading-medium"),
-            inputs = AddAssets.options(prefix),
-            legendAsH2Heading = true
+            legendAsHeading = false,
+            legendClass = Some("govuk-heading-m"),
+            inputs = mapRadioOptionsToRadioItems(form("value"), trackGa = false, AddAssets.options(prefix)),
+            inline = false
         )
-
-        @components.submit_button()
+        @submitButton()
     }
 }

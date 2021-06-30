@@ -20,7 +20,7 @@ import forms.UKAddressFormProvider
 import play.api.data.Form
 import play.twirl.api.HtmlFormat
 import views.behaviours.UkAddressViewBehaviours
-import views.html.asset.buisness.BusinessUkAddressView
+import views.html.asset.business.BusinessUkAddressView
 
 class BusinessUkAddressViewSpec extends UkAddressViewBehaviours {
 
