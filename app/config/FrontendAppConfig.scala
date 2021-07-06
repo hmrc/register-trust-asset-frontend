@@ -25,12 +25,11 @@ import java.time.LocalDate
 import uk.gov.hmrc.hmrcfrontend.config.ContactFrontendConfig
 
 @Singleton
-class FrontendAppConfig @Inject() (val configuration: Configuration,
-                                   contactFrontendConfig: ContactFrontendConfig) {
+class FrontendAppConfig @Inject()(val configuration: Configuration,
+                                  contactFrontendConfig: ContactFrontendConfig) {
 
   final val ENGLISH = "en"
   final val WELSH = "cy"
-  final val UK_COUNTRY_CODE = "GB"
 
   val repositoryKey: String = "assets"
 
@@ -59,8 +58,8 @@ class FrontendAppConfig @Inject() (val configuration: Configuration,
 
   lazy val registrationStartUrl: String = configuration.get[String]("urls.registrationStart")
 
-  lazy val maintainATrustFrontendUrl : String = configuration.get[String]("urls.maintainATrust")
-  lazy val createAgentServicesAccountUrl : String = configuration.get[String]("urls.createAgentServicesAccount")
+  lazy val maintainATrustFrontendUrl: String = configuration.get[String]("urls.maintainATrust")
+  lazy val createAgentServicesAccountUrl: String = configuration.get[String]("urls.createAgentServicesAccount")
 
   lazy val locationCanonicalList: String = configuration.get[String]("location.canonical.list.all")
   lazy val locationCanonicalListCY: String = configuration.get[String]("location.canonical.list.allCY")

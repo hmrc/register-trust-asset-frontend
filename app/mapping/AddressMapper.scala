@@ -16,6 +16,7 @@
 
 package mapping
 
+import models.Constants.GB
 import models.{Address, AddressType, InternationalAddress, UKAddress, UserAnswers}
 import pages.QuestionPage
 
@@ -49,7 +50,7 @@ class AddressMapper  {
       address.line3,
       address.line4,
       Some(address.postcode),
-      "GB"
+      GB
     )
   }
 

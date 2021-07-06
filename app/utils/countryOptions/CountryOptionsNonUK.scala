@@ -18,6 +18,8 @@ package utils.countryOptions
 
 import com.google.inject.Inject
 import config.FrontendAppConfig
+import models.Constants.GB
+
 import javax.inject.Singleton
 import play.api.Environment
 import play.api.i18n.Messages
@@ -25,10 +27,10 @@ import utils.InputOption
 
 @Singleton
 class CountryOptionsNonUK @Inject()(
-                                        environment: Environment,
-                                        config: FrontendAppConfig
-                                      ) extends CountryOptions(environment, config) {
+                                     environment: Environment,
+                                     config: FrontendAppConfig
+                                   ) extends CountryOptions(environment, config) {
   override def options()(implicit messages: Messages): Seq[InputOption] = {
-    CountryOptions.getCountries(environment, getFileName).filterNot(x => x.value == config.UK_COUNTRY_CODE)
+    CountryOptions.getCountries(environment, getFileName).filterNot(x => x.value == GB)
   }
 }

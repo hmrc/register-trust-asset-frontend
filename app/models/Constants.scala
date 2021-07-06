@@ -34,4 +34,6 @@ object Constants {
 
   final val MAX_5MLD_NON_TAXABLE_ASSETS = MAX_NON_EEA_BUSINESS_ASSETS
 
+  final val GB = "GB"
+
 }
