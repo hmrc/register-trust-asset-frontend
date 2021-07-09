@@ -41,10 +41,10 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
     val status = registrationProgress.assetsStatus(userAnswers)
 
     RegistrationSubmission.DataSet(
-      Json.toJson(userAnswers),
-      status,
-      mappedDataIfCompleted(userAnswers, status),
-      answerSectionsIfCompleted(userAnswers, status)
+      data = Json.toJson(userAnswers),
+      status = status,
+      registrationPieces = mappedDataIfCompleted(userAnswers, status),
+      answerSections = answerSectionsIfCompleted(userAnswers, status)
     )
   }
 
@@ -79,11 +79,8 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
           List.empty
         case _ =>
           val section = if (userAnswers.isTaxable) "assets" else "companyOwnershipOrControllingInterest"
-          val updatedFirstSection: AnswerSection = AnswerSection(
-            entitySections.head.headingKey,
-            entitySections.head.rows,
-            Some(Messages(s"answerPage.section.$section.heading"))
-          )
+
+          val updatedFirstSection: AnswerSection = entitySections.head.copy(sectionKey = Some(s"answerPage.section.$section.heading"))
 
           val updatedSections: List[AnswerSection] = updatedFirstSection :: entitySections.tail
 
@@ -95,7 +92,12 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
   }
 
   private def convertForSubmission(section: AnswerSection): RegistrationSubmission.AnswerSection = {
-    RegistrationSubmission.AnswerSection(section.headingKey, section.rows.map(convertForSubmission), section.sectionKey)
+    RegistrationSubmission.AnswerSection(
+      headingKey = section.headingKey,
+      rows = section.rows.map(convertForSubmission),
+      sectionKey = section.sectionKey,
+      headingArgs = section.headingArgs.map(_.toString)
+    )
   }
 
   private def convertForSubmission(row: AnswerRow): RegistrationSubmission.AnswerRow = {

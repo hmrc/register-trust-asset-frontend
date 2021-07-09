@@ -81,8 +81,9 @@ class MoneyAnswersHelperSpec extends SpecBase {
 
         result.size mustBe 1
 
-        result(0).headingKey mustBe Some("Money")
+        result(0).headingKey mustBe Some("answerPage.section.moneyAsset.subheading")
         result(0).rows.map(_.answer).contains(Html("Money")) mustBe true
+        result(0).headingArgs mustBe Seq(1)
       }
     }
   }
