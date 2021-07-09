@@ -34,7 +34,8 @@ class NonEeaBusinessPrintHelperSpec extends SpecBase {
 
   private val index: Int = 0
 
-  private val heading: String = s"Non-EEA Company ${index + 1}"
+  private val heading: String = "answerPage.section.nonEeaBusinessAsset.subheading"
+  private val headingArgs: Seq[Any] = Seq(index + 1)
 
   private val name: String = "Name"
   private val country: String = "FR"
@@ -75,7 +76,8 @@ class NonEeaBusinessPrintHelperSpec extends SpecBase {
 
           result mustBe AnswerSection(
             headingKey = Some(heading),
-            rows = taxableRows
+            rows = taxableRows,
+            headingArgs = headingArgs
           )
         }
 
@@ -109,7 +111,8 @@ class NonEeaBusinessPrintHelperSpec extends SpecBase {
 
           result mustBe AnswerSection(
             headingKey = Some(heading),
-            rows = nonTaxableRows
+            rows = nonTaxableRows,
+            headingArgs = headingArgs
           )
         }
 

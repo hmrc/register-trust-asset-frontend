@@ -99,12 +99,14 @@ class NonEeaBusinessAnswersHelperSpec extends SpecBase {
 
         result.size mustBe 2
 
-        result(0).headingKey mustBe Some("Non-EEA Company 1")
+        result(0).headingKey mustBe Some("answerPage.section.nonEeaBusinessAsset.subheading")
         result(0).rows.map(_.answer).contains(Html("Non-EEA Company")) mustBe true
         result(0).rows.map(_.labelArg).contains(name) mustBe true
-        result(1).headingKey mustBe Some("Non-EEA Company 2")
+        result(0).headingArgs mustBe Seq(1)
+        result(1).headingKey mustBe Some("answerPage.section.nonEeaBusinessAsset.subheading")
         result(1).rows.map(_.answer).contains(Html("Non-EEA Company")) mustBe true
         result(1).rows.map(_.labelArg).contains(name) mustBe true
+        result(1).headingArgs mustBe Seq(2)
       }
     }
   }

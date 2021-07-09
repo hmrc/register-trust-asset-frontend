@@ -32,7 +32,8 @@ class MoneyPrintHelperSpec extends SpecBase {
 
   private val index: Int = 0
 
-  private val heading: String = "Money"
+  private val heading: String = "answerPage.section.moneyAsset.subheading"
+  private val headingArgs: Seq[Any] = Seq(index + 1)
 
   private val amount: Long = 100L
 
@@ -59,7 +60,8 @@ class MoneyPrintHelperSpec extends SpecBase {
 
         result mustBe AnswerSection(
           headingKey = Some(heading),
-          rows = rows
+          rows = rows,
+          headingArgs = headingArgs
         )
       }
     }

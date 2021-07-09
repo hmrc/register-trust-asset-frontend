@@ -32,7 +32,8 @@ class OtherPrintHelperSpec extends SpecBase {
 
   private val index: Int = 0
 
-  private val heading: String = s"Other ${index + 1}"
+  private val heading: String = "answerPage.section.otherAsset.subheading"
+  private val headingArgs: Seq[Any] = Seq(index + 1)
 
   private val description: String = "Description"
   private val amount: Long = 100L
@@ -62,7 +63,8 @@ class OtherPrintHelperSpec extends SpecBase {
 
         result mustBe AnswerSection(
           headingKey = Some(heading),
-          rows = rows
+          rows = rows,
+          headingArgs = headingArgs
         )
       }
     }

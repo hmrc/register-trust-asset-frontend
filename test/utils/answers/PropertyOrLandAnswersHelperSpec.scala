@@ -94,10 +94,12 @@ class PropertyOrLandAnswersHelperSpec extends SpecBase {
 
         result.size mustBe 2
 
-        result(0).headingKey mustBe Some("Property or land 1")
+        result(0).headingKey mustBe Some("answerPage.section.propertyOrLandAsset.subheading")
         result(0).rows.map(_.answer).contains(Html("Property or land")) mustBe true
-        result(1).headingKey mustBe Some("Property or land 2")
+        result(0).headingArgs mustBe Seq(1)
+        result(1).headingKey mustBe Some("answerPage.section.propertyOrLandAsset.subheading")
         result(1).rows.map(_.answer).contains(Html("Property or land")) mustBe true
+        result(1).headingArgs mustBe Seq(2)
       }
     }
   }

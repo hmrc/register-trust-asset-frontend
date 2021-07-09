@@ -32,7 +32,8 @@ class PropertyOrLandPrintHelperSpec extends SpecBase {
 
   private val index: Int = 0
 
-  private val heading: String = s"Property or land ${index + 1}"
+  private val heading: String = "answerPage.section.propertyOrLandAsset.subheading"
+  private val headingArgs: Seq[Any] = Seq(index + 1)
 
   private val description: String = "Description"
   private val ukAddress: UKAddress = UKAddress("Line 1", "Line 2", None, None, "AB1 1AB")
@@ -105,7 +106,8 @@ class PropertyOrLandPrintHelperSpec extends SpecBase {
 
           result mustBe AnswerSection(
             headingKey = Some(heading),
-            rows = ukAddressTrustOwnsAllRows
+            rows = ukAddressTrustOwnsAllRows,
+            headingArgs = headingArgs
           )
         }
 
@@ -120,7 +122,8 @@ class PropertyOrLandPrintHelperSpec extends SpecBase {
 
           result mustBe AnswerSection(
             headingKey = Some(heading),
-            rows = nonUkAddressTrustOwnsAllRows
+            rows = nonUkAddressTrustOwnsAllRows,
+            headingArgs = headingArgs
           )
         }
 
@@ -135,7 +138,8 @@ class PropertyOrLandPrintHelperSpec extends SpecBase {
 
           result mustBe AnswerSection(
             headingKey = Some(heading),
-            rows = descriptionTrustDoesNotOwnAllRows
+            rows = descriptionTrustDoesNotOwnAllRows,
+            headingArgs = headingArgs
           )
         }
       }

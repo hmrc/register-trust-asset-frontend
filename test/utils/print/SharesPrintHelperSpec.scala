@@ -32,7 +32,8 @@ class SharesPrintHelperSpec extends SpecBase {
 
   private val index: Int = 0
 
-  private val heading: String = s"Share ${index + 1}"
+  private val heading: String = "answerPage.section.shareAsset.subheading"
+  private val headingArgs: Seq[Any] = Seq(index + 1)
 
   private val name: String = "Name"
   private val quantity: Long = 200L
@@ -90,7 +91,8 @@ class SharesPrintHelperSpec extends SpecBase {
 
           result mustBe AnswerSection(
             headingKey = Some(heading),
-            rows = nonPortfolioRows
+            rows = nonPortfolioRows,
+            headingArgs = headingArgs
           )
         }
 
@@ -105,7 +107,8 @@ class SharesPrintHelperSpec extends SpecBase {
 
           result mustBe AnswerSection(
             headingKey = Some(heading),
-            rows = portfolioRows
+            rows = portfolioRows,
+            headingArgs = headingArgs
           )
         }
       }

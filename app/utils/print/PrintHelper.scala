@@ -51,7 +51,8 @@ trait PrintHelper {
       arg = arg,
       index = index,
       draftId = draftId,
-      headingKey = Some(messages(s"answerPage.section.$assetType.subheading", specificIndex + 1))
+      headingKey = Some(s"answerPage.section.$assetType.subheading"),
+      headingArgs = specificIndex + 1
     )
   }
 
@@ -59,15 +60,17 @@ trait PrintHelper {
                       arg: String,
                       index: Int,
                       draftId: String,
-                      headingKey: Option[String])
+                      headingKey: Option[String],
+                      headingArgs: Any*)
                      (implicit messages: Messages): AnswerSection = {
 
     AnswerSection(
       headingKey = headingKey match {
-        case Some(key) => Some(messages(key))
+        case Some(key) => Some(key)
         case _ => None
       },
-      rows = answerRows(userAnswers, arg, index, draftId)
+      rows = answerRows(userAnswers, arg, index, draftId),
+      headingArgs = headingArgs.toSeq
     )
   }
 
