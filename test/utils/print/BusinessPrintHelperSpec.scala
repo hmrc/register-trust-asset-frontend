@@ -32,7 +32,8 @@ class BusinessPrintHelperSpec extends SpecBase {
 
   private val index: Int = 0
 
-  private val heading: String = s"Business ${index + 1}"
+  private val heading: String = "answerPage.section.businessAsset.subheading"
+  private val headingArgs: Seq[Any] = Seq(index + 1)
 
   private val name: String = "Name"
   private val description: String = "Description"
@@ -88,7 +89,8 @@ class BusinessPrintHelperSpec extends SpecBase {
 
           result mustBe AnswerSection(
             headingKey = Some(heading),
-            rows = ukAddressRows
+            rows = ukAddressRows,
+            headingArgs = headingArgs
           )
         }
 
@@ -103,7 +105,8 @@ class BusinessPrintHelperSpec extends SpecBase {
 
           result mustBe AnswerSection(
             headingKey = Some(heading),
-            rows = nonUkAddressRows
+            rows = nonUkAddressRows,
+            headingArgs = headingArgs
           )
         }
       }

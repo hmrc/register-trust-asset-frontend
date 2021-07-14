@@ -34,7 +34,8 @@ class PartnershipPrintHelperSpec extends SpecBase {
 
   private val index: Int = 0
 
-  private val heading: String = s"Partnership ${index + 1}"
+  private val heading: String = "answerPage.section.partnershipAsset.subheading"
+  private val headingArgs: Seq[Any] = Seq(index + 1)
 
   private val description: String = "Description"
   private val date: LocalDate = LocalDate.parse("1996-02-03")
@@ -64,7 +65,8 @@ class PartnershipPrintHelperSpec extends SpecBase {
 
         result mustBe AnswerSection(
           headingKey = Some(heading),
-          rows = rows
+          rows = rows,
+          headingArgs = headingArgs
         )
       }
     }
