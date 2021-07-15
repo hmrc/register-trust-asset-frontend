@@ -188,9 +188,8 @@ money.value.error.required=Nodwch gyfanswm presennol yr arian yn yr ymddiriedola
 money.value.error.wholeNumber=Mae’n rhaid i gyfanswm gwerth yr asedion fod yn rhif cyfan
 money.value.error.zero=Mae’n rhaid i gyfanswm yr arian yn yr ymddiriedolaeth fod yn 1 neu fwy
 money.value.heading=Beth yw cyfanswm yr arian yn yr ymddiriedolaeth?
-money.value.hint=Wedi’i dalgrynnu i lawr i’r bunt agosaf. Er enghraifft,
+money.value.hint=Adiwch bob swm presennol at ei gilydd. Wedi’i dalgrynnu i lawr i’r bunt agosaf. Er enghraifft,
 money.value.link=Yn ôl i gynnydd cofrestru
-money.value.paragraph1=Adiwch bob swm presennol at ei gilydd.
 money.value.title=Beth yw cyfanswm yr arian yn yr ymddiriedolaeth?
 
 nonEeaBusiness.addressUkYesNo.checkYourAnswersLabel=A yw cyfeiriad {0} yn y DU?
