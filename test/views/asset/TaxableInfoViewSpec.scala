@@ -31,7 +31,7 @@ class TaxableInfoViewSpec extends ViewBehaviours {
 
       behave like normalPage(applyView, "assetInterruptPage", ignoreTitle = true)
 
-      behave like pageWithTitleAndCaption(applyView, "assetInterruptPage")
+      behave like pageWithTitleAndSectionSubheading(applyView, "assetInterruptPage")
 
       behave like pageWithGuidance(applyView,
         messageKeyPrefix = "assetInterruptPage",

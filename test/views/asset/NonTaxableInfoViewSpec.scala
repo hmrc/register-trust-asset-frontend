@@ -29,7 +29,7 @@ class NonTaxableInfoViewSpec extends ViewBehaviours {
 
     behave like normalPage(applyView, "assetInterruptPage.nonTaxable", ignoreTitle = true)
 
-    behave like pageWithTitleAndCaption(applyView, "assetInterruptPage.nonTaxable")
+    behave like pageWithTitleAndSectionSubheading(applyView, "assetInterruptPage.nonTaxable")
 
     behave like pageWithGuidance(applyView,
       messageKeyPrefix = "assetInterruptPage.nonTaxable",
