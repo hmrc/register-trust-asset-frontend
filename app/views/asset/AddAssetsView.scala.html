@@ -83,7 +83,7 @@
             legend = messages(s"$prefix.additional-content"),
             legendAsHeading = false,
             legendClass = Some("govuk-heading-m"),
-            inputs = mapRadioOptionsToRadioItems(form("value"), trackGa = false, AddAssets.options(prefix)),
+            inputs = mapRadioOptionsToRadioItems(form("value"), AddAssets.options(prefix)),
             inline = false
         )
         @submitButton()
