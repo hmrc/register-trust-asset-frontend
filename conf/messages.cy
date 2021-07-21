@@ -109,7 +109,7 @@ business.currentValue.error.required=Nodwch werth presennol y busnes
 business.currentValue.error.wholeNumber=Mae’n rhaid i werth presennol yr ased fod yn rhif cyfan
 business.currentValue.error.zero=Mae’n rhaid i werth presennol yr ased fod yn 1 neu fwy
 business.currentValue.heading=Beth yw gwerth presennol y busnes?
-business.currentValue.hint=Wedi’i dalgrynnu i lawr i’r bunt agosaf. Er enghraifft,
+business.currentValue.hint=Wedi’i dalgrynnu i lawr i’r bunt agosaf. Er enghraifft, 4000.
 business.currentValue.link=Yn ôl i gynnydd cofrestru
 business.currentValue.title=Beth yw gwerth presennol y busnes?
 
@@ -188,7 +188,7 @@ money.value.error.required=Nodwch gyfanswm presennol yr arian yn yr ymddiriedola
 money.value.error.wholeNumber=Mae’n rhaid i gyfanswm gwerth yr asedion fod yn rhif cyfan
 money.value.error.zero=Mae’n rhaid i gyfanswm yr arian yn yr ymddiriedolaeth fod yn 1 neu fwy
 money.value.heading=Beth yw cyfanswm yr arian yn yr ymddiriedolaeth?
-money.value.hint=Adiwch bob swm presennol at ei gilydd. Wedi’i dalgrynnu i lawr i’r bunt agosaf. Er enghraifft,
+money.value.hint=Adiwch bob swm presennol at ei gilydd. Wedi’i dalgrynnu i lawr i’r bunt agosaf. Er enghraifft, 4000.
 money.value.link=Yn ôl i gynnydd cofrestru
 money.value.title=Beth yw cyfanswm yr arian yn yr ymddiriedolaeth?
 
@@ -227,7 +227,7 @@ nonEeaBusiness.startDate.error.required=Mae’n rhaid i’r dyddiad y dechreuodd
 nonEeaBusiness.startDate.error.required.all=Nodwch y dyddiad y dechreuodd yr ymddiriedolaeth ei pherchnogaeth neu gyfran reolaethol yn y cwmni
 nonEeaBusiness.startDate.error.required.two=Mae’n rhaid i’r dyddiad y dechreuodd yr ymddiriedolaeth ei pherchnogaeth neu gyfran reolaethol yn y cwmni gynnwys {0} a {1}
 nonEeaBusiness.startDate.heading=Pryd y gwnaeth yr ymddiriedolaeth ddechrau ei pherchnogaeth neu gyfran reolaethol yn {0}?
-nonEeaBusiness.startDate.hint=Er enghraifft,
+nonEeaBusiness.startDate.hint=Er enghraifft, 31 3 2015.
 nonEeaBusiness.startDate.title=Pryd y gwnaeth yr ymddiriedolaeth ddechrau ei pherchnogaeth neu gyfran reolaethol yn y cwmni?
 
 nonEeaBusiness.ukAddress.checkYourAnswersLabel=Beth yw cyfeiriad {0}?
@@ -252,7 +252,7 @@ other.value.error.required=Nodwch werth presennol yr ased
 other.value.error.wholeNumber=Mae’n rhaid i werth presennol yr ased fod yn rhif cyfan
 other.value.error.zero=Mae’n rhaid i werth presennol yr ased fod yn 1 neu fwy
 other.value.heading=Beth yw gwerth presennol {0}?
-other.value.hint=Wedi’i dalgrynnu i lawr i’r bunt agosaf. Er enghraifft,
+other.value.hint=Wedi’i dalgrynnu i lawr i’r bunt agosaf. Er enghraifft, 4000.
 other.value.title=Beth yw gwerth presennol yr ased?
 
 partnership.answers.heading=Gwirio manylion yr ased
@@ -274,7 +274,7 @@ partnership.startDate.error.required=Mae’n rhaid i ddyddiad dechrau’r bartne
 partnership.startDate.error.required.all=Nodwch ddyddiad dechrau’r bartneriaeth
 partnership.startDate.error.required.two=Mae’n rhaid i ddyddiad dechrau’r bartneriaeth gynnwys {0} a {1}
 partnership.startDate.heading=Pryd dechreuodd y bartneriaeth?
-partnership.startDate.hint=Er enghraifft,
+partnership.startDate.hint=Er enghraifft, 31 3 2015.
 partnership.startDate.title=Pryd dechreuodd y bartneriaeth?
 
 propertyOrLand.addressUkYesNo.checkYourAnswersLabel=A yw cyfeiriad yr eiddo neu dir yn y DU?
@@ -310,7 +310,7 @@ propertyOrLand.totalValue.error.required=Nodwch gyfanswm gwerth presennol yr eid
 propertyOrLand.totalValue.error.wholeNumber=Mae’n rhaid i gyfanswm gwerth presennol yr eiddo neu dir fod yn rhif cyfan
 propertyOrLand.totalValue.error.zero=Mae’n rhaid i gyfanswm gwerth presennol yr eiddo neu dir fod yn 1 neu fwy
 propertyOrLand.totalValue.heading=Beth yw cyfanswm gwerth presennol yr eiddo neu dir?
-propertyOrLand.totalValue.hint=Gall hyn fod yn amcangyfrif. Wedi’i dalgrynnu i lawr i’r bunt agosaf. Er enghraifft,
+propertyOrLand.totalValue.hint=Gall hyn fod yn amcangyfrif. Wedi’i dalgrynnu i lawr i’r bunt agosaf. Er enghraifft, 4000.
 propertyOrLand.totalValue.title=Beth yw cyfanswm gwerth presennol yr eiddo neu dir?
 
 propertyOrLand.trustOwnAllYesNo.checkYourAnswersLabel=A yw’r ymddiriedolaeth yn berchen ar yr holl eiddo neu dir?
@@ -330,7 +330,7 @@ propertyOrLand.valueInTrust.error.required=Nodwch werth presennol yr eiddo neu d
 propertyOrLand.valueInTrust.error.wholeNumber=Mae’n rhaid i werth presennol yr eiddo neu dir y mae’r ymddiriedolaeth yn berchen arno fod yn rhif cyfan
 propertyOrLand.valueInTrust.error.zero=Mae’n rhaid i werth presennol yr eiddo neu dir y mae’r ymddiriedolaeth yn berchen arno fod yn 1 neu fwy
 propertyOrLand.valueInTrust.heading=Beth yw gwerth yr eiddo neu dir y mae’r ymddiriedolaeth yn berchen arno?
-propertyOrLand.valueInTrust.hint=Gall hyn fod yn amcangyfrif. Wedi’i dalgrynnu i lawr i’r bunt agosaf. Er enghraifft,
+propertyOrLand.valueInTrust.hint=Gall hyn fod yn amcangyfrif. Wedi’i dalgrynnu i lawr i’r bunt agosaf. Er enghraifft, 4000.
 propertyOrLand.valueInTrust.title=Beth yw gwerth yr eiddo neu dir y mae’r ymddiriedolaeth yn berchen arno?
 
 session_expired.guidance=Mae hyn oherwydd eich bod wedi bod yn segur ar y gwasanaeth ers 15 munud.
@@ -399,7 +399,7 @@ shares.portfolioValueInTrust.error.required=Nodwch werth presennol y portffolio
 shares.portfolioValueInTrust.error.wholeNumber=Mae’n rhaid i gyfanswm gwerth presennol y portffolio fod yn rhif cyfan
 shares.portfolioValueInTrust.error.zero=Mae’n rhaid i gyfanswm gwerth presennol y portffolio fod yn 1 neu fwy
 shares.portfolioValueInTrust.heading=Beth yw gwerth presennol y portffolio?
-shares.portfolioValueInTrust.hint=Wedi’i dalgrynnu i lawr i’r bunt agosaf. Er enghraifft,
+shares.portfolioValueInTrust.hint=Wedi’i dalgrynnu i lawr i’r bunt agosaf. Er enghraifft, 4000.
 shares.portfolioValueInTrust.title=Beth yw gwerth presennol y portffolio?
 
 shares.quantityInTrust.checkYourAnswersLabel=Faint o gyfranddaliadau {0} sydd yn yr ymddiriedolaeth?
@@ -419,7 +419,7 @@ shares.valueInTrust.error.required=Nodwch werth presennol y cyfranddaliadau yn y
 shares.valueInTrust.error.wholeNumber=Mae’n rhaid i gyfanswm gwerth y cyfranddaliadau yn yr ymddiriedolaeth fod yn rhif cyfan
 shares.valueInTrust.error.zero=Mae’n rhaid i gyfanswm gwerth y cyfranddaliadau yn yr ymddiriedolaeth fod yn 1 neu fwy
 shares.valueInTrust.heading=Beth yw gwerth presennol cyfranddaliadau {0} yn yr ymddiriedolaeth?
-shares.valueInTrust.hint=Wedi’i dalgrynnu i lawr i’r bunt agosaf. Er enghraifft,
+shares.valueInTrust.hint=Wedi’i dalgrynnu i lawr i’r bunt agosaf. Er enghraifft, 4000.
 shares.valueInTrust.title=Beth yw gwerth presennol y cyfranddaliadau yn yr ymddiriedolaeth?
 
 site.address=Cyfeiriad
