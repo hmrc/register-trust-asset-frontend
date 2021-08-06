@@ -118,7 +118,6 @@ business.description.error.invalid=Mae’n rhaid i’r disgrifiad o’r ased bus
 business.description.error.length=Mae’n rhaid i’r disgrifiad o’r ased busnes fod yn 56 o gymeriadau neu lai
 business.description.error.required=Nodwch ddisgrifiad o’r busnes
 business.description.heading=Beth yw’r disgrifiad ar gyfer {0}?
-business.description.hint=Mae’n rhaid i hyn fod yn 56 o gymeriadau neu lai.
 business.description.title=Beth yw’r disgrifiad ar gyfer yr ased busnes?
 
 business.internationalAddress.checkYourAnswersLabel=Beth yw cyfeiriad {0}?
@@ -242,7 +241,6 @@ other.description.error.invalid=Mae’n rhaid i’r disgrifiad o’r ased gynnwy
 other.description.error.length=Mae’n rhaid i’r disgrifiad o’r ased fod yn 56 o gymeriadau neu lai
 other.description.error.required=Nodwch ddisgrifiad o’r ased
 other.description.heading=Beth yw’r disgrifiad o’r ased?
-other.description.hint=Mae’n rhaid i hyn fod yn 56 o gymeriadau neu lai.
 other.description.title=Beth yw’r disgrifiad o’r ased?
 
 other.value.checkYourAnswersLabel=Beth yw gwerth presennol {0}?
@@ -263,7 +261,6 @@ partnership.description.error.invalid=Mae’n rhaid i’r disgrifiad o’r bartn
 partnership.description.error.length=Mae’n rhaid i’r disgrifiad o’r bartneriaeth fod yn 56 o gymeriadau neu lai
 partnership.description.error.required=Nodwch ddisgrifiad o’r bartneriaeth
 partnership.description.heading=Beth yw’r disgrifiad ar gyfer y bartneriaeth?
-partnership.description.hint=Mae’n rhaid i hyn fod yn 56 o gymeriadau neu lai.
 partnership.description.title=Beth yw’r disgrifiad ar gyfer y bartneriaeth?
 
 partnership.startDate.checkYourAnswersLabel=Pryd dechreuodd y bartneriaeth?
@@ -295,7 +292,6 @@ propertyOrLand.description.error.invalid=Mae’n rhaid i’r disgrifiad o’r ei
 propertyOrLand.description.error.length=Mae’n rhaid i’r disgrifiad o’r eiddo neu dir fod yn 56 o gymeriadau neu lai
 propertyOrLand.description.error.required=Nodwch ddisgrifiad o’r eiddo neu dir
 propertyOrLand.description.heading=Beth yw’r disgrifiad o’r eiddo neu dir?
-propertyOrLand.description.hint=Mae’n rhaid i hyn fod yn 56 o gymeriadau neu lai.
 propertyOrLand.description.title=Beth yw’r disgrifiad o’r eiddo neu dir?
 
 propertyOrLand.internationalAddress.checkYourAnswersLabel=Beth yw cyfeiriad yr eiddo neu dir?
