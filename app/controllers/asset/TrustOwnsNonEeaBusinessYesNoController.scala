@@ -17,8 +17,10 @@
 package controllers.asset
 
 import config.annotations.Asset
+import connectors.TrustsStoreConnector
 import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
 import forms.YesNoFormProvider
+import models.TaskStatus
 import models.requests.RegistrationDataRequest
 import navigation.Navigator
 import pages.asset.TrustOwnsNonEeaBusinessYesNoPage
@@ -41,7 +43,8 @@ class TrustOwnsNonEeaBusinessYesNoController @Inject()(
                                                         requireData: RegistrationDataRequiredAction,
                                                         yesNoFormProvider: YesNoFormProvider,
                                                         val controllerComponents: MessagesControllerComponents,
-                                                        view: TrustOwnsNonEeaBusinessYesNoView
+                                                        view: TrustOwnsNonEeaBusinessYesNoView,
+                                                        trustsStoreConnector: TrustsStoreConnector
                                                       )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form: Form[Boolean] = yesNoFormProvider.withPrefix("trustOwnsNonEeaBusinessYesNo")
@@ -73,6 +76,14 @@ class TrustOwnsNonEeaBusinessYesNoController @Inject()(
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(TrustOwnsNonEeaBusinessYesNoPage, value))
             _              <- repository.set(updatedAnswers)
+            taskStatus     <- Future.successful {
+              if (value) {
+                TaskStatus.InProgress
+              } else {
+                TaskStatus.Completed
+              }
+            }
+            _              <- trustsStoreConnector.updateTaskStatus(draftId, taskStatus)
           } yield Redirect(navigator.nextPage(TrustOwnsNonEeaBusinessYesNoPage, draftId)(updatedAnswers))
         }
       )

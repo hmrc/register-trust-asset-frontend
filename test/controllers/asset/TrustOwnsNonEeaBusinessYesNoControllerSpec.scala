@@ -17,20 +17,30 @@
 package controllers.asset
 
 import base.SpecBase
+import connectors.TrustsStoreConnector
 import controllers.asset.routes._
 import controllers.routes._
 import forms.YesNoFormProvider
+import models.TaskStatus
+import org.mockito.Matchers.{any, eq => mEq}
+import org.mockito.Mockito.when
 import pages.asset.TrustOwnsNonEeaBusinessYesNoPage
 import play.api.data.Form
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import play.api.inject.bind
+import uk.gov.hmrc.http.HttpResponse
 import views.html.asset.TrustOwnsNonEeaBusinessYesNoView
+
+import scala.concurrent.Future
 
 class TrustOwnsNonEeaBusinessYesNoControllerSpec extends SpecBase {
 
   private val form: Form[Boolean] = new YesNoFormProvider().withPrefix("trustOwnsNonEeaBusinessYesNo")
 
   private val validAnswer: Boolean = true
+
+  private val mockTrustStoreConnector = mock[TrustsStoreConnector]
 
   lazy val onPageLoadRoute: String = TrustOwnsNonEeaBusinessYesNoController.onPageLoad(fakeDraftId).url
 
@@ -74,12 +84,42 @@ class TrustOwnsNonEeaBusinessYesNoControllerSpec extends SpecBase {
       application.stop()
     }
 
-    "redirect to the next page when valid data is submitted" in {
+    "redirect to the next page and set task to in progress when have non-eea companies" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
+        .overrides(
+          bind[TrustsStoreConnector].to(mockTrustStoreConnector)
+        )
+        .build()
 
       val request = FakeRequest(POST, onPageLoadRoute)
         .withFormUrlEncodedBody(("value", "true"))
+
+      when(mockTrustStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.InProgress))(any(), any()))
+        .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
+
+      application.stop()
+    }
+
+    "redirect to the next page and set task to complete when do not have any non-eea companies" in {
+
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
+        .overrides(
+          bind[TrustsStoreConnector].to(mockTrustStoreConnector)
+        )
+        .build()
+
+      val request = FakeRequest(POST, onPageLoadRoute)
+        .withFormUrlEncodedBody(("value", "true"))
+
+      when(mockTrustStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.Completed))(any(), any()))
+        .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
 
       val result = route(application, request).value
 
