@@ -24,9 +24,6 @@ object TaskStatus extends Enumeration {
 
   val Completed: Value = Value("completed")
   val InProgress: Value = Value("in-progress")
-  val NotStarted: Value = Value("not-started")
-  val CannotStartYet: Value = Value("cannot-start-yet")
-  val NoActionNeeded: Value = Value("no-action-needed")
 
   implicit val writes: Writes[Value] = Writes.enumNameWrites
 

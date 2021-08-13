@@ -17,14 +17,15 @@
 package controllers.asset
 
 import base.SpecBase
+import connectors.TrustsStoreConnector
 import forms.{AddAssetsFormProvider, YesNoFormProvider}
 import generators.Generators
 import models.AddAssets.{NoComplete, YesNow}
 import models.Status.{Completed, InProgress}
 import models.WhatKindOfAsset._
-import models.{AddAssets, Status, UserAnswers}
+import models.{AddAssets, Status, TaskStatus, UserAnswers}
 import org.mockito.ArgumentCaptor
-import org.mockito.Matchers.any
+import org.mockito.Matchers.{any, eq => mEq}
 import org.mockito.Mockito.{reset, verify, when}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks.forAll
@@ -32,8 +33,10 @@ import pages.AssetStatus
 import pages.asset.noneeabusiness.NamePage
 import pages.asset.{AddAnAssetYesNoPage, AddAssetsPage, WhatKindOfAssetPage}
 import play.api.data.Form
+import play.api.inject.bind
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import uk.gov.hmrc.http.HttpResponse
 import utils.AddAssetViewHelper
 import viewmodels.AddRow
 import views.html.asset.{AddAnAssetYesNoView, AddAssetsView, MaxedOutView}
@@ -42,31 +45,33 @@ import scala.concurrent.Future
 
 class AddAssetsControllerSpec extends SpecBase with Generators {
 
-  lazy val addAssetsRoute: String = routes.AddAssetsController.onPageLoad(fakeDraftId).url
-  lazy val addOnePostRoute: String = routes.AddAssetsController.submitOne(fakeDraftId).url
-  lazy val addAnotherPostRoute: String = routes.AddAssetsController.submitAnother(fakeDraftId).url
-  lazy val completePostRoute: String = routes.AddAssetsController.submitComplete(fakeDraftId).url
+  private lazy val addAssetsRoute: String = routes.AddAssetsController.onPageLoad(fakeDraftId).url
+  private lazy val addOnePostRoute: String = routes.AddAssetsController.submitOne(fakeDraftId).url
+  private lazy val addAnotherPostRoute: String = routes.AddAssetsController.submitAnother(fakeDraftId).url
+  private lazy val completePostRoute: String = routes.AddAssetsController.submitComplete(fakeDraftId).url
 
-  def changeNonEeaAssetRoute(index: Int): String =
+  private def changeNonEeaAssetRoute(index: Int): String =
     noneeabusiness.routes.AnswersController.onPageLoad(index, fakeDraftId).url
 
-  def removeAssetYesNoRoute(index: Int): String =
+  private def removeAssetYesNoRoute(index: Int): String =
     routes.RemoveAssetYesNoController.onPageLoad(index, fakeDraftId).url
 
-  val addTaxableAssetsForm: Form[AddAssets] = new AddAssetsFormProvider().withPrefix("addAssets")
-  val addNonTaxableAssetsForm: Form[AddAssets] = new AddAssetsFormProvider().withPrefix("addAssets.nonTaxable")
-  val yesNoForm: Form[Boolean] = new YesNoFormProvider().withPrefix("addAnAssetYesNo")
+  private val addTaxableAssetsForm: Form[AddAssets] = new AddAssetsFormProvider().withPrefix("addAssets")
+  private val addNonTaxableAssetsForm: Form[AddAssets] = new AddAssetsFormProvider().withPrefix("addAssets.nonTaxable")
+  private val yesNoForm: Form[Boolean] = new YesNoFormProvider().withPrefix("addAnAssetYesNo")
 
-  lazy val oneAsset: List[AddRow] = List(AddRow("Name", typeLabel = "Non-EEA Company", changeNonEeaAssetRoute(0), removeAssetYesNoRoute(0)))
+  private val mockTrustStoreConnector = mock[TrustsStoreConnector]
 
-  lazy val multipleAssets: List[AddRow] = oneAsset :+ AddRow("Name", typeLabel = "Non-EEA Company", changeNonEeaAssetRoute(1), removeAssetYesNoRoute(1))
+  private lazy val oneAsset: List[AddRow] = List(AddRow("Name", typeLabel = "Non-EEA Company", changeNonEeaAssetRoute(0), removeAssetYesNoRoute(0)))
 
-  val userAnswersWithOneAsset: UserAnswers = emptyUserAnswers
+  private lazy val multipleAssets: List[AddRow] = oneAsset :+ AddRow("Name", typeLabel = "Non-EEA Company", changeNonEeaAssetRoute(1), removeAssetYesNoRoute(1))
+
+  private val userAnswersWithOneAsset: UserAnswers = emptyUserAnswers
     .set(WhatKindOfAssetPage(0), NonEeaBusiness).success.value
     .set(NamePage(0), "Name").success.value
     .set(AssetStatus(0), Completed).success.value
 
-  def userAnswersWithMultipleAssets(status: Status = Completed): UserAnswers = userAnswersWithOneAsset
+  private def userAnswersWithMultipleAssets(status: Status = Completed): UserAnswers = userAnswersWithOneAsset
     .set(WhatKindOfAssetPage(1), NonEeaBusiness).success.value
     .set(NamePage(1), "Name").success.value
     .set(AssetStatus(1), status).success.value
@@ -154,14 +159,21 @@ class AddAssetsControllerSpec extends SpecBase with Generators {
         val indexOfNewAsset = 0
 
         "taxable" must {
-          "set value in AddAnAssetYesNoPage" in {
+          "set task to in progress when answer yes in AddAnAssetYesNoPage" in {
 
             reset(registrationsRepository)
             when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
             val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
 
             val application =
-              applicationBuilder(userAnswers = Some(emptyUserAnswers.copy(isTaxable = true))).build()
+              applicationBuilder(userAnswers = Some(emptyUserAnswers.copy(isTaxable = true)))
+                .overrides(
+                  bind[TrustsStoreConnector].to(mockTrustStoreConnector)
+                )
+                .build()
+
+            when(mockTrustStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.InProgress))(any(), any()))
+              .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
 
             val request = FakeRequest(POST, addOnePostRoute)
               .withFormUrlEncodedBody(("value", "true"))
@@ -178,17 +190,57 @@ class AddAssetsControllerSpec extends SpecBase with Generators {
 
             application.stop()
           }
-        }
 
-        "non-taxable" must {
-          "set values in AddAnAssetYesNoPage and WhatKindOfAssetPage" in {
+          "set task to in progress when answer no in AddAnAssetYesNoPage" in {
 
             reset(registrationsRepository)
             when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
             val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
 
             val application =
-              applicationBuilder(userAnswers = Some(emptyUserAnswers.copy(isTaxable = false))).build()
+              applicationBuilder(userAnswers =
+                Some(emptyUserAnswers.copy(isTaxable = true))
+              ).overrides(
+                bind[TrustsStoreConnector].to(mockTrustStoreConnector)
+              ).build()
+
+            when(mockTrustStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.InProgress))(any(), any()))
+              .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
+
+            val request = FakeRequest(POST, addOnePostRoute)
+              .withFormUrlEncodedBody(("value", "false"))
+
+            val result = route(application, request).value
+
+            status(result) mustEqual SEE_OTHER
+
+            redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
+
+            verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+            uaCaptor.getValue.get(AddAnAssetYesNoPage).get mustBe false
+            uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)) mustNot be(defined)
+
+            application.stop()
+          }
+        }
+
+        "non-taxable" must {
+
+          "set task to in progress and values when answers yes" in {
+
+            reset(registrationsRepository)
+            when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+
+            val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+
+            val application =
+              applicationBuilder(userAnswers = Some(emptyUserAnswers.copy(isTaxable = false)))
+                .overrides(
+                  bind[TrustsStoreConnector].to(mockTrustStoreConnector)
+                ).build()
+
+            when(mockTrustStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.InProgress))(any(), any()))
+              .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
 
             val request = FakeRequest(POST, addOnePostRoute)
               .withFormUrlEncodedBody(("value", "true"))
@@ -201,6 +253,38 @@ class AddAssetsControllerSpec extends SpecBase with Generators {
 
             verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
             uaCaptor.getValue.get(AddAnAssetYesNoPage).get mustBe true
+            uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)).get mustBe NonEeaBusiness
+
+            application.stop()
+          }
+
+          "set task to in progress and values when answers no" in {
+
+            reset(registrationsRepository)
+            when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+
+            val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+
+            val application =
+              applicationBuilder(userAnswers = Some(emptyUserAnswers.copy(isTaxable = false)))
+                .overrides(
+                  bind[TrustsStoreConnector].to(mockTrustStoreConnector)
+                ).build()
+
+            when(mockTrustStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.InProgress))(any(), any()))
+              .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
+
+            val request = FakeRequest(POST, addOnePostRoute)
+              .withFormUrlEncodedBody(("value", "false"))
+
+            val result = route(application, request).value
+
+            status(result) mustEqual SEE_OTHER
+
+            redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
+
+            verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+            uaCaptor.getValue.get(AddAnAssetYesNoPage).get mustBe false
             uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)).get mustBe NonEeaBusiness
 
             application.stop()
@@ -323,10 +407,18 @@ class AddAssetsControllerSpec extends SpecBase with Generators {
 
             reset(registrationsRepository)
             when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+
             val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
 
             val application =
-              applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(isTaxable = true))).build()
+              applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(isTaxable = true)))
+                .overrides(
+                  bind[TrustsStoreConnector].to(mockTrustStoreConnector)
+                )
+                .build()
+
+            when(mockTrustStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.InProgress))(any(), any()))
+              .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
 
             val request = FakeRequest(POST, addAnotherPostRoute)
               .withFormUrlEncodedBody(("value", YesNow.toString))
@@ -353,7 +445,14 @@ class AddAssetsControllerSpec extends SpecBase with Generators {
             val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
 
             val application =
-              applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(is5mldEnabled = true, isTaxable = false))).build()
+              applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets()
+                .copy(is5mldEnabled = true, isTaxable = false)))
+              .overrides(
+                bind[TrustsStoreConnector].to(mockTrustStoreConnector)
+              ).build()
+
+            when(mockTrustStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.InProgress))(any(), any()))
+              .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
 
             val request = FakeRequest(POST, addAnotherPostRoute)
               .withFormUrlEncodedBody(("value", YesNow.toString))
@@ -378,7 +477,13 @@ class AddAssetsControllerSpec extends SpecBase with Generators {
             val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
 
             val application =
-              applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets(InProgress).copy(is5mldEnabled = true, isTaxable = false))).build()
+              applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets(InProgress).copy(is5mldEnabled = true, isTaxable = false)))
+                .overrides(
+                  bind[TrustsStoreConnector].to(mockTrustStoreConnector)
+                ).build()
+
+            when(mockTrustStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.InProgress))(any(), any()))
+              .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
 
             val request = FakeRequest(POST, addAnotherPostRoute)
               .withFormUrlEncodedBody(("value", YesNow.toString))
@@ -403,51 +508,86 @@ class AddAssetsControllerSpec extends SpecBase with Generators {
         val indexOfNewAsset = 2
 
         "taxable" must {
-          "set value in AddAssetsPage and not set value in WhatKindOfAssetPage" in {
+          "set in progress and not set value in WhatKindOfAssetPage" in {
+            reset(registrationsRepository)
+            when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+            val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
 
-            forAll(arbitrary[AddAssets].filterNot(_ == YesNow)) {
-              addAssets =>
+            val application =
+              applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(isTaxable = true)))
+                .overrides(
+                  bind[TrustsStoreConnector].to(mockTrustStoreConnector)
+                ).build()
 
-                reset(registrationsRepository)
-                when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-                val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+            when(mockTrustStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.InProgress))(any(), any()))
+              .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
 
-                val application =
-                  applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(isTaxable = true))).build()
+            val request = FakeRequest(POST, addAnotherPostRoute)
+              .withFormUrlEncodedBody(("value", AddAssets.YesLater.toString))
 
-                val request = FakeRequest(POST, addAnotherPostRoute)
-                  .withFormUrlEncodedBody(("value", addAssets.toString))
+            val result = route(application, request).value
 
-                val result = route(application, request).value
+            status(result) mustEqual SEE_OTHER
 
-                status(result) mustEqual SEE_OTHER
+            redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
-                redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
+            verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+            uaCaptor.getValue.get(AddAssetsPage).get mustBe AddAssets.YesLater
+            uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)) mustNot be(defined)
 
-                verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
-                uaCaptor.getValue.get(AddAssetsPage).get mustBe addAssets
-                uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)) mustNot be(defined)
+            application.stop()
+          }
 
-                application.stop()
-            }
+          "set complete and not set value in WhatKindOfAssetPage" in {
+            reset(registrationsRepository)
+            when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+            val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+
+            val application =
+              applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(isTaxable = true)))
+                .overrides(
+                  bind[TrustsStoreConnector].to(mockTrustStoreConnector)
+                ).build()
+
+            when(mockTrustStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.Completed))(any(), any()))
+              .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
+
+            val request = FakeRequest(POST, addAnotherPostRoute)
+              .withFormUrlEncodedBody(("value", AddAssets.NoComplete.toString))
+
+            val result = route(application, request).value
+
+            status(result) mustEqual SEE_OTHER
+
+            redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
+
+            verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+            uaCaptor.getValue.get(AddAssetsPage).get mustBe AddAssets.NoComplete
+            uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)) mustNot be(defined)
+
+            application.stop()
           }
         }
 
         "non-taxable" must {
-          "set value in AddAssetsPage and not set value in WhatKindOfAssetPage" in {
-
-            forAll(arbitrary[AddAssets].filterNot(_ == YesNow)) {
-              addAssets =>
+          "set in progress and not set value in WhatKindOfAssetPage" in {
 
                 reset(registrationsRepository)
                 when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
                 val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
 
                 val application =
-                  applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(is5mldEnabled = true, isTaxable = false))).build()
+                  applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(is5mldEnabled = true, isTaxable = false)))
+                    .overrides(
+                      bind[TrustsStoreConnector].to(mockTrustStoreConnector)
+                    )
+                    .build()
+
+                when(mockTrustStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.InProgress))(any(), any()))
+                  .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
 
                 val request = FakeRequest(POST, addAnotherPostRoute)
-                  .withFormUrlEncodedBody(("value", addAssets.toString))
+                  .withFormUrlEncodedBody(("value", AddAssets.YesLater.toString))
 
                 val result = route(application, request).value
 
@@ -456,11 +596,42 @@ class AddAssetsControllerSpec extends SpecBase with Generators {
                 redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
                 verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
-                uaCaptor.getValue.get(AddAssetsPage).get mustBe addAssets
+                uaCaptor.getValue.get(AddAssetsPage).get mustBe AddAssets.YesLater
                 uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)) mustNot be(defined)
 
                 application.stop()
-            }
+          }
+
+          "set complete and not set value in WhatKindOfAssetPage" in {
+
+            reset(registrationsRepository)
+            when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+            val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+
+            val application =
+              applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(is5mldEnabled = true, isTaxable = false)))
+                .overrides(
+                  bind[TrustsStoreConnector].to(mockTrustStoreConnector)
+                )
+                .build()
+
+            when(mockTrustStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.Completed))(any(), any()))
+              .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
+
+            val request = FakeRequest(POST, addAnotherPostRoute)
+              .withFormUrlEncodedBody(("value", AddAssets.NoComplete.toString))
+
+            val result = route(application, request).value
+
+            status(result) mustEqual SEE_OTHER
+
+            redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
+
+            verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+            uaCaptor.getValue.get(AddAssetsPage).get mustBe AddAssets.NoComplete
+            uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)) mustNot be(defined)
+
+            application.stop()
           }
         }
       }
@@ -561,78 +732,6 @@ class AddAssetsControllerSpec extends SpecBase with Generators {
 
     "all asset types maxed out" when {
 
-      "4mld" must {
-
-        def userAnswers(max: Int, is5mldEnabled: Boolean, isTaxable: Boolean): UserAnswers = {
-          0.until(max).foldLeft(emptyUserAnswers.copy(is5mldEnabled = is5mldEnabled, isTaxable = isTaxable))((ua, i) => {
-            ua
-              .set(WhatKindOfAssetPage(i), i match {
-                case x if 0 until 1 contains x => Money
-                case x if 1 until 11 contains x => PropertyOrLand
-                case x if 11 until 21 contains x => Shares
-                case x if 21 until 31 contains x => Business
-                case x if 31 until 41 contains x => Partnership
-                case x if 41 until 51 contains x => Other
-              }).success.value
-              .set(AssetStatus(i), InProgress).success.value
-          })
-        }
-
-        val max: Int = 51
-
-        val is5mldEnabled: Boolean = false
-        val isTaxable: Boolean = true
-
-        "return OK and the correct view for a GET" in {
-
-          val answers = userAnswers(max, is5mldEnabled, isTaxable)
-
-          val rows = new AddAssetViewHelper(answers, fakeDraftId).rows
-
-          val application = applicationBuilder(userAnswers = Some(answers)).build()
-
-          val request = FakeRequest(GET, addAssetsRoute)
-
-          val view = application.injector.instanceOf[MaxedOutView]
-
-          val result = route(application, request).value
-
-          status(result) mustEqual OK
-
-          val content = contentAsString(result)
-
-          content mustEqual
-            view(fakeDraftId, rows.inProgress, rows.complete, "You have added 51 assets", max, "addAssets")(request, messages).toString
-
-          content must include("You cannot add another asset as you have entered a maximum of 51.")
-          content must include("You can add another asset by removing an existing one, or write to HMRC with details of any additional assets.")
-
-          application.stop()
-        }
-
-        "redirect to next page and set AddAssetsPage to NoComplete for a POST" in {
-
-          reset(registrationsRepository)
-          when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-          val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
-
-          val application = applicationBuilder(userAnswers = Some(userAnswers(max, is5mldEnabled, isTaxable))).build()
-
-          val request = FakeRequest(POST, completePostRoute)
-
-          val result = route(application, request).value
-
-          status(result) mustEqual SEE_OTHER
-
-          redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
-
-          verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
-          uaCaptor.getValue.get(AddAssetsPage).get mustBe NoComplete
-
-          application.stop()
-        }
-      }
-
       "5mld" when {
 
         "taxable" must {
@@ -691,7 +790,14 @@ class AddAssetsControllerSpec extends SpecBase with Generators {
             when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
             val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
 
-            val application = applicationBuilder(userAnswers = Some(userAnswers(max, is5mldEnabled, isTaxable))).build()
+            val application = applicationBuilder(userAnswers = Some(userAnswers(max, is5mldEnabled, isTaxable)))
+              .overrides(
+                bind[TrustsStoreConnector].to(mockTrustStoreConnector)
+              )
+              .build()
+
+            when(mockTrustStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.Completed))(any(), any()))
+              .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
 
             val request = FakeRequest(POST, completePostRoute)
 
@@ -756,7 +862,14 @@ class AddAssetsControllerSpec extends SpecBase with Generators {
             when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
             val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
 
-            val application = applicationBuilder(userAnswers = Some(userAnswers(max, is5mldEnabled, isTaxable))).build()
+            val application = applicationBuilder(userAnswers = Some(userAnswers(max, is5mldEnabled, isTaxable)))
+              .overrides(
+                bind[TrustsStoreConnector].to(mockTrustStoreConnector)
+              )
+              .build()
+
+            when(mockTrustStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.Completed))(any(), any()))
+              .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
 
             val request = FakeRequest(POST, completePostRoute)
 
