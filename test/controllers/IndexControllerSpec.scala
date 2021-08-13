@@ -17,12 +17,12 @@
 package controllers
 
 import base.SpecBase
-import connectors.SubmissionDraftConnector
+import connectors.{SubmissionDraftConnector, TrustsStoreConnector}
 import controllers.asset.routes._
 import models.Status.Completed
-import models.{UserAnswers, WhatKindOfAsset}
+import models.{TaskStatus, UserAnswers, WhatKindOfAsset}
 import org.mockito.ArgumentCaptor
-import org.mockito.Matchers.any
+import org.mockito.Matchers.{any, eq => mEq}
 import org.mockito.Mockito.{reset, verify, when}
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
@@ -31,6 +31,7 @@ import play.api.inject.bind
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.FeatureFlagService
+import uk.gov.hmrc.http.HttpResponse
 
 import scala.concurrent.Future
 
@@ -38,6 +39,7 @@ class IndexControllerSpec extends SpecBase {
 
   private val featureFlagService: FeatureFlagService = mock[FeatureFlagService]
   private val submissionDraftConnector: SubmissionDraftConnector = mock[SubmissionDraftConnector]
+  private val mockTrustStoreConnector: TrustsStoreConnector = mock[TrustsStoreConnector]
 
   private lazy val onPageLoadRoute: String = routes.IndexController.onPageLoad(fakeDraftId).url
 
@@ -46,6 +48,7 @@ class IndexControllerSpec extends SpecBase {
     "pre-existing user answers" must {
 
       "redirect to AddAssetsController" when {
+
         "existing assets" in {
 
           reset(registrationsRepository)
@@ -78,7 +81,9 @@ class IndexControllerSpec extends SpecBase {
       }
 
       "redirect to AssetInterruptPageController" when {
-        "no existing assets" when {
+
+        "no existing assets and set task to in progress" when {
+
           "taxable" in {
 
             reset(registrationsRepository)
@@ -86,13 +91,16 @@ class IndexControllerSpec extends SpecBase {
             val application = applicationBuilder()
               .overrides(
                 bind[FeatureFlagService].toInstance(featureFlagService),
-                bind[SubmissionDraftConnector].toInstance(submissionDraftConnector)
+                bind[SubmissionDraftConnector].toInstance(submissionDraftConnector),
+                bind[TrustsStoreConnector].toInstance(mockTrustStoreConnector)
               ).build()
 
             when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(Some(emptyUserAnswers)))
             when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
             when(featureFlagService.is5mldEnabled()(any(), any())).thenReturn(Future.successful(false))
             when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(true))
+            when(mockTrustStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.InProgress))(any(), any()))
+              .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
 
             val request = FakeRequest(GET, onPageLoadRoute)
 
@@ -107,7 +115,7 @@ class IndexControllerSpec extends SpecBase {
       }
 
       "redirect to TrustOwnsNonEeaBusinessYesNoController" when {
-        "no existing assets" when {
+        "no existing assets and set task to in progress" when {
           "non-taxable" in {
 
             reset(registrationsRepository)
@@ -115,13 +123,16 @@ class IndexControllerSpec extends SpecBase {
             val application = applicationBuilder()
               .overrides(
                 bind[FeatureFlagService].toInstance(featureFlagService),
-                bind[SubmissionDraftConnector].toInstance(submissionDraftConnector)
+                bind[SubmissionDraftConnector].toInstance(submissionDraftConnector),
+                bind[TrustsStoreConnector].toInstance(mockTrustStoreConnector)
               ).build()
 
             when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(Some(emptyUserAnswers)))
             when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
             when(featureFlagService.is5mldEnabled()(any(), any())).thenReturn(Future.successful(false))
             when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(false))
+            when(mockTrustStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.InProgress))(any(), any()))
+              .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
 
             val request = FakeRequest(GET, onPageLoadRoute)
 
@@ -144,13 +155,16 @@ class IndexControllerSpec extends SpecBase {
         val application = applicationBuilder(userAnswers = Some(userAnswers))
           .overrides(
             bind[FeatureFlagService].toInstance(featureFlagService),
-            bind[SubmissionDraftConnector].toInstance(submissionDraftConnector)
+            bind[SubmissionDraftConnector].toInstance(submissionDraftConnector),
+            bind[TrustsStoreConnector].toInstance(mockTrustStoreConnector)
           ).build()
 
         when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(Some(userAnswers)))
         when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
         when(featureFlagService.is5mldEnabled()(any(), any())).thenReturn(Future.successful(true))
         when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(true))
+        when(mockTrustStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.InProgress))(any(), any()))
+          .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
 
         val request = FakeRequest(GET, onPageLoadRoute)
 
@@ -168,7 +182,7 @@ class IndexControllerSpec extends SpecBase {
 
     "no pre-existing user answers" must {
 
-      "redirect to AssetInterruptPageController" when {
+      "redirect to AssetInterruptPageController and set task to in progress" when {
         "taxable" in {
 
           reset(registrationsRepository)
@@ -176,13 +190,16 @@ class IndexControllerSpec extends SpecBase {
           val application = applicationBuilder()
             .overrides(
               bind[FeatureFlagService].toInstance(featureFlagService),
-              bind[SubmissionDraftConnector].toInstance(submissionDraftConnector)
+              bind[SubmissionDraftConnector].toInstance(submissionDraftConnector),
+              bind[TrustsStoreConnector].toInstance(mockTrustStoreConnector)
             ).build()
 
           when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
           when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
           when(featureFlagService.is5mldEnabled()(any(), any())).thenReturn(Future.successful(false))
           when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(true))
+          when(mockTrustStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.InProgress))(any(), any()))
+            .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
 
           val request = FakeRequest(GET, onPageLoadRoute)
 
@@ -195,7 +212,7 @@ class IndexControllerSpec extends SpecBase {
         }
       }
 
-      "redirect to TrustOwnsNonEeaBusinessYesNoController" when {
+      "redirect to TrustOwnsNonEeaBusinessYesNoController and set task to in progress" when {
         "non-taxable" in {
 
           reset(registrationsRepository)
@@ -203,13 +220,16 @@ class IndexControllerSpec extends SpecBase {
           val application = applicationBuilder()
             .overrides(
               bind[FeatureFlagService].toInstance(featureFlagService),
-              bind[SubmissionDraftConnector].toInstance(submissionDraftConnector)
+              bind[SubmissionDraftConnector].toInstance(submissionDraftConnector),
+              bind[TrustsStoreConnector].toInstance(mockTrustStoreConnector)
             ).build()
 
           when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
           when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
           when(featureFlagService.is5mldEnabled()(any(), any())).thenReturn(Future.successful(false))
           when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(false))
+          when(mockTrustStoreConnector.updateTaskStatus(any(), mEq(TaskStatus.InProgress))(any(), any()))
+            .thenReturn(Future.successful(HttpResponse.apply(OK, "")))
 
           val request = FakeRequest(GET, onPageLoadRoute)
 

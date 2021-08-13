@@ -16,16 +16,18 @@
 
 package controllers
 
-import connectors.SubmissionDraftConnector
+import connectors.{SubmissionDraftConnector, TrustsStoreConnector}
 import controllers.actions.RegistrationIdentifierAction
 import controllers.asset.routes._
-import models.UserAnswers
-import play.api.i18n.I18nSupport
+import models.{TaskStatus, UserAnswers}
+import play.api.i18n.{I18nSupport, Messages}
 import play.api.libs.json.Json
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
+import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents, Result}
 import repositories.RegistrationsRepository
 import services.FeatureFlagService
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
+import viewmodels.AssetViewModel
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
@@ -35,38 +37,45 @@ class IndexController @Inject()(
                                  repository: RegistrationsRepository,
                                  identify: RegistrationIdentifierAction,
                                  featureFlagService: FeatureFlagService,
-                                 submissionDraftConnector: SubmissionDraftConnector
+                                 submissionDraftConnector: SubmissionDraftConnector,
+                                 trustStoreConnector: TrustsStoreConnector
                                )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
+  private def updateTaskStatus(draftId: String, userAnswers: UserAnswers)
+                      (implicit hc: HeaderCarrier, messages: Messages): Future[Result] = for {
+    _ <- repository.set(userAnswers)
+    assets <- Future.successful(userAnswers.get(sections.Assets).toList.flatten)
+    _ <- if (assets.isEmpty) {
+      trustStoreConnector.updateTaskStatus(draftId, TaskStatus.InProgress).map(_ => ())
+    } else {
+      Future.successful(())
+    }
+  } yield navigate(draftId, assets, userAnswers.isTaxable)
+
+  private def navigate(draftId: String, assets: List[AssetViewModel], isTaxable: Boolean): Result =
+    assets match {
+      case Nil =>
+        if (isTaxable) {
+          Redirect(AssetInterruptPageController.onPageLoad(draftId))
+        } else {
+          Redirect(TrustOwnsNonEeaBusinessYesNoController.onPageLoad(draftId))
+        }
+      case _ =>
+        Redirect(AddAssetsController.onPageLoad(draftId))
+    }
+
   def onPageLoad(draftId: String): Action[AnyContent] = identify.async { implicit request =>
-
-    def redirect(userAnswers: UserAnswers): Future[Result] = {
-      repository.set(userAnswers).map { _ =>
-        userAnswers.get(sections.Assets) match {
-          case Some(_ :: _) =>
-            Redirect(AddAssetsController.onPageLoad(draftId))
-          case _ =>
-            if (userAnswers.isTaxable) {
-              Redirect(AssetInterruptPageController.onPageLoad(draftId))
-            } else {
-              Redirect(TrustOwnsNonEeaBusinessYesNoController.onPageLoad(draftId))
-            }
-        }
+    for {
+      is5mldEnabled <- featureFlagService.is5mldEnabled()
+      isTaxable <- submissionDraftConnector.getIsTrustTaxable(draftId)
+      userAnswers <- repository.get(draftId)
+      result <- userAnswers match {
+        case Some(answers) =>
+          updateTaskStatus(draftId, answers.copy(is5mldEnabled = is5mldEnabled, isTaxable = isTaxable))
+        case None =>
+          val userAnswers = UserAnswers(draftId, Json.obj(), request.identifier, is5mldEnabled, isTaxable)
+          updateTaskStatus(draftId, userAnswers)
       }
-    }
-
-    featureFlagService.is5mldEnabled() flatMap {
-      is5mldEnabled =>
-        submissionDraftConnector.getIsTrustTaxable(draftId) flatMap {
-          isTaxable =>
-            repository.get(draftId) flatMap {
-              case Some(userAnswers) =>
-                redirect(userAnswers.copy(is5mldEnabled = is5mldEnabled, isTaxable = isTaxable))
-              case _ =>
-                val userAnswers = UserAnswers(draftId, Json.obj(), request.identifier, is5mldEnabled, isTaxable)
-                redirect(userAnswers)
-            }
-        }
-    }
+    } yield result
   }
 }
