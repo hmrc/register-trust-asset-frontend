@@ -16,17 +16,18 @@
 
 package models
 
-sealed trait Status
+import play.api.libs.json.Writes
 
-object Status extends Enumerable.Implicits {
+object TaskStatus extends Enumeration {
 
-  case object Completed extends WithName("completed") with Status
-  case object InProgress extends WithName("progress") with Status
+  type TaskStatus = Value
 
-  val values: Set[Status] = Set(
-    Completed, InProgress
-  )
+  val Completed: Value = Value("completed")
+  val InProgress: Value = Value("in-progress")
+  val NotStarted: Value = Value("not-started")
+  val CannotStartYet: Value = Value("cannot-start-yet")
+  val NoActionNeeded: Value = Value("no-action-needed")
 
-  implicit val enumerable: Enumerable[Status] =
-    Enumerable(values.toSeq.map(v => v.toString -> v): _*)
+  implicit val writes: Writes[Value] = Writes.enumNameWrites
+
 }
