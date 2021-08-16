@@ -33,13 +33,13 @@ class AddAnAssetYesNoViewSpec extends YesNoViewBehaviours {
     val view = viewFor[AddAnAssetYesNoView](Some(emptyUserAnswers))
 
     def applyView(form: Form[_]): HtmlFormat.Appendable =
-      view.apply(form, fakeDraftId)(fakeRequest, messages)
+      view.apply(form, fakeDraftId, isTaxable = true)(fakeRequest, messages)
 
     behave like normalPage(applyView(form), messageKeyPrefix)
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like yesNoPage(form, applyView, messageKeyPrefix)
+    behave like yesNoPage(form, isTaxable = true, applyView, messageKeyPrefix)
 
     behave like pageWithASubmitButton(applyView((form)))
   }

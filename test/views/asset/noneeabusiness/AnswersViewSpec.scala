@@ -28,7 +28,7 @@ class AnswersViewSpec extends ViewBehaviours {
 
   "AnswersView" must {
 
-    val applyView = view.apply(index, fakeDraftId, Nil)(fakeRequest, messages)
+    val applyView = view.apply(index, fakeDraftId, Nil, isTaxable = true)(fakeRequest, messages)
 
     behave like normalPage(applyView, prefix)
 
