@@ -62,6 +62,7 @@ class StartDateController @Inject()(
     implicit request =>
 
       val name = request.userAnswers.get(NamePage(index)).get
+      val isTaxable = request.userAnswers.isTaxable
 
       submissionDraftConnector.getTrustSetupDate(draftId) map { trustSetupDate =>
         val form = formProvider.withConfig(messageKeyPrefix, trustSetupDate)
@@ -71,7 +72,7 @@ class StartDateController @Inject()(
           case Some(value) => form.fill(value)
         }
 
-        Ok(view(preparedForm, index, draftId, name))
+        Ok(view(preparedForm, index, draftId, name, isTaxable))
       }
   }
 
@@ -79,13 +80,14 @@ class StartDateController @Inject()(
     implicit request =>
 
       val name = request.userAnswers.get(NamePage(index)).get
+      val isTaxable = request.userAnswers.isTaxable
 
       submissionDraftConnector.getTrustSetupDate(draftId) flatMap { trustSetupDate =>
         val form = formProvider.withConfig(messageKeyPrefix, trustSetupDate)
 
         form.bindFromRequest().fold(
           (formWithErrors: Form[_]) =>
-            Future.successful(BadRequest(view(formWithErrors, index, draftId, name))),
+            Future.successful(BadRequest(view(formWithErrors, index, draftId, name, isTaxable))),
 
           value => {
             for {
