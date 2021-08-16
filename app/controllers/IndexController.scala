@@ -24,7 +24,7 @@ import play.api.i18n.{I18nSupport, Messages}
 import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents, Result}
 import repositories.RegistrationsRepository
-import services.FeatureFlagService
+import services.TrustsStoreService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import viewmodels.AssetViewModel
@@ -36,20 +36,15 @@ class IndexController @Inject()(
                                  val controllerComponents: MessagesControllerComponents,
                                  repository: RegistrationsRepository,
                                  identify: RegistrationIdentifierAction,
-                                 featureFlagService: FeatureFlagService,
                                  submissionDraftConnector: SubmissionDraftConnector,
-                                 trustStoreConnector: TrustsStoreConnector
+                                 trustsStoreService: TrustsStoreService
                                )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   private def updateTaskStatus(draftId: String, userAnswers: UserAnswers)
                       (implicit hc: HeaderCarrier, messages: Messages): Future[Result] = for {
     _ <- repository.set(userAnswers)
     assets <- Future.successful(userAnswers.get(sections.Assets).toList.flatten)
-    _ <- if (assets.isEmpty) {
-      trustStoreConnector.updateTaskStatus(draftId, TaskStatus.InProgress).map(_ => ())
-    } else {
-      Future.successful(())
-    }
+    _ <- trustsStoreService.updateTaskStatus(draftId, TaskStatus.InProgress)
   } yield navigate(draftId, assets, userAnswers.isTaxable)
 
   private def navigate(draftId: String, assets: List[AssetViewModel], isTaxable: Boolean): Result =
@@ -66,7 +61,7 @@ class IndexController @Inject()(
 
   def onPageLoad(draftId: String): Action[AnyContent] = identify.async { implicit request =>
     for {
-      is5mldEnabled <- featureFlagService.is5mldEnabled()
+      is5mldEnabled <- trustsStoreService.is5mldEnabled()
       isTaxable <- submissionDraftConnector.getIsTrustTaxable(draftId)
       userAnswers <- repository.get(draftId)
       result <- userAnswers match {
