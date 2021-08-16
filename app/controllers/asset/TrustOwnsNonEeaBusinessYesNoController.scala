@@ -17,7 +17,6 @@
 package controllers.asset
 
 import config.annotations.Asset
-import connectors.TrustsStoreConnector
 import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
 import forms.YesNoFormProvider
 import models.TaskStatus
@@ -28,6 +27,7 @@ import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, ActionBuilder, AnyContent, MessagesControllerComponents}
 import repositories.RegistrationsRepository
+import services.TrustsStoreService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.asset.TrustOwnsNonEeaBusinessYesNoView
 
@@ -44,7 +44,7 @@ class TrustOwnsNonEeaBusinessYesNoController @Inject()(
                                                         yesNoFormProvider: YesNoFormProvider,
                                                         val controllerComponents: MessagesControllerComponents,
                                                         view: TrustOwnsNonEeaBusinessYesNoView,
-                                                        trustsStoreConnector: TrustsStoreConnector
+                                                        trustsStoreService: TrustsStoreService
                                                       )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   val form: Form[Boolean] = yesNoFormProvider.withPrefix("trustOwnsNonEeaBusinessYesNo")
@@ -76,14 +76,7 @@ class TrustOwnsNonEeaBusinessYesNoController @Inject()(
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(TrustOwnsNonEeaBusinessYesNoPage, value))
             _              <- repository.set(updatedAnswers)
-            taskStatus     <- Future.successful {
-              if (value) {
-                TaskStatus.InProgress
-              } else {
-                TaskStatus.Completed
-              }
-            }
-            _              <- trustsStoreConnector.updateTaskStatus(draftId, taskStatus)
+            _              <- trustsStoreService.updateTaskStatus(draftId, if(value) TaskStatus.InProgress else TaskStatus.Completed)
           } yield Redirect(navigator.nextPage(TrustOwnsNonEeaBusinessYesNoPage, draftId)(updatedAnswers))
         }
       )
