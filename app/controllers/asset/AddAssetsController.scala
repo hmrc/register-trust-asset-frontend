@@ -22,15 +22,18 @@ import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequ
 import forms.{AddAssetsFormProvider, YesNoFormProvider}
 import models.AddAssets.NoComplete
 import models.Constants._
+import models.Status.Completed
 import models.TaskStatus.TaskStatus
 import models.requests.RegistrationDataRequest
 import models.{AddAssets, TaskStatus, UserAnswers}
 import navigation.Navigator
+import pages.RegistrationProgress
 import pages.asset.{AddAnAssetYesNoPage, AddAssetsPage}
 import play.api.data.Form
 import play.api.i18n.{Messages, MessagesApi, MessagesProvider}
 import play.api.mvc.{Action, ActionBuilder, AnyContent, MessagesControllerComponents}
 import repositories.RegistrationsRepository
+import services.TrustsStoreService
 import uk.gov.hmrc.http.HeaderCarrier
 import utils.AddAssetViewHelper
 import views.html.asset.{AddAnAssetYesNoView, AddAssetsView, MaxedOutView}
@@ -51,7 +54,8 @@ class AddAssetsController @Inject()(
                                      addAssetsView: AddAssetsView,
                                      yesNoView: AddAnAssetYesNoView,
                                      maxedOutView: MaxedOutView,
-                                     trustStoreConnector: TrustsStoreConnector
+                                     trustsStoreService: TrustsStoreService,
+                                     registrationProgress: RegistrationProgress
                                    )(implicit ec: ExecutionContext) extends AddAssetController {
 
   private def addAnotherForm(isTaxable: Boolean): Form[AddAssets] = addAnotherFormProvider.withPrefix(determinePrefix(isTaxable))
@@ -71,17 +75,16 @@ class AddAssetsController @Inject()(
 
   private def setTaskStatus(draftId: String, taskStatus: TaskStatus)
                            (implicit hc: HeaderCarrier) = {
-    trustStoreConnector.updateTaskStatus(draftId, taskStatus)
+    trustsStoreService.updateTaskStatus(draftId, taskStatus)
   }
 
-  private def setTaskStatus(draftId: String, action: AddAssets)
-                       (implicit hc: HeaderCarrier) = {
-    val status = action match {
-      case AddAssets.YesNow => TaskStatus.InProgress
-      case AddAssets.YesLater => TaskStatus.InProgress
-      case AddAssets.NoComplete => TaskStatus.Completed
+  private def setTaskStatus(draftId: String, userAnswers: UserAnswers, action: AddAssets)
+                           (implicit hc: HeaderCarrier) = {
+    val status = (action, registrationProgress.assetsStatus(userAnswers)) match {
+      case (NoComplete, Some(Completed)) => TaskStatus.Completed
+      case _ => TaskStatus.InProgress
     }
-    trustStoreConnector.updateTaskStatus(draftId, status)
+    trustsStoreService.updateTaskStatus(draftId, status)
   }
 
   def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) {
@@ -134,7 +137,15 @@ class AddAssetsController @Inject()(
             answersWithAssetTypeIfNonTaxable <- Future.fromTry(setAssetType(request.userAnswers, 0))
             updatedAnswers <- Future.fromTry(answersWithAssetTypeIfNonTaxable.set(AddAnAssetYesNoPage, value))
             _ <- repository.set(updatedAnswers)
-            _ <- setTaskStatus(draftId, TaskStatus.InProgress)
+            taskStatus <- Future.successful {
+              if (updatedAnswers.isTaxable){
+                TaskStatus.InProgress
+              } else {
+                // Non taxable does not require an asset
+                if (value) TaskStatus.InProgress else TaskStatus.Completed
+              }
+            }
+            _ <- setTaskStatus(draftId, taskStatus)
           } yield Redirect(navigator.nextPage(AddAnAssetYesNoPage, draftId)(updatedAnswers))
         }
       )
@@ -169,7 +180,7 @@ class AddAssetsController @Inject()(
             answersWithAssetTypeIfNonTaxable <- Future.fromTry(setAssetType(userAnswers, rows.count, value))
             updatedAnswers <- Future.fromTry(answersWithAssetTypeIfNonTaxable.set(AddAssetsPage, value))
             _ <- repository.set(updatedAnswers)
-            _ <- setTaskStatus(draftId, value)
+            _ <- setTaskStatus(draftId, updatedAnswers, value)
           } yield Redirect(navigator.nextPage(AddAssetsPage, draftId)(updatedAnswers))
         }
       )
@@ -180,7 +191,7 @@ class AddAssetsController @Inject()(
       for {
         updatedAnswers <- Future.fromTry(request.userAnswers.set(AddAssetsPage, NoComplete))
         _              <- repository.set(updatedAnswers)
-        _ <- setTaskStatus(draftId, TaskStatus.Completed)
+        _              <- setTaskStatus(draftId, updatedAnswers, NoComplete)
       } yield Redirect(navigator.nextPage(AddAssetsPage, draftId)(updatedAnswers))
   }
 }
