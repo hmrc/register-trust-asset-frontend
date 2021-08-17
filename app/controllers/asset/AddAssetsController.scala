@@ -33,7 +33,7 @@ import play.api.i18n.{Messages, MessagesApi, MessagesProvider}
 import play.api.mvc.{Action, ActionBuilder, AnyContent, MessagesControllerComponents}
 import repositories.RegistrationsRepository
 import services.TrustsStoreService
-import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
 import utils.AddAssetViewHelper
 import views.html.asset.{AddAnAssetYesNoView, AddAssetsView, MaxedOutView}
 
@@ -73,7 +73,7 @@ class AddAssetsController @Inject()(
   }
 
   private def setTaskStatus(draftId: String, userAnswers: UserAnswers, action: AddAssets)
-                           (implicit hc: HeaderCarrier) = {
+                           (implicit hc: HeaderCarrier): Future[HttpResponse] = {
     val status = (action, registrationProgress.assetsStatus(userAnswers)) match {
       case (NoComplete, Some(Completed)) => TaskStatus.Completed
       case _ => TaskStatus.InProgress
@@ -82,7 +82,7 @@ class AddAssetsController @Inject()(
   }
   
   private def setTaskStatus(draftId: String, taskStatus: TaskStatus)
-                           (implicit hc: HeaderCarrier) = {
+                           (implicit hc: HeaderCarrier): Future[HttpResponse] = {
     trustsStoreService.updateTaskStatus(draftId, taskStatus)
   }
 
