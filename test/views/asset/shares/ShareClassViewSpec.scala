@@ -38,7 +38,7 @@ class ShareClassViewSpec extends ViewBehaviours {
 
   "ShareClass view" must {
 
-    behave like dynamicTitlePage(applyView(form), messageKeyPrefix, companyName)
+    behave like dynamicTitlePage(applyView(form), isTaxable = true, messageKeyPrefix, companyName)
 
     behave like pageWithBackLink(applyView(form))
 

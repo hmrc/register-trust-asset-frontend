@@ -17,7 +17,6 @@
 package controllers.asset
 
 import base.SpecBase
-import connectors.TrustsStoreConnector
 import forms.{AddAssetsFormProvider, YesNoFormProvider}
 import generators.Generators
 import models.AddAssets.{NoComplete, YesNow}
@@ -137,7 +136,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
           status(result) mustEqual OK
 
           contentAsString(result) mustEqual
-            view(addTaxableAssetsForm, fakeDraftId)(request, messages).toString
+            view(addTaxableAssetsForm, fakeDraftId, isTaxable = true)(request, messages).toString
 
           application.stop()
         }
@@ -315,7 +314,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
         status(result) mustEqual BAD_REQUEST
 
         contentAsString(result) mustEqual
-          view(boundForm, fakeDraftId)(request, messages).toString
+          view(boundForm, fakeDraftId, isTaxable = true)(request, messages).toString
 
         application.stop()
       }
@@ -338,7 +337,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
           status(result) mustEqual OK
 
           contentAsString(result) mustEqual
-            view(addTaxableAssetsForm, fakeDraftId, Nil, oneAsset, "Add assets", "addAssets", Nil)(request, messages).toString
+            view(addTaxableAssetsForm, fakeDraftId, Nil, oneAsset, "Add assets", "addAssets", Nil, isTaxable = true)(request, messages).toString
 
           application.stop()
         }
@@ -356,7 +355,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
           status(result) mustEqual OK
 
           contentAsString(result) mustEqual
-            view(addNonTaxableAssetsForm, fakeDraftId, Nil, oneAsset, "Add a non-EEA company", "addAssets.nonTaxable", Nil)(request, messages).toString
+            view(addNonTaxableAssetsForm, fakeDraftId, Nil, oneAsset, "Add a non-EEA company", "addAssets.nonTaxable", Nil, isTaxable = false)(request, messages).toString
 
           application.stop()
         }
@@ -380,7 +379,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
           status(result) mustEqual OK
 
           contentAsString(result) mustEqual
-            view(addTaxableAssetsForm, fakeDraftId, Nil, multipleAssets, "You have added 2 assets", "addAssets", Nil)(request, messages).toString
+            view(addTaxableAssetsForm, fakeDraftId, Nil, multipleAssets, "You have added 2 assets", "addAssets", Nil, isTaxable = true)(request, messages).toString
 
           application.stop()
         }
@@ -398,7 +397,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
           status(result) mustEqual OK
 
           contentAsString(result) mustEqual
-            view(addNonTaxableAssetsForm, fakeDraftId, Nil, multipleAssets, "You have added 2 non-EEA companies", "addAssets.nonTaxable", Nil)(request, messages).toString
+            view(addNonTaxableAssetsForm, fakeDraftId, Nil, multipleAssets, "You have added 2 non-EEA companies", "addAssets.nonTaxable", Nil, isTaxable = false)(request, messages).toString
 
           application.stop()
         }
@@ -743,7 +742,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
         status(result) mustEqual BAD_REQUEST
 
         contentAsString(result) mustEqual
-          view(boundForm, fakeDraftId, Nil, multipleAssets, "You have added 2 assets", "addAssets", Nil)(request, messages).toString
+          view(boundForm, fakeDraftId, Nil, multipleAssets, "You have added 2 assets", "addAssets", Nil, isTaxable = true)(request, messages).toString
 
         application.stop()
       }
@@ -772,7 +771,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
         val content = contentAsString(result)
 
         content mustEqual
-          view(addTaxableAssetsForm, fakeDraftId, rows.inProgress, rows.complete, "Add assets", "addAssets", List(("Money", 1)))(request, messages).toString
+          view(addTaxableAssetsForm, fakeDraftId, rows.inProgress, rows.complete, "Add assets", "addAssets", List(("Money", 1)), isTaxable = true)(request, messages).toString
 
         content must include("You cannot add another money asset as you have entered a maximum of 1.")
         content must include("Check the assets you have added. If you have further assets to add within this type, write to HMRC with their details.")
@@ -811,7 +810,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
         val content = contentAsString(result)
 
         content mustEqual
-          view(addTaxableAssetsForm, fakeDraftId, rows.inProgress, rows.complete, "You have added 11 assets", "addAssets", List(("Money", 1), ("Property or land", 10)))(request, messages).toString
+          view(addTaxableAssetsForm, fakeDraftId, rows.inProgress, rows.complete, "You have added 11 assets", "addAssets", List(("Money", 1), ("Property or land", 10)), isTaxable = true)(request, messages).toString
 
         content must include("You have entered the maximum number of assets for:")
         content must include("Check the assets you have added. If you have further assets to add within these types, write to HMRC with their details.")
@@ -866,7 +865,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
             val content = contentAsString(result)
 
             content mustEqual
-              view(fakeDraftId, rows.inProgress, rows.complete, "You have added 76 assets", max, "addAssets")(request, messages).toString
+              view(fakeDraftId, rows.inProgress, rows.complete, "You have added 76 assets", max, "addAssets", isTaxable = true)(request, messages).toString
 
             content must include("You cannot add another asset as you have entered a maximum of 76.")
             content must include("You can add another asset by removing an existing one, or write to HMRC with details of any additional assets.")
@@ -940,7 +939,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
             val content = contentAsString(result)
 
             content mustEqual
-              view(fakeDraftId, rows.inProgress, rows.complete, "You have added 25 non-EEA companies", max, "addAssets.nonTaxable")(request, messages).toString
+              view(fakeDraftId, rows.inProgress, rows.complete, "You have added 25 non-EEA companies", max, "addAssets.nonTaxable", isTaxable = false)(request, messages).toString
 
             content must include("You cannot add another non-EEA company as you have entered a maximum of 25.")
             content must include("You can add another non-EEA company by removing an existing one, or write to HMRC with details of any additional non-EEA companies.")

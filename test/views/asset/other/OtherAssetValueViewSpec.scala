@@ -38,7 +38,7 @@ class OtherAssetValueViewSpec extends LongViewBehaviours {
     def applyView(form: Form[_]): HtmlFormat.Appendable =
       view.apply(form, fakeDraftId, index, description)(fakeRequest, messages)
 
-    behave like dynamicTitlePage(applyView(form), prefix, description)
+    behave like dynamicTitlePage(applyView(form), isTaxable = true, prefix, description)
 
     behave like pageWithBackLink(applyView(form))
 

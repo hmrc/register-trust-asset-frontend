@@ -16,13 +16,13 @@
 
 package controllers
 
-import connectors.{SubmissionDraftConnector, TrustsStoreConnector}
+import connectors.SubmissionDraftConnector
 import controllers.actions.RegistrationIdentifierAction
 import controllers.asset.routes._
 import models.{TaskStatus, UserAnswers}
 import play.api.i18n.{I18nSupport, Messages}
 import play.api.libs.json.Json
-import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents, Result}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import repositories.RegistrationsRepository
 import services.TrustsStoreService
 import uk.gov.hmrc.http.HeaderCarrier
