@@ -17,13 +17,13 @@
 package controllers
 
 import base.SpecBase
-import connectors.{SubmissionDraftConnector, TrustsStoreConnector}
+import connectors.SubmissionDraftConnector
 import controllers.asset.routes._
 import models.Status.Completed
 import models.{TaskStatus, UserAnswers, WhatKindOfAsset}
 import org.mockito.ArgumentCaptor
 import org.mockito.Matchers.{any, eq => mEq}
-import org.mockito.Mockito.{reset, verify, when}
+import org.mockito.Mockito.{atLeastOnce, reset, verify, when}
 import org.scalatest.BeforeAndAfterEach
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
@@ -84,7 +84,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
           redirectLocation(result).value mustBe AddAssetsController.onPageLoad(fakeDraftId).url
 
-          verify(trustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+          verify(trustsStoreService, atLeastOnce()).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
 
           application.stop()
         }
@@ -117,7 +117,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
             redirectLocation(result).value mustBe AssetInterruptPageController.onPageLoad(fakeDraftId).url
 
-            verify(trustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+            verify(trustsStoreService, atLeastOnce()).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
 
             application.stop()
           }
@@ -149,7 +149,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
             redirectLocation(result).value mustBe TrustOwnsNonEeaBusinessYesNoController.onPageLoad(fakeDraftId).url
 
-            verify(trustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+            verify(trustsStoreService, atLeastOnce()).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
 
             application.stop()
           }
@@ -213,7 +213,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
           redirectLocation(result).value mustBe AssetInterruptPageController.onPageLoad(fakeDraftId).url
 
-          verify(trustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+          verify(trustsStoreService, atLeastOnce()).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
 
           application.stop()
         }
@@ -243,7 +243,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
           redirectLocation(result).value mustBe TrustOwnsNonEeaBusinessYesNoController.onPageLoad(fakeDraftId).url
 
-          verify(trustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+          verify(trustsStoreService, atLeastOnce()).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
 
           application.stop()
         }
