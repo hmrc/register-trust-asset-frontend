@@ -81,7 +81,7 @@ class AddAssetsController @Inject()(
           case (true, false) => MAX_5MLD_NON_TAXABLE_ASSETS
           case _ => MAX_4MLD_ASSETS
         }
-        Ok(maxedOutView(draftId, rows.inProgress, rows.complete, heading(rows.count, prefix), maxLimit, prefix))
+        Ok(maxedOutView(draftId, rows.inProgress, rows.complete, heading(rows.count, prefix), maxLimit, prefix, isTaxable))
       } else {
         if (rows.nonEmpty) {
           Ok(addAssetsView(
@@ -91,11 +91,12 @@ class AddAssetsController @Inject()(
             rows.complete,
             heading(rows.count, prefix),
             prefix,
-            userAnswers.assets.maxedOutOptions
+            userAnswers.assets.maxedOutOptions,
+            isTaxable
           ))
         } else {
           if (isTaxable) {
-            Ok(yesNoView(yesNoForm, draftId))
+            Ok(yesNoView(yesNoForm, draftId, true))
           } else {
             Redirect(routes.TrustOwnsNonEeaBusinessYesNoController.onPageLoad(draftId))
           }
@@ -106,9 +107,11 @@ class AddAssetsController @Inject()(
   def submitOne(draftId: String): Action[AnyContent] = actions(draftId).async {
     implicit request =>
 
+      val isTaxable = request.userAnswers.isTaxable
+
       yesNoForm.bindFromRequest().fold(
         (formWithErrors: Form[_]) => {
-          Future.successful(BadRequest(yesNoView(formWithErrors, draftId)))
+          Future.successful(BadRequest(yesNoView(formWithErrors, draftId, isTaxable)))
         },
         value => {
           for {
@@ -140,7 +143,8 @@ class AddAssetsController @Inject()(
               rows.complete,
               heading(rows.count, prefix),
               prefix,
-              userAnswers.assets.maxedOutOptions
+              userAnswers.assets.maxedOutOptions,
+              isTaxable
             ))
           )
         },

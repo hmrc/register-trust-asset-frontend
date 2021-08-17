@@ -63,7 +63,7 @@ class AnswersControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(index, fakeDraftId, expectedSections)(request, messages).toString
+        view(index, fakeDraftId, expectedSections, isTaxable = true)(request, messages).toString
 
       application.stop()
     }

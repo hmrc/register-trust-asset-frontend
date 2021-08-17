@@ -61,7 +61,9 @@ class AnswersController @Inject()(
         draftId = draftId
       )
 
-      Ok(view(index, draftId, section))
+      val isTaxable = request.userAnswers.isTaxable
+
+      Ok(view(index, draftId, section, isTaxable))
   }
 
   def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {

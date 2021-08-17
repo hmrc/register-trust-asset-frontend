@@ -25,10 +25,11 @@
         errorSummary: ErrorSummary
 )
 
-@(form: Form[_], draftId: String, index: Int, prefix: String, asset: String)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], draftId: String, index: Int, prefix: String, asset: String, isTaxable: Boolean)(implicit request: Request[_], messages: Messages)
 
 @main_template(
     title = s"${errorPrefix(form)} ${messages(s"$prefix.removeYesNo.title")}",
+    isTaxable = isTaxable,
     showBackLink = true
 ) {
 

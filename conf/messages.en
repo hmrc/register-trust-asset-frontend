@@ -27,6 +27,7 @@ entities.no.description.added = No description added
 entities.no.addressOrDescription.added = No address or description added
 
 entities.assets = Assets
+entities.nonTaxable = Non-EEA
 entity.asset = Assets
 entity.nonTaxable.asset = Non-EEA Companies
 

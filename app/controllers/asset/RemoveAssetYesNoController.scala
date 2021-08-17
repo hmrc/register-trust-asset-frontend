@@ -56,19 +56,21 @@ class RemoveAssetYesNoController @Inject()(
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
     implicit request =>
 
-      val prefix = determinePrefix(request.userAnswers.isTaxable)
+      val isTaxable = request.userAnswers.isTaxable
+      val prefix = determinePrefix(isTaxable)
 
-      Ok(view(form(prefix), draftId, index, prefix, assetLabel(request.userAnswers, index)))
+      Ok(view(form(prefix), draftId, index, prefix, assetLabel(request.userAnswers, index), isTaxable))
   }
 
   def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
     implicit request =>
 
-      val prefix = determinePrefix(request.userAnswers.isTaxable)
+      val isTaxable = request.userAnswers.isTaxable
+      val prefix = determinePrefix(isTaxable)
 
       form(prefix).bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, draftId, index, prefix, assetLabel(request.userAnswers, index)))),
+          Future.successful(BadRequest(view(formWithErrors, draftId, index, prefix, assetLabel(request.userAnswers, index), isTaxable))),
 
         remove => {
           if (remove) {

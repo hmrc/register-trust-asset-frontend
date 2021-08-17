@@ -37,11 +37,11 @@ class SharesOnStockExchangeViewSpec extends YesNoViewBehaviours {
     def applyView(form: Form[_]): HtmlFormat.Appendable =
       view.apply(form, fakeDraftId, index, companyName)(fakeRequest, messages)
 
-    behave like dynamicTitlePage(applyView(form), messageKeyPrefix, companyName, "hint")
+    behave like dynamicTitlePage(applyView(form), isTaxable = true, messageKeyPrefix, companyName, "hint")
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like yesNoPage(form, applyView, messageKeyPrefix, Seq(companyName))
+    behave like yesNoPage(form, isTaxable = true, applyView, messageKeyPrefix, Seq(companyName))
 
     behave like pageWithASubmitButton(applyView(form))
 
