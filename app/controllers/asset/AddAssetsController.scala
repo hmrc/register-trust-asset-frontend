@@ -72,18 +72,18 @@ class AddAssetsController @Inject()(
     }
   }
 
-  private def setTaskStatus(draftId: String, taskStatus: TaskStatus)
-                           (implicit hc: HeaderCarrier) = {
-    trustsStoreService.updateTaskStatus(draftId, taskStatus)
-  }
-
   private def setTaskStatus(draftId: String, userAnswers: UserAnswers, action: AddAssets)
                            (implicit hc: HeaderCarrier) = {
     val status = (action, registrationProgress.assetsStatus(userAnswers)) match {
       case (NoComplete, Some(Completed)) => TaskStatus.Completed
       case _ => TaskStatus.InProgress
     }
-    trustsStoreService.updateTaskStatus(draftId, status)
+    setTaskStatus(draftId, status)
+  }
+  
+  private def setTaskStatus(draftId: String, taskStatus: TaskStatus)
+                           (implicit hc: HeaderCarrier) = {
+    trustsStoreService.updateTaskStatus(draftId, taskStatus)
   }
 
   def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) {
