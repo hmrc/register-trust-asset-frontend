@@ -20,19 +20,37 @@ import base.SpecBase
 import controllers.asset.routes._
 import controllers.routes._
 import forms.YesNoFormProvider
+import models.TaskStatus
+import org.mockito.Matchers.{any, eq => mEq}
+import org.mockito.Mockito.{reset, verify, when}
+import org.scalatest.BeforeAndAfterEach
 import pages.asset.TrustOwnsNonEeaBusinessYesNoPage
 import play.api.data.Form
+import play.api.inject.bind
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import services.TrustsStoreService
+import uk.gov.hmrc.http.HttpResponse
 import views.html.asset.TrustOwnsNonEeaBusinessYesNoView
 
-class TrustOwnsNonEeaBusinessYesNoControllerSpec extends SpecBase {
+import scala.concurrent.Future
+
+class TrustOwnsNonEeaBusinessYesNoControllerSpec extends SpecBase with BeforeAndAfterEach {
 
   private val form: Form[Boolean] = new YesNoFormProvider().withPrefix("trustOwnsNonEeaBusinessYesNo")
 
   private val validAnswer: Boolean = true
 
+  private val mockTrustsStoreService = mock[TrustsStoreService]
+
   lazy val onPageLoadRoute: String = TrustOwnsNonEeaBusinessYesNoController.onPageLoad(fakeDraftId).url
+
+  override protected def beforeEach(): Unit = {
+    reset(mockTrustsStoreService)
+
+    when(mockTrustsStoreService.updateTaskStatus(any(), any())(any(), any()))
+      .thenReturn(Future.successful(HttpResponse(OK, "")))
+  }
 
   "PropertyOrLandAddress Controller" must {
 
@@ -74,9 +92,13 @@ class TrustOwnsNonEeaBusinessYesNoControllerSpec extends SpecBase {
       application.stop()
     }
 
-    "redirect to the next page when valid data is submitted" in {
+    "redirect to the next page and set task to in progress when have non-eea companies" in {
 
-      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
+        .overrides(
+          bind[TrustsStoreService].to(mockTrustsStoreService)
+        )
+        .build()
 
       val request = FakeRequest(POST, onPageLoadRoute)
         .withFormUrlEncodedBody(("value", "true"))
@@ -86,6 +108,30 @@ class TrustOwnsNonEeaBusinessYesNoControllerSpec extends SpecBase {
       status(result) mustEqual SEE_OTHER
 
       redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
+
+      verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+
+      application.stop()
+    }
+
+    "redirect to the next page and set task to complete when do not have any non-eea companies" in {
+
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
+        .overrides(
+          bind[TrustsStoreService].to(mockTrustsStoreService)
+        )
+        .build()
+
+      val request = FakeRequest(POST, onPageLoadRoute)
+        .withFormUrlEncodedBody(("value", "false"))
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
+
+      verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(any(), any())
 
       application.stop()
     }
