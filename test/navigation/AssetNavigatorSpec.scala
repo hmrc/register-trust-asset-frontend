@@ -152,29 +152,15 @@ class AssetNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
 
         val baseAnswers = emptyUserAnswers.copy(is5mldEnabled = true, isTaxable = true)
 
-        "add them now selected" when {
+        "add them now selected" must {
+          "go to the WhatKindOfAssetPage at next index" in {
+            val answers = baseAnswers
+              .set(WhatKindOfAssetPage(0), Money).success.value
+              .set(AssetStatus(0), Completed).success.value
+              .set(AddAssetsPage, AddAssets.YesNow).success.value
 
-          "last asset is in progress" must {
-            "go to the WhatKindOfAssetPage at in-progress index" in {
-              val answers = baseAnswers
-                .set(WhatKindOfAssetPage(0), Money).success.value
-                .set(AddAssetsPage, AddAssets.YesNow).success.value
-
-              navigator.nextPage(AddAssetsPage, fakeDraftId)(answers)
-                .mustBe(controllers.asset.routes.WhatKindOfAssetController.onPageLoad(0, fakeDraftId))
-            }
-          }
-
-          "last asset is complete" must {
-            "go to the WhatKindOfAssetPage at next index" in {
-              val answers = baseAnswers
-                .set(WhatKindOfAssetPage(0), Money).success.value
-                .set(AssetStatus(0), Completed).success.value
-                .set(AddAssetsPage, AddAssets.YesNow).success.value
-
-              navigator.nextPage(AddAssetsPage, fakeDraftId)(answers)
-                .mustBe(controllers.asset.routes.WhatKindOfAssetController.onPageLoad(1, fakeDraftId))
-            }
+            navigator.nextPage(AddAssetsPage, fakeDraftId)(answers)
+              .mustBe(controllers.asset.routes.WhatKindOfAssetController.onPageLoad(1, fakeDraftId))
           }
 
           "all types maxed out except money" must {

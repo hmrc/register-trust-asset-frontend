@@ -80,7 +80,7 @@ class AssetNavigator @Inject()(config: FrontendAppConfig) extends Navigator {
 
   private def whatKindOfAssetRoute(answers: UserAnswers, index: Int, draftId: String): Call =
     answers.get(WhatKindOfAssetPage(index)) match {
-      case Some(kindOfAsset) => AssetNavigator.addAssetNowRoute(kindOfAsset, answers, draftId)
+      case Some(kindOfAsset) => AssetNavigator.addAssetNowRoute(kindOfAsset, answers, draftId, Some(index))
       case _ => SessionExpiredController.onPageLoad()
     }
 
@@ -111,59 +111,59 @@ object AssetNavigator {
     }
   }
 
-  def addAssetNowRoute(`type`: WhatKindOfAsset, answers: UserAnswers, draftId: String): Call = {
+  def addAssetNowRoute(`type`: WhatKindOfAsset, answers: UserAnswers, draftId: String, index: Option[Int] = None): Call = {
     `type` match {
-      case Money => routeToMoneyIndex(answers, draftId)
-      case PropertyOrLand => routeToPropertyOrLandIndex(answers, draftId)
-      case Shares => routeToSharesIndex(answers, draftId)
-      case Business => routeToBusinessIndex(answers, draftId)
-      case Partnership => routeToPartnershipIndex(answers, draftId)
-      case Other => routeToOtherIndex(answers, draftId)
-      case NonEeaBusiness => routeToNonEeaBusinessIndex(answers, draftId)
+      case Money => routeToMoneyIndex(answers, draftId, index)
+      case PropertyOrLand => routeToPropertyOrLandIndex(answers, draftId, index)
+      case Shares => routeToSharesIndex(answers, draftId, index)
+      case Business => routeToBusinessIndex(answers, draftId, index)
+      case Partnership => routeToPartnershipIndex(answers, draftId, index)
+      case Other => routeToOtherIndex(answers, draftId, index)
+      case NonEeaBusiness => routeToNonEeaBusinessIndex(answers, draftId, index)
     }
   }
 
-  private def routeToMoneyIndex(answers: UserAnswers, draftId: String): Call = {
-    routeToIndex(answers, controllers.asset.money.routes.AssetMoneyValueController.onPageLoad, draftId)
+  private def routeToMoneyIndex(answers: UserAnswers, draftId: String, index: Option[Int]): Call = {
+    routeToIndex(answers, controllers.asset.money.routes.AssetMoneyValueController.onPageLoad, draftId, index)
   }
 
-  private def routeToPropertyOrLandIndex(answers: UserAnswers, draftId: String): Call = {
-    routeToIndex(answers, controllers.asset.property_or_land.routes.PropertyOrLandAddressYesNoController.onPageLoad, draftId)
+  private def routeToPropertyOrLandIndex(answers: UserAnswers, draftId: String, index: Option[Int]): Call = {
+    routeToIndex(answers, controllers.asset.property_or_land.routes.PropertyOrLandAddressYesNoController.onPageLoad, draftId, index)
   }
 
-  private def routeToSharesIndex(answers: UserAnswers, draftId: String): Call = {
-    routeToIndex(answers, controllers.asset.shares.routes.SharesInAPortfolioController.onPageLoad, draftId)
+  private def routeToSharesIndex(answers: UserAnswers, draftId: String, index: Option[Int]): Call = {
+    routeToIndex(answers, controllers.asset.shares.routes.SharesInAPortfolioController.onPageLoad, draftId, index)
   }
 
-  private def routeToBusinessIndex(answers: UserAnswers, draftId: String): Call = {
-    routeToIndex(answers, controllers.asset.business.routes.BusinessNameController.onPageLoad, draftId)
+  private def routeToBusinessIndex(answers: UserAnswers, draftId: String, index: Option[Int]): Call = {
+    routeToIndex(answers, controllers.asset.business.routes.BusinessNameController.onPageLoad, draftId, index)
   }
 
-  private def routeToPartnershipIndex(answers: UserAnswers, draftId: String): Call = {
-    routeToIndex(answers, controllers.asset.partnership.routes.PartnershipDescriptionController.onPageLoad, draftId)
+  private def routeToPartnershipIndex(answers: UserAnswers, draftId: String, index: Option[Int]): Call = {
+    routeToIndex(answers, controllers.asset.partnership.routes.PartnershipDescriptionController.onPageLoad, draftId, index)
   }
 
-  private def routeToOtherIndex(answers: UserAnswers, draftId: String): Call = {
-    routeToIndex(answers, controllers.asset.other.routes.OtherAssetDescriptionController.onPageLoad, draftId)
+  private def routeToOtherIndex(answers: UserAnswers, draftId: String, index: Option[Int]): Call = {
+    routeToIndex(answers, controllers.asset.other.routes.OtherAssetDescriptionController.onPageLoad, draftId, index)
   }
 
-  private def routeToNonEeaBusinessIndex(answers: UserAnswers, draftId: String): Call = {
-    routeToIndex(answers, controllers.asset.noneeabusiness.routes.NameController.onPageLoad, draftId)
+  private def routeToNonEeaBusinessIndex(answers: UserAnswers, draftId: String, index: Option[Int]): Call = {
+    routeToIndex(answers, controllers.asset.noneeabusiness.routes.NameController.onPageLoad, draftId, index)
   }
 
   private def routeToIndex[T <: AssetViewModel](answers: UserAnswers,
                                                 route: (Int, String) => Call,
-                                                draftId: String): Call = {
-    val assets = answers.get(sections.Assets).getOrElse(List.empty)
-    val index = assets match {
-      case Nil => 0
-      case x if !x.last.isComplete => x.size - 1
-      case x if !answers.isTaxable =>
-        // Answers includes an in progress non-EEA business asset as we have just set the value in WhatKindOfAssetPage.
-        // Therefore we need the index to correspond to that asset (i.e. assets.size - 1)
-        x.size - 1
-      case x => x.size
+                                                draftId: String,
+                                                index: Option[Int] = None): Call = {
+    val i = index.getOrElse {
+      answers.get(sections.Assets).getOrElse(List.empty) match {
+        case x if !answers.isTaxable =>
+          // Answers includes an in progress non-EEA business asset as we have just set the value in WhatKindOfAssetPage.
+          // Therefore we need the index to correspond to that asset (i.e. assets.size - 1)
+          x.size - 1
+        case x => x.size
+      }
     }
-    route(index, draftId)
+    route(i, draftId)
   }
 }
