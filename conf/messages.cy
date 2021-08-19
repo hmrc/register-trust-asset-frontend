@@ -8,7 +8,6 @@ addAnAssetYesNo.title=A ydych am ychwanegu ased?
 addAssets.add-them-later=Iawn, rwyf am ei ychwanegu yn nes ymlaen
 addAssets.add-them-now=Iawn, rwyf am ei ychwanegu nawr
 addAssets.additional-content=A ydych am ychwanegu ased arall?
-addAssets.checkYourAnswersLabel=A ydych am ychwanegu ased arall?
 addAssets.count.heading=Rydych wedi ychwanegu {0} o asedion
 addAssets.count.title=Rydych wedi ychwanegu {0} o asedion
 addAssets.error.required=Dewiswch ‘Iawn’ os ydych am ychwanegu ased arall
@@ -16,8 +15,6 @@ addAssets.heading=Ychwanegu asedion
 addAssets.maxedOut.p1=Ni allwch ychwanegu ased arall gan eich bod wedi nodi uchafswm o {0}.
 addAssets.maxedOut.p2=Gallwch ychwanegu ased arall drwy dynnu un presennol
 addAssets.no-complete=Na, rwyf wedi ychwanegu’r holl asedion
-addAssets.singular.heading=Ychwanegu asedion
-addAssets.singular.title=Ychwanegu asedion
 addAssets.title=Ychwanegu asedion
 
 addAssets.nonTaxable.add-them-later=Iawn, rwyf am ei ychwanegu yn nes ymlaen
@@ -191,11 +188,6 @@ money.value.hint=Adiwch bob swm presennol at ei gilydd. Wedi’i dalgrynnu i law
 money.value.link=Yn ôl i gynnydd cofrestru
 money.value.title=Beth yw cyfanswm yr arian yn yr ymddiriedolaeth?
 
-nonEeaBusiness.addressUkYesNo.checkYourAnswersLabel=A yw cyfeiriad {0} yn y DU?
-nonEeaBusiness.addressUkYesNo.error.required=Dewiswch ‘Iawn’ os yw cyfeiriad y cwmni yn y DU
-nonEeaBusiness.addressUkYesNo.heading=A yw cyfeiriad {0} yn y DU?
-nonEeaBusiness.addressUkYesNo.title=A yw cyfeiriad y cwmni yn y DU?
-
 nonEeaBusiness.answers.heading=Gwirio manylion yr ased
 nonEeaBusiness.answers.title=Gwirio manylion yr ased
 
@@ -228,10 +220,6 @@ nonEeaBusiness.startDate.error.required.two=Mae’n rhaid i’r dyddiad y dechre
 nonEeaBusiness.startDate.heading=Pryd y gwnaeth yr ymddiriedolaeth ddechrau ei pherchnogaeth neu gyfran reolaethol yn {0}?
 nonEeaBusiness.startDate.hint=Er enghraifft, 31 3 2015.
 nonEeaBusiness.startDate.title=Pryd y gwnaeth yr ymddiriedolaeth ddechrau ei pherchnogaeth neu gyfran reolaethol yn y cwmni?
-
-nonEeaBusiness.ukAddress.checkYourAnswersLabel=Beth yw cyfeiriad {0}?
-nonEeaBusiness.ukAddress.heading=Beth yw cyfeiriad {0}?
-nonEeaBusiness.ukAddress.title=Beth yw cyfeiriad y cwmni?
 
 other.answers.heading=Gwirio manylion yr ased
 other.answers.title=Gwirio manylion yr ased
