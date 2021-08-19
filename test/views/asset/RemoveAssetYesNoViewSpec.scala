@@ -40,13 +40,13 @@ class RemoveAssetYesNoViewSpec extends YesNoViewBehaviours {
       val view = viewFor[RemoveAssetYesNoView](Some(emptyUserAnswers.copy(isTaxable = true)))
 
       def applyView(form: Form[_]): HtmlFormat.Appendable =
-        view.apply(form, fakeDraftId, index, prefix, assetLabel, isTaxable = true)(fakeRequest, messages)
+        view.apply(form, fakeDraftId, index, prefix, assetLabel)(fakeRequest, messages)
 
-      behave like dynamicTitlePage(applyView(form), isTaxable = true, messageKeyPrefix, assetLabel)
+      behave like dynamicTitlePage(applyView(form), messageKeyPrefix, assetLabel)
 
       behave like pageWithBackLink(applyView(form))
 
-      behave like yesNoPage(form, isTaxable = true, applyView, messageKeyPrefix, Seq(assetLabel))
+      behave like yesNoPage(form, applyView, messageKeyPrefix, Seq(assetLabel))
 
       behave like pageWithASubmitButton(applyView(form))
     }
@@ -59,13 +59,13 @@ class RemoveAssetYesNoViewSpec extends YesNoViewBehaviours {
       val view = viewFor[RemoveAssetYesNoView](Some(emptyUserAnswers.copy(isTaxable = false)))
 
       def applyView(form: Form[_]): HtmlFormat.Appendable =
-        view.apply(form, fakeDraftId, index, prefix, assetLabel, isTaxable = false)(fakeRequest, messages)
+        view.apply(form, fakeDraftId, index, prefix, assetLabel)(fakeRequest, messages)
 
-      behave like dynamicTitlePage(applyView(form), isTaxable = false, messageKeyPrefix, assetLabel)
+      behave like dynamicTitlePage(applyView(form), messageKeyPrefix, assetLabel)
 
       behave like pageWithBackLink(applyView(form))
 
-      behave like yesNoPage(form, isTaxable = false, applyView, messageKeyPrefix, Seq(assetLabel))
+      behave like yesNoPage(form, applyView, messageKeyPrefix, Seq(assetLabel))
 
       behave like pageWithASubmitButton(applyView(form))
     }

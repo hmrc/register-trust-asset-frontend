@@ -18,31 +18,31 @@
 @import views.html.components.{SubmitButton, ErrorSummary, InputYesNo}
 
 @this(
-        main_template: MainTemplate,
-        formHelper: FormWithCSRF,
-        submitButton: SubmitButton,
-        inputYesNo: InputYesNo,
-        errorSummary: ErrorSummary
+    main_template: MainTemplate,
+    formHelper: FormWithCSRF,
+    submitButton: SubmitButton,
+    inputYesNo: InputYesNo,
+    errorSummary: ErrorSummary
 )
-@(form: Form[_], draftId: String, isTaxable: Boolean)(implicit request: Request[_], messages: Messages)
+
+@(form: Form[_], draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
     title = s"${errorPrefix(form)} ${messages("addAnAssetYesNo.title")}",
-    isTaxable = isTaxable,
     showBackLink = true
 ) {
 
-@formHelper(action = AddAssetsController.submitOne(draftId), 'autoComplete -> "off") {
+    @formHelper(action = AddAssetsController.submitOne(draftId), 'autoComplete -> "off") {
 
-    @errorSummary(form.errors)
+        @errorSummary(form.errors)
 
-    @inputYesNo(
-      field = form("value"),
-      label = messages("addAnAssetYesNo.heading"),
-      legendClass = Some("govuk-heading-l"),
-      legendAsHeading = true
-    )
+        @inputYesNo(
+          field = form("value"),
+          label = messages("addAnAssetYesNo.heading"),
+          legendClass = Some("govuk-heading-l"),
+          legendAsHeading = true
+        )
 
-    @submitButton()
-  }
+        @submitButton()
+    }
 }

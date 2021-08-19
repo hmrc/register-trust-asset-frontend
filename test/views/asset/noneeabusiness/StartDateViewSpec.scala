@@ -36,11 +36,11 @@ class StartDateViewSpec extends QuestionViewBehaviours[LocalDate] {
     val view = viewFor[StartDateView](Some(emptyUserAnswers))
 
     def applyView(form: Form[_]): HtmlFormat.Appendable =
-      view.apply(form, index, fakeDraftId, name, isTaxable = true)(fakeRequest, messages)
+      view.apply(form, index, fakeDraftId, name)(fakeRequest, messages)
 
     val applyViewF = (form : Form[_]) => applyView(form)
 
-    behave like dynamicTitlePage(applyView(form),isTaxable = true, messageKeyPrefix, name)
+    behave like dynamicTitlePage(applyView(form), messageKeyPrefix, name)
 
     behave like pageWithBackLink(applyView(form))
 

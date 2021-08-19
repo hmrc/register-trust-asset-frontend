@@ -23,9 +23,7 @@ trait ViewBehaviours extends ViewSpecBase {
 
   def normalPage(view: HtmlFormat.Appendable,
                  messageKeyPrefix: String,
-                 ignoreTitle: Boolean = false,
-                 isTaxable: Boolean = true
-                ): Unit = {
+                 ignoreTitle: Boolean = false): Unit = {
 
     "behave like a normal page" when {
 
@@ -41,7 +39,7 @@ trait ViewBehaviours extends ViewSpecBase {
         "display the correct browser title" in {
 
           val doc = asDocument(view)
-          assertEqualsMessage(doc,"title", isTaxable, s"$messageKeyPrefix.title")
+          assertEqualsMessage(doc,"title", s"$messageKeyPrefix.title")
         }
 
         if (!ignoreTitle) {
@@ -90,7 +88,6 @@ trait ViewBehaviours extends ViewSpecBase {
   }
 
   def dynamicTitlePage(view: HtmlFormat.Appendable,
-                       isTaxable: Boolean,
                        messageKeyPrefix: String,
                        messageKeyParam: String,
                        expectedGuidanceKeys: String*): Unit = {
@@ -109,7 +106,7 @@ trait ViewBehaviours extends ViewSpecBase {
         "display the correct browser title" in {
 
           val doc = asDocument(view)
-          assertEqualsMessage(doc, "title", isTaxable,s"$messageKeyPrefix.title", messageKeyParam)
+          assertEqualsMessage(doc, "title",s"$messageKeyPrefix.title", messageKeyParam)
         }
 
         pageWithTitle(view, messageKeyPrefix, messageKeyParam)

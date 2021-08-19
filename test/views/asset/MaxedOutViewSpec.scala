@@ -95,7 +95,7 @@ class MaxedOutViewSpec extends OptionsViewBehaviours with TabularDataViewBehavio
       def applyView(): HtmlFormat.Appendable =
         view.apply(fakeDraftId, Nil, completeRows(max), "Add a non-EEA company", max, messageKeyPrefix, isTaxable = false)(fakeRequest, messages)
 
-      behave like normalPage(applyView(), messageKeyPrefix, isTaxable = false)
+      behave like normalPage(applyView(), messageKeyPrefix)
 
       behave like pageWithBackLink(applyView())
 
