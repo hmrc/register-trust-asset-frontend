@@ -102,7 +102,7 @@ class AddAssetsController @Inject()(
           case (true, false) => MAX_5MLD_NON_TAXABLE_ASSETS
           case _ => MAX_4MLD_ASSETS
         }
-        Ok(maxedOutView(draftId, rows.inProgress, rows.complete, heading(rows.count, prefix), maxLimit, prefix, isTaxable))
+        Ok(maxedOutView(draftId, rows.inProgress, rows.complete, heading(rows.count, prefix), maxLimit, prefix))
       } else {
         if (rows.nonEmpty) {
           Ok(addAssetsView(
