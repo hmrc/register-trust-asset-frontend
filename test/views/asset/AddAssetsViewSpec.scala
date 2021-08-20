@@ -42,16 +42,16 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
   private val view: AddAssetsView = viewFor[AddAssetsView](Some(emptyUserAnswers))
 
   private def applyView(form: Form[_]): HtmlFormat.Appendable =
-    view.apply(form, fakeDraftId, Nil, Nil, "Add assets", messageKeyPrefix, Nil, isTaxable = true)(fakeRequest, messages)
+    view.apply(form, fakeDraftId, Nil, Nil, "Add assets", messageKeyPrefix, Nil)(fakeRequest, messages)
 
   private def applyView(form: Form[_], inProgressAssets: Seq[AddRow], completeAssets: Seq[AddRow], count: Int): HtmlFormat.Appendable = {
     val title = if (count > 1) s"You have added $count assets" else "Add assets"
-    view.apply(form, fakeDraftId, inProgressAssets, completeAssets, title, messageKeyPrefix, Nil, isTaxable = true)(fakeRequest, messages)
+    view.apply(form, fakeDraftId, inProgressAssets, completeAssets, title, messageKeyPrefix, Nil)(fakeRequest, messages)
   }
 
   def applyView(form: Form[_], completeAssets: Seq[AddRow], count: Int, maxedOut: List[(String, Int)]): HtmlFormat.Appendable = {
     val title = if (count > 1) s"You have added $count assets" else "Add assets"
-    view.apply(form, fakeDraftId, Nil, completeAssets, title, messageKeyPrefix, maxedOut, isTaxable = true)(fakeRequest, messages)
+    view.apply(form, fakeDraftId, Nil, completeAssets, title, messageKeyPrefix, maxedOut)(fakeRequest, messages)
   }
 
   "AddAssetsView" when {
@@ -70,7 +70,7 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
 
       val viewWithData = applyView(form, inProgressAssets, Nil, 1)
 
-      behave like dynamicTitlePage(viewWithData, isTaxable = true, s"$messageKeyPrefix", "1")
+      behave like dynamicTitlePage(viewWithData, s"$messageKeyPrefix", "1")
 
       behave like pageWithBackLink(viewWithData)
 
@@ -83,7 +83,7 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
 
       val viewWithData = applyView(form, Nil, completeAssets, 2)
 
-      behave like dynamicTitlePage(viewWithData, isTaxable = true, s"$messageKeyPrefix.count", "2")
+      behave like dynamicTitlePage(viewWithData, s"$messageKeyPrefix.count", "2")
 
       behave like pageWithBackLink(viewWithData)
 
@@ -96,7 +96,7 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
 
       val viewWithData = applyView(form, completeAssets, 10, List(("Partnership", 10)))
 
-      behave like dynamicTitlePage(viewWithData, isTaxable = true, s"$messageKeyPrefix.count", "10")
+      behave like dynamicTitlePage(viewWithData, s"$messageKeyPrefix.count", "10")
 
       behave like pageWithBackLink(viewWithData)
 
@@ -116,7 +116,7 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
 
       val viewWithData = applyView(form, completeAssets, 11, List(("Money", 1), ("Partnership", 10)))
 
-      behave like dynamicTitlePage(viewWithData, isTaxable = true,s"$messageKeyPrefix.count", "11")
+      behave like dynamicTitlePage(viewWithData,s"$messageKeyPrefix.count", "11")
 
       behave like pageWithBackLink(viewWithData)
 

@@ -30,6 +30,7 @@ import play.api.libs.json.Json
 import repositories.RegistrationsRepository
 import uk.gov.hmrc.auth.core.AffinityGroup.Organisation
 import uk.gov.hmrc.auth.core.{AffinityGroup, Enrolment, Enrolments}
+import views.ViewUtils
 
 trait SpecBase extends PlaySpec
   with GuiceOneAppPerSuite
@@ -80,6 +81,7 @@ trait SpecBase extends PlaySpec
         ),
         bind[DraftIdRetrievalActionProvider].toInstance(fakeDraftIdAction(userAnswers)),
         bind[RegistrationsRepository].toInstance(registrationsRepository),
-        bind[AffinityGroup].toInstance(Organisation)
+        bind[AffinityGroup].toInstance(Organisation),
+        bind[ViewUtils].toInstance(mockViewUtils)
       )
 }

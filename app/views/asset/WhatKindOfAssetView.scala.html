@@ -22,12 +22,12 @@
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
-        submitButton: SubmitButton,
-        errorSummary: ErrorSummary,
-        inputRadio: InputRadio,
+    submitButton: SubmitButton,
+    errorSummary: ErrorSummary,
+    inputRadio: InputRadio
 )
 
-@(form: Form[_], draftId: String, index: Int, options: List[RadioOption], isTaxable: Boolean)(implicit request: Request[_], messages: Messages)
+@(form: Form[_], draftId: String, index: Int, options: List[RadioOption])(implicit request: Request[_], messages: Messages)
 
 @title = {
     @if(index == 0) {@messages("whatKindOfAsset.first.title")} else {@messages("whatKindOfAsset.next.title")}
@@ -39,9 +39,8 @@
 
 @main_template(
     title = s"${errorPrefix(form)} $title",
-    isTaxable = isTaxable,
     showBackLink = true
-    ) {
+) {
 
     @formHelper(action = WhatKindOfAssetController.onSubmit(index, draftId), 'autoComplete -> "off") {
 

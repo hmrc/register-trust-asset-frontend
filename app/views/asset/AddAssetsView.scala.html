@@ -37,13 +37,11 @@
     completeAssets: Seq[AddRow],
     heading: String,
     prefix: String,
-    maxedOut: List[(String, Int)],
-    isTaxable: Boolean
+    maxedOut: List[(String, Int)]
 )(implicit request: Request[_], messages: Messages)
 
 @main_template(
     title = s"${errorPrefix(form)} $heading",
-    isTaxable = isTaxable,
     showBackLink = true
 ) {
 

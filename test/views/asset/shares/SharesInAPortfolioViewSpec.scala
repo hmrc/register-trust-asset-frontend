@@ -40,7 +40,7 @@ class SharesInAPortfolioViewSpec extends YesNoViewBehaviours {
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like yesNoPage(form, isTaxable = true, applyView, messageKeyPrefix)
+    behave like yesNoPage(form, applyView, messageKeyPrefix)
 
     behave like pageWithASubmitButton(applyView(form))
 

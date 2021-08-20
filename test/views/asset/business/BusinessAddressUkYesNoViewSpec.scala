@@ -36,11 +36,11 @@ class BusinessAddressUkYesNoViewSpec extends YesNoViewBehaviours {
     def applyView(form: Form[_]): HtmlFormat.Appendable =
       view.apply(form, fakeDraftId, index, businessName)(fakeRequest, messages)
 
-    behave like dynamicTitlePage(applyView(form), isTaxable = true, messageKeyPrefix, businessName)
+    behave like dynamicTitlePage(applyView(form), messageKeyPrefix, businessName)
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like yesNoPage(form, isTaxable = true, applyView, messageKeyPrefix, Seq("Test"))
+    behave like yesNoPage(form, applyView, messageKeyPrefix, Seq("Test"))
 
     behave like pageWithASubmitButton(applyView(form))
   }

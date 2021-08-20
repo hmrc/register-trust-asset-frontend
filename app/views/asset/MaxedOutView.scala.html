@@ -32,13 +32,11 @@
     completeAssets: Seq[AddRow],
     heading: String,
     maxLimit: Int,
-    prefix: String,
-    isTaxable: Boolean
+    prefix: String
 )(implicit request: Request[_], messages: Messages)
 
 @main_template(
     title = heading,
-    isTaxable = isTaxable,
     showBackLink = true
 ) {
 

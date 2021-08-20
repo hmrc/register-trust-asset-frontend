@@ -65,19 +65,15 @@ class WhatKindOfAssetController @Inject()(
         case Some(value) => form.fill(value)
       }
 
-      val isTaxable = request.userAnswers.isTaxable
-
-      Ok(view(preparedForm, draftId, index, options(request.userAnswers, index), isTaxable))
+      Ok(view(preparedForm, draftId, index, options(request.userAnswers, index)))
   }
 
   def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
     implicit request =>
 
-      val isTaxable = request.userAnswers.isTaxable
-
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, draftId, index, options(request.userAnswers, index), isTaxable))),
+          Future.successful(BadRequest(view(formWithErrors, draftId, index, options(request.userAnswers, index)))),
 
         value => {
 

@@ -39,9 +39,9 @@ class GoverningCountryViewSpec extends SelectCountryViewBehaviours {
     val view = viewFor[GoverningCountryView](Some(emptyUserAnswers))
 
     def applyView(form: Form[_]): HtmlFormat.Appendable =
-      view.apply(form, countryOptions, fakeDraftId, index, name, isTaxable = true)(fakeRequest, messages)
+      view.apply(form, countryOptions, fakeDraftId, index, name)(fakeRequest, messages)
 
-    behave like dynamicTitlePage(applyView(form), isTaxable = true, messageKeyPrefix, name)
+    behave like dynamicTitlePage(applyView(form), messageKeyPrefix, name)
 
     behave like pageWithBackLink(applyView(form))
 

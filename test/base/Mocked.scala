@@ -20,6 +20,7 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatestplus.mockito.MockitoSugar
 import repositories.RegistrationsRepository
+import views.ViewUtils
 
 import scala.concurrent.Future
 
@@ -29,4 +30,7 @@ trait Mocked extends MockitoSugar {
 
   when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
   when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+
+  val mockViewUtils: ViewUtils = mock[ViewUtils]
+  when(mockViewUtils.breadcrumbTitle(any())(any(), any())).thenReturn("")
 }

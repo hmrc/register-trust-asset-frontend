@@ -35,11 +35,11 @@ class TrustOwnsNonEeaBusinessYesNoViewSpec extends YesNoViewBehaviours {
     def applyView(form: Form[_]): HtmlFormat.Appendable =
       view.apply(form, fakeDraftId)(fakeRequest, messages)
 
-    behave like normalPage(applyView(form), messageKeyPrefix, isTaxable = false)
+    behave like normalPage(applyView(form), messageKeyPrefix)
 
     behave like pageWithBackLink(applyView(form))
 
-    behave like yesNoPage(form, isTaxable = false, applyView, messageKeyPrefix)
+    behave like yesNoPage(form, applyView, messageKeyPrefix)
 
     behave like pageWithASubmitButton(applyView(form))
   }
