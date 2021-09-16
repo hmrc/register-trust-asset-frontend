@@ -26,22 +26,8 @@ class UserAnswersSpec extends SpecBase {
 
       "return correct information" when {
 
-        "4mld" in {
-          val userAnswers = emptyUserAnswers.copy(is5mldEnabled = false, isTaxable = true)
-          userAnswers.assets mustBe AssetViewModels(
-            monetary = Some(Nil),
-            propertyOrLand = Some(Nil),
-            shares = Some(Nil),
-            business = Some(Nil),
-            partnerShip = Some(Nil),
-            other = Some(Nil),
-            nonEEABusiness = None
-          )
-        }
-
-        "5mld" when {
           "taxable" in {
-            val userAnswers = emptyUserAnswers.copy(is5mldEnabled = true, isTaxable = true)
+            val userAnswers = emptyUserAnswers.copy(isTaxable = true)
             userAnswers.assets mustBe AssetViewModels(
               monetary = Some(Nil),
               propertyOrLand = Some(Nil),
@@ -54,7 +40,7 @@ class UserAnswersSpec extends SpecBase {
           }
 
           "non-taxable" in {
-            val userAnswers = emptyUserAnswers.copy(is5mldEnabled = true, isTaxable = false)
+            val userAnswers = emptyUserAnswers.copy(isTaxable = false)
             userAnswers.assets mustBe AssetViewModels(
               monetary = None,
               propertyOrLand = None,
@@ -65,7 +51,7 @@ class UserAnswersSpec extends SpecBase {
               nonEEABusiness = Some(Nil)
             )
           }
-        }
+
       }
     }
   }

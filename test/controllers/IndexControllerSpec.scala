@@ -73,7 +73,6 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
           when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(Some(userAnswers)))
           when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-          when(trustsStoreService.is5mldEnabled()(any(), any())).thenReturn(Future.successful(false))
           when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(false))
 
           val request = FakeRequest(GET, onPageLoadRoute)
@@ -106,7 +105,6 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
             when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(Some(emptyUserAnswers)))
             when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-            when(trustsStoreService.is5mldEnabled()(any(), any())).thenReturn(Future.successful(false))
             when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(true))
 
             val request = FakeRequest(GET, onPageLoadRoute)
@@ -138,7 +136,6 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
             when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(Some(emptyUserAnswers)))
             when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-            when(trustsStoreService.is5mldEnabled()(any(), any())).thenReturn(Future.successful(false))
             when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(false))
 
             val request = FakeRequest(GET, onPageLoadRoute)
@@ -156,11 +153,11 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
         }
       }
 
-      "update value of is5mldEnabled and isTaxable in user answers" in {
+      "update value of isTaxable in user answers" in {
 
         reset(registrationsRepository)
 
-        val userAnswers = emptyUserAnswers.copy(is5mldEnabled = false)
+        val userAnswers = emptyUserAnswers
 
         val application = applicationBuilder(userAnswers = Some(userAnswers))
           .overrides(
@@ -170,7 +167,6 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
         when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(Some(userAnswers)))
         when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-        when(trustsStoreService.is5mldEnabled()(any(), any())).thenReturn(Future.successful(true))
         when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(true))
 
         val request = FakeRequest(GET, onPageLoadRoute)
@@ -179,7 +175,6 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
           val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
           verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
 
-          uaCaptor.getValue.is5mldEnabled mustBe true
           uaCaptor.getValue.isTaxable mustBe true
 
           application.stop()
@@ -202,7 +197,6 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
           when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
           when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-          when(trustsStoreService.is5mldEnabled()(any(), any())).thenReturn(Future.successful(false))
           when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(true))
 
           val request = FakeRequest(GET, onPageLoadRoute)
@@ -232,7 +226,6 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
           when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
           when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-          when(trustsStoreService.is5mldEnabled()(any(), any())).thenReturn(Future.successful(false))
           when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(false))
 
           val request = FakeRequest(GET, onPageLoadRoute)
@@ -251,10 +244,8 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
       "instantiate new set of user answers" when {
 
-        "5mld enabled" when {
-
           "taxable" must {
-            "add is5mldEnabled = true and isTaxable = true to user answers" in {
+            "add isTaxable = true to user answers" in {
 
               reset(registrationsRepository)
 
@@ -266,7 +257,6 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
               when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
               when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-              when(trustsStoreService.is5mldEnabled()(any(), any())).thenReturn(Future.successful(true))
               when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(true))
 
               val request = FakeRequest(GET, onPageLoadRoute)
@@ -275,7 +265,6 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
                 val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
                 verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
 
-                uaCaptor.getValue.is5mldEnabled mustBe true
                 uaCaptor.getValue.isTaxable mustBe true
                 uaCaptor.getValue.draftId mustBe fakeDraftId
                 uaCaptor.getValue.internalAuthId mustBe "internalId"
@@ -286,7 +275,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
           }
 
           "non-taxable" must {
-            "add is5mldEnabled = true and isTaxable = false to user answers" in {
+            "add isTaxable = false to user answers" in {
 
               reset(registrationsRepository)
 
@@ -298,7 +287,6 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
               when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
               when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-              when(trustsStoreService.is5mldEnabled()(any(), any())).thenReturn(Future.successful(true))
               when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(false))
 
               val request = FakeRequest(GET, onPageLoadRoute)
@@ -307,7 +295,6 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
                 val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
                 verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
 
-                uaCaptor.getValue.is5mldEnabled mustBe true
                 uaCaptor.getValue.isTaxable mustBe false
                 uaCaptor.getValue.draftId mustBe fakeDraftId
                 uaCaptor.getValue.internalAuthId mustBe "internalId"
@@ -316,39 +303,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
               }
             }
           }
-        }
 
-        "5mld not enabled" must {
-          "add is5mldEnabled = false to user answers" in {
-
-            reset(registrationsRepository)
-
-            val application = applicationBuilder(userAnswers = None)
-              .overrides(
-                bind[TrustsStoreService].toInstance(trustsStoreService),
-                bind[SubmissionDraftConnector].toInstance(submissionDraftConnector)
-              ).build()
-
-            when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
-            when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-            when(trustsStoreService.is5mldEnabled()(any(), any())).thenReturn(Future.successful(false))
-            when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(false))
-
-            val request = FakeRequest(GET, onPageLoadRoute)
-
-            route(application, request).value.map { _ =>
-              val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
-              verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
-
-              uaCaptor.getValue.is5mldEnabled mustBe false
-              uaCaptor.getValue.isTaxable mustBe false
-              uaCaptor.getValue.draftId mustBe fakeDraftId
-              uaCaptor.getValue.internalAuthId mustBe "internalId"
-
-              application.stop()
-            }
-          }
-        }
       }
     }
   }

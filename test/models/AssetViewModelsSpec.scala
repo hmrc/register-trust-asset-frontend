@@ -38,41 +38,6 @@ class AssetViewModelsSpec extends SpecBase {
 
       "return asset types that aren't maxed out" when {
 
-        "4mld" when {
-
-          "not maxed out" in {
-
-            val assets = AssetViewModels(
-              monetary = Some(Nil),
-              propertyOrLand = Some(Nil),
-              shares = Some(Nil),
-              business = Some(Nil),
-              partnerShip = Some(Nil),
-              other = Some(Nil),
-              nonEEABusiness = None
-            )
-
-            assets.nonMaxedOutOptions.size mustEqual 6
-          }
-
-          "maxed out" in {
-
-            val assets = AssetViewModels(
-              monetary = Some(List.fill(MAX_MONEY_ASSETS)(money)),
-              propertyOrLand = Some(List.fill(MAX_PROPERTY_OR_LAND_ASSETS)(propertyOrLand)),
-              shares = Some(List.fill(MAX_SHARES_ASSETS)(share)),
-              business = Some(List.fill(MAX_BUSINESS_ASSETS)(business)),
-              partnerShip = Some(List.fill(MAX_PARTNERSHIP_ASSETS)(partnership)),
-              other = Some(List.fill(MAX_OTHER_ASSETS)(other)),
-              nonEEABusiness = None
-            )
-
-            assets.nonMaxedOutOptions.size mustEqual 0
-          }
-        }
-
-        "5mld" when {
-
           "taxable" when {
 
             "not maxed out" in {
@@ -138,7 +103,7 @@ class AssetViewModelsSpec extends SpecBase {
               assets.nonMaxedOutOptions.size mustEqual 0
             }
           }
-        }
+
       }
     }
   }

@@ -61,14 +61,13 @@ class IndexController @Inject()(
 
   def onPageLoad(draftId: String): Action[AnyContent] = identify.async { implicit request =>
     for {
-      is5mldEnabled <- trustsStoreService.is5mldEnabled()
       isTaxable <- submissionDraftConnector.getIsTrustTaxable(draftId)
       userAnswers <- repository.get(draftId)
       result <- userAnswers match {
         case Some(answers) =>
-          updateTaskStatus(draftId, answers.copy(is5mldEnabled = is5mldEnabled, isTaxable = isTaxable))
+          updateTaskStatus(draftId, answers.copy(isTaxable = isTaxable))
         case None =>
-          val userAnswers = UserAnswers(draftId, Json.obj(), request.identifier, is5mldEnabled, isTaxable)
+          val userAnswers = UserAnswers(draftId, Json.obj(), request.identifier, isTaxable)
           updateTaskStatus(draftId, userAnswers)
       }
     } yield result

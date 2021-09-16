@@ -30,8 +30,6 @@ class NonEeaBusinessAssetMapperSpec extends SpecBase {
 
   private val mapper: NonEeaBusinessAssetMapper = injector.instanceOf[NonEeaBusinessAssetMapper]
 
-  private val baseAnswers = emptyUserAnswers.copy(is5mldEnabled = true)
-
   private val name: String = "Name"
   private val country: String = "FR"
   private val nonUkAddress: InternationalAddress = InternationalAddress("Line 1", "Line 2", Some("Line 3"), country)
@@ -44,7 +42,7 @@ class NonEeaBusinessAssetMapperSpec extends SpecBase {
 
       "not all questions answered" in {
 
-        val answers = baseAnswers
+        val answers = emptyUserAnswers
 
         mapper.build(answers) mustNot be(defined)
       }
@@ -54,7 +52,7 @@ class NonEeaBusinessAssetMapperSpec extends SpecBase {
 
       "one asset" in {
 
-        val answers = baseAnswers
+        val answers = emptyUserAnswers
           .set(WhatKindOfAssetPage(0), NonEeaBusiness).success.value
           .set(NamePage(0), name).success.value
           .set(InternationalAddressPage(0), nonUkAddress).success.value
@@ -76,7 +74,7 @@ class NonEeaBusinessAssetMapperSpec extends SpecBase {
       
       "multiple assets" in {
 
-        val answers = baseAnswers
+        val answers = emptyUserAnswers
           .set(WhatKindOfAssetPage(0), NonEeaBusiness).success.value
           .set(NamePage(0), name).success.value
           .set(InternationalAddressPage(0), nonUkAddress).success.value

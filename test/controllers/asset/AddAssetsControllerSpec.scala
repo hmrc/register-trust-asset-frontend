@@ -145,7 +145,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
       "non-taxable" must {
         "redirect to TrustOwnsNonEeaBusinessYesNoController" in {
 
-          val answers = emptyUserAnswers.copy(is5mldEnabled = true, isTaxable = false)
+          val answers = emptyUserAnswers.copy(isTaxable = false)
 
           val application = applicationBuilder(userAnswers = Some(answers)).build()
 
@@ -344,7 +344,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
         "non-taxable" in {
 
-          val application = applicationBuilder(userAnswers = Some(userAnswersWithOneAsset.copy(is5mldEnabled = true, isTaxable = false))).build()
+          val application = applicationBuilder(userAnswers = Some(userAnswersWithOneAsset.copy(isTaxable = false))).build()
 
           val request = FakeRequest(GET, addAssetsRoute)
 
@@ -386,7 +386,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
         "non-taxable" in {
 
-          val application = applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(is5mldEnabled = true, isTaxable = false))).build()
+          val application = applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(isTaxable = false))).build()
 
           val request = FakeRequest(GET, addAssetsRoute)
 
@@ -452,7 +452,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
             val application =
               applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets()
-                .copy(is5mldEnabled = true, isTaxable = false)))
+                .copy(isTaxable = false)))
               .overrides(
                 bind[TrustsStoreService].to(mockTrustsStoreService)
               ).build()
@@ -482,7 +482,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
             val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
 
             val application =
-              applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets(InProgress).copy(is5mldEnabled = true, isTaxable = false)))
+              applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets(InProgress).copy(isTaxable = false)))
                 .overrides(
                   bind[TrustsStoreService].to(mockTrustsStoreService)
                 ).build()
@@ -589,7 +589,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
               val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
 
               val application =
-                applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(is5mldEnabled = true, isTaxable = false)))
+                applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(isTaxable = false)))
                   .overrides(
                     bind[TrustsStoreService].to(mockTrustsStoreService)
                   )
@@ -698,7 +698,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
               val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
 
               val application =
-                applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(is5mldEnabled = true, isTaxable = false)))
+                applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(isTaxable = false)))
                   .overrides(
                     bind[TrustsStoreService].to(mockTrustsStoreService)
                   )
@@ -783,7 +783,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
     "multiple asset types maxed out" must {
 
       def userAnswers: UserAnswers = {
-        0.until(11).foldLeft(emptyUserAnswers.copy(is5mldEnabled = true, isTaxable = true))((ua, i) => {
+        0.until(11).foldLeft(emptyUserAnswers.copy(isTaxable = true))((ua, i) => {
           ua
             .set(WhatKindOfAssetPage(i), i match {
               case x if 0 until 1 contains x => Money
@@ -821,12 +821,10 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
     "all asset types maxed out" when {
 
-      "5mld" when {
-
         "taxable" must {
 
-          def userAnswers(max: Int, is5mldEnabled: Boolean, isTaxable: Boolean): UserAnswers = {
-            0.until(max).foldLeft(emptyUserAnswers.copy(is5mldEnabled = is5mldEnabled, isTaxable = isTaxable))((ua, i) => {
+          def userAnswers(max: Int, isTaxable: Boolean): UserAnswers = {
+            0.until(max).foldLeft(emptyUserAnswers.copy(isTaxable = isTaxable))((ua, i) => {
               ua
                 .set(WhatKindOfAssetPage(i), i match {
                   case x if 0 until 1 contains x => Money
@@ -843,12 +841,11 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
           val max: Int = 76
 
-          val is5mldEnabled: Boolean = true
           val isTaxable: Boolean = true
 
           "return OK and the correct view for a GET" in {
 
-            val answers = userAnswers(max, is5mldEnabled, isTaxable)
+            val answers = userAnswers(max, isTaxable)
 
             val rows = new AddAssetViewHelper(answers, fakeDraftId).rows
 
@@ -881,7 +878,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
             when(mockRegistrationProgress.assetsStatus(any())).thenReturn(Some(Completed))
 
-            val application = applicationBuilder(userAnswers = Some(userAnswers(max, is5mldEnabled, isTaxable)))
+            val application = applicationBuilder(userAnswers = Some(userAnswers(max, isTaxable)))
               .overrides(
                 bind[TrustsStoreService].to(mockTrustsStoreService),
                 bind[RegistrationProgress].to(mockRegistrationProgress)
@@ -907,8 +904,8 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
         "non-taxable" must {
 
-          def userAnswers(max: Int, is5mldEnabled: Boolean, isTaxable: Boolean): UserAnswers = {
-            0.until(max).foldLeft(emptyUserAnswers.copy(is5mldEnabled = is5mldEnabled, isTaxable = isTaxable))((ua, i) => {
+          def userAnswers(max: Int, isTaxable: Boolean): UserAnswers = {
+            0.until(max).foldLeft(emptyUserAnswers.copy(isTaxable = isTaxable))((ua, i) => {
               ua
                 .set(WhatKindOfAssetPage(i), NonEeaBusiness).success.value
                 .set(AssetStatus(i), InProgress).success.value
@@ -917,12 +914,11 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
           val max: Int = 25
 
-          val is5mldEnabled: Boolean = true
           val isTaxable: Boolean = false
 
           "return OK and the correct view for a GET" in {
 
-            val answers = userAnswers(max, is5mldEnabled, isTaxable)
+            val answers = userAnswers(max, isTaxable)
 
             val rows = new AddAssetViewHelper(answers, fakeDraftId).rows
 
@@ -955,7 +951,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
             when(mockRegistrationProgress.assetsStatus(any())).thenReturn(Some(Completed))
 
-            val application = applicationBuilder(userAnswers = Some(userAnswers(max, is5mldEnabled, isTaxable)))
+            val application = applicationBuilder(userAnswers = Some(userAnswers(max, isTaxable)))
               .overrides(
                 bind[TrustsStoreService].to(mockTrustsStoreService),
                 bind[RegistrationProgress].to(mockRegistrationProgress)
@@ -978,7 +974,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
             application.stop()
           }
         }
-      }
+
     }
   }
 }

@@ -65,109 +65,6 @@ class WhatKindOfAssetSpec extends SpecBase with ScalaCheckPropertyChecks {
 
     "return the non maxed out options" when {
 
-      "4mld" when {
-
-        "no assets" in {
-          
-          val assets: AssetViewModels = AssetViewModels(
-            monetary = Some(Nil),
-            propertyOrLand = Some(Nil),
-            shares = Some(Nil),
-            business = Some(Nil),
-            partnerShip = Some(Nil),
-            other = Some(Nil),
-            nonEEABusiness = None
-          )
-
-          WhatKindOfAsset.nonMaxedOutOptions(assets, assetTypeAtIndex = None) mustBe List(
-            RadioOption("whatKindOfAsset", Money.toString),
-            RadioOption("whatKindOfAsset", PropertyOrLand.toString),
-            RadioOption("whatKindOfAsset", Shares.toString),
-            RadioOption("whatKindOfAsset", Business.toString),
-            RadioOption("whatKindOfAsset", Partnership.toString),
-            RadioOption("whatKindOfAsset", Other.toString)
-          )
-
-        }
-
-        "there is a 'Money' asset" when {
-
-          val moneyAsset = MoneyAssetViewModel(Money, Some("4000"), Completed)
-          val assets: AssetViewModels = AssetViewModels(
-            monetary = Some(List(moneyAsset)),
-            propertyOrLand = Some(Nil),
-            shares = Some(Nil),
-            business = Some(Nil),
-            partnerShip = Some(Nil),
-            other = Some(Nil),
-            nonEEABusiness = None
-          )
-
-          "at this index" in {
-
-            WhatKindOfAsset.nonMaxedOutOptions(assets, assetTypeAtIndex = Some(Money)) mustBe List(
-              RadioOption("whatKindOfAsset", Money.toString),
-              RadioOption("whatKindOfAsset", PropertyOrLand.toString),
-              RadioOption("whatKindOfAsset", Shares.toString),
-              RadioOption("whatKindOfAsset", Business.toString),
-              RadioOption("whatKindOfAsset", Partnership.toString),
-              RadioOption("whatKindOfAsset", Other.toString)
-            )
-          }
-
-          "at a different index" in {
-
-            WhatKindOfAsset.nonMaxedOutOptions(assets, assetTypeAtIndex = None) mustBe List(
-              RadioOption("whatKindOfAsset", PropertyOrLand.toString),
-              RadioOption("whatKindOfAsset", Shares.toString),
-              RadioOption("whatKindOfAsset", Business.toString),
-              RadioOption("whatKindOfAsset", Partnership.toString),
-              RadioOption("whatKindOfAsset", Other.toString)
-            )
-          }
-        }
-
-        "there are a combined 10 Completed and InProgress assets of a particular type that isn't 'Money'" when {
-
-          val otherAssetCompleted = OtherAssetViewModel(Other, Some("description"), Completed)
-          val otherAssetInProgress = OtherAssetViewModel(Other, None, InProgress)
-          val assets: AssetViewModels = AssetViewModels(
-            monetary = Some(Nil),
-            propertyOrLand = Some(Nil),
-            shares = Some(Nil),
-            business = Some(Nil),
-            partnerShip = Some(Nil),
-            other = Some(List.fill(5)(otherAssetCompleted) ++ List.fill(5)(otherAssetInProgress)),
-            nonEEABusiness = None
-          )
-
-          "asset at this index is of that type" in {
-
-            WhatKindOfAsset.nonMaxedOutOptions(assets, assetTypeAtIndex = Some(Other)) mustBe List(
-              RadioOption("whatKindOfAsset", Money.toString),
-              RadioOption("whatKindOfAsset", PropertyOrLand.toString),
-              RadioOption("whatKindOfAsset", Shares.toString),
-              RadioOption("whatKindOfAsset", Business.toString),
-              RadioOption("whatKindOfAsset", Partnership.toString),
-              RadioOption("whatKindOfAsset", Other.toString)
-            )
-          }
-
-          "no asset at this index" in {
-
-            WhatKindOfAsset.nonMaxedOutOptions(assets, assetTypeAtIndex = None) mustBe List(
-              RadioOption("whatKindOfAsset", Money.toString),
-              RadioOption("whatKindOfAsset", PropertyOrLand.toString),
-              RadioOption("whatKindOfAsset", Shares.toString),
-              RadioOption("whatKindOfAsset", Business.toString),
-              RadioOption("whatKindOfAsset", Partnership.toString)
-            )
-          }
-        }
-      }
-
-      "5mld" when {
-
         "no assets" in {
 
           val assets: AssetViewModels = AssetViewModels(
@@ -309,7 +206,7 @@ class WhatKindOfAssetSpec extends SpecBase with ScalaCheckPropertyChecks {
             )
           }
         }
-      }
+
     }
 
     "display label in correct language" when {

@@ -25,20 +25,16 @@
         headingWithCaption: HeadingWithCaption
 )
 
-@(draftId: String, is5mldEnabled: Boolean)(implicit request: Request[_], messages: Messages)
+@(draftId: String)(implicit request: Request[_], messages: Messages)
 
 @main_template(
-    title = if(is5mldEnabled) {messages("assetInterruptPage.5mld.title")} else {messages("assetInterruptPage.title")},
+    title = messages("assetInterruptPage.title"),
     showBackLink = true
 ) {
 
     @formHelper(action = AssetInterruptPageController.onSubmit(draftId), 'autoComplete -> "off") {
 
-        @if(is5mldEnabled){
-            @headingWithCaption("assetInterruptPage.5mld")
-        } else {
-            @headingWithCaption("assetInterruptPage")
-        }
+        @headingWithCaption("assetInterruptPage")
 
         <h2>@messages("assetInterruptPage.subheading1")</h2>
         <p>@messages("assetInterruptPage.paragraph1")</p>
@@ -81,19 +77,17 @@
             )
         )
 
-        @if(is5mldEnabled){
-            <h2>@messages("assetInterruptPage.subheading7")</h2>
-            <p>@messages("assetInterruptPage.paragraph10")</p>
-            @bulletList(
-                "assetInterruptPage",
-                List(
-                    "bullet11",
-                    "bullet12",
-                    "bullet13",
-                    "bullet14"
-                )
+        <h2>@messages("assetInterruptPage.subheading7")</h2>
+        <p>@messages("assetInterruptPage.paragraph10")</p>
+        @bulletList(
+            "assetInterruptPage",
+            List(
+                "bullet11",
+                "bullet12",
+                "bullet13",
+                "bullet14"
             )
-        }
+        )
 
         <h2>@messages("assetInterruptPage.subheading5")</h2>
         <p>@messages("assetInterruptPage.paragraph8")</p>

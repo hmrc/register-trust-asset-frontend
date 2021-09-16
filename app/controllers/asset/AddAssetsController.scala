@@ -97,10 +97,10 @@ class AddAssetsController @Inject()(
       val prefix = determinePrefix(isTaxable)
 
       if (userAnswers.assets.nonMaxedOutOptions.isEmpty) {
-        val maxLimit: Int = (userAnswers.is5mldEnabled, isTaxable) match {
-          case (true, true) => MAX_5MLD_TAXABLE_ASSETS
-          case (true, false) => MAX_5MLD_NON_TAXABLE_ASSETS
-          case _ => MAX_4MLD_ASSETS
+        val maxLimit: Int = if (isTaxable) {
+          MAX_TAXABLE_ASSETS
+        } else {
+          MAX_NON_TAXABLE_ASSETS
         }
         Ok(maxedOutView(draftId, rows.inProgress, rows.complete, heading(rows.count, prefix), maxLimit, prefix))
       } else {

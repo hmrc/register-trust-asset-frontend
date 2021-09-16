@@ -26,17 +26,6 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class TrustsStoreService @Inject()(trustsStoreConnector: TrustsStoreConnector) {
 
-  def is5mldEnabled()(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Boolean] = {
-    isFeatureEnabled("5mld")
-  }
-
-  private def isFeatureEnabled(feature: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Boolean] = {
-    trustsStoreConnector.getFeature(feature).map {
-      case FeatureResponse(_, true) => true
-      case _ => false
-    }
-  }
-
   def updateTaskStatus(draftId: String, taskStatus: TaskStatus)
                       (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[HttpResponse] = {
     trustsStoreConnector.updateTaskStatus(draftId, taskStatus)
