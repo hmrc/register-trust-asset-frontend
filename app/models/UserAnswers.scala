@@ -29,7 +29,6 @@ final case class UserAnswers(
                               draftId: String,
                               data: JsObject = Json.obj(),
                               internalAuthId: String,
-                              is5mldEnabled: Boolean = false,
                               isTaxable: Boolean = true
                             ) extends Logging {
 
@@ -92,7 +91,7 @@ final case class UserAnswers(
       allAssets.collect { case x: BusinessAssetViewModel => x }.asSomeIf(isTaxable),
       allAssets.collect { case x: PartnershipAssetViewModel => x }.asSomeIf(isTaxable),
       allAssets.collect { case x: OtherAssetViewModel => x }.asSomeIf(isTaxable),
-      allAssets.collect { case x: NonEeaBusinessAssetViewModel => x }.asSomeIf(is5mldEnabled)
+      Some(allAssets.collect { case x: NonEeaBusinessAssetViewModel => x })
     )
   }
 }
@@ -103,7 +102,6 @@ object UserAnswers {
     (__ \ "_id").read[String] and
       (__ \ "data").read[JsObject] and
       (__ \ "internalId").read[String] and
-      (__ \ "is5mldEnabled").readWithDefault[Boolean](false) and
       (__ \ "isTaxable").readWithDefault[Boolean](true)
     )(UserAnswers.apply _)
 
@@ -111,7 +109,6 @@ object UserAnswers {
     (__ \ "_id").write[String] and
       (__ \ "data").write[JsObject] and
       (__ \ "internalId").write[String] and
-      (__ \ "is5mldEnabled").write[Boolean] and
       (__ \ "isTaxable").write[Boolean]
     )(unlift(UserAnswers.unapply))
 }

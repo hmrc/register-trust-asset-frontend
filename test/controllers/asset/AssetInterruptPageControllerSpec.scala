@@ -35,34 +35,11 @@ class AssetInterruptPageControllerSpec extends SpecBase {
 
     "return OK and the correct view for a GET" when {
 
-      "4mld" in {
-
-        val is5mldEnabled: Boolean = false
-
-        val application = applicationBuilder(userAnswers = Some(emptyUserAnswers.copy(is5mldEnabled = is5mldEnabled))).build()
-
-        val request = FakeRequest(GET, routes.AssetInterruptPageController.onPageLoad(fakeDraftId).url)
-
-        val result = route(application, request).value
-
-        val view = application.injector.instanceOf[TaxableInfoView]
-
-        status(result) mustEqual OK
-
-        contentAsString(result) mustEqual
-          view(fakeDraftId, is5mldEnabled)(request, messages).toString
-
-        application.stop()
-      }
-
-      "5mld" when {
-
         "taxable" in {
 
-          val is5mldEnabled: Boolean = true
           val isTaxable: Boolean = true
 
-          val application = applicationBuilder(userAnswers = Some(emptyUserAnswers.copy(is5mldEnabled = is5mldEnabled, isTaxable = isTaxable))).build()
+          val application = applicationBuilder(userAnswers = Some(emptyUserAnswers.copy(isTaxable = isTaxable))).build()
 
           val request = FakeRequest(GET, routes.AssetInterruptPageController.onPageLoad(fakeDraftId).url)
 
@@ -73,17 +50,16 @@ class AssetInterruptPageControllerSpec extends SpecBase {
           status(result) mustEqual OK
 
           contentAsString(result) mustEqual
-            view(fakeDraftId, is5mldEnabled)(request, messages).toString
+            view(fakeDraftId)(request, messages).toString
 
           application.stop()
         }
 
         "non-taxable" in {
 
-          val is5mldEnabled: Boolean = true
           val isTaxable: Boolean = false
 
-          val application = applicationBuilder(userAnswers = Some(emptyUserAnswers.copy(is5mldEnabled = is5mldEnabled, isTaxable = isTaxable))).build()
+          val application = applicationBuilder(userAnswers = Some(emptyUserAnswers.copy(isTaxable = isTaxable))).build()
 
           val request = FakeRequest(GET, routes.AssetInterruptPageController.onPageLoad(fakeDraftId).url)
 
@@ -98,7 +74,7 @@ class AssetInterruptPageControllerSpec extends SpecBase {
 
           application.stop()
         }
-      }
+
     }
 
     "redirect to the correct page for a POST" when {
