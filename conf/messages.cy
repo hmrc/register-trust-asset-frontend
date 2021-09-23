@@ -10,7 +10,7 @@ addAssets.add-them-now=Iawn, rwyf am ei ychwanegu nawr
 addAssets.additional-content=A ydych am ychwanegu ased arall?
 addAssets.count.heading=Rydych wedi ychwanegu {0} o asedion
 addAssets.count.title=Rydych wedi ychwanegu {0} o asedion
-addAssets.maxedOut.just1=Ni allwch ychwanegu ased arall gan eich bod wedi nodi uchafswm o {1}.
+addAssets.maxedOut.just1=Ni allwch ychwanegu ased ariannol arall gan eich bod wedi nodi uchafswm o {1}.
 addAssets.maxedOut.just1.paragraph=Gwiriwch yr asedion yr ydych wedi’u hychwanegu. Os oes gennych ragor o asedion i’w hychwanegu o dan y math hwn, ysgrifennwch i CThEM gyda’r manylion.
 addAssets.maxedOut.moreThan1=Rydych wedi nodi uchafswm yr asedion ar gyfer:
 addAssets.maxedOut.moreThan1.paragraph=Gwiriwch yr asedion yr ydych wedi’u hychwanegu. Os oes gennych ragor o asedion i’w hychwanegu o dan y mathau hyn, ysgrifennwch i CThEM gyda’r manylion.
@@ -189,7 +189,7 @@ internationalAddress.error.line3.length=Mae’n rhaid i gyfeiriad – llinell 3 
 
 money.value.checkYourAnswersLabel=Beth yw cyfanswm yr arian yn yr ymddiriedolaeth?
 money.value.error.invalid=Mae’n rhaid i gyfanswm gwerth yr asedion fod yn rhif
-money.value.error.length=Mae’n rhaid i gyfanswm gwerth yr asedion fod yn llai nag 1
+money.value.error.length=Mae’n rhaid i gyfanswm gwerth yr asedion fod yn llai nag 1,000,000,000,000
 money.value.error.required=Nodwch gyfanswm presennol yr arian yn yr ymddiriedolaeth
 money.value.error.wholeNumber=Mae’n rhaid i gyfanswm gwerth yr asedion fod yn rhif cyfan
 money.value.error.zero=Mae’n rhaid i gyfanswm yr arian yn yr ymddiriedolaeth fod yn 1 neu fwy
@@ -243,7 +243,7 @@ other.description.title=Beth yw’r disgrifiad o’r ased?
 
 other.value.checkYourAnswersLabel=Beth yw gwerth presennol {0}?
 other.value.error.invalid=Mae’n rhaid i werth presennol yr ased fod yn rhif
-other.value.error.length=Mae’n rhaid i werth presennol yr ased fod yn llai nag 1
+other.value.error.length=Mae’n rhaid i werth presennol yr ased fod yn llai nag 1,000,000,000,000
 other.value.error.required=Nodwch werth presennol yr ased
 other.value.error.wholeNumber=Mae’n rhaid i werth presennol yr ased fod yn rhif cyfan
 other.value.error.zero=Mae’n rhaid i werth presennol yr ased fod yn 1 neu fwy
@@ -298,7 +298,7 @@ propertyOrLand.internationalAddress.title=Beth yw cyfeiriad yr eiddo neu dir?
 
 propertyOrLand.totalValue.checkYourAnswersLabel=Beth yw cyfanswm gwerth presennol yr eiddo neu dir?
 propertyOrLand.totalValue.error.invalid=Mae’n rhaid i gyfanswm gwerth presennol yr eiddo neu dir fod yn rhif
-propertyOrLand.totalValue.error.length=Mae’n rhaid i gyfanswm gwerth presennol yr eiddo neu dir fod yn llai nag 1
+propertyOrLand.totalValue.error.length=Mae’n rhaid i gyfanswm gwerth presennol yr eiddo neu dir fod yn llai nag 1,000,000,000,000
 propertyOrLand.totalValue.error.lessThanValueInTrust=Mae’n rhaid i gyfanswm gwerth presennol yr eiddo neu dir fod yn fwy na gwerth presennol yr eiddo neu dir y mae’r ymddiriedolaeth yn berchen arno
 propertyOrLand.totalValue.error.required=Nodwch gyfanswm gwerth presennol yr eiddo neu dir
 propertyOrLand.totalValue.error.wholeNumber=Mae’n rhaid i gyfanswm gwerth presennol yr eiddo neu dir fod yn rhif cyfan
