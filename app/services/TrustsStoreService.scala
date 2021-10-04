@@ -17,7 +17,6 @@
 package services
 
 import connectors.TrustsStoreConnector
-import models.FeatureResponse
 import models.TaskStatus.TaskStatus
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
 
