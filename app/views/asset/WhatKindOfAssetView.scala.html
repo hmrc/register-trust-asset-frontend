@@ -22,9 +22,9 @@
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
-        submitButton: SubmitButton,
-        errorSummary: ErrorSummary,
-        inputRadio: InputRadio,
+    submitButton: SubmitButton,
+    errorSummary: ErrorSummary,
+    inputRadio: InputRadio
 )
 
 @(form: Form[_], draftId: String, index: Int, options: List[RadioOption])(implicit request: Request[_], messages: Messages)
@@ -40,7 +40,7 @@
 @main_template(
     title = s"${errorPrefix(form)} $title",
     showBackLink = true
-    ) {
+) {
 
     @formHelper(action = WhatKindOfAssetController.onSubmit(index, draftId), 'autoComplete -> "off") {
 
@@ -50,7 +50,7 @@
             field = form("value"),
             legend = heading.toString,
             legendClass = Some("govuk-heading-l"),
-            inputs = mapRadioOptionsToRadioItems(form("value"), trackGa = false, options),
+            inputs = mapRadioOptionsToRadioItems(form("value"), options),
             legendAsHeading = true,
             inline = false
         )

@@ -16,19 +16,30 @@
 
 package views
 
+import models.requests.RegistrationDataRequest
 import play.api.data.{Field, Form, FormError}
 import play.api.i18n.Messages
-import viewmodels.RadioOption
+import play.api.mvc.Request
 import uk.gov.hmrc.govukfrontend.views.html.components.{RadioItem, Text}
+import viewmodels.RadioOption
+
+class ViewUtils {
+
+  def breadcrumbTitle[T <: Request[_]](title: String)(implicit request: T, messages: Messages): String = {
+    val section = request match {
+      case x: RegistrationDataRequest[_] => Some(s"entities.${if (x.userAnswers.isTaxable) "assets" else "nonTaxable"}")
+      case _ => None
+    }
+
+    s"$title ${section.fold("")(x => s"- ${messages(x)} ")}- ${messages("service.name")} - GOV.UK"
+  }
+
+}
 
 object ViewUtils {
 
   def errorPrefix(form: Form[_])(implicit messages: Messages): String = {
     if (form.hasErrors || form.hasGlobalErrors) messages("error.browser.title.prefix") else ""
-  }
-
-  def breadcrumbTitle(title: String)(implicit messages: Messages): String = {
-    s"$title - ${messages("entities.assets")} - ${messages("service.name")} - GOV.UK"
   }
 
   def errorHref(error: FormError, radioOptions: Seq[RadioOption] = Nil): String = {
@@ -37,7 +48,7 @@ object ViewUtils {
         s"${error.key}.${error.args.head}"
       case _ if error.message.toLowerCase.contains("yesno") =>
         s"${error.key}-yes"
-      case _ if radioOptions.size != 0 =>
+      case _ if radioOptions.nonEmpty =>
         radioOptions.head.id
       case _ =>
         val isSingleDateField = error.message.toLowerCase.contains("date") && !error.message.toLowerCase.contains("yesno")
@@ -49,8 +60,7 @@ object ViewUtils {
     }
   }
 
-  def mapRadioOptionsToRadioItems(field: Field, trackGa: Boolean,
-                                  inputs: Seq[RadioOption])(implicit messages: Messages): Seq[RadioItem] =
+  def mapRadioOptionsToRadioItems(field: Field, inputs: Seq[RadioOption])(implicit messages: Messages): Seq[RadioItem] =
     inputs.map(
       a => {
         RadioItem(
@@ -58,7 +68,7 @@ object ViewUtils {
           value = Some(a.value),
           checked = field.value.contains(a.value),
           content = Text(messages(a.messageKey)),
-          attributes = if (trackGa) Map[String, String]("data-journey-click" -> s"trusts-frontend:click:${a.id}") else Map.empty
+          attributes = Map.empty
         )
       }
     )

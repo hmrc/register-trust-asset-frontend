@@ -14,10 +14,10 @@
 * limitations under the License.
 *@
 
-@import uk.gov.hmrc.hmrcfrontend.views.html.helpers._
 @import config.FrontendAppConfig
 @import uk.gov.hmrc.hmrcfrontend.views.config.StandardBetaBanner
 @import resources._
+@import views.ViewUtils
 
 @this(
     appConfig: FrontendAppConfig,
@@ -31,10 +31,12 @@
     hmrcScripts: HmrcScripts,
     stylesheets: Stylesheets,
     govukBackLink: GovukBackLink,
-    hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper
+    hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper,
+    viewUtils: ViewUtils
 )
 
-@(title: String,
+@(
+    title: String,
     sidebarLinks: Option[Html] = None,
     contentHeader: Option[Html] = None,
     bodyClasses: Option[String] = None,
@@ -63,11 +65,11 @@
 
 @beforeContentBlock = {
     @hmrcLanguageSelectHelper()
-        @if(showBackLink) {
-            @govukBackLink(BackLink(
-                attributes = Map("id" -> "back-link"), classes="js-enabled", href="javascript:history.back()", content = HtmlContent(messages("site.back"))
-            ))
-        }
+    @if(showBackLink) {
+        @govukBackLink(BackLink(
+            attributes = Map("id" -> "back-link"), classes="js-enabled", href="javascript:history.back()", content = HtmlContent(messages("site.back"))
+        ))
+    }
 }
 
 @mainContentWithGetHelp = {
@@ -76,14 +78,14 @@
 }
 
 @govukLayout(
-    pageTitle = Some(breadcrumbTitle(title)),
+    pageTitle = Some(viewUtils.breadcrumbTitle(title)),
     headBlock = Some(hmrcHead(
         headBlock = Some(headScripts)
     )),
     headerBlock = Some(hmrcStandardHeader(
         serviceUrl = Some(appConfig.loginContinueUrl),
         signOutUrl = if(canSignOut) Some(controllers.routes.LogoutController.logout().url) else None,
-        phaseBanner = Some(standardBetaBanner(url = appConfig.betaFeedbackUrl))
+        phaseBanner = None
     )),
     beforeContentBlock = Some(beforeContentBlock),
     scriptsBlock = Some(hmrcScripts()),

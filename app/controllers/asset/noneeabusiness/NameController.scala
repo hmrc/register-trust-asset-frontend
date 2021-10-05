@@ -63,7 +63,6 @@ class NameController @Inject()(
       }
 
       Ok(view(preparedForm, draftId, index))
-
   }
 
   def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {

@@ -96,11 +96,12 @@ class SubmissionSetFactorySpec extends SpecBase {
           nonEeaBusinessAnswersHelper = nonEeaBusinessAnswersHelper
         )
 
-        def assetSection(heading: String): AnswerSection = {
+        def assetSection(headingKey: String, headingArg: Any): AnswerSection = {
           AnswerSection(
-            headingKey = Some(heading),
+            headingKey = Some(headingKey),
             rows = Nil,
-            sectionKey = None
+            sectionKey = None,
+            headingArgs = Seq(headingArg.toString)
           )
         }
 
@@ -111,38 +112,44 @@ class SubmissionSetFactorySpec extends SpecBase {
           "only one asset" in {
 
             when(partnershipAnswersHelper(any())(any())).thenReturn(Nil)
-            when(otherAnswersHelper(any())(any())).thenReturn(Seq(assetSection("Other 1")))
+            when(otherAnswersHelper(any())(any()))
+              .thenReturn(Seq(assetSection("answerPage.section.otherAsset.subheading", 1)))
             when(nonEeaBusinessAnswersHelper(any())(any())).thenReturn(Nil)
 
             val result = factory.answerSectionsIfCompleted(baseAnswers, Some(Completed))
 
             result mustBe List(
               RegistrationSubmission.AnswerSection(
-                headingKey = Some("Other 1"),
+                headingKey = Some("answerPage.section.otherAsset.subheading"),
                 rows = Nil,
-                sectionKey = Some("Assets")
+                sectionKey = Some("answerPage.section.assets.heading"),
+                headingArgs = Seq("1")
               )
             )
           }
 
           "when more than one asset" in {
 
-            when(partnershipAnswersHelper(any())(any())).thenReturn(Seq(assetSection("Partnership 1")))
-            when(otherAnswersHelper(any())(any())).thenReturn(Seq(assetSection("Other 1")))
+            when(partnershipAnswersHelper(any())(any()))
+              .thenReturn(Seq(assetSection("answerPage.section.partnershipAsset.subheading", 1)))
+            when(otherAnswersHelper(any())(any()))
+              .thenReturn(Seq(assetSection("answerPage.section.otherAsset.subheading", 1)))
             when(nonEeaBusinessAnswersHelper(any())(any())).thenReturn(Nil)
 
             val result = factory.answerSectionsIfCompleted(baseAnswers, Some(Completed))
 
             result mustBe List(
               RegistrationSubmission.AnswerSection(
-                headingKey = Some("Partnership 1"),
+                headingKey = Some("answerPage.section.partnershipAsset.subheading"),
                 rows = Nil,
-                sectionKey = Some("Assets")
+                sectionKey = Some("answerPage.section.assets.heading"),
+                headingArgs = Seq("1")
               ),
               RegistrationSubmission.AnswerSection(
-                headingKey = Some("Other 1"),
+                headingKey = Some("answerPage.section.otherAsset.subheading"),
                 rows = Nil,
-                sectionKey = None
+                sectionKey = None,
+                headingArgs = Seq("1")
               )
             )
           }
@@ -156,15 +163,17 @@ class SubmissionSetFactorySpec extends SpecBase {
 
             when(partnershipAnswersHelper(any())(any())).thenReturn(Nil)
             when(otherAnswersHelper(any())(any())).thenReturn(Nil)
-            when(nonEeaBusinessAnswersHelper(any())(any())).thenReturn(Seq(assetSection("Non-EEA Company 1")))
+            when(nonEeaBusinessAnswersHelper(any())(any()))
+              .thenReturn(Seq(assetSection("answerPage.section.nonEeaBusinessAsset.subheading", 1)))
 
             val result = factory.answerSectionsIfCompleted(baseAnswers, Some(Completed))
 
             result mustBe List(
               RegistrationSubmission.AnswerSection(
-                headingKey = Some("Non-EEA Company 1"),
+                headingKey = Some("answerPage.section.nonEeaBusinessAsset.subheading"),
                 rows = Nil,
-                sectionKey = Some("Company ownership or controlling interest")
+                sectionKey = Some("answerPage.section.companyOwnershipOrControllingInterest.heading"),
+                headingArgs = Seq("1")
               )
             )
           }
@@ -173,20 +182,26 @@ class SubmissionSetFactorySpec extends SpecBase {
 
             when(partnershipAnswersHelper(any())(any())).thenReturn(Nil)
             when(otherAnswersHelper(any())(any())).thenReturn(Nil)
-            when(nonEeaBusinessAnswersHelper(any())(any())).thenReturn(Seq(assetSection("Non-EEA Company 1"), assetSection("Non-EEA Company 2")))
+            when(nonEeaBusinessAnswersHelper(any())(any()))
+              .thenReturn(Seq(
+                assetSection("answerPage.section.nonEeaBusinessAsset.subheading", 1),
+                assetSection("answerPage.section.nonEeaBusinessAsset.subheading", 2)
+              ))
 
             val result = factory.answerSectionsIfCompleted(baseAnswers, Some(Completed))
 
             result mustBe List(
               RegistrationSubmission.AnswerSection(
-                headingKey = Some("Non-EEA Company 1"),
+                headingKey = Some("answerPage.section.nonEeaBusinessAsset.subheading"),
                 rows = Nil,
-                sectionKey = Some("Company ownership or controlling interest")
+                sectionKey = Some("answerPage.section.companyOwnershipOrControllingInterest.heading"),
+                headingArgs = Seq("1")
               ),
               RegistrationSubmission.AnswerSection(
-                headingKey = Some("Non-EEA Company 2"),
+                headingKey = Some("answerPage.section.nonEeaBusinessAsset.subheading"),
                 rows = Nil,
-                sectionKey = None
+                sectionKey = None,
+                headingArgs = Seq("2")
               )
             )
           }

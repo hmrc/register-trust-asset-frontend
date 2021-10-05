@@ -38,28 +38,31 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
                                      nonEeaBusinessAnswersHelper: NonEeaBusinessAnswersHelper) {
 
   def createFrom(userAnswers: UserAnswers)(implicit messages: Messages): RegistrationSubmission.DataSet = {
-    val status = registrationProgress.assetsStatus(userAnswers)
+    val status: Option[Status] = registrationProgress.assetsStatus(userAnswers)
 
     RegistrationSubmission.DataSet(
-      Json.toJson(userAnswers),
-      status,
-      mappedDataIfCompleted(userAnswers, status),
-      answerSectionsIfCompleted(userAnswers, status)
+      data = Json.toJson(userAnswers),
+      status = status,
+      registrationPieces = mappedDataIfCompleted(userAnswers, status),
+      answerSections = answerSectionsIfCompleted(userAnswers, status)
     )
   }
 
-  private def mappedDataIfCompleted(userAnswers: UserAnswers, status: Option[Status]): List[RegistrationSubmission.MappedPiece] = {
+  private def mappedDataIfCompleted(userAnswers: UserAnswers,
+                                    status: Option[Status]): List[RegistrationSubmission.MappedPiece] = {
     if (status.contains(Completed)) {
-      assetMapper.build(userAnswers) match {
-        case Some(assets) => List(RegistrationSubmission.MappedPiece("trust/assets", Json.toJson(assets)))
-        case _ => List.empty
-      }
+      assetMapper.build(userAnswers).map {
+        assets =>
+          RegistrationSubmission.MappedPiece("trust/assets", Json.toJson(assets))
+      }.toList
     } else {
-      List.empty
+      Nil
     }
   }
 
-  def answerSectionsIfCompleted(userAnswers: UserAnswers, status: Option[Status])
+  def answerSectionsIfCompleted(userAnswers: UserAnswers,
+                                status: Option[Status]
+                               )
                                (implicit messages: Messages): List[RegistrationSubmission.AnswerSection] = {
 
     if (status.contains(Completed)) {
@@ -79,13 +82,12 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
           List.empty
         case _ =>
           val section = if (userAnswers.isTaxable) "assets" else "companyOwnershipOrControllingInterest"
-          val updatedFirstSection: AnswerSection = AnswerSection(
-            entitySections.head.headingKey,
-            entitySections.head.rows,
-            Some(Messages(s"answerPage.section.$section.heading"))
-          )
 
-          val updatedSections: List[AnswerSection] = updatedFirstSection :: entitySections.tail
+          val updatedFirstSection: AnswerSection =
+            entitySections.head.copy(sectionKey = Some(s"answerPage.section.$section.heading"))
+
+          val updatedSections: List[AnswerSection] =
+            updatedFirstSection :: entitySections.tail
 
           updatedSections.map(convertForSubmission)
       }
@@ -95,7 +97,12 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
   }
 
   private def convertForSubmission(section: AnswerSection): RegistrationSubmission.AnswerSection = {
-    RegistrationSubmission.AnswerSection(section.headingKey, section.rows.map(convertForSubmission), section.sectionKey)
+    RegistrationSubmission.AnswerSection(
+      headingKey = section.headingKey,
+      rows = section.rows.map(convertForSubmission),
+      sectionKey = section.sectionKey,
+      headingArgs = section.headingArgs.map(_.toString)
+    )
   }
 
   private def convertForSubmission(row: AnswerRow): RegistrationSubmission.AnswerRow = {

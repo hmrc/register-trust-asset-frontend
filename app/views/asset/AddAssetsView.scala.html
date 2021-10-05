@@ -58,7 +58,11 @@
         @if(maxedOut.size == 1) {
             <div class="govuk-inset-text">
                 <ul class="govuk-list">
-                    <li><p>@messages(s"$prefix.maxedOut.just1", messages(maxedOut.head._1).uncapitalize, maxedOut.head._2.toString)</p></li>
+                    @if(maxedOut.head._1 == "whatKindOfAsset.Other") {
+                        <p>@messages(s"$prefix.maxedOut.other.just1", maxedOut.head._2.toString)</p>
+                    } else {
+                        <li><p>@messages(s"$prefix.maxedOut.just1", messages(maxedOut.head._1).uncapitalize, maxedOut.head._2.toString)</p></li>
+                    }
                     <li><p>@messages(s"$prefix.maxedOut.just1.paragraph")</p></li>
                 </ul>
             </div>
@@ -83,7 +87,7 @@
             legend = messages(s"$prefix.additional-content"),
             legendAsHeading = false,
             legendClass = Some("govuk-heading-m"),
-            inputs = mapRadioOptionsToRadioItems(form("value"), trackGa = false, AddAssets.options(prefix)),
+            inputs = mapRadioOptionsToRadioItems(form("value"), AddAssets.options(prefix)),
             inline = false
         )
         @submitButton()

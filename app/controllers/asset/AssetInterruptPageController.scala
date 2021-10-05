@@ -44,7 +44,7 @@ class AssetInterruptPageController @Inject()(
     implicit request =>
       Ok(
         if (request.userAnswers.isTaxable) {
-          taxableView(draftId, request.userAnswers.is5mldEnabled)
+          taxableView(draftId)
         } else {
           nonTaxableView(draftId)
         }

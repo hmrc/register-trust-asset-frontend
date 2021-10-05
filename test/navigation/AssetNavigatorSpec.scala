@@ -150,36 +150,22 @@ class AssetNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
 
       "taxable" when {
 
-        val baseAnswers = emptyUserAnswers.copy(is5mldEnabled = true, isTaxable = true)
+        val baseAnswers = emptyUserAnswers.copy(isTaxable = true)
 
-        "add them now selected" when {
+        "add them now selected" must {
+          "go to the WhatKindOfAssetPage at next index" in {
+            val answers = baseAnswers
+              .set(WhatKindOfAssetPage(0), Money).success.value
+              .set(AssetStatus(0), Completed).success.value
+              .set(AddAssetsPage, AddAssets.YesNow).success.value
 
-          "last asset is in progress" must {
-            "go to the WhatKindOfAssetPage at in-progress index" in {
-              val answers = baseAnswers
-                .set(WhatKindOfAssetPage(0), Money).success.value
-                .set(AddAssetsPage, AddAssets.YesNow).success.value
-
-              navigator.nextPage(AddAssetsPage, fakeDraftId)(answers)
-                .mustBe(controllers.asset.routes.WhatKindOfAssetController.onPageLoad(0, fakeDraftId))
-            }
-          }
-
-          "last asset is complete" must {
-            "go to the WhatKindOfAssetPage at next index" in {
-              val answers = baseAnswers
-                .set(WhatKindOfAssetPage(0), Money).success.value
-                .set(AssetStatus(0), Completed).success.value
-                .set(AddAssetsPage, AddAssets.YesNow).success.value
-
-              navigator.nextPage(AddAssetsPage, fakeDraftId)(answers)
-                .mustBe(controllers.asset.routes.WhatKindOfAssetController.onPageLoad(1, fakeDraftId))
-            }
+            navigator.nextPage(AddAssetsPage, fakeDraftId)(answers)
+              .mustBe(controllers.asset.routes.WhatKindOfAssetController.onPageLoad(1, fakeDraftId))
           }
 
           "all types maxed out except money" must {
             "redirect to money journey" in {
-              val answers = (0 until (MAX_5MLD_TAXABLE_ASSETS - MAX_MONEY_ASSETS)).foldLeft(baseAnswers)((acc, i) => {
+              val answers = (0 until (MAX_TAXABLE_ASSETS - MAX_MONEY_ASSETS)).foldLeft(baseAnswers)((acc, i) => {
                 acc
                   .set(WhatKindOfAssetPage(i), i match {
                     case x if 0 until 10 contains x => PropertyOrLand
@@ -199,7 +185,7 @@ class AssetNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
 
           "all types maxed out except property or land" must {
             "redirect to property or land journey" in {
-              val answers = (0 until (MAX_5MLD_TAXABLE_ASSETS - MAX_PROPERTY_OR_LAND_ASSETS)).foldLeft(baseAnswers)((acc, i) => {
+              val answers = (0 until (MAX_TAXABLE_ASSETS - MAX_PROPERTY_OR_LAND_ASSETS)).foldLeft(baseAnswers)((acc, i) => {
                 acc
                   .set(WhatKindOfAssetPage(i), i match {
                     case x if 0 until 1 contains x => Money
@@ -219,7 +205,7 @@ class AssetNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
 
           "all types maxed out except shares" must {
             "redirect to shares journey" in {
-              val answers = (0 until (MAX_5MLD_TAXABLE_ASSETS - MAX_SHARES_ASSETS)).foldLeft(baseAnswers)((acc, i) => {
+              val answers = (0 until (MAX_TAXABLE_ASSETS - MAX_SHARES_ASSETS)).foldLeft(baseAnswers)((acc, i) => {
                 acc
                   .set(WhatKindOfAssetPage(i), i match {
                     case x if 0 until 1 contains x => Money
@@ -239,7 +225,7 @@ class AssetNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
 
           "all types maxed out except business" must {
             "redirect to business journey" in {
-              val answers = (0 until (MAX_5MLD_TAXABLE_ASSETS - MAX_BUSINESS_ASSETS)).foldLeft(baseAnswers)((acc, i) => {
+              val answers = (0 until (MAX_TAXABLE_ASSETS - MAX_BUSINESS_ASSETS)).foldLeft(baseAnswers)((acc, i) => {
                 acc
                   .set(WhatKindOfAssetPage(i), i match {
                     case x if 0 until 1 contains x => Money
@@ -259,7 +245,7 @@ class AssetNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
 
           "all types maxed out except partnership" must {
             "redirect to partnership journey" in {
-              val answers = (0 until (MAX_5MLD_TAXABLE_ASSETS - MAX_PARTNERSHIP_ASSETS)).foldLeft(baseAnswers)((acc, i) => {
+              val answers = (0 until (MAX_TAXABLE_ASSETS - MAX_PARTNERSHIP_ASSETS)).foldLeft(baseAnswers)((acc, i) => {
                 acc
                   .set(WhatKindOfAssetPage(i), i match {
                     case x if 0 until 1 contains x => Money
@@ -279,7 +265,7 @@ class AssetNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
 
           "all types maxed out except other" must {
             "redirect to other journey" in {
-              val answers = (0 until (MAX_5MLD_TAXABLE_ASSETS - MAX_OTHER_ASSETS)).foldLeft(baseAnswers)((acc, i) => {
+              val answers = (0 until (MAX_TAXABLE_ASSETS - MAX_OTHER_ASSETS)).foldLeft(baseAnswers)((acc, i) => {
                 acc
                   .set(WhatKindOfAssetPage(i), i match {
                     case x if 0 until 1 contains x => Money
@@ -299,7 +285,7 @@ class AssetNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
 
           "all types maxed out except non-EEA business" must {
             "redirect to non-EEA business journey" in {
-              val answers = (0 until (MAX_5MLD_TAXABLE_ASSETS - MAX_NON_EEA_BUSINESS_ASSETS)).foldLeft(baseAnswers)((acc, i) => {
+              val answers = (0 until (MAX_TAXABLE_ASSETS - MAX_NON_EEA_BUSINESS_ASSETS)).foldLeft(baseAnswers)((acc, i) => {
                 acc
                   .set(WhatKindOfAssetPage(i), i match {
                     case x if 0 until 1 contains x => Money
@@ -345,7 +331,7 @@ class AssetNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
 
       "non-taxable" when {
 
-        val baseAnswers = emptyUserAnswers.copy(is5mldEnabled = true, isTaxable = false)
+        val baseAnswers = emptyUserAnswers.copy(isTaxable = false)
 
         "add them now selected" must {
           "go to the non-EEA business asset name page" in {

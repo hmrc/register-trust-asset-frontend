@@ -116,7 +116,7 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
 
       val viewWithData = applyView(form, completeAssets, 11, List(("Money", 1), ("Partnership", 10)))
 
-      behave like dynamicTitlePage(viewWithData, s"$messageKeyPrefix.count", "11")
+      behave like dynamicTitlePage(viewWithData,s"$messageKeyPrefix.count", "11")
 
       behave like pageWithBackLink(viewWithData)
 

@@ -37,7 +37,7 @@ trait ViewSpecBase extends SpecBase {
   def asDocument(html: Html): Document = Jsoup.parse(html.toString())
 
   def assertEqualsMessage(doc: Document, cssSelector: String, expectedMessageKey: String, args: Any*): Assertion =
-    assertEqualsValue(doc, cssSelector, ViewUtils.breadcrumbTitle(messages(expectedMessageKey, args: _*)))
+    assertEqualsValue(doc, cssSelector, mockViewUtils.breadcrumbTitle(messages(expectedMessageKey, args: _*))(fakeRequest, messages))
 
   def assertEqualsValue(doc : Document, cssSelector : String, expectedValue: String): Assertion = {
     val elements = doc.select(cssSelector)
@@ -70,6 +70,28 @@ trait ViewSpecBase extends SpecBase {
     headers.size mustBe 1
 
     val expectedCaption = s"${messages(s"$expectedMessageKey.caption.hidden")} ${messages(s"$expectedMessageKey.caption")}"
+
+    val expectedHeading = messages(s"$expectedMessageKey.heading", args:_*)
+
+    val expected = s"$expectedCaption $expectedHeading"
+      .replaceAll("&nbsp;", " ")
+
+    val actual = headers
+      .first
+      .text
+      .replaceAll("\u00a0", " ")
+
+    actual mustBe expected
+  }
+
+  def assertPageTitleWithSectionSubheading(doc: Document,
+                                           expectedMessageKey: String,
+                                           captionParam: String,
+                                           args: Any*): Assertion = {
+    val headers = doc.getElementsByTag("h1")
+    headers.size mustBe 1
+
+    val expectedCaption = s"${messages(s"$expectedMessageKey.caption.hidden")} ${messages(s"$expectedMessageKey.caption", captionParam)}"
 
     val expectedHeading = messages(s"$expectedMessageKey.heading", args:_*)
 

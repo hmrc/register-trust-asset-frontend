@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package models
+package services
 
-sealed trait Status
+import connectors.TrustsStoreConnector
+import models.TaskStatus.TaskStatus
+import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
 
-object Status extends Enumerable.Implicits {
+import javax.inject.Inject
+import scala.concurrent.{ExecutionContext, Future}
 
-  case object Completed extends WithName("completed") with Status
-  case object InProgress extends WithName("progress") with Status
+class TrustsStoreService @Inject()(trustsStoreConnector: TrustsStoreConnector) {
 
-  val values: Set[Status] = Set(
-    Completed, InProgress
-  )
-
-  implicit val enumerable: Enumerable[Status] =
-    Enumerable(values.toSeq.map(v => v.toString -> v): _*)
+  def updateTaskStatus(draftId: String, taskStatus: TaskStatus)
+                      (implicit hc: HeaderCarrier, ec: ExecutionContext): Future[HttpResponse] = {
+    trustsStoreConnector.updateTaskStatus(draftId, taskStatus)
+  }
+  
 }
