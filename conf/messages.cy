@@ -11,6 +11,7 @@ addAssets.additional-content=A ydych am ychwanegu ased arall?
 addAssets.count.heading=Rydych wedi ychwanegu {0} o asedion
 addAssets.count.title=Rydych wedi ychwanegu {0} o asedion
 addAssets.maxedOut.just1=Ni allwch ychwanegu ased {0} arall gan eich bod wedi nodi uchafswm o {1}.
+addAssets.maxedOut.other.just1=Ni allwch ychwanegu rhagor o asedion ‘arall’ gan eich bod wedi nodi uchafswm o {0}.
 addAssets.maxedOut.just1.paragraph=Gwiriwch yr asedion yr ydych wedi’u hychwanegu. Os oes gennych ragor o asedion i’w hychwanegu o dan y math hwn, ysgrifennwch i CThEM gyda’r manylion.
 addAssets.maxedOut.moreThan1=Rydych wedi nodi uchafswm yr asedion ar gyfer:
 addAssets.maxedOut.moreThan1.paragraph=Gwiriwch yr asedion yr ydych wedi’u hychwanegu. Os oes gennych ragor o asedion i’w hychwanegu o dan y mathau hyn, ysgrifennwch i CThEM gyda’r manylion.
