@@ -7,28 +7,30 @@ addAnAssetYesNo.title=A ydych am ychwanegu ased?
 
 addAssets.add-them-later=Iawn, rwyf am ei ychwanegu yn nes ymlaen
 addAssets.add-them-now=Iawn, rwyf am ei ychwanegu nawr
+
 addAssets.additional-content=A ydych am ychwanegu ased arall?
 addAssets.count.heading=Rydych wedi ychwanegu {0} o asedion
 addAssets.count.title=Rydych wedi ychwanegu {0} o asedion
+
+addAssets.error.required=Dewiswch ‘Iawn’ os ydych am ychwanegu ased arall
+addAssets.heading=Ychwanegu asedion
+addAssets.no-complete=Na, rwyf wedi ychwanegu’r holl asedion
+addAssets.title=Ychwanegu asedion
+
+addAssets.maxedOut.p1=Ni allwch ychwanegu ased arall gan eich bod wedi nodi uchafswm o {0}.
+addAssets.maxedOut.p2=Gallwch ychwanegu ased arall drwy dynnu un presennol
+
 addAssets.maxedOut.just1=Ni allwch ychwanegu ased {0} arall gan eich bod wedi nodi uchafswm o {1}.
 addAssets.maxedOut.other.just1=Ni allwch ychwanegu rhagor o asedion ‘arall’ gan eich bod wedi nodi uchafswm o {0}.
 addAssets.maxedOut.just1.paragraph=Gwiriwch yr asedion yr ydych wedi’u hychwanegu. Os oes gennych ragor o asedion i’w hychwanegu o dan y math hwn, ysgrifennwch i CThEM gyda’r manylion.
+
 addAssets.maxedOut.moreThan1=Rydych wedi nodi uchafswm yr asedion ar gyfer:
 addAssets.maxedOut.moreThan1.paragraph=Gwiriwch yr asedion yr ydych wedi’u hychwanegu. Os oes gennych ragor o asedion i’w hychwanegu o dan y mathau hyn, ysgrifennwch i CThEM gyda’r manylion.
+
 addAssets.nonTaxable.count.title=Rydych wedi ychwanegu {0} o gwmnïau nad ydynt yn rhan o’r AEE
 addAssets.nonTaxable.count.heading=Rydych wedi ychwanegu {0} o gwmnïau nad ydynt yn rhan o’r AEE
 addAssets.nonTaxable.maxedOut.p1=Ni allwch ychwanegu cwmni arall nad yw’n rhan o’r AEE gan eich bod wedi nodi uchafswm o {0}.
 addAssets.nonTaxable.maxedOut.p2=Gallwch ychwanegu cwmni arall nad yw’n rhan o’r AEE drwy gael gwared ar un sy’n bodoli eisoes, neu ysgrifennu i CThEM gyda manylion unrhyw gwmnïau ychwanegol nad ydynt yn aelodau o’r AEE.
-assets.nonTaxable.defaultText=y cwmni hwn nad yw’n rhan o’r AEE
-assets.nonTaxable.removeYesNo.title=A ydych yn siŵr eich bod am dynnu’r cwmni nad yw’n rhan o’r AEE?
-assets.nonTaxable.removeYesNo.heading=A ydych yn siŵr eich bod am dynnu {0}?
-assets.nonTaxable.removeYesNo.error.required=Dewiswch ‘Iawn’ os ydych am dynnu’r cwmni nad yw’n rhan o’r AEE
-addAssets.error.required=Dewiswch ‘Iawn’ os ydych am ychwanegu ased arall
-addAssets.heading=Ychwanegu asedion
-addAssets.maxedOut.p1=Ni allwch ychwanegu ased arall gan eich bod wedi nodi uchafswm o {0}.
-addAssets.maxedOut.p2=Gallwch ychwanegu ased arall drwy dynnu un presennol
-addAssets.no-complete=Na, rwyf wedi ychwanegu’r holl asedion
-addAssets.title=Ychwanegu asedion
 
 addAssets.nonTaxable.title=Ychwanegu cwmni nad yw’n rhan o’r AEE
 addAssets.nonTaxable.heading=Ychwanegu cwmni nad yw’n rhan o’r AEE
@@ -42,6 +44,11 @@ addAssets.nonTaxable.count.title=Rydych wedi ychwanegu {0} o gwmnïau nad ydynt 
 addAssets.nonTaxable.count.heading=Rydych wedi ychwanegu {0} o gwmnïau nad ydynt yn rhan o’r AEE
 addAssets.nonTaxable.maxedOut.p1=Ni allwch ychwanegu cwmni arall nad yw’n rhan o’r AEE gan eich bod wedi nodi uchafswm o {0}.
 addAssets.nonTaxable.maxedOut.p2=Gallwch ychwanegu cwmni arall nad yw’n rhan o’r AEE drwy gael gwared ar un sy’n bodoli eisoes, neu ysgrifennu at CThEM gyda manylion unrhyw gwmnïau ychwanegol nad ydynt yn aelodau o’r AEE.
+
+assets.nonTaxable.defaultText=y cwmni hwn nad yw’n rhan o’r AEE
+assets.nonTaxable.removeYesNo.title=A ydych yn siŵr eich bod am dynnu’r cwmni nad yw’n rhan o’r AEE?
+assets.nonTaxable.removeYesNo.heading=A ydych yn siŵr eich bod am dynnu {0}?
+assets.nonTaxable.removeYesNo.error.required=Dewiswch ‘Iawn’ os ydych am dynnu’r cwmni nad yw’n rhan o’r AEE
 
 address.country=Gwlad
 
