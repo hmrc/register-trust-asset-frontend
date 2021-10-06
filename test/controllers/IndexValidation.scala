@@ -26,7 +26,7 @@ import play.api.http.Writeable
 import play.api.libs.json.Writes
 import play.api.mvc.Request
 import play.api.test.Helpers._
-import views.html.ErrorTemplate
+import views.html.{ErrorTemplate, PageNotFoundView}
 
 trait IndexValidation extends SpecBase with ScalaCheckPropertyChecks with MockitoSugar with Generators {
 
@@ -64,13 +64,9 @@ trait IndexValidation extends SpecBase with ScalaCheckPropertyChecks with Mockit
 
           val result = route(application, request).value
 
-          val view = application.injector.instanceOf[ErrorTemplate]
+          val view = application.injector.instanceOf[PageNotFoundView]
 
-          val applyView = view.apply(
-            messages("global.error.pageNotFound404.title"),
-            messages("global.error.pageNotFound404.heading"),
-            messages("global.error.pageNotFound404.message")
-          )(request, messages)
+          val applyView = view.apply()(request, messages)
 
           status(result) mustEqual NOT_FOUND
 
