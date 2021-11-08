@@ -38,33 +38,23 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
                                      nonEeaBusinessAnswersHelper: NonEeaBusinessAnswersHelper) {
 
   def createFrom(userAnswers: UserAnswers)(implicit messages: Messages): RegistrationSubmission.DataSet = {
-    val status: Option[Status] = registrationProgress.assetsStatus(userAnswers)
 
     RegistrationSubmission.DataSet(
       data = Json.toJson(userAnswers),
-      registrationPieces = mappedDataIfCompleted(userAnswers, status),
-      answerSections = answerSectionsIfCompleted(userAnswers, status)
+      registrationPieces = mappedData(userAnswers),
+      answerSections = answerSections(userAnswers)
     )
   }
 
-  private def mappedDataIfCompleted(userAnswers: UserAnswers,
-                                    status: Option[Status]): List[RegistrationSubmission.MappedPiece] = {
-    if (status.contains(Completed)) {
+  private def mappedData(userAnswers: UserAnswers): List[RegistrationSubmission.MappedPiece] = {
       assetMapper.build(userAnswers).map {
         assets =>
           RegistrationSubmission.MappedPiece("trust/assets", Json.toJson(assets))
       }.toList
-    } else {
-      Nil
-    }
   }
 
-  def answerSectionsIfCompleted(userAnswers: UserAnswers,
-                                status: Option[Status]
-                               )
-                               (implicit messages: Messages): List[RegistrationSubmission.AnswerSection] = {
-
-    if (status.contains(Completed)) {
+  def answerSections(userAnswers: UserAnswers)
+                    (implicit messages: Messages): List[RegistrationSubmission.AnswerSection] = {
 
       val entitySections: List[AnswerSection] = List(
         moneyAnswersHelper(userAnswers),
@@ -90,9 +80,6 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
 
           updatedSections.map(convertForSubmission)
       }
-    } else {
-      List.empty
-    }
   }
 
   private def convertForSubmission(section: AnswerSection): RegistrationSubmission.AnswerSection = {
