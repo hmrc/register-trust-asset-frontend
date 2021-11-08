@@ -26,7 +26,7 @@ import play.api.http.Writeable
 import play.api.libs.json.Writes
 import play.api.mvc.Request
 import play.api.test.Helpers._
-import views.html.{ErrorTemplate, PageNotFoundView}
+import views.html.PageNotFoundView
 
 trait IndexValidation extends SpecBase with ScalaCheckPropertyChecks with MockitoSugar with Generators {
 

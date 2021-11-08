@@ -46,7 +46,6 @@ class SubmissionSetFactorySpec extends SpecBase {
 
           result mustBe RegistrationSubmission.DataSet(
             data = Json.toJson(answers),
-            status = Some(Completed),
             registrationPieces = Nil,
             answerSections = Nil
           )
@@ -57,10 +56,10 @@ class SubmissionSetFactorySpec extends SpecBase {
     ".answerSectionsIfCompleted" must {
       
       "return empty list" when {
-        "status is incomplete" in {
+        "no assets exist" in {
 
           val factory = injector.instanceOf[SubmissionSetFactory]
-          val result = factory.answerSectionsIfCompleted(emptyUserAnswers, None)
+          val result = factory.answerSections(emptyUserAnswers)
           
           result mustBe List.empty
         }
@@ -116,7 +115,7 @@ class SubmissionSetFactorySpec extends SpecBase {
               .thenReturn(Seq(assetSection("answerPage.section.otherAsset.subheading", 1)))
             when(nonEeaBusinessAnswersHelper(any())(any())).thenReturn(Nil)
 
-            val result = factory.answerSectionsIfCompleted(baseAnswers, Some(Completed))
+            val result = factory.answerSections(baseAnswers)
 
             result mustBe List(
               RegistrationSubmission.AnswerSection(
@@ -136,7 +135,7 @@ class SubmissionSetFactorySpec extends SpecBase {
               .thenReturn(Seq(assetSection("answerPage.section.otherAsset.subheading", 1)))
             when(nonEeaBusinessAnswersHelper(any())(any())).thenReturn(Nil)
 
-            val result = factory.answerSectionsIfCompleted(baseAnswers, Some(Completed))
+            val result = factory.answerSections(baseAnswers)
 
             result mustBe List(
               RegistrationSubmission.AnswerSection(
@@ -166,7 +165,7 @@ class SubmissionSetFactorySpec extends SpecBase {
             when(nonEeaBusinessAnswersHelper(any())(any()))
               .thenReturn(Seq(assetSection("answerPage.section.nonEeaBusinessAsset.subheading", 1)))
 
-            val result = factory.answerSectionsIfCompleted(baseAnswers, Some(Completed))
+            val result = factory.answerSections(baseAnswers)
 
             result mustBe List(
               RegistrationSubmission.AnswerSection(
@@ -188,7 +187,7 @@ class SubmissionSetFactorySpec extends SpecBase {
                 assetSection("answerPage.section.nonEeaBusinessAsset.subheading", 2)
               ))
 
-            val result = factory.answerSectionsIfCompleted(baseAnswers, Some(Completed))
+            val result = factory.answerSections(baseAnswers)
 
             result mustBe List(
               RegistrationSubmission.AnswerSection(
