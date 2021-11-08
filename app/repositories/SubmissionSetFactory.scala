@@ -42,7 +42,6 @@ class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
 
     RegistrationSubmission.DataSet(
       data = Json.toJson(userAnswers),
-      status = status,
       registrationPieces = mappedDataIfCompleted(userAnswers, status),
       answerSections = answerSectionsIfCompleted(userAnswers, status)
     )

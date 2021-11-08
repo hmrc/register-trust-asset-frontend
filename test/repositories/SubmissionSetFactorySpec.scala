@@ -46,7 +46,6 @@ class SubmissionSetFactorySpec extends SpecBase {
 
           result mustBe RegistrationSubmission.DataSet(
             data = Json.toJson(answers),
-            status = Some(Completed),
             registrationPieces = Nil,
             answerSections = Nil
           )

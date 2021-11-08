@@ -1,4 +1,4 @@
-
+dat
 # Register Trust Asset Frontend
 
 This service is responsible for collecting details about the assets the trust holds when registering a trust.
