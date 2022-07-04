@@ -126,7 +126,7 @@ class PropertyOrLandTotalValueControllerSpec extends SpecBase with IndexValidati
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
@@ -143,7 +143,7 @@ class PropertyOrLandTotalValueControllerSpec extends SpecBase with IndexValidati
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad.url
 
       application.stop()
     }

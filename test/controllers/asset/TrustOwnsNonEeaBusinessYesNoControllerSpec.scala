@@ -167,7 +167,7 @@ class TrustOwnsNonEeaBusinessYesNoControllerSpec extends SpecBase with BeforeAnd
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
@@ -183,7 +183,7 @@ class TrustOwnsNonEeaBusinessYesNoControllerSpec extends SpecBase with BeforeAnd
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad().url
+      redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad.url
 
       application.stop()
     }
