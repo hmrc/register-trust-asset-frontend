@@ -3,6 +3,7 @@
 db
 dist
 .DS_Store
+.bsp/
 **/*.DS_Store
 eclipse
 *.eml

@@ -74,14 +74,14 @@ class AssetNavigator @Inject()(config: FrontendAppConfig) extends Navigator {
     answers.get(AddAssetsPage) match {
       case Some(AddAssets.YesNow) => AssetNavigator.addAssetRoute(answers, draftId)
       case Some(_) => assetsCompletedRoute(draftId)
-      case _ => SessionExpiredController.onPageLoad()
+      case _ => SessionExpiredController.onPageLoad
     }
   }
 
   private def whatKindOfAssetRoute(answers: UserAnswers, index: Int, draftId: String): Call =
     answers.get(WhatKindOfAssetPage(index)) match {
       case Some(kindOfAsset) => AssetNavigator.addAssetNowRoute(kindOfAsset, answers, draftId, Some(index))
-      case _ => SessionExpiredController.onPageLoad()
+      case _ => SessionExpiredController.onPageLoad
     }
 
 }
