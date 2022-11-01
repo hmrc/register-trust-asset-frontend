@@ -19,14 +19,15 @@ package mapping
 import base.SpecBase
 import generators.Generators
 import models._
-import org.scalatest.{MustMatchers, OptionValues}
+import org.scalatest.matchers.must.Matchers
+import org.scalatest.OptionValues
 import pages.asset._
 import pages.asset.property_or_land._
 
-class PropertyOrLandMapperSpec extends SpecBase with MustMatchers
+class PropertyOrLandMapperSpec extends SpecBase with Matchers
   with OptionValues with Generators {
 
-  val propertyOrLandMapper: PropertyOrLandMapper = injector.instanceOf[PropertyOrLandMapper]
+  private val propertyOrLandMapper: PropertyOrLandMapper = injector.instanceOf[PropertyOrLandMapper]
 
   private val assetTotalValue: Long = 1000L
   private val assetTrustValue: Long = 750L

@@ -19,7 +19,7 @@ package controllers
 import base.SpecBase
 import generators.Generators
 import org.scalacheck.Gen
-import org.scalatestplus.mockito.MockitoSugar
+import org.mockito.MockitoSugar
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import pages.QuestionPage
 import play.api.http.Writeable

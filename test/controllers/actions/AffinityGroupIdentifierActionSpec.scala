@@ -18,8 +18,7 @@ package controllers.actions
 
 import base.SpecBase
 import config.FrontendAppConfig
-import org.mockito.Matchers.any
-import org.mockito.Mockito._
+import org.mockito.ArgumentMatchers.any
 import play.api.mvc.{Action, AnyContent, DefaultActionBuilder, Results}
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core._
@@ -31,12 +30,12 @@ class AffinityGroupIdentifierActionSpec extends SpecBase {
 
   type RetrievalType = Option[String] ~ Option[AffinityGroup] ~ Enrolments
 
-  val mockAuthConnector: AuthConnector = mock[AuthConnector]
-  val appConfig: FrontendAppConfig = injector.instanceOf[FrontendAppConfig]
-  val actionBuilder: DefaultActionBuilder = app.injector.instanceOf[DefaultActionBuilder]
-  val fakeAction: Action[AnyContent] = actionBuilder { _ => Results.Ok }
+  private val mockAuthConnector: AuthConnector = mock[AuthConnector]
+  private val appConfig: FrontendAppConfig = injector.instanceOf[FrontendAppConfig]
+  private val actionBuilder: DefaultActionBuilder = app.injector.instanceOf[DefaultActionBuilder]
+  private val fakeAction: Action[AnyContent] = actionBuilder { _ => Results.Ok }
 
-  val utr = "0987654321"
+  private val utr = "0987654321"
 
   lazy override val trustsAuth = new TrustsAuthorisedFunctions(mockAuthConnector, appConfig)
 

@@ -17,8 +17,7 @@
 package controllers.asset.shares
 
 import base.SpecBase
-import org.mockito.Matchers.{any, eq => eqTo}
-import org.mockito.Mockito.when
+import org.mockito.ArgumentMatchers.{any, eq => eqTo}
 import pages.asset.shares._
 import play.api.inject.bind
 import play.api.test.FakeRequest

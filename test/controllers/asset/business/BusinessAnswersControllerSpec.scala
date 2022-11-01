@@ -19,8 +19,7 @@ package controllers.asset.business
 import base.SpecBase
 import controllers.routes._
 import models.{UKAddress, UserAnswers}
-import org.mockito.Matchers.any
-import org.mockito.Mockito.when
+import org.mockito.ArgumentMatchers.any
 import pages.asset.business._
 import play.api.inject.bind
 import play.api.test.FakeRequest
@@ -30,14 +29,15 @@ import views.html.asset.business.BusinessAnswersView
 
 class BusinessAnswersControllerSpec extends SpecBase {
 
-  val index = 0
+  private val index = 0
+  private val totalValue: Long = 12L
 
-  val answers: UserAnswers = emptyUserAnswers
+  private val answers: UserAnswers = emptyUserAnswers
     .set(BusinessNamePage(index), "test").success.value
     .set(BusinessDescriptionPage(index), "test test test").success.value
     .set(BusinessAddressUkYesNoPage(index), true).success.value
     .set(BusinessUkAddressPage(index), UKAddress("test", "test", None, None, "NE11NE")).success.value
-    .set(BusinessValuePage(index), 12L).success.value
+    .set(BusinessValuePage(index), totalValue).success.value
 
   "AssetAnswerPage Controller" must {
 

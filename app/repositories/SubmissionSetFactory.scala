@@ -17,8 +17,7 @@
 package repositories
 
 import mapping.AssetMapper
-import models.Status.Completed
-import models.{RegistrationSubmission, Status, UserAnswers}
+import models.{RegistrationSubmission, UserAnswers}
 import pages.RegistrationProgress
 import play.api.i18n.Messages
 import play.api.libs.json.Json

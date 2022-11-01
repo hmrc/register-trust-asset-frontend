@@ -24,8 +24,7 @@ import models.Status.{Completed, InProgress}
 import models.WhatKindOfAsset._
 import models.{AddAssets, Status, TaskStatus, UserAnswers}
 import org.mockito.ArgumentCaptor
-import org.mockito.Matchers.{any, eq => mEq}
-import org.mockito.Mockito.{reset, verify, when}
+import org.mockito.ArgumentMatchers.{any, eq => mEq}
 import org.scalatest.BeforeAndAfterEach
 import pages.asset.noneeabusiness.NamePage
 import pages.asset.{AddAnAssetYesNoPage, AddAssetsPage, WhatKindOfAssetPage}
@@ -170,7 +169,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
             reset(registrationsRepository)
             when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-            val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+            val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
             val application =
               applicationBuilder(userAnswers = Some(emptyUserAnswers.copy(isTaxable = true)))
@@ -202,7 +201,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
             reset(registrationsRepository)
             when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-            val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+            val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
             val application =
               applicationBuilder(userAnswers =
@@ -238,7 +237,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
             reset(registrationsRepository)
             when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
 
-            val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+            val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
             val application =
               applicationBuilder(userAnswers = Some(emptyUserAnswers.copy(isTaxable = false)))
@@ -269,7 +268,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
             reset(registrationsRepository)
             when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
 
-            val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+            val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
             val application =
               applicationBuilder(userAnswers = Some(emptyUserAnswers.copy(isTaxable = false)))
@@ -397,7 +396,8 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
           status(result) mustEqual OK
 
           contentAsString(result) mustEqual
-            view(addNonTaxableAssetsForm, fakeDraftId, Nil, multipleAssets, "You have added 2 non-EEA companies", "addAssets.nonTaxable", Nil)(request, messages).toString
+            view(addNonTaxableAssetsForm, fakeDraftId, Nil, multipleAssets, "You have added 2 non-EEA companies",
+              "addAssets.nonTaxable", Nil)(request, messages).toString
 
           application.stop()
         }
@@ -414,7 +414,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
             reset(registrationsRepository)
             when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
 
-            val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+            val uaCaptor:ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
             val application =
               applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(isTaxable = true)))
@@ -448,7 +448,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
             reset(registrationsRepository)
             when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-            val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+            val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
             val application =
               applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets()
@@ -479,7 +479,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
             reset(registrationsRepository)
             when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-            val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+            val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
             val application =
               applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets(InProgress).copy(isTaxable = false)))
@@ -518,7 +518,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
             "set in progress and redirect" in {
               reset(registrationsRepository)
               when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-              val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+              val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
               when(mockRegistrationProgress.assetsStatus(any())).thenReturn(Some(InProgress))
 
@@ -554,7 +554,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
             "set in progress and not set value in WhatKindOfAssetPage" in {
               reset(registrationsRepository)
               when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-              val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+              val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
               val application =
                 applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(isTaxable = true)))
@@ -586,7 +586,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
               reset(registrationsRepository)
               when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-              val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+              val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
               val application =
                 applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(isTaxable = false)))
@@ -627,7 +627,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
             "set in progress and redirect" in {
               reset(registrationsRepository)
               when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-              val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+              val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
               when(mockRegistrationProgress.assetsStatus(any())).thenReturn(Some(InProgress))
 
@@ -663,7 +663,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
             "set task complete and not set value in WhatKindOfAssetPage" in {
               reset(registrationsRepository)
               when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-              val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+              val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
               val application =
                 applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(isTaxable = true)))
@@ -695,7 +695,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
               reset(registrationsRepository)
               when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-              val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+              val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
               val application =
                 applicationBuilder(userAnswers = Some(userAnswersWithMultipleAssets().copy(isTaxable = false)))
@@ -810,7 +810,8 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
         val content = contentAsString(result)
 
         content mustEqual
-          view(addTaxableAssetsForm, fakeDraftId, rows.inProgress, rows.complete, "You have added 11 assets", "addAssets", List(("Money", 1), ("Property or land", 10)))(request, messages).toString
+          view(addTaxableAssetsForm, fakeDraftId, rows.inProgress, rows.complete, "You have added 11 assets", "addAssets",
+            List(("Money", 1), ("Property or land", 10)))(request, messages).toString
 
         content must include("You have entered the maximum number of assets for:")
         content must include("Check the assets you have added. If you have further assets to add within these types, write to HMRC with their details.")
@@ -874,7 +875,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
             reset(registrationsRepository)
             when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-            val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+            val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
             when(mockRegistrationProgress.assetsStatus(any())).thenReturn(Some(Completed))
 
@@ -938,7 +939,8 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
               view(fakeDraftId, rows.inProgress, rows.complete, "You have added 25 non-EEA companies", max, "addAssets.nonTaxable")(request, messages).toString
 
             content must include("You cannot add another non-EEA company as you have entered a maximum of 25.")
-            content must include("You can add another non-EEA company by removing an existing one, or write to HMRC with details of any additional non-EEA companies.")
+            content must include("You can add another non-EEA company by removing an existing one," +
+              " or write to HMRC with details of any additional non-EEA companies.")
 
             application.stop()
           }
@@ -947,7 +949,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
             reset(registrationsRepository)
             when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-            val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+            val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
             when(mockRegistrationProgress.assetsStatus(any())).thenReturn(Some(Completed))
 

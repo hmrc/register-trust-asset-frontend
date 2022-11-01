@@ -19,8 +19,7 @@ package utils.answers
 import base.SpecBase
 import models.WhatKindOfAsset.{Money, Shares}
 import models.{ShareClass, UserAnswers}
-import org.mockito.Matchers.any
-import org.mockito.Mockito.{reset, times, verify, when}
+import org.mockito.ArgumentMatchers.any
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.money.AssetMoneyValuePage
 import pages.asset.shares._
@@ -106,10 +105,10 @@ class SharesAnswersHelperSpec extends SpecBase {
 
         result.size mustBe 2
 
-        result(0).headingKey mustBe Some("answerPage.section.shareAsset.subheading")
-        result(0).rows.map(_.answer).contains(Html("Shares")) mustBe true
-        result(0).rows.map(_.labelArg).contains(name) mustBe true
-        result(0).headingArgs mustBe Seq(1)
+        result.head.headingKey mustBe Some("answerPage.section.shareAsset.subheading")
+        result.head.rows.map(_.answer).contains(Html("Shares")) mustBe true
+        result.head.rows.map(_.labelArg).contains(name) mustBe true
+        result.head.headingArgs mustBe Seq(1)
         result(1).headingKey mustBe Some("answerPage.section.shareAsset.subheading")
         result(1).rows.map(_.answer).contains(Html("Shares")) mustBe true
         result(1).rows.map(_.labelArg).contains(name) mustBe true

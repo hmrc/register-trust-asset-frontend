@@ -19,8 +19,7 @@ package utils.answers
 import base.SpecBase
 import models.WhatKindOfAsset._
 import models.{UKAddress, UserAnswers}
-import org.mockito.Matchers.any
-import org.mockito.Mockito.{reset, verify, when}
+import org.mockito.ArgumentMatchers.any
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.business._
 import pages.asset.money._
@@ -99,10 +98,10 @@ class BusinessAnswersHelperSpec extends SpecBase {
 
         result.size mustBe 2
 
-        result(0).headingKey mustBe Some("answerPage.section.businessAsset.subheading")
-        result(0).rows.map(_.answer).contains(Html("Business")) mustBe true
-        result(0).rows.map(_.labelArg).contains(name) mustBe true
-        result(0).headingArgs mustBe Seq(1)
+        result.head.headingKey mustBe Some("answerPage.section.businessAsset.subheading")
+        result.head.rows.map(_.answer).contains(Html("Business")) mustBe true
+        result.head.rows.map(_.labelArg).contains(name) mustBe true
+        result.head.headingArgs mustBe Seq(1)
         result(1).headingKey mustBe Some("answerPage.section.businessAsset.subheading")
         result(1).rows.map(_.answer).contains(Html("Business")) mustBe true
         result(1).rows.map(_.labelArg).contains(name) mustBe true

@@ -19,8 +19,7 @@ package services
 import base.SpecBase
 import connectors.TrustsStoreConnector
 import models.TaskStatus
-import org.mockito.Matchers.{any, eq => eqTo}
-import org.mockito.Mockito.{verify, when}
+import org.mockito.ArgumentMatchers.{any, eq => eqTo}
 import play.api.http.Status.OK
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
 
@@ -28,11 +27,11 @@ import scala.concurrent.Future
 
 class TrustsStoreServiceSpec extends SpecBase {
 
-  val mockConnector = mock[TrustsStoreConnector]
+  private val mockConnector = mock[TrustsStoreConnector]
 
-  val trustsStoreService = new TrustsStoreService(mockConnector)
+  private val trustsStoreService = new TrustsStoreService(mockConnector)
 
-  implicit val hc = HeaderCarrier()
+  private implicit val hc: HeaderCarrier = HeaderCarrier()
 
   ".updateTaskStatus" must {
     "call trusts store connector" in {

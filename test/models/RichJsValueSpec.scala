@@ -18,17 +18,17 @@ package models
 
 import generators.ModelGenerators
 import org.scalacheck.{Gen, Shrink}
-import org.scalatest.{FreeSpec, MustMatchers, OptionValues}
+import org.scalatest.freespec.AnyFreeSpec
+import org.scalatest.matchers.must.Matchers
+import org.scalatest.OptionValues
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.libs.json._
 
-class RichJsValueSpec extends FreeSpec with MustMatchers with ScalaCheckPropertyChecks with OptionValues with ModelGenerators {
+class RichJsValueSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues with ModelGenerators {
 
-  implicit def dontShrink[A]: Shrink[A] = Shrink.shrinkAny
+  private implicit def dontShrink[A]: Shrink[A] = Shrink.shrinkAny
 
-  val min = 2
-  val max = 10
-  val nonEmptyAlphaStr: Gen[String] = Gen.alphaStr.suchThat(_.nonEmpty)
+  private val nonEmptyAlphaStr: Gen[String] = Gen.alphaStr.suchThat(_.nonEmpty)
 
   def buildJsObj[B](keys: Seq[String], values: Seq[B])(implicit writes: Writes[B]): JsObject = {
     keys.zip(values).foldLeft(JsObject.empty) {

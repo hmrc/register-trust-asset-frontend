@@ -19,8 +19,7 @@ package controllers.asset.noneeabusiness
 import base.SpecBase
 import controllers.routes._
 import models.{InternationalAddress, UserAnswers}
-import org.mockito.Matchers.any
-import org.mockito.Mockito.when
+import org.mockito.ArgumentMatchers.any
 import pages.asset.noneeabusiness._
 import play.api.inject.bind
 import play.api.test.FakeRequest

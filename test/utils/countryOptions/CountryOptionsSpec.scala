@@ -18,7 +18,7 @@ package utils.countryOptions
 
 import base.SpecBase
 import com.typesafe.config.ConfigException
-import org.scalatestplus.mockito.MockitoSugar
+import org.mockito.MockitoSugar
 import play.api.i18n.{Lang, MessagesApi, MessagesImpl}
 import play.api.inject.guice.GuiceApplicationBuilder
 import utils.InputOption
@@ -36,7 +36,7 @@ class CountryOptionsSpec extends SpecBase with MockitoSugar {
         .build()
 
       val messagesApi = app.injector.instanceOf[MessagesApi]
-      implicit val messages = MessagesImpl(lang = Lang(ENGLISH), messagesApi = messagesApi)
+      implicit val messages: MessagesImpl = MessagesImpl(lang = Lang(ENGLISH), messagesApi = messagesApi)
 
       val countryOption: CountryOptions = application.injector.instanceOf[CountryOptions]
       countryOption.options mustEqual Seq(InputOption("ES", "Spain"), InputOption("GB", "United Kingdom"))
@@ -53,7 +53,7 @@ class CountryOptionsSpec extends SpecBase with MockitoSugar {
         .build()
 
       val messagesApi = app.injector.instanceOf[MessagesApi]
-      implicit val messages = MessagesImpl(lang = Lang(WELSH), messagesApi = messagesApi)
+      implicit val messages: MessagesImpl = MessagesImpl(lang = Lang(WELSH), messagesApi = messagesApi)
 
       val countryOption: CountryOptions = application.injector.instanceOf[CountryOptions]
       countryOption.options mustEqual Seq(InputOption("ES", "Sbaen"), InputOption("GB", "Y Deyrnas Unedig"))

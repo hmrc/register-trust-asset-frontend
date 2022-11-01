@@ -22,8 +22,7 @@ import models.ShareClass.Ordinary
 import models.WhatKindOfAsset._
 import models.{InternationalAddress, UKAddress, UserAnswers}
 import org.mockito.ArgumentCaptor
-import org.mockito.Matchers.any
-import org.mockito.Mockito._
+import org.mockito.ArgumentMatchers.any
 import pages.asset._
 import pages.asset.business._
 import pages.asset.money._
@@ -50,7 +49,7 @@ class RemoveAssetYesNoControllerSpec extends SpecBase {
   private val nonUkAddress: InternationalAddress = InternationalAddress("Line 1", "Line 2", Some("Line 3"), "FR")
   private val date: LocalDate = LocalDate.parse("2000-02-03")
 
-  lazy val removeAssetYesNoRoute: String = routes.RemoveAssetYesNoController.onPageLoad(index, fakeDraftId).url
+  private lazy val removeAssetYesNoRoute: String = routes.RemoveAssetYesNoController.onPageLoad(index, fakeDraftId).url
 
   "RemoveAssetYesNoController" must {
 
@@ -446,7 +445,7 @@ class RemoveAssetYesNoControllerSpec extends SpecBase {
 
       redirectLocation(result).value mustEqual controllers.asset.routes.AddAssetsController.onPageLoad(fakeDraftId).url
 
-      val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+      val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
       verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
       uaCaptor.getValue.get(WhatKindOfAssetPage(index)) mustNot be(defined)
       uaCaptor.getValue.get(AssetMoneyValuePage(index)) mustNot be(defined)

@@ -19,8 +19,7 @@ package controllers.actions
 import base.SpecBase
 import config.FrontendAppConfig
 import models.requests.IdentifierRequest
-import org.mockito.Matchers.any
-import org.mockito.Mockito._
+import org.mockito.ArgumentMatchers.any
 import play.api.mvc.{Action, AnyContent, Results}
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core._
@@ -32,8 +31,8 @@ class RegistrationIdentifierActionSpec extends SpecBase {
 
   type RetrievalType = Option[String] ~ Option[AffinityGroup] ~ Enrolments
 
-  val mockAuthConnector: AuthConnector = mock[AuthConnector]
-  val appConfig: FrontendAppConfig = injector.instanceOf[FrontendAppConfig]
+  private val mockAuthConnector: AuthConnector = mock[AuthConnector]
+  private val appConfig: FrontendAppConfig = injector.instanceOf[FrontendAppConfig]
   lazy override val trustsAuth = new TrustsAuthorisedFunctions(mockAuthConnector, appConfig)
 
   private def authRetrievals(affinityGroup: AffinityGroup, enrolment: Enrolments) =
