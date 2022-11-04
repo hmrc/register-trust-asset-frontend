@@ -20,15 +20,16 @@ import base.SpecBase
 import generators.Generators
 import models.Status.Completed
 import models.{OtherAssetType, WhatKindOfAsset}
-import org.scalatest.{MustMatchers, OptionValues}
+import org.scalatest.matchers.must.Matchers
+import org.scalatest.OptionValues
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.other._
 
-class OtherAssetMapperSpec extends SpecBase with MustMatchers
+class OtherAssetMapperSpec extends SpecBase with Matchers
   with OptionValues with Generators {
 
-  val otherAssetMapper: OtherAssetMapper = injector.instanceOf[OtherAssetMapper]
+  private val otherAssetMapper: OtherAssetMapper = injector.instanceOf[OtherAssetMapper]
 
   private val assetValue1: Long = 4000L
   private val assetValue2: Long = 6000L

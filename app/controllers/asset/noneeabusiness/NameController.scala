@@ -47,7 +47,8 @@ class NameController @Inject()(
                                 view: NameView
                               )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  private val form: Form[String] = formProvider.withConfig(105, "nonEeaBusiness.name")
+  private val maxLength = 105
+  private val form: Form[String] = formProvider.withConfig(maxLength, "nonEeaBusiness.name")
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen getData(draftId) andThen

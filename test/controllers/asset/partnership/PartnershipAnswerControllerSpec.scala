@@ -19,8 +19,7 @@ package controllers.asset.partnership
 import base.SpecBase
 import models.Status.Completed
 import models.WhatKindOfAsset.Partnership
-import org.mockito.Matchers.any
-import org.mockito.Mockito.when
+import org.mockito.ArgumentMatchers.any
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.partnership._
@@ -34,10 +33,10 @@ import java.time.{LocalDate, ZoneOffset}
 
 class PartnershipAnswerControllerSpec extends SpecBase {
 
-  val index: Int = 0
-  val validDate: LocalDate = LocalDate.now(ZoneOffset.UTC)
+  private val index: Int = 0
+  private val validDate: LocalDate = LocalDate.now(ZoneOffset.UTC)
 
-  lazy val partnershipAnswerRoute: String = routes.PartnershipAnswerController.onPageLoad(index, fakeDraftId).url
+  private lazy val partnershipAnswerRoute: String = routes.PartnershipAnswerController.onPageLoad(index, fakeDraftId).url
 
   "PartnershipAnswer Controller" must {
 

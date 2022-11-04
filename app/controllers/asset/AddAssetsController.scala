@@ -80,7 +80,7 @@ class AddAssetsController @Inject()(
     }
     setTaskStatus(draftId, status)
   }
-  
+
   private def setTaskStatus(draftId: String, taskStatus: TaskStatus)
                            (implicit hc: HeaderCarrier): Future[HttpResponse] = {
     trustsStoreService.updateTaskStatus(draftId, taskStatus)

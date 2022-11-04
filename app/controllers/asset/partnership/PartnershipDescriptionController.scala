@@ -45,7 +45,8 @@ class PartnershipDescriptionController @Inject()(
                                                   view: PartnershipDescriptionView
                                                 )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  private val form = formProvider.withConfig(56, "partnership.description")
+  private val maxLength = 56
+  private val form = formProvider.withConfig(maxLength, "partnership.description")
 
   private def actions(index: Int, draftId: String) =
     identify andThen

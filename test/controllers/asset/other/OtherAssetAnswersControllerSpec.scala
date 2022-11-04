@@ -19,8 +19,7 @@ package controllers.asset.other
 import base.SpecBase
 import models.UserAnswers
 import models.WhatKindOfAsset.Other
-import org.mockito.Matchers.any
-import org.mockito.Mockito.when
+import org.mockito.ArgumentMatchers.any
 import pages.asset._
 import pages.asset.other._
 import play.api.Application
@@ -39,13 +38,14 @@ class OtherAssetAnswersControllerSpec extends SpecBase {
 
     val index: Int = 0
     val description: String = "Description"
+    val totalValue: Long = 4000L
 
     lazy val answersRoute = routes.OtherAssetAnswersController.onPageLoad(index, fakeDraftId).url
 
     val baseAnswers: UserAnswers = emptyUserAnswers
       .set(WhatKindOfAssetPage(index), Other).success.value
       .set(OtherAssetDescriptionPage(index), description).success.value
-      .set(OtherAssetValuePage(index), 4000L).success.value
+      .set(OtherAssetValuePage(index), totalValue).success.value
 
     "return OK and the correct view for a GET" in {
 

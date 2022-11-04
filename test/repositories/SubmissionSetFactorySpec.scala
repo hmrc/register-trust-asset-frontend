@@ -19,9 +19,7 @@ package repositories
 import base.SpecBase
 import mapping.AssetMapper
 import models.RegistrationSubmission
-import models.Status.Completed
-import org.mockito.Matchers.any
-import org.mockito.Mockito.when
+import org.mockito.ArgumentMatchers.any
 import pages.RegistrationProgress
 import pages.asset.TrustOwnsNonEeaBusinessYesNoPage
 import play.api.libs.json.Json
@@ -31,7 +29,7 @@ import viewmodels.AnswerSection
 import scala.collection.immutable.Nil
 
 class SubmissionSetFactorySpec extends SpecBase {
-  
+
   "SubmissionSetFactory" when {
 
     ".createFrom" must {
@@ -52,24 +50,24 @@ class SubmissionSetFactorySpec extends SpecBase {
         }
       }
     }
-    
+
     ".answerSectionsIfCompleted" must {
-      
+
       "return empty list" when {
         "no assets exist" in {
 
           val factory = injector.instanceOf[SubmissionSetFactory]
           val result = factory.answerSections(emptyUserAnswers)
-          
+
           result mustBe List.empty
         }
       }
-      
+
       "return completed answer sections" when {
-        
+
         val registrationProgress: RegistrationProgress = injector.instanceOf[RegistrationProgress]
         val assetMapper: AssetMapper = injector.instanceOf[AssetMapper]
-        
+
         val moneyAnswersHelper: MoneyAnswersHelper = mock[MoneyAnswersHelper]
         val propertyOrLandAnswersHelper: PropertyOrLandAnswersHelper = mock[PropertyOrLandAnswersHelper]
         val sharesAnswersHelper: SharesAnswersHelper = mock[SharesAnswersHelper]

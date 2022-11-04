@@ -55,5 +55,4 @@ class DraftIdDataRetrievalAction(
         OptionalRegistrationDataRequest(request.request, request.identifier, Session.id(hc), userAnswers, request.affinityGroup, request.enrolments, request.agentARN)
     }
   }
-
 }

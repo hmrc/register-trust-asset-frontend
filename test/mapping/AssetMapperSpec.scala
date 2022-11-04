@@ -20,17 +20,18 @@ import base.SpecBase
 import generators.Generators
 import models.Status.Completed
 import models._
-import org.scalatest.{MustMatchers, OptionValues}
+import org.scalatest.matchers.must.Matchers
+import org.scalatest.OptionValues
 import pages.AssetStatus
 import pages.asset._
 import pages.asset.money._
 import pages.asset.property_or_land._
 import pages.asset.shares._
 
-class AssetMapperSpec extends SpecBase with MustMatchers
+class AssetMapperSpec extends SpecBase with Matchers
   with OptionValues with Generators {
 
-  val assetMapper: AssetMapper = injector.instanceOf[AssetMapper]
+  private val assetMapper: AssetMapper = injector.instanceOf[AssetMapper]
 
   private val shareAssetValue: Long = 999999999999L
   private val moneyAssetValue: Long = 2000L
@@ -146,7 +147,8 @@ class AssetMapperSpec extends SpecBase with MustMatchers
 
         val expected = Some(Assets(
           Some(List(AssetMonetaryAmount(moneyAssetValue))),
-          Some(List(PropertyLandType(None, Some(AddressType("26", "Grangetown", Some("Tyne and Wear"), Some("Newcastle"), Some("Z99 2YY"), "GB")), propertyOrLandAssetTotalValue, propertyOrLandAssetTrustValue))),
+          Some(List(PropertyLandType(None, Some(AddressType("26", "Grangetown", Some("Tyne and Wear"), Some("Newcastle"),
+            Some("Z99 2YY"), "GB")), propertyOrLandAssetTotalValue, propertyOrLandAssetTrustValue))),
           Some(List(SharesType(quantity.toString, "Portfolio", "Other", "Unquoted", shareAssetValue))),
           None,
           None,

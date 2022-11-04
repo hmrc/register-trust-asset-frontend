@@ -20,8 +20,7 @@ import base.SpecBase
 import models.UserAnswers
 import models.WhatKindOfAsset.NonEeaBusiness
 import org.mockito.ArgumentCaptor
-import org.mockito.Matchers.any
-import org.mockito.Mockito.{reset, verify, when}
+import org.mockito.ArgumentMatchers.any
 import pages.asset.WhatKindOfAssetPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
@@ -87,7 +86,7 @@ class AssetInterruptPageControllerSpec extends SpecBase {
 
           reset(registrationsRepository)
           when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-          val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+          val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
           val application = applicationBuilder(userAnswers = Some(emptyUserAnswers.copy(isTaxable = isTaxable))).build()
 
@@ -114,7 +113,7 @@ class AssetInterruptPageControllerSpec extends SpecBase {
 
           reset(registrationsRepository)
           when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-          val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+          val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
           val application = applicationBuilder(userAnswers = Some(emptyUserAnswers.copy(isTaxable = isTaxable))).build()
 

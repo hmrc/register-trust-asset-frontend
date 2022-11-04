@@ -22,8 +22,7 @@ import controllers.asset.routes._
 import models.Status.Completed
 import models.{TaskStatus, UserAnswers, WhatKindOfAsset}
 import org.mockito.ArgumentCaptor
-import org.mockito.Matchers.{any, eq => mEq}
-import org.mockito.Mockito.{atLeastOnce, reset, verify, when}
+import org.mockito.ArgumentMatchers.{any, eq => mEq}
 import org.scalatest.BeforeAndAfterEach
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
@@ -83,7 +82,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
           redirectLocation(result).value mustBe AddAssetsController.onPageLoad(fakeDraftId).url
 
-          verify(trustsStoreService, atLeastOnce()).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+          verify(trustsStoreService, atLeastOnce).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
 
           application.stop()
         }
@@ -115,7 +114,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
             redirectLocation(result).value mustBe AssetInterruptPageController.onPageLoad(fakeDraftId).url
 
-            verify(trustsStoreService, atLeastOnce()).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+            verify(trustsStoreService, atLeastOnce).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
 
             application.stop()
           }
@@ -146,7 +145,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
             redirectLocation(result).value mustBe TrustOwnsNonEeaBusinessYesNoController.onPageLoad(fakeDraftId).url
 
-            verify(trustsStoreService, atLeastOnce()).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+            verify(trustsStoreService, atLeastOnce).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
 
             application.stop()
           }
@@ -172,7 +171,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
         val request = FakeRequest(GET, onPageLoadRoute)
 
         route(application, request).value.map { _ =>
-          val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+          val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
           verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
 
           uaCaptor.getValue.isTaxable mustBe true
@@ -207,7 +206,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
           redirectLocation(result).value mustBe AssetInterruptPageController.onPageLoad(fakeDraftId).url
 
-          verify(trustsStoreService, atLeastOnce()).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+          verify(trustsStoreService, atLeastOnce).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
 
           application.stop()
         }
@@ -236,7 +235,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
           redirectLocation(result).value mustBe TrustOwnsNonEeaBusinessYesNoController.onPageLoad(fakeDraftId).url
 
-          verify(trustsStoreService, atLeastOnce()).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+          verify(trustsStoreService, atLeastOnce).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
 
           application.stop()
         }
@@ -262,7 +261,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
               val request = FakeRequest(GET, onPageLoadRoute)
 
               route(application, request).value.map { _ =>
-                val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+                val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
                 verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
 
                 uaCaptor.getValue.isTaxable mustBe true
@@ -292,7 +291,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
               val request = FakeRequest(GET, onPageLoadRoute)
 
               route(application, request).value.map { _ =>
-                val uaCaptor = ArgumentCaptor.forClass(classOf[UserAnswers])
+                val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
                 verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
 
                 uaCaptor.getValue.isTaxable mustBe false

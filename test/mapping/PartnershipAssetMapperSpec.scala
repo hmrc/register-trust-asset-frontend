@@ -20,17 +20,18 @@ import base.SpecBase
 import generators.Generators
 import models.Status.Completed
 import models.{PartnershipType, WhatKindOfAsset}
-import org.scalatest.{MustMatchers, OptionValues}
+import org.scalatest.matchers.must.Matchers
+import org.scalatest.OptionValues
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.partnership._
 
 import java.time.LocalDate
 
-class PartnershipAssetMapperSpec extends SpecBase with MustMatchers
+class PartnershipAssetMapperSpec extends SpecBase with Matchers
   with OptionValues with Generators {
 
-  val partnershipAssetMapper: PartnershipAssetMapper = injector.instanceOf[PartnershipAssetMapper]
+  private val partnershipAssetMapper: PartnershipAssetMapper = injector.instanceOf[PartnershipAssetMapper]
 
   "PartnershipAssetMapper" must {
 

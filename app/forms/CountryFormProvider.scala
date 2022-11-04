@@ -23,12 +23,14 @@ import javax.inject.Inject
 
 class CountryFormProvider @Inject() extends Mappings {
 
+  private val maxLength = 100
+
   def withPrefix(prefix: String): Form[String] =
     Form(
       "value" -> text(s"$prefix.error.required")
         .verifying(
           firstError(
-            maxLength(100, s"$prefix.error.length"),
+            maxLength(maxLength, s"$prefix.error.length"),
             regexp(Validation.countryRegex, s"$prefix.error.invalidCharacters"),
             isNotEmpty("value", s"$prefix.error.required")
           )

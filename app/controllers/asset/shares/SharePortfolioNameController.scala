@@ -45,7 +45,8 @@ class SharePortfolioNameController @Inject()(
                                               view: SharePortfolioNameView
                                             )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  private val form = formProvider.withConfig(53, "shares.portfolioName")
+  private val maxLength = 53
+  private val form = formProvider.withConfig(maxLength, "shares.portfolioName")
 
   private def actions(index : Int, draftId: String) =
     identify andThen getData(draftId) andThen

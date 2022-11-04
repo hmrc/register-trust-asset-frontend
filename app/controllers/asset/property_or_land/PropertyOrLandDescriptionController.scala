@@ -45,7 +45,8 @@ class PropertyOrLandDescriptionController @Inject()(
                                                      view: PropertyOrLandDescriptionView
                                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  val form: Form[String] = formProvider.withConfig(56, "propertyOrLand.description")
+  private val maxLength = 56
+  private val form: Form[String] = formProvider.withConfig(maxLength, "propertyOrLand.description")
 
   private def actions(index: Int, draftId: String) =
     identify andThen

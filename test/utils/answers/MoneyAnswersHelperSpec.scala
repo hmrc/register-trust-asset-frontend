@@ -19,8 +19,7 @@ package utils.answers
 import base.SpecBase
 import models.UserAnswers
 import models.WhatKindOfAsset.{Money, Other}
-import org.mockito.Matchers.any
-import org.mockito.Mockito.{verify, when}
+import org.mockito.ArgumentMatchers.any
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.money._
 import pages.asset.other.{OtherAssetDescriptionPage, OtherAssetValuePage}
@@ -81,9 +80,9 @@ class MoneyAnswersHelperSpec extends SpecBase {
 
         result.size mustBe 1
 
-        result(0).headingKey mustBe Some("answerPage.section.moneyAsset.subheading")
-        result(0).rows.map(_.answer).contains(Html("Money")) mustBe true
-        result(0).headingArgs mustBe Seq(1)
+        result.head.headingKey mustBe Some("answerPage.section.moneyAsset.subheading")
+        result.head.rows.map(_.answer).contains(Html("Money")) mustBe true
+        result.head.headingArgs mustBe Seq(1)
       }
     }
   }

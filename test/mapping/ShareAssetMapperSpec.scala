@@ -20,15 +20,16 @@ import base.SpecBase
 import generators.Generators
 import models.Status.{Completed, InProgress}
 import models.{ShareClass, SharesType, WhatKindOfAsset}
-import org.scalatest.{MustMatchers, OptionValues}
+import org.scalatest.matchers.must.Matchers
+import org.scalatest.OptionValues
 import pages.AssetStatus
 import pages.asset._
 import pages.asset.shares._
 
-class ShareAssetMapperSpec extends SpecBase with MustMatchers
+class ShareAssetMapperSpec extends SpecBase with Matchers
   with OptionValues with Generators {
 
-  val shareAssetMapper: ShareAssetMapper = injector.instanceOf[ShareAssetMapper]
+  private val shareAssetMapper: ShareAssetMapper = injector.instanceOf[ShareAssetMapper]
 
   private val assetValue: Long = 300L
   private val quantity: Long = 20L

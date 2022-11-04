@@ -3,17 +3,29 @@
 
 This service is responsible for collecting details about the assets the trust holds when registering a trust.
 
+### Running the service 
 To run locally using the micro-service provided by the service manager:
 
-***sm --start TRUSTS_ALL -r***
+```
+sm --start TRUSTS_ALL -r
+```
 
 or
 
-***sm --start REGISTER_TRUST_ALL -r***
+```
+sm --start REGISTER_TRUST_ALL -r
+```
 
 If you want to run your local copy, then stop the frontend ran by the service manager and run your local code by using the following (port number is 9853 but is defaulted to that in build.sbt):
 
-***sbt run***
+`sbt run`
+
+### Testing the service
+To test the service locally use the following command, this will run the unit tests, scalastyle and check the coverage of the tests.
+
+```
+./run_all_tests.sh
+```
 
 ### License
 

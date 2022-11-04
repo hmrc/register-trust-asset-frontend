@@ -50,7 +50,8 @@ class ShareCompanyNameController @Inject()(
       requireData andThen
       validateIndex(index, sections.Assets)
 
-  private val form = formProvider.withConfig(53, "shares.companyName")
+  private val maxLength = 53
+  private val form = formProvider.withConfig(maxLength, "shares.companyName")
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
     implicit request =>

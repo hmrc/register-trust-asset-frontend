@@ -18,10 +18,11 @@ package base
 
 import config.annotations._
 import controllers.actions._
-import models.{Status, UserAnswers}
+import models.UserAnswers
 import navigation.{FakeNavigator, Navigator}
-import org.scalatest.TryValues
+import org.scalatest.{OptionValues, TryValues}
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
+import org.scalatest.matchers.must.Matchers
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.guice._
 import play.api.inject.bind
@@ -38,7 +39,9 @@ trait SpecBase extends PlaySpec
   with ScalaFutures
   with IntegrationPatience
   with Mocked
-  with FakeTrustsApp {
+  with FakeTrustsApp
+  with Matchers
+  with OptionValues {
 
   final val ENGLISH = "en"
   final val WELSH = "cy"
@@ -52,12 +55,7 @@ trait SpecBase extends PlaySpec
   lazy val fakeNavigator: FakeNavigator = new FakeNavigator()
 
   private def fakeDraftIdAction(userAnswers: Option[UserAnswers]): FakeDraftIdRetrievalActionProvider =
-    new FakeDraftIdRetrievalActionProvider(
-      draftId,
-      Status.InProgress,
-      userAnswers,
-      registrationsRepository
-    )
+    new FakeDraftIdRetrievalActionProvider(userAnswers)
 
   protected def applicationBuilder(userAnswers: Option[UserAnswers] = None,
                                    affinityGroup: AffinityGroup = AffinityGroup.Organisation,

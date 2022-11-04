@@ -35,7 +35,7 @@ class SessionExpiredViewSpec extends ViewBehaviours {
       messageKeyPrefix = "session_expired",
       expectedGuidanceKeys =
         "guidance",
-        "guidance.2",
+        "guidance.2"
     )
   }
 }

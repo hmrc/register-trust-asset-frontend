@@ -138,7 +138,7 @@ class AddAssetViewHelper @Inject()(userAnswers: UserAnswers, draftId: String)
       removeUrl = routes.RemoveAssetYesNoController.onPageLoad(index, draftId).url
     )
   }
-  
+
   private def parseNonEeaBusiness(nebvm: NonEeaBusinessAssetViewModel, index: Int): AddRow = {
     AddRow(
       name = nebvm.label.getOrElse(defaultName),

@@ -21,8 +21,7 @@ import connectors.SubmissionDraftConnector
 import controllers.IndexValidation
 import forms.StartDateFormProvider
 import models.UserAnswers
-import org.mockito.Matchers.any
-import org.mockito.Mockito.{reset, when}
+import org.mockito.ArgumentMatchers.any
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatest.BeforeAndAfterEach
 import pages.asset.noneeabusiness.{NamePage, StartDatePage}

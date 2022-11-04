@@ -21,8 +21,7 @@ import controllers.asset.routes._
 import controllers.routes._
 import forms.YesNoFormProvider
 import models.TaskStatus
-import org.mockito.Matchers.{any, eq => mEq}
-import org.mockito.Mockito.{reset, verify, when}
+import org.mockito.ArgumentMatchers.{any, eq => mEq}
 import org.scalatest.BeforeAndAfterEach
 import pages.asset.TrustOwnsNonEeaBusinessYesNoPage
 import play.api.data.Form
@@ -43,7 +42,7 @@ class TrustOwnsNonEeaBusinessYesNoControllerSpec extends SpecBase with BeforeAnd
 
   private val mockTrustsStoreService = mock[TrustsStoreService]
 
-  lazy val onPageLoadRoute: String = TrustOwnsNonEeaBusinessYesNoController.onPageLoad(fakeDraftId).url
+  private lazy val onPageLoadRoute: String = TrustOwnsNonEeaBusinessYesNoController.onPageLoad(fakeDraftId).url
 
   override protected def beforeEach(): Unit = {
     reset(mockTrustsStoreService)

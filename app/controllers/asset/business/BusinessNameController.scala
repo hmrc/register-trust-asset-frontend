@@ -47,7 +47,8 @@ class BusinessNameController @Inject()(
                                         view: BusinessNameView
                                       )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  val form: Form[String] = formProvider.withConfig(105, "business.name")
+  private val maxLength = 105
+  private val form: Form[String] = formProvider.withConfig(maxLength, "business.name")
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen getData(draftId) andThen

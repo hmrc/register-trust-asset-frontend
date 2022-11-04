@@ -51,7 +51,8 @@ class OtherAssetDescriptionController @Inject()(
       requiredAnswer(RequiredAnswer(WhatKindOfAssetPage(index), controllers.asset.routes.WhatKindOfAssetController.onPageLoad(index, draftId)))
   }
 
-  val form: Form[String] = formProvider.withConfig(length = 56, prefix = "other.description")
+  private val maxLength = 56
+  private val form: Form[String] = formProvider.withConfig(length = maxLength, prefix = "other.description")
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
     implicit request =>

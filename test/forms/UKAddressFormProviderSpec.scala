@@ -23,7 +23,7 @@ import wolfendale.scalacheck.regexp.RegexpGen
 
 class UKAddressFormProviderSpec extends StringFieldBehaviours {
 
-  val form = new UKAddressFormProvider()()
+  private val form = new UKAddressFormProvider()()
 
   ".line1" must {
 

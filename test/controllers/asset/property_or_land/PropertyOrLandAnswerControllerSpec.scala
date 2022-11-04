@@ -20,8 +20,7 @@ import base.SpecBase
 import controllers.routes._
 import models.Status.Completed
 import models.WhatKindOfAsset.PropertyOrLand
-import org.mockito.Matchers.any
-import org.mockito.Mockito.when
+import org.mockito.ArgumentMatchers.any
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.property_or_land._
@@ -33,11 +32,11 @@ import views.html.asset.property_or_land.PropertyOrLandAnswersView
 
 class PropertyOrLandAnswerControllerSpec extends SpecBase {
 
-  val index: Int = 0
+  private val index: Int = 0
 
   private val totalValue: Long = 10000L
 
-  lazy val propertyOrLandAnswerRoute: String = routes.PropertyOrLandAnswerController.onPageLoad(index, fakeDraftId).url
+  private lazy val propertyOrLandAnswerRoute: String = routes.PropertyOrLandAnswerController.onPageLoad(index, fakeDraftId).url
 
   "PropertyOrLandAnswer Controller" must {
 
