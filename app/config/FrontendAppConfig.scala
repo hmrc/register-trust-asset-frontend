@@ -21,8 +21,9 @@ import controllers.routes
 import play.api.Configuration
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.Call
-import java.time.LocalDate
 import uk.gov.hmrc.hmrcfrontend.config.ContactFrontendConfig
+
+import java.time.LocalDate
 
 @Singleton
 class FrontendAppConfig @Inject()(val configuration: Configuration,
