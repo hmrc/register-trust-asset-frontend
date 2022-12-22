@@ -16,6 +16,7 @@
 
 package controllers
 
+import config.FrontendAppConfig
 import connectors.SubmissionDraftConnector
 import controllers.actions.RegistrationIdentifierAction
 import controllers.asset.routes._
@@ -38,7 +39,7 @@ class IndexController @Inject()(
                                  identify: RegistrationIdentifierAction,
                                  submissionDraftConnector: SubmissionDraftConnector,
                                  trustsStoreService: TrustsStoreService
-                               )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+                               )(implicit appConfig: FrontendAppConfig, ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
   private def updateTaskStatus(draftId: String, userAnswers: UserAnswers)
                       (implicit hc: HeaderCarrier, messages: Messages): Future[Result] = for {
