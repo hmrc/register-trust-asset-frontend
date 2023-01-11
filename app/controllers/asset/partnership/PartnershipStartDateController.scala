@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ class PartnershipStartDateController @Inject()(
                                                 view: PartnershipStartDateView
                                               )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
 
-  private val form = formProvider.withConfig("partnership.startDate")
+  private def form = formProvider.withConfig("partnership.startDate")
 
   private def actions(index: Int, draftId: String) =
     identify andThen
