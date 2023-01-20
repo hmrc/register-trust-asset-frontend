@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,10 +25,9 @@ import play.api.mvc.{Action, ActionBuilder, AnyContent, Call}
 import play.twirl.api.HtmlFormat
 import queries.Settable
 import repositories.RegistrationsRepository
+import scala.concurrent.{ExecutionContext, Future}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.RemoveIndexView
-
-import scala.concurrent.Future
 
 trait RemoveIndexController extends FrontendBaseController with I18nSupport {
 
@@ -39,6 +38,8 @@ trait RemoveIndexController extends FrontendBaseController with I18nSupport {
   val removeView: RemoveIndexView
 
   lazy val form: Form[Boolean] = formProvider.apply(messagesPrefix)
+
+  implicit val ec: ExecutionContext
 
   def page(index: Int) : QuestionPage[_]
 
@@ -66,8 +67,6 @@ trait RemoveIndexController extends FrontendBaseController with I18nSupport {
 
   def onSubmit(index: Int, draftId : String): Action[AnyContent] = actions(draftId, index).async {
     implicit request =>
-
-      import scala.concurrent.ExecutionContext.Implicits._
 
       form.bindFromRequest().fold(
         (formWithErrors: Form[_]) =>
