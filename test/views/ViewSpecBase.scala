@@ -128,6 +128,14 @@ trait ViewSpecBase extends SpecBase {
     assert(doc.select(cssSelector).isEmpty, "\n\nElement " + cssSelector + " was rendered on the page.\n")
   }
 
+  def assertRenderedByClass(doc: Document, className: String): Assertion = {
+    assert(doc.getElementsByClass(className) != null, "\n\nElement " + className + " was not rendered on the page.\n")
+  }
+
+  def assertNotRenderedByClass(doc: Document, className: String): Assertion = {
+    assert(doc.getElementsByClass(className).isEmpty, "\n\nElement " + className + " was rendered on the page.\n")
+  }
+
   def assertElementNotPresent(doc: Document, elementTag: String): Assertion = {
     assert(doc.getElementsByTag(elementTag).isEmpty, s"\n\nElement $elementTag was rendered on the page.\n")
   }
