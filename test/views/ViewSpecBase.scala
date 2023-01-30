@@ -129,7 +129,7 @@ trait ViewSpecBase extends SpecBase {
   }
 
   def assertRenderedByClass(doc: Document, className: String): Assertion = {
-    assert(doc.getElementsByClass(className) != null, "\n\nElement " + className + " was not rendered on the page.\n")
+    assert(!doc.getElementsByClass(className).isEmpty, "\n\nElement " + className + " was not rendered on the page.\n")
   }
 
   def assertNotRenderedByClass(doc: Document, className: String): Assertion = {
