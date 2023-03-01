@@ -22,15 +22,15 @@ addAssets.maxedOut.p2=Gallwch ychwanegu ased arall drwy dynnu un presennol
 
 addAssets.maxedOut.just1=Ni allwch ychwanegu ased {0} arall gan eich bod wedi nodi uchafswm o {1}.
 addAssets.maxedOut.other.just1=Ni allwch ychwanegu rhagor o asedion ‘arall’ gan eich bod wedi nodi uchafswm o {0}.
-addAssets.maxedOut.just1.paragraph=Gwiriwch yr asedion yr ydych wedi’u hychwanegu. Os oes gennych ragor o asedion i’w hychwanegu o dan y math hwn, ysgrifennwch i CThEM gyda’r manylion.
+addAssets.maxedOut.just1.paragraph=Gwiriwch yr asedion yr ydych wedi’u hychwanegu. Os oes gennych ragor o asedion i’w hychwanegu o dan y math hwn, ysgrifennwch i CThEF gyda’r manylion.
 
 addAssets.maxedOut.moreThan1=Rydych wedi nodi uchafswm yr asedion ar gyfer:
-addAssets.maxedOut.moreThan1.paragraph=Gwiriwch yr asedion yr ydych wedi’u hychwanegu. Os oes gennych ragor o asedion i’w hychwanegu o dan y mathau hyn, ysgrifennwch i CThEM gyda’r manylion.
+addAssets.maxedOut.moreThan1.paragraph=Gwiriwch yr asedion yr ydych wedi’u hychwanegu. Os oes gennych ragor o asedion i’w hychwanegu o dan y mathau hyn, ysgrifennwch i CThEF gyda’r manylion.
 
 addAssets.nonTaxable.count.title=Rydych wedi ychwanegu {0} o gwmnïau nad ydynt yn rhan o’r AEE
 addAssets.nonTaxable.count.heading=Rydych wedi ychwanegu {0} o gwmnïau nad ydynt yn rhan o’r AEE
 addAssets.nonTaxable.maxedOut.p1=Ni allwch ychwanegu cwmni arall nad yw’n rhan o’r AEE gan eich bod wedi nodi uchafswm o {0}.
-addAssets.nonTaxable.maxedOut.p2=Gallwch ychwanegu cwmni arall nad yw’n rhan o’r AEE drwy gael gwared ar un sy’n bodoli eisoes, neu ysgrifennu i CThEM gyda manylion unrhyw gwmnïau ychwanegol nad ydynt yn aelodau o’r AEE.
+addAssets.nonTaxable.maxedOut.p2=Gallwch ychwanegu cwmni arall nad yw’n rhan o’r AEE drwy gael gwared ar un sy’n bodoli eisoes, neu ysgrifennu i CThEF gyda manylion unrhyw gwmnïau ychwanegol nad ydynt yn aelodau o’r AEE.
 
 addAssets.nonTaxable.title=Ychwanegu cwmni nad yw’n rhan o’r AEE
 addAssets.nonTaxable.heading=Ychwanegu cwmni nad yw’n rhan o’r AEE
@@ -43,7 +43,7 @@ addAssets.nonTaxable.error.required=Dewiswch ‘Iawn’ os ydych am ychwanegu cw
 addAssets.nonTaxable.count.title=Rydych wedi ychwanegu {0} o gwmnïau nad ydynt yn rhan o’r AEE
 addAssets.nonTaxable.count.heading=Rydych wedi ychwanegu {0} o gwmnïau nad ydynt yn rhan o’r AEE
 addAssets.nonTaxable.maxedOut.p1=Ni allwch ychwanegu cwmni arall nad yw’n rhan o’r AEE gan eich bod wedi nodi uchafswm o {0}.
-addAssets.nonTaxable.maxedOut.p2=Gallwch ychwanegu cwmni arall nad yw’n rhan o’r AEE drwy gael gwared ar un sy’n bodoli eisoes, neu ysgrifennu at CThEM gyda manylion unrhyw gwmnïau ychwanegol nad ydynt yn aelodau o’r AEE.
+addAssets.nonTaxable.maxedOut.p2=Gallwch ychwanegu cwmni arall nad yw’n rhan o’r AEE drwy gael gwared ar un sy’n bodoli eisoes, neu ysgrifennu at CThEF gyda manylion unrhyw gwmnïau ychwanegol nad ydynt yn aelodau o’r AEE.
 
 assets.nonTaxable.defaultText=y cwmni hwn nad yw’n rhan o’r AEE
 assets.nonTaxable.removeYesNo.title=A ydych yn siŵr eich bod am dynnu’r cwmni nad yw’n rhan o’r AEE?
@@ -81,7 +81,7 @@ assetInterruptPage.bullet7=enw’r busnes
 assetInterruptPage.bullet8=disgrifiad o’r busnes
 assetInterruptPage.bullet9=cyfeiriad y busnes
 assetInterruptPage.paragraph1=Nodwch gyfanswm yr arian yn yr ymddiriedolaeth. Os yw mwy nag un swm wedi’i ychwanegu at yr ymddiriedolaeth
-assetInterruptPage.paragraph10=Os oes gan yr ymddiriedolaeth berchnogaeth neu gyfran reolaethol mewn cwmni nad yw’n rhan o’r AEE, mae angen i chi roi gwybod i CThEM:
+assetInterruptPage.paragraph10=Os oes gan yr ymddiriedolaeth berchnogaeth neu gyfran reolaethol mewn cwmni nad yw’n rhan o’r AEE, mae angen i chi roi gwybod i CThEF:
 assetInterruptPage.paragraph2=Ar gyfer eiddo neu dir yn y weithred ymddiriedolaeth, mae angen i chi roi’r canlynol:
 assetInterruptPage.paragraph3=Mae’n rhaid i chi roi gwerth presennol yr eiddo neu dir, ac nid ei werth pan ddaeth yn rhan o’r ymddiriedolaeth am y tro cyntaf. Gall hwn fod yn amcangyfrif.
 assetInterruptPage.paragraph4=Rhowch y canlynol i ni:
@@ -105,7 +105,7 @@ assetInterruptPage.nonTaxable.bullet4=y dyddiad y dechreuodd yr ymddiriedolaeth 
 assetInterruptPage.nonTaxable.caption=Perchnogaeth y cwmni neu gyfran reolaethol
 assetInterruptPage.nonTaxable.caption.hidden=Teitl yr adran hon yw
 assetInterruptPage.nonTaxable.heading=Cwmni Ardal Economaidd nad yw’n Ewropeaidd (AEE)
-assetInterruptPage.nonTaxable.paragraph1=Os oes gan yr ymddiriedolaeth berchnogaeth neu gyfran reolaethol mewn cwmni nad yw’n rhan o’r AEE, mae angen i chi roi gwybod i CThEM:
+assetInterruptPage.nonTaxable.paragraph1=Os oes gan yr ymddiriedolaeth berchnogaeth neu gyfran reolaethol mewn cwmni nad yw’n rhan o’r AEE, mae angen i chi roi gwybod i CThEF:
 assetInterruptPage.nonTaxable.title=Cwmni Ardal Economaidd nad yw’n Ewropeaidd (AEE)
 
 assets.defaultText=yr ased
@@ -185,7 +185,7 @@ error.required=Nodwch werth
 error.summary.title=Mae problem wedi codi
 
 featureNotAvailable.heading=Nid yw rhan hon y gwasanaeth ar-lein ar gael eto
-featureNotAvailable.link=gysylltu â Gwasanaeth Cwsmeriaid Cymraeg CThEM (yn agor ffenestr neu dab newydd)
+featureNotAvailable.link=gysylltu â Gwasanaeth Cwsmeriaid Cymraeg CThEF (yn agor ffenestr neu dab newydd)
 featureNotAvailable.p1=Os oes angen i chi wneud unrhyw newidiadau i’r ymddiriedolaeth, gallwch
 featureNotAvailable.p2=Byddwch yn gallu diweddaru’r manylion hyn ar-lein yn y dyfodol.
 featureNotAvailable.title=Nid yw rhan hon y gwasanaeth ar-lein ar gael eto
@@ -514,4 +514,4 @@ pageNotFound.heading = Heb ddod o hyd i’r dudalen
 pageNotFound.p1 = Os gwnaethoch deipio’r cyfeiriad gwe, gwiriwch ei fod yn gywir.
 pageNotFound.p2 = Os gwnaethoch ludo’r cyfeiriad gwe, gwiriwch eich bod wedi copïo’r cyfeiriad yn llawn.
 pageNotFound.p3 = Os yw’r cyfeiriad gwe yn gywir, neu eich bod wedi dewis cysylltiad neu fotwm, {0}.
-pageNotFound.link = cysylltwch â Gwasanaeth Cwsmeriaid Cymraeg CThEM i siarad â rhywun ynghylch ymddiriedolaeth (yn agor tab newydd)
+pageNotFound.link = cysylltwch â Gwasanaeth Cwsmeriaid Cymraeg CThEF i siarad â rhywun ynghylch ymddiriedolaeth (yn agor tab newydd)
