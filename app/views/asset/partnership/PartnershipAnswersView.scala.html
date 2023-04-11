@@ -34,7 +34,7 @@
     showBackLink = true
 ) {
 
-    @formHelper(action = PartnershipAnswerController.onSubmit(index, draftId), 'autoComplete -> "off") {
+    @formHelper(action = PartnershipAnswerController.onSubmit(index, draftId), Symbol("autoComplete") -> "off") {
 
         @heading("partnership.answers.heading")
 

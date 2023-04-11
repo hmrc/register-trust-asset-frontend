@@ -40,7 +40,7 @@
     showBackLink = true
 ) {
 
-    @formHelper(action = AddAssetsController.submitComplete(draftId), 'autoComplete -> "off") {
+    @formHelper(action = AddAssetsController.submitComplete(draftId), Symbol("autoComplete") -> "off") {
 
         @headingComp(heading)
 
