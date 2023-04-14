@@ -42,7 +42,7 @@
     showBackLink = true
 ) {
 
-    @formHelper(action = WhatKindOfAssetController.onSubmit(index, draftId), 'autoComplete -> "off") {
+    @formHelper(action = WhatKindOfAssetController.onSubmit(index, draftId), Symbol("autoComplete") -> "off") {
 
         @errorSummary(form.errors, options)
 

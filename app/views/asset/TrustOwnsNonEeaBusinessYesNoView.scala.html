@@ -32,7 +32,7 @@
     showBackLink = true
 ) {
 
-@formHelper(action = TrustOwnsNonEeaBusinessYesNoController.onSubmit(draftId), 'autoComplete -> "off") {
+@formHelper(action = TrustOwnsNonEeaBusinessYesNoController.onSubmit(draftId), Symbol("autoComplete") -> "off") {
 
     @errorSummary(form.errors)
 

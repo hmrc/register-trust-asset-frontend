@@ -32,7 +32,7 @@
     showBackLink = true
 ) {
 
-    @formHelper(action = PropertyOrLandAddressUkYesNoController.onSubmit(index, draftId), 'autoComplete -> "off") {
+    @formHelper(action = PropertyOrLandAddressUkYesNoController.onSubmit(index, draftId), Symbol("autoComplete") -> "off") {
 
         @errorSummary(form.errors)
 

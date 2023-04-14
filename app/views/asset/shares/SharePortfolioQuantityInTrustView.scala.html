@@ -32,7 +32,7 @@
     showBackLink = true
 ) {
 
-    @formHelper(action = SharePortfolioQuantityInTrustController.onSubmit(index, draftId), 'autoComplete -> "off") {
+    @formHelper(action = SharePortfolioQuantityInTrustController.onSubmit(index, draftId), Symbol("autoComplete") -> "off") {
 
         @errorSummary(form.errors)
 

@@ -35,7 +35,7 @@
 ) {
 
 
-    @formHelper(action = OtherAssetAnswersController.onSubmit(index, draftId), 'autoComplete -> "off") {
+    @formHelper(action = OtherAssetAnswersController.onSubmit(index, draftId), Symbol("autoComplete") -> "off") {
 
         @heading("other.answers.heading")
 
