@@ -65,7 +65,7 @@ class CheckAnswersFormatters @Inject() (languageUtils: LanguageUtils, countryOpt
   }
 
   def country(code: String)(implicit messages: Messages): String =
-    countryOptions.options.find(_.value.equals(code)).map(_.label).getOrElse("")
+    countryOptions.options().find(_.value.equals(code)).map(_.label).getOrElse("")
 
   private def breakLines(lines: Seq[Html]): Html =
     Html(lines.mkString("<br />"))

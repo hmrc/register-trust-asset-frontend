@@ -70,7 +70,7 @@ class InternationalAddressController @Inject() (
       case Some(value) => form.fill(value)
     }
 
-    Ok(view(preparedForm, countryOptions.options, index, draftId, name))
+    Ok(view(preparedForm, countryOptions.options(), index, draftId, name))
   }
 
   def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
@@ -80,7 +80,7 @@ class InternationalAddressController @Inject() (
       .bindFromRequest()
       .fold(
         (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, countryOptions.options, index, draftId, name))),
+          Future.successful(BadRequest(view(formWithErrors, countryOptions.options(), index, draftId, name))),
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(InternationalAddressPage(index), value))
