@@ -22,30 +22,24 @@ import viewmodels.{AnswerRow, AnswerSection}
 
 trait PrintHelper {
 
-  def checkDetailsSection(userAnswers: UserAnswers,
-                          arg: String = "",
-                          index: Int,
-                          draftId: String)
-                         (implicit messages: Messages): Seq[AnswerSection] = {
-
-    Seq(section(
-      userAnswers = userAnswers,
-      arg = arg,
-      index = index,
-      draftId = draftId,
-      headingKey = None
-    ))
-  }
+  def checkDetailsSection(userAnswers: UserAnswers, arg: String = "", index: Int, draftId: String)(implicit
+    messages: Messages
+  ): Seq[AnswerSection] =
+    Seq(
+      section(
+        userAnswers = userAnswers,
+        arg = arg,
+        index = index,
+        draftId = draftId,
+        headingKey = None
+      )
+    )
 
   val assetType: String
 
-  def printSection(userAnswers: UserAnswers,
-                   arg: String = "",
-                   index: Int,
-                   specificIndex: Int,
-                   draftId: String)
-                  (implicit messages: Messages): AnswerSection = {
-
+  def printSection(userAnswers: UserAnswers, arg: String = "", index: Int, specificIndex: Int, draftId: String)(implicit
+    messages: Messages
+  ): AnswerSection =
     section(
       userAnswers = userAnswers,
       arg = arg,
@@ -54,30 +48,26 @@ trait PrintHelper {
       headingKey = Some(s"answerPage.section.$assetType.subheading"),
       headingArgs = specificIndex + 1
     )
-  }
 
-  private def section(userAnswers: UserAnswers,
-                      arg: String,
-                      index: Int,
-                      draftId: String,
-                      headingKey: Option[String],
-                      headingArgs: Any*)
-                     (implicit messages: Messages): AnswerSection = {
-
+  private def section(
+    userAnswers: UserAnswers,
+    arg: String,
+    index: Int,
+    draftId: String,
+    headingKey: Option[String],
+    headingArgs: Any*
+  )(implicit messages: Messages): AnswerSection =
     AnswerSection(
       headingKey = headingKey match {
         case Some(key) => Some(key)
-        case _ => None
+        case _         => None
       },
       rows = answerRows(userAnswers, arg, index, draftId),
       headingArgs = headingArgs.toSeq
     )
-  }
 
-  def answerRows(userAnswers: UserAnswers,
-                 arg: String,
-                 index: Int,
-                 draftId: String)
-                (implicit messages: Messages): Seq[AnswerRow]
+  def answerRows(userAnswers: UserAnswers, arg: String, index: Int, draftId: String)(implicit
+    messages: Messages
+  ): Seq[AnswerRow]
 
 }

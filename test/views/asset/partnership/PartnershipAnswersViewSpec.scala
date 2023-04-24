@@ -22,7 +22,7 @@ import views.html.asset.partnership.PartnershipAnswersView
 class PartnershipAnswersViewSpec extends ViewBehaviours {
 
   private val prefix: String = "partnership.answers"
-  private val index: Int = 0
+  private val index: Int     = 0
 
   "PartnershipAnswers view" must {
 

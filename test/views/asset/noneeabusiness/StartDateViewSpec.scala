@@ -27,9 +27,9 @@ import java.time.LocalDate
 class StartDateViewSpec extends QuestionViewBehaviours[LocalDate] {
 
   private val messageKeyPrefix: String = "nonEeaBusiness.startDate"
-  override val form: Form[LocalDate] = new StartDateFormProvider(frontendAppConfig).withConfig(messageKeyPrefix)
-  private val index: Int = 0
-  private val name: String = "Test"
+  override val form: Form[LocalDate]   = new StartDateFormProvider(frontendAppConfig).withConfig(messageKeyPrefix)
+  private val index: Int               = 0
+  private val name: String             = "Test"
 
   "StartDateView view" must {
 
@@ -38,7 +38,7 @@ class StartDateViewSpec extends QuestionViewBehaviours[LocalDate] {
     def applyView(form: Form[_]): HtmlFormat.Appendable =
       view.apply(form, index, fakeDraftId, name)(fakeRequest, messages)
 
-    val applyViewF = (form : Form[_]) => applyView(form)
+    val applyViewF = (form: Form[_]) => applyView(form)
 
     behave like dynamicTitlePage(applyView(form), messageKeyPrefix, name)
 

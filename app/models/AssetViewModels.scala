@@ -20,24 +20,24 @@ import models.Constants._
 import models.WhatKindOfAsset.{Business, Money, NonEeaBusiness, Other, Partnership, PropertyOrLand, Shares, prefix}
 import viewmodels._
 
-case class AssetViewModels(monetary: Option[List[MoneyAssetViewModel]],
-                           propertyOrLand: Option[List[PropertyOrLandAssetViewModel]],
-                           shares: Option[List[ShareAssetViewModel]],
-                           business: Option[List[BusinessAssetViewModel]],
-                           partnerShip: Option[List[PartnershipAssetViewModel]],
-                           other: Option[List[OtherAssetViewModel]],
-                           nonEEABusiness: Option[List[NonEeaBusinessAssetViewModel]]) {
+case class AssetViewModels(
+  monetary: Option[List[MoneyAssetViewModel]],
+  propertyOrLand: Option[List[PropertyOrLandAssetViewModel]],
+  shares: Option[List[ShareAssetViewModel]],
+  business: Option[List[BusinessAssetViewModel]],
+  partnerShip: Option[List[PartnershipAssetViewModel]],
+  other: Option[List[OtherAssetViewModel]],
+  nonEEABusiness: Option[List[NonEeaBusinessAssetViewModel]]
+) {
 
-  def nonMaxedOutOptions: List[AssetSize] = {
+  def nonMaxedOutOptions: List[AssetSize] =
     assetSizes
       .filterNot(x => x.size >= x.maxSize)
-  }
 
-  def maxedOutOptions: List[(String, Int)] = {
+  def maxedOutOptions: List[(String, Int)] =
     assetSizes
       .filter(x => x.size >= x.maxSize)
       .map(x => (s"$prefix.${x.kindOfAsset}", x.size))
-  }
 
   def assetSizes: List[AssetSize] = List(
     (Money, monetary, MAX_MONEY_ASSETS),

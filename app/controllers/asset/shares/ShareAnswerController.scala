@@ -34,57 +34,56 @@ import views.html.asset.shares.ShareAnswersView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class ShareAnswerController @Inject()(
-                                       override val messagesApi: MessagesApi,
-                                       repository: RegistrationsRepository,
-                                       @Shares navigator: Navigator,
-                                       identify: RegistrationIdentifierAction,
-                                       getData: DraftIdRetrievalActionProvider,
-                                       requireData: RegistrationDataRequiredAction,
-                                       requiredAnswer: RequiredAnswerActionProvider,
-                                       view: ShareAnswersView,
-                                       val controllerComponents: MessagesControllerComponents,
-                                       printHelper: SharesPrintHelper
-                                     )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class ShareAnswerController @Inject() (
+  override val messagesApi: MessagesApi,
+  repository: RegistrationsRepository,
+  @Shares navigator: Navigator,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  requiredAnswer: RequiredAnswerActionProvider,
+  view: ShareAnswersView,
+  val controllerComponents: MessagesControllerComponents,
+  printHelper: SharesPrintHelper
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen
       getData(draftId) andThen
       requireData andThen
-      requiredAnswer(RequiredAnswer(SharesInAPortfolioPage(index), routes.SharesInAPortfolioController.onPageLoad(index, draftId)))
-
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
-    implicit request =>
-
-      def getPage(page: Gettable[String]): Option[String] = {
-        request.userAnswers.get(page)
-      }
-
-      val name: String = (getPage(ShareCompanyNamePage(index)), getPage(SharePortfolioNamePage(index))) match {
-        case (Some(name), None) => name
-        case (None, Some(name)) => name
-        case _ => request.messages(messagesApi)("assets.defaultText")
-      }
-
-      val sections = printHelper.checkDetailsSection(
-        userAnswers = request.userAnswers,
-        arg = name,
-        index = index,
-        draftId = draftId
+      requiredAnswer(
+        RequiredAnswer(SharesInAPortfolioPage(index), routes.SharesInAPortfolioController.onPageLoad(index, draftId))
       )
 
-      Ok(view(index, draftId, sections))
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    def getPage(page: Gettable[String]): Option[String] =
+      request.userAnswers.get(page)
+
+    val name: String = (getPage(ShareCompanyNamePage(index)), getPage(SharePortfolioNamePage(index))) match {
+      case (Some(name), None) => name
+      case (None, Some(name)) => name
+      case _                  => request.messages(messagesApi)("assets.defaultText")
+    }
+
+    val sections = printHelper.checkDetailsSection(
+      userAnswers = request.userAnswers,
+      arg = name,
+      index = index,
+      draftId = draftId
+    )
+
+    Ok(view(index, draftId, sections))
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    val answers = request.userAnswers.set(AssetStatus(index), Completed)
 
-      val answers = request.userAnswers.set(AssetStatus(index), Completed)
-
-      for {
-        updatedAnswers <- Future.fromTry(answers)
-        _ <- repository.set(updatedAnswers)
-      } yield Redirect(navigator.nextPage(ShareAnswerPage, draftId)(request.userAnswers))
+    for {
+      updatedAnswers <- Future.fromTry(answers)
+      _              <- repository.set(updatedAnswers)
+    } yield Redirect(navigator.nextPage(ShareAnswerPage, draftId)(request.userAnswers))
 
   }
 }

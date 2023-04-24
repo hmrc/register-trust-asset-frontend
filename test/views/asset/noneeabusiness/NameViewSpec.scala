@@ -25,8 +25,8 @@ import views.html.asset.noneeabusiness.NameView
 class NameViewSpec extends StringViewBehaviours {
 
   private val messageKeyPrefix: String = "nonEeaBusiness.name"
-  override val form: Form[String] = new NameFormProvider().withConfig(105, messageKeyPrefix)
-  private val view: NameView = viewFor[NameView](Some(emptyUserAnswers))
+  override val form: Form[String]      = new NameFormProvider().withConfig(105, messageKeyPrefix)
+  private val view: NameView           = viewFor[NameView](Some(emptyUserAnswers))
 
   "NameView" must {
 

@@ -27,7 +27,7 @@ import pages.asset.noneeabusiness._
 class NonEeaBusinessNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
 
   private val navigator: Navigator = injector.instanceOf[NonEeaBusinessNavigator]
-  private val index: Int = 0
+  private val index: Int           = 0
 
   "Non-EEA Business Navigator" must {
 
@@ -35,10 +35,10 @@ class NonEeaBusinessNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks
 
       val page = NamePage(index)
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-          navigator.nextPage(page, fakeDraftId)(userAnswers)
-            .mustBe(InternationalAddressController.onPageLoad(index, fakeDraftId))
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        navigator
+          .nextPage(page, fakeDraftId)(userAnswers)
+          .mustBe(InternationalAddressController.onPageLoad(index, fakeDraftId))
       }
     }
 
@@ -46,10 +46,10 @@ class NonEeaBusinessNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks
 
       val page = InternationalAddressPage(index)
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-          navigator.nextPage(page, fakeDraftId)(userAnswers)
-            .mustBe(GoverningCountryController.onPageLoad(index, fakeDraftId))
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        navigator
+          .nextPage(page, fakeDraftId)(userAnswers)
+          .mustBe(GoverningCountryController.onPageLoad(index, fakeDraftId))
       }
     }
 
@@ -57,10 +57,10 @@ class NonEeaBusinessNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks
 
       val page = GoverningCountryPage(index)
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-          navigator.nextPage(page, fakeDraftId)(userAnswers)
-            .mustBe(StartDateController.onPageLoad(index, fakeDraftId))
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        navigator
+          .nextPage(page, fakeDraftId)(userAnswers)
+          .mustBe(StartDateController.onPageLoad(index, fakeDraftId))
       }
     }
 
@@ -68,10 +68,10 @@ class NonEeaBusinessNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks
 
       val page = StartDatePage(index)
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-          navigator.nextPage(page, fakeDraftId)(userAnswers)
-            .mustBe(AnswersController.onPageLoad(index, fakeDraftId))
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        navigator
+          .nextPage(page, fakeDraftId)(userAnswers)
+          .mustBe(AnswersController.onPageLoad(index, fakeDraftId))
       }
     }
   }

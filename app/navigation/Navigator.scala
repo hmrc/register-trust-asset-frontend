@@ -23,20 +23,18 @@ import uk.gov.hmrc.auth.core.AffinityGroup
 
 trait Navigator {
 
-  def nextPage(page: Page, draftId: String, af: AffinityGroup = AffinityGroup.Organisation): UserAnswers => Call = {
+  def nextPage(page: Page, draftId: String, af: AffinityGroup = AffinityGroup.Organisation): UserAnswers => Call =
     route(draftId)(page)(af)
-  }
 
   protected def route(draftId: String): PartialFunction[Page, AffinityGroup => UserAnswers => Call] =
     defaultRoute(draftId)
 
-  private def defaultRoute(draftId: String): PartialFunction[Page, AffinityGroup => UserAnswers => Call] = {
-    case _ => _ => _ => controllers.routes.IndexController.onPageLoad(draftId)
+  private def defaultRoute(draftId: String): PartialFunction[Page, AffinityGroup => UserAnswers => Call] = { case _ =>
+    _ => _ => controllers.routes.IndexController.onPageLoad(draftId)
   }
 
-  def yesNoNav(ua: UserAnswers, fromPage: QuestionPage[Boolean], yesCall: => Call, noCall: => Call): Call = {
+  def yesNoNav(ua: UserAnswers, fromPage: QuestionPage[Boolean], yesCall: => Call, noCall: => Call): Call =
     ua.get(fromPage)
       .map(if (_) yesCall else noCall)
       .getOrElse(controllers.routes.SessionExpiredController.onPageLoad)
-  }
 }

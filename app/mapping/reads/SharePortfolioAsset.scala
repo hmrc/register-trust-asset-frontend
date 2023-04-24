@@ -23,12 +23,14 @@ import pages.asset.shares._
 import play.api.libs.functional.syntax._
 import play.api.libs.json._
 
-final case class SharePortfolioAsset(override val whatKindOfAsset: WhatKindOfAsset,
-                                     sharesInAPortfolio: Boolean,
-                                     override val name: String,
-                                     override val listedOnTheStockExchange: Boolean,
-                                     override val quantityInTheTrust: Long,
-                                     value: Long) extends ShareAsset
+final case class SharePortfolioAsset(
+  override val whatKindOfAsset: WhatKindOfAsset,
+  sharesInAPortfolio: Boolean,
+  override val name: String,
+  override val listedOnTheStockExchange: Boolean,
+  override val quantityInTheTrust: Long,
+  value: Long
+) extends ShareAsset
 
 object SharePortfolioAsset {
 
@@ -39,6 +41,6 @@ object SharePortfolioAsset {
       (__ \ SharePortfolioOnStockExchangePage.key).read[Boolean] and
       (__ \ SharePortfolioQuantityInTrustPage.key).read[Long] and
       (__ \ SharePortfolioValueInTrustPage.key).read[Long]
-    )(SharePortfolioAsset.apply _)
+  )(SharePortfolioAsset.apply _)
 
 }

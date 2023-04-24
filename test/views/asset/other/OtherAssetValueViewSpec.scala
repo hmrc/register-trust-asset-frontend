@@ -24,9 +24,9 @@ import views.html.asset.other.OtherAssetValueView
 
 class OtherAssetValueViewSpec extends LongViewBehaviours {
 
-  private val prefix: String = "other.value"
-  private val hintKey: String = s"$prefix.hint"
-  private val index: Int = 0
+  private val prefix: String      = "other.value"
+  private val hintKey: String     = s"$prefix.hint"
+  private val index: Int          = 0
   private val description: String = "Description"
 
   override val form: Form[Long] = new ValueFormProvider(frontendAppConfig).withConfig(prefix)

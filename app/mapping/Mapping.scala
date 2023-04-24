@@ -21,14 +21,13 @@ import models.{AssetType, UserAnswers}
 
 import scala.reflect.ClassTag
 
-abstract class Mapping[T <: AssetType, A <: Asset : ClassTag] {
+abstract class Mapping[T <: AssetType, A <: Asset: ClassTag] {
 
-  def build(userAnswers: UserAnswers): Option[List[T]] = {
+  def build(userAnswers: UserAnswers): Option[List[T]] =
     assets(userAnswers) match {
-      case Nil => None
+      case Nil  => None
       case list => Some(mapAssets(list))
     }
-  }
 
   def mapAssets(assets: List[A]): List[T]
 

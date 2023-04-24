@@ -29,20 +29,22 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers.{route, _}
 import views.html.asset.business.BusinessDescriptionView
 
-class BusinessDescriptionControllerSpec extends SpecBase  with IndexValidation {
+class BusinessDescriptionControllerSpec extends SpecBase with IndexValidation {
 
-  val formProvider = new DescriptionFormProvider()
-  val prefix: String = "business.description"
-  val maxLength: Int = 56
-  val form: Form[String] = formProvider.withConfig(maxLength, prefix)
-  val index = 0
-  val businessName = "Test"
+  val formProvider        = new DescriptionFormProvider()
+  val prefix: String      = "business.description"
+  val maxLength: Int      = 56
+  val form: Form[String]  = formProvider.withConfig(maxLength, prefix)
+  val index               = 0
+  val businessName        = "Test"
   val validAnswer: String = "Description"
 
   lazy val assetDescriptionRoute: String = routes.BusinessDescriptionController.onPageLoad(index, fakeDraftId).url
 
   val baseAnswers: UserAnswers = emptyUserAnswers
-    .set(BusinessNamePage(index), businessName).success.value
+    .set(BusinessNamePage(index), businessName)
+    .success
+    .value
 
   "assetDescription Controller" must {
 
@@ -67,7 +69,9 @@ class BusinessDescriptionControllerSpec extends SpecBase  with IndexValidation {
     "populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = baseAnswers
-        .set(BusinessDescriptionPage(index), validAnswer).success.value
+        .set(BusinessDescriptionPage(index), validAnswer)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -203,7 +207,6 @@ class BusinessDescriptionControllerSpec extends SpecBase  with IndexValidation {
         postForIndex
       )
     }
-
 
   }
 }

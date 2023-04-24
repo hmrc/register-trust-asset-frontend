@@ -25,8 +25,8 @@ import views.html.asset.business.BusinessNameView
 class BusinessNameViewSpec extends StringViewBehaviours {
 
   private val messageKeyPrefix: String = "business.name"
-  override val form: Form[String] = new NameFormProvider().withConfig(105, messageKeyPrefix)
-  private val view: BusinessNameView = viewFor[BusinessNameView](Some(emptyUserAnswers))
+  override val form: Form[String]      = new NameFormProvider().withConfig(105, messageKeyPrefix)
+  private val view: BusinessNameView   = viewFor[BusinessNameView](Some(emptyUserAnswers))
 
   "BusinessName view" must {
 

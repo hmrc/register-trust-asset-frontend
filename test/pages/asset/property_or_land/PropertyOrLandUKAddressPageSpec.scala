@@ -19,7 +19,6 @@ package pages.asset.property_or_land
 import models.UKAddress
 import pages.behaviours.PageBehaviours
 
-
 class PropertyOrLandUKAddressPageSpec extends PageBehaviours {
 
   "PropertyOrLandAddressPage" must {

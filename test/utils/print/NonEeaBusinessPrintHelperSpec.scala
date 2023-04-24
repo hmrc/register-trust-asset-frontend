@@ -34,27 +34,57 @@ class NonEeaBusinessPrintHelperSpec extends SpecBase {
 
   private val index: Int = 0
 
-  private val heading: String = "answerPage.section.nonEeaBusinessAsset.subheading"
+  private val heading: String       = "answerPage.section.nonEeaBusinessAsset.subheading"
   private val headingArgs: Seq[Any] = Seq(index + 1)
 
-  private val name: String = "Name"
-  private val country: String = "FR"
+  private val name: String                       = "Name"
+  private val country: String                    = "FR"
   private val nonUkAddress: InternationalAddress = InternationalAddress("Line 1", "Line 2", None, country)
-  private val date: LocalDate = LocalDate.parse("1996-02-03")
+  private val date: LocalDate                    = LocalDate.parse("1996-02-03")
 
   private val userAnswers: UserAnswers = emptyUserAnswers
-    .set(WhatKindOfAssetPage(index), NonEeaBusiness).success.value
-    .set(NamePage(index), name).success.value
-    .set(InternationalAddressPage(index), nonUkAddress).success.value
-    .set(GoverningCountryPage(index), country).success.value
-    .set(StartDatePage(index), date).success.value
+    .set(WhatKindOfAssetPage(index), NonEeaBusiness)
+    .success
+    .value
+    .set(NamePage(index), name)
+    .success
+    .value
+    .set(InternationalAddressPage(index), nonUkAddress)
+    .success
+    .value
+    .set(GoverningCountryPage(index), country)
+    .success
+    .value
+    .set(StartDatePage(index), date)
+    .success
+    .value
 
   private val taxableRows: Seq[AnswerRow] = Seq(
-    AnswerRow("whatKindOfAsset.first.checkYourAnswersLabel", Html("Non-EEA Company"), Some(WhatKindOfAssetController.onPageLoad(index, fakeDraftId).url)),
-    AnswerRow("nonEeaBusiness.name.checkYourAnswersLabel", Html(name), Some(NameController.onPageLoad(index, draftId).url)),
-    AnswerRow("nonEeaBusiness.internationalAddress.checkYourAnswersLabel", Html("Line 1<br />Line 2<br />France"), Some(InternationalAddressController.onPageLoad(index, draftId).url)),
-    AnswerRow("nonEeaBusiness.governingCountry.checkYourAnswersLabel", Html("France"), Some(GoverningCountryController.onPageLoad(index, draftId).url)),
-    AnswerRow("nonEeaBusiness.startDate.checkYourAnswersLabel", Html("3 February 1996"), Some(StartDateController.onPageLoad(index, draftId).url))
+    AnswerRow(
+      "whatKindOfAsset.first.checkYourAnswersLabel",
+      Html("Non-EEA Company"),
+      Some(WhatKindOfAssetController.onPageLoad(index, fakeDraftId).url)
+    ),
+    AnswerRow(
+      "nonEeaBusiness.name.checkYourAnswersLabel",
+      Html(name),
+      Some(NameController.onPageLoad(index, draftId).url)
+    ),
+    AnswerRow(
+      "nonEeaBusiness.internationalAddress.checkYourAnswersLabel",
+      Html("Line 1<br />Line 2<br />France"),
+      Some(InternationalAddressController.onPageLoad(index, draftId).url)
+    ),
+    AnswerRow(
+      "nonEeaBusiness.governingCountry.checkYourAnswersLabel",
+      Html("France"),
+      Some(GoverningCountryController.onPageLoad(index, draftId).url)
+    ),
+    AnswerRow(
+      "nonEeaBusiness.startDate.checkYourAnswersLabel",
+      Html("3 February 1996"),
+      Some(StartDateController.onPageLoad(index, draftId).url)
+    )
   )
 
   private val nonTaxableRows: Seq[AnswerRow] = taxableRows.tail
@@ -90,10 +120,12 @@ class NonEeaBusinessPrintHelperSpec extends SpecBase {
               draftId = fakeDraftId
             )
 
-            result mustBe Seq(AnswerSection(
-              headingKey = None,
-              rows = taxableRows
-            ))
+            result mustBe Seq(
+              AnswerSection(
+                headingKey = None,
+                rows = taxableRows
+              )
+            )
           }
         }
       }
@@ -125,10 +157,12 @@ class NonEeaBusinessPrintHelperSpec extends SpecBase {
               draftId = fakeDraftId
             )
 
-            result mustBe Seq(AnswerSection(
-              headingKey = None,
-              rows = nonTaxableRows
-            ))
+            result mustBe Seq(
+              AnswerSection(
+                headingKey = None,
+                rows = nonTaxableRows
+              )
+            )
           }
         }
       }

@@ -32,21 +32,39 @@ class OtherPrintHelperSpec extends SpecBase {
 
   private val index: Int = 0
 
-  private val heading: String = "answerPage.section.otherAsset.subheading"
+  private val heading: String       = "answerPage.section.otherAsset.subheading"
   private val headingArgs: Seq[Any] = Seq(index + 1)
 
   private val description: String = "Description"
-  private val amount: Long = 100L
+  private val amount: Long        = 100L
 
   private val answers: UserAnswers = emptyUserAnswers
-    .set(WhatKindOfAssetPage(index), Other).success.value
-    .set(OtherAssetDescriptionPage(index), description).success.value
-    .set(OtherAssetValuePage(index), amount).success.value
+    .set(WhatKindOfAssetPage(index), Other)
+    .success
+    .value
+    .set(OtherAssetDescriptionPage(index), description)
+    .success
+    .value
+    .set(OtherAssetValuePage(index), amount)
+    .success
+    .value
 
   private val rows: Seq[AnswerRow] = Seq(
-    AnswerRow("whatKindOfAsset.first.checkYourAnswersLabel", Html("Other"), Some(WhatKindOfAssetController.onPageLoad(index, fakeDraftId).url)),
-    AnswerRow("other.description.checkYourAnswersLabel", Html(description), Some(OtherAssetDescriptionController.onPageLoad(index, fakeDraftId).url)),
-    AnswerRow("other.value.checkYourAnswersLabel", Html("£100"), Some(OtherAssetValueController.onPageLoad(index, fakeDraftId).url))
+    AnswerRow(
+      "whatKindOfAsset.first.checkYourAnswersLabel",
+      Html("Other"),
+      Some(WhatKindOfAssetController.onPageLoad(index, fakeDraftId).url)
+    ),
+    AnswerRow(
+      "other.description.checkYourAnswersLabel",
+      Html(description),
+      Some(OtherAssetDescriptionController.onPageLoad(index, fakeDraftId).url)
+    ),
+    AnswerRow(
+      "other.value.checkYourAnswersLabel",
+      Html("£100"),
+      Some(OtherAssetValueController.onPageLoad(index, fakeDraftId).url)
+    )
   )
 
   "OtherPrintHelper" when {
@@ -78,10 +96,12 @@ class OtherPrintHelperSpec extends SpecBase {
           draftId = fakeDraftId
         )
 
-        result mustBe Seq(AnswerSection(
-          headingKey = None,
-          rows = rows
-        ))
+        result mustBe Seq(
+          AnswerSection(
+            headingKey = None,
+            rows = rows
+          )
+        )
       }
     }
   }

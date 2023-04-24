@@ -25,7 +25,7 @@ import views.html.asset.shares.SharePortfolioOnStockExchangeView
 class SharePortfolioOnStockExchangeViewSpec extends YesNoViewBehaviours {
 
   private val messageKeyPrefix: String = "shares.portfolioOnStockExchangeYesNo"
-  private val index: Int = 0
+  private val index: Int               = 0
 
   override val form: Form[Boolean] = new YesNoFormProvider().withPrefix(messageKeyPrefix)
 

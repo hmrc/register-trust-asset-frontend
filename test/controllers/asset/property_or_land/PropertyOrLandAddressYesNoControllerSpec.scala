@@ -33,7 +33,8 @@ class PropertyOrLandAddressYesNoControllerSpec extends SpecBase with IndexValida
 
   val index = 0
 
-  lazy val propertyOrLandAddressYesNoRoute = routes.PropertyOrLandAddressYesNoController.onPageLoad(index, fakeDraftId).url
+  lazy val propertyOrLandAddressYesNoRoute =
+    routes.PropertyOrLandAddressYesNoController.onPageLoad(index, fakeDraftId).url
 
   "PropertyOrLandAddressYesNo Controller" must {
 
@@ -150,7 +151,7 @@ class PropertyOrLandAddressYesNoControllerSpec extends SpecBase with IndexValida
 
   "for a GET" must {
 
-    def getForIndex(index: Int) : FakeRequest[AnyContentAsEmpty.type] = {
+    def getForIndex(index: Int): FakeRequest[AnyContentAsEmpty.type] = {
       val route = routes.PropertyOrLandAddressYesNoController.onPageLoad(index, fakeDraftId).url
 
       FakeRequest(GET, route)

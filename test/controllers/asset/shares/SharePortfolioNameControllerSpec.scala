@@ -30,8 +30,8 @@ import views.html.asset.shares.SharePortfolioNameView
 class SharePortfolioNameControllerSpec extends SpecBase with ModelGenerators with IndexValidation {
 
   val formProvider = new NameFormProvider()
-  val form = formProvider.withConfig(53, "shares.portfolioName")
-  val index: Int = 0
+  val form         = formProvider.withConfig(53, "shares.portfolioName")
+  val index: Int   = 0
 
   lazy val sharePortfolioNameRoute = routes.SharePortfolioNameController.onPageLoad(index, fakeDraftId).url
 
@@ -149,7 +149,7 @@ class SharePortfolioNameControllerSpec extends SpecBase with ModelGenerators wit
   }
   "for a GET" must {
 
-    def getForIndex(index: Int) : FakeRequest[AnyContentAsEmpty.type] = {
+    def getForIndex(index: Int): FakeRequest[AnyContentAsEmpty.type] = {
       val route = routes.SharePortfolioNameController.onPageLoad(index, fakeDraftId).url
 
       FakeRequest(GET, route)

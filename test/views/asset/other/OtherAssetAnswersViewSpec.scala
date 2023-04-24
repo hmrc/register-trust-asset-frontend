@@ -22,7 +22,7 @@ import views.html.asset.other.OtherAssetAnswersView
 class OtherAssetAnswersViewSpec extends ViewBehaviours {
 
   private val messageKeyPrefix: String = "other.answers"
-  private val index: Int = 0
+  private val index: Int               = 0
 
   "OtherAssetAnswers view" must {
 

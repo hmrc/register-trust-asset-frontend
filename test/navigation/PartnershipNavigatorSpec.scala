@@ -29,7 +29,7 @@ import java.time.{LocalDate, ZoneOffset}
 class PartnershipNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
 
   private val navigator: Navigator = injector.instanceOf[PartnershipNavigator]
-  private val index: Int = 0
+  private val index: Int           = 0
   private val validDate: LocalDate = LocalDate.now(ZoneOffset.UTC)
 
   "Partnership Navigator" must {
@@ -38,11 +38,11 @@ class PartnershipNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks wi
 
       val page = PartnershipDescriptionPage(index)
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-          val answers = userAnswers.set(page, "Partnership Description").success.value
-          navigator.nextPage(page, fakeDraftId)(answers)
-            .mustBe(PartnershipStartDateController.onPageLoad(index, fakeDraftId))
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers = userAnswers.set(page, "Partnership Description").success.value
+        navigator
+          .nextPage(page, fakeDraftId)(answers)
+          .mustBe(PartnershipStartDateController.onPageLoad(index, fakeDraftId))
       }
     }
 
@@ -50,12 +50,14 @@ class PartnershipNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks wi
 
       val page = PartnershipStartDatePage(index)
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-          val answers = userAnswers
-            .set(PartnershipStartDatePage(index), validDate).success.value
-          navigator.nextPage(page, fakeDraftId)(answers)
-            .mustBe(PartnershipAnswerController.onPageLoad(index, fakeDraftId))
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers = userAnswers
+          .set(PartnershipStartDatePage(index), validDate)
+          .success
+          .value
+        navigator
+          .nextPage(page, fakeDraftId)(answers)
+          .mustBe(PartnershipAnswerController.onPageLoad(index, fakeDraftId))
       }
     }
 
@@ -63,10 +65,10 @@ class PartnershipNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks wi
 
       val page = PartnershipAnswerPage
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
-          navigator.nextPage(page, fakeDraftId)(userAnswers)
-            .mustBe(controllers.asset.routes.AddAssetsController.onPageLoad(fakeDraftId))
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        navigator
+          .nextPage(page, fakeDraftId)(userAnswers)
+          .mustBe(controllers.asset.routes.AddAssetsController.onPageLoad(fakeDraftId))
       }
     }
   }

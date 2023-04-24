@@ -35,8 +35,8 @@ class PartnershipAnswersHelperSpec extends SpecBase {
   private val answersHelper: PartnershipAnswersHelper = new PartnershipAnswersHelper(mockPrintHelper)
 
   private val description: String = "Description"
-  private val date: LocalDate = LocalDate.parse("1996-02-03")
-  private val amount: Long = 100L
+  private val date: LocalDate     = LocalDate.parse("1996-02-03")
+  private val amount: Long        = 100L
 
   "PartnershipAnswersHelper" when {
 
@@ -53,9 +53,15 @@ class PartnershipAnswersHelperSpec extends SpecBase {
       val index: Int = 0
 
       val userAnswers: UserAnswers = emptyUserAnswers
-        .set(WhatKindOfAssetPage(index), Partnership).success.value
-        .set(PartnershipDescriptionPage(index), description).success.value
-        .set(PartnershipStartDatePage(index), date).success.value
+        .set(WhatKindOfAssetPage(index), Partnership)
+        .success
+        .value
+        .set(PartnershipDescriptionPage(index), description)
+        .success
+        .value
+        .set(PartnershipStartDatePage(index), date)
+        .success
+        .value
 
       "interact with PartnershipPrintHelper" in {
 
@@ -75,16 +81,30 @@ class PartnershipAnswersHelperSpec extends SpecBase {
         val helper = injector.instanceOf[PartnershipAnswersHelper]
 
         val userAnswers: UserAnswers = emptyUserAnswers
-          .set(WhatKindOfAssetPage(0), Money).success.value
-          .set(AssetMoneyValuePage(0), amount).success.value
-
-          .set(WhatKindOfAssetPage(1), Partnership).success.value
-          .set(PartnershipDescriptionPage(1), description).success.value
-          .set(PartnershipStartDatePage(1), date).success.value
-
-          .set(WhatKindOfAssetPage(2), Partnership).success.value
-          .set(PartnershipDescriptionPage(2), description).success.value
-          .set(PartnershipStartDatePage(2), date).success.value
+          .set(WhatKindOfAssetPage(0), Money)
+          .success
+          .value
+          .set(AssetMoneyValuePage(0), amount)
+          .success
+          .value
+          .set(WhatKindOfAssetPage(1), Partnership)
+          .success
+          .value
+          .set(PartnershipDescriptionPage(1), description)
+          .success
+          .value
+          .set(PartnershipStartDatePage(1), date)
+          .success
+          .value
+          .set(WhatKindOfAssetPage(2), Partnership)
+          .success
+          .value
+          .set(PartnershipDescriptionPage(2), description)
+          .success
+          .value
+          .set(PartnershipStartDatePage(2), date)
+          .success
+          .value
 
         val result: Seq[AnswerSection] = helper(userAnswers)
 

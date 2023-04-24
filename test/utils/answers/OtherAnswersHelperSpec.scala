@@ -33,7 +33,7 @@ class OtherAnswersHelperSpec extends SpecBase {
   private val answersHelper: OtherAnswersHelper = new OtherAnswersHelper(mockPrintHelper)
 
   private val description: String = "Description"
-  private val amount: Long = 100L
+  private val amount: Long        = 100L
 
   "OtherAnswersHelper" when {
 
@@ -50,9 +50,15 @@ class OtherAnswersHelperSpec extends SpecBase {
       val index: Int = 0
 
       val userAnswers: UserAnswers = emptyUserAnswers
-        .set(WhatKindOfAssetPage(index), Other).success.value
-        .set(OtherAssetDescriptionPage(index), description).success.value
-        .set(OtherAssetValuePage(index), amount).success.value
+        .set(WhatKindOfAssetPage(index), Other)
+        .success
+        .value
+        .set(OtherAssetDescriptionPage(index), description)
+        .success
+        .value
+        .set(OtherAssetValuePage(index), amount)
+        .success
+        .value
 
       "interact with OtherPrintHelper" in {
 
@@ -72,16 +78,30 @@ class OtherAnswersHelperSpec extends SpecBase {
         val helper = injector.instanceOf[OtherAnswersHelper]
 
         val userAnswers: UserAnswers = emptyUserAnswers
-          .set(WhatKindOfAssetPage(0), Money).success.value
-          .set(AssetMoneyValuePage(0), amount).success.value
-
-          .set(WhatKindOfAssetPage(1), Other).success.value
-          .set(OtherAssetDescriptionPage(1), description).success.value
-          .set(OtherAssetValuePage(1), amount).success.value
-
-          .set(WhatKindOfAssetPage(2), Other).success.value
-          .set(OtherAssetDescriptionPage(2), description).success.value
-          .set(OtherAssetValuePage(2), amount).success.value
+          .set(WhatKindOfAssetPage(0), Money)
+          .success
+          .value
+          .set(AssetMoneyValuePage(0), amount)
+          .success
+          .value
+          .set(WhatKindOfAssetPage(1), Other)
+          .success
+          .value
+          .set(OtherAssetDescriptionPage(1), description)
+          .success
+          .value
+          .set(OtherAssetValuePage(1), amount)
+          .success
+          .value
+          .set(WhatKindOfAssetPage(2), Other)
+          .success
+          .value
+          .set(OtherAssetDescriptionPage(2), description)
+          .success
+          .value
+          .set(OtherAssetValuePage(2), amount)
+          .success
+          .value
 
         val result: Seq[AnswerSection] = helper(userAnswers)
 

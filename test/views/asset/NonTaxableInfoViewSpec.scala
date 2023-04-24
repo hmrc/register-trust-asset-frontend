@@ -31,7 +31,8 @@ class NonTaxableInfoViewSpec extends ViewBehaviours {
 
     behave like pageWithTitleAndSectionSubheading(applyView, "assetInterruptPage.nonTaxable")
 
-    behave like pageWithGuidance(applyView,
+    behave like pageWithGuidance(
+      applyView,
       messageKeyPrefix = "assetInterruptPage.nonTaxable",
       expectedGuidanceKeys = "paragraph1",
       "bullet1",

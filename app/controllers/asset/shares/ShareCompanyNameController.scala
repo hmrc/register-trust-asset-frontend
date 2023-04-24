@@ -32,51 +32,48 @@ import views.html.asset.shares.ShareCompanyNameView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class ShareCompanyNameController @Inject()(
-                                            override val messagesApi: MessagesApi,
-                                            repository: RegistrationsRepository,
-                                            @Shares navigator: Navigator,
-                                            identify: RegistrationIdentifierAction,
-                                            getData: DraftIdRetrievalActionProvider,
-                                            requireData: RegistrationDataRequiredAction,
-                                            formProvider: NameFormProvider,
-                                            val controllerComponents: MessagesControllerComponents,
-                                            view: ShareCompanyNameView,
-                                            validateIndex: IndexActionFilterProvider
-                                          )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class ShareCompanyNameController @Inject() (
+  override val messagesApi: MessagesApi,
+  repository: RegistrationsRepository,
+  @Shares navigator: Navigator,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  formProvider: NameFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: ShareCompanyNameView,
+  validateIndex: IndexActionFilterProvider
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  private def actions(index : Int, draftId: String) =
+  private def actions(index: Int, draftId: String) =
     identify andThen getData(draftId) andThen
       requireData andThen
       validateIndex(index, sections.Assets)
 
   private val maxLength = 53
-  private val form = formProvider.withConfig(maxLength, "shares.companyName")
+  private val form      = formProvider.withConfig(maxLength, "shares.companyName")
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
-    implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    val preparedForm = request.userAnswers.get(ShareCompanyNamePage(index)) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(ShareCompanyNamePage(index)) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, draftId, index))
+    Ok(view(preparedForm, draftId, index))
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
-
-      form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, draftId, index))),
-
-        value => {
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    form
+      .bindFromRequest()
+      .fold(
+        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
+        value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(ShareCompanyNamePage(index), value))
             _              <- repository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(ShareCompanyNamePage(index), draftId)(updatedAnswers))
-        }
       )
   }
 }

@@ -27,7 +27,7 @@ import views.html.asset.WhatKindOfAssetView
 class WhatKindOfAssetViewSpec extends ViewBehaviours {
 
   private val messageKeyPrefixFirst: String = "whatKindOfAsset.first"
-  private val messageKeyPrefixNext: String = "whatKindOfAsset.next"
+  private val messageKeyPrefixNext: String  = "whatKindOfAsset.next"
 
   private val form: Form[WhatKindOfAsset] = new WhatKindOfAssetFormProvider()()
 
@@ -35,7 +35,7 @@ class WhatKindOfAssetViewSpec extends ViewBehaviours {
 
   private val view: WhatKindOfAssetView = application.injector.instanceOf[WhatKindOfAssetView]
 
-  def applyView(form: Form[_], index : Int): HtmlFormat.Appendable =
+  def applyView(form: Form[_], index: Int): HtmlFormat.Appendable =
     view.apply(form, fakeDraftId, index, WhatKindOfAsset.options())(fakeRequest, messages)
 
   "WhatKindOfAssetView" when {
@@ -56,14 +56,12 @@ class WhatKindOfAssetViewSpec extends ViewBehaviours {
 
         val doc = asDocument(applyView(form, 0))
 
-        for (option <- WhatKindOfAsset.options()) {
+        for (option <- WhatKindOfAsset.options())
           assertContainsRadioButton(doc, option.id, "value", option.value, isChecked = false)
-        }
       }
     }
 
-    for (option <- WhatKindOfAsset.options()) {
-
+    for (option <- WhatKindOfAsset.options())
       s"rendered with a value of '${option.value}'" must {
 
         s"have the '${option.value}' radio button selected" in {
@@ -72,12 +70,10 @@ class WhatKindOfAssetViewSpec extends ViewBehaviours {
 
           assertContainsRadioButton(doc, option.id, "value", option.value, isChecked = true)
 
-          for (unselectedOption <- WhatKindOfAsset.options().filterNot(o => o == option)) {
+          for (unselectedOption <- WhatKindOfAsset.options().filterNot(o => o == option))
             assertContainsRadioButton(doc, unselectedOption.id, "value", unselectedOption.value, isChecked = false)
-          }
         }
       }
-    }
 
     behave like pageWithBackLink(applyView(form, 0))
 

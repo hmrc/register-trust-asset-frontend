@@ -31,7 +31,8 @@ class PropertyOrLandAddressUkYesNoControllerSpec extends SpecBase {
 
   val index: Int = 0
 
-  lazy val propertyOrLandAddressRoute: String = PropertyOrLandAddressUkYesNoController.onPageLoad(index, fakeDraftId).url
+  lazy val propertyOrLandAddressRoute: String =
+    PropertyOrLandAddressUkYesNoController.onPageLoad(index, fakeDraftId).url
 
   "PropertyOrLandAddress Controller" must {
 

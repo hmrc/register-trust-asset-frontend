@@ -24,8 +24,7 @@ import org.scalatest.OptionValues
 import pages.asset._
 import pages.asset.property_or_land._
 
-class PropertyOrLandMapperSpec extends SpecBase with Matchers
-  with OptionValues with Generators {
+class PropertyOrLandMapperSpec extends SpecBase with Matchers with OptionValues with Generators {
 
   private val propertyOrLandMapper: PropertyOrLandMapper = injector.instanceOf[PropertyOrLandMapper]
 
@@ -37,8 +36,12 @@ class PropertyOrLandMapperSpec extends SpecBase with Matchers
     "not be able to create a property or land asset when missing values in user answers" in {
 
       val userAnswers = emptyUserAnswers
-        .set(WhatKindOfAssetPage(0), WhatKindOfAsset.PropertyOrLand).success.value
-        .set(PropertyOrLandAddressYesNoPage(0), true).success.value
+        .set(WhatKindOfAssetPage(0), WhatKindOfAsset.PropertyOrLand)
+        .success
+        .value
+        .set(PropertyOrLandAddressYesNoPage(0), true)
+        .success
+        .value
 
       propertyOrLandMapper.build(userAnswers) mustNot be(defined)
 
@@ -49,13 +52,30 @@ class PropertyOrLandMapperSpec extends SpecBase with Matchers
       "uk address" in {
 
         val userAnswers = emptyUserAnswers
-          .set(WhatKindOfAssetPage(0), WhatKindOfAsset.PropertyOrLand).success.value
-          .set(PropertyOrLandAddressYesNoPage(0), true).success.value
-          .set(PropertyOrLandAddressUkYesNoPage(0), true).success.value
-          .set(PropertyOrLandUKAddressPage(0), UKAddress("26", "Grangetown", Some("Tyne and Wear"), Some("Newcastle"), "Z99 2YY")).success.value
-          .set(PropertyOrLandTotalValuePage(0), assetTotalValue).success.value
-          .set(TrustOwnAllThePropertyOrLandPage(0), false).success.value
-          .set(PropertyLandValueTrustPage(0), assetTrustValue).success.value
+          .set(WhatKindOfAssetPage(0), WhatKindOfAsset.PropertyOrLand)
+          .success
+          .value
+          .set(PropertyOrLandAddressYesNoPage(0), true)
+          .success
+          .value
+          .set(PropertyOrLandAddressUkYesNoPage(0), true)
+          .success
+          .value
+          .set(
+            PropertyOrLandUKAddressPage(0),
+            UKAddress("26", "Grangetown", Some("Tyne and Wear"), Some("Newcastle"), "Z99 2YY")
+          )
+          .success
+          .value
+          .set(PropertyOrLandTotalValuePage(0), assetTotalValue)
+          .success
+          .value
+          .set(TrustOwnAllThePropertyOrLandPage(0), false)
+          .success
+          .value
+          .set(PropertyLandValueTrustPage(0), assetTrustValue)
+          .success
+          .value
 
         propertyOrLandMapper.build(userAnswers).value mustBe
           List(
@@ -69,10 +89,10 @@ class PropertyOrLandMapperSpec extends SpecBase with Matchers
                   line4 = Some("Newcastle"),
                   postCode = Some("Z99 2YY"),
                   country = "GB"
-                )),
+                )
+              ),
               valueFull = assetTotalValue,
               valuePrevious = assetTrustValue
-
             )
           )
       }
@@ -80,13 +100,27 @@ class PropertyOrLandMapperSpec extends SpecBase with Matchers
       "international address" in {
 
         val userAnswers = emptyUserAnswers
-          .set(WhatKindOfAssetPage(0), WhatKindOfAsset.PropertyOrLand).success.value
-          .set(PropertyOrLandAddressYesNoPage(0), true).success.value
-          .set(PropertyOrLandAddressUkYesNoPage(0), false).success.value
-          .set(PropertyOrLandInternationalAddressPage(0), InternationalAddress("1", "Broadway", Some("New York"), "US")).success.value
-          .set(PropertyOrLandTotalValuePage(0), assetTotalValue).success.value
-          .set(TrustOwnAllThePropertyOrLandPage(0), false).success.value
-          .set(PropertyLandValueTrustPage(0), assetTrustValue).success.value
+          .set(WhatKindOfAssetPage(0), WhatKindOfAsset.PropertyOrLand)
+          .success
+          .value
+          .set(PropertyOrLandAddressYesNoPage(0), true)
+          .success
+          .value
+          .set(PropertyOrLandAddressUkYesNoPage(0), false)
+          .success
+          .value
+          .set(PropertyOrLandInternationalAddressPage(0), InternationalAddress("1", "Broadway", Some("New York"), "US"))
+          .success
+          .value
+          .set(PropertyOrLandTotalValuePage(0), assetTotalValue)
+          .success
+          .value
+          .set(TrustOwnAllThePropertyOrLandPage(0), false)
+          .success
+          .value
+          .set(PropertyLandValueTrustPage(0), assetTrustValue)
+          .success
+          .value
 
         propertyOrLandMapper.build(userAnswers).value mustBe
           List(
@@ -100,10 +134,10 @@ class PropertyOrLandMapperSpec extends SpecBase with Matchers
                   line4 = None,
                   postCode = None,
                   country = "US"
-                )),
+                )
+              ),
               valueFull = assetTotalValue,
               valuePrevious = assetTrustValue
-
             )
           )
       }
@@ -112,12 +146,21 @@ class PropertyOrLandMapperSpec extends SpecBase with Matchers
     "be able to create a property or land Asset with a property description and owns full value" in {
 
       val userAnswers = emptyUserAnswers
-        .set(WhatKindOfAssetPage(0), WhatKindOfAsset.PropertyOrLand).success.value
-        .set(PropertyOrLandAddressYesNoPage(0), false).success.value
-        .set(PropertyOrLandDescriptionPage(0), "Property Or Land").success.value
-        .set(PropertyOrLandTotalValuePage(0), assetTotalValue).success.value
-        .set(TrustOwnAllThePropertyOrLandPage(0), true).success.value
-
+        .set(WhatKindOfAssetPage(0), WhatKindOfAsset.PropertyOrLand)
+        .success
+        .value
+        .set(PropertyOrLandAddressYesNoPage(0), false)
+        .success
+        .value
+        .set(PropertyOrLandDescriptionPage(0), "Property Or Land")
+        .success
+        .value
+        .set(PropertyOrLandTotalValuePage(0), assetTotalValue)
+        .success
+        .value
+        .set(TrustOwnAllThePropertyOrLandPage(0), true)
+        .success
+        .value
 
       propertyOrLandMapper.build(userAnswers).value mustBe
         List(
@@ -126,28 +169,60 @@ class PropertyOrLandMapperSpec extends SpecBase with Matchers
             address = None,
             valueFull = assetTotalValue,
             valuePrevious = assetTotalValue
-
           )
         )
     }
 
     "be able to create multiple Share Assets" in {
       val userAnswers = emptyUserAnswers
-
-        .set(WhatKindOfAssetPage(0), WhatKindOfAsset.PropertyOrLand).success.value
-        .set(PropertyOrLandAddressYesNoPage(0), true).success.value
-        .set(PropertyOrLandAddressUkYesNoPage(0), true).success.value
-        .set(PropertyOrLandUKAddressPage(0), UKAddress("26", "Grangetown", Some("Tyne and Wear"), Some("Newcastle"), "Z99 2YY")).success.value
-        .set(PropertyOrLandTotalValuePage(0), assetTotalValue).success.value
-        .set(TrustOwnAllThePropertyOrLandPage(0), true).success.value
-        .set(PropertyLandValueTrustPage(0), assetTrustValue).success.value
-        .set(WhatKindOfAssetPage(1), WhatKindOfAsset.PropertyOrLand).success.value
-        .set(PropertyOrLandAddressYesNoPage(1), true).success.value
-        .set(PropertyOrLandAddressUkYesNoPage(1), true).success.value
-        .set(PropertyOrLandUKAddressPage(1), UKAddress("26", "Grangetown", Some("Tyne and Wear"), Some("Newcastle"), "Z99 2YY")).success.value
-        .set(PropertyOrLandTotalValuePage(1), assetTotalValue).success.value
-        .set(TrustOwnAllThePropertyOrLandPage(1), true).success.value
-        .set(PropertyLandValueTrustPage(1), assetTrustValue).success.value
+        .set(WhatKindOfAssetPage(0), WhatKindOfAsset.PropertyOrLand)
+        .success
+        .value
+        .set(PropertyOrLandAddressYesNoPage(0), true)
+        .success
+        .value
+        .set(PropertyOrLandAddressUkYesNoPage(0), true)
+        .success
+        .value
+        .set(
+          PropertyOrLandUKAddressPage(0),
+          UKAddress("26", "Grangetown", Some("Tyne and Wear"), Some("Newcastle"), "Z99 2YY")
+        )
+        .success
+        .value
+        .set(PropertyOrLandTotalValuePage(0), assetTotalValue)
+        .success
+        .value
+        .set(TrustOwnAllThePropertyOrLandPage(0), true)
+        .success
+        .value
+        .set(PropertyLandValueTrustPage(0), assetTrustValue)
+        .success
+        .value
+        .set(WhatKindOfAssetPage(1), WhatKindOfAsset.PropertyOrLand)
+        .success
+        .value
+        .set(PropertyOrLandAddressYesNoPage(1), true)
+        .success
+        .value
+        .set(PropertyOrLandAddressUkYesNoPage(1), true)
+        .success
+        .value
+        .set(
+          PropertyOrLandUKAddressPage(1),
+          UKAddress("26", "Grangetown", Some("Tyne and Wear"), Some("Newcastle"), "Z99 2YY")
+        )
+        .success
+        .value
+        .set(PropertyOrLandTotalValuePage(1), assetTotalValue)
+        .success
+        .value
+        .set(TrustOwnAllThePropertyOrLandPage(1), true)
+        .success
+        .value
+        .set(PropertyLandValueTrustPage(1), assetTrustValue)
+        .success
+        .value
 
       propertyOrLandMapper.build(userAnswers).value.length mustBe 2
     }

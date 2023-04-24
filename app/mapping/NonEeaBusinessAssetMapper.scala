@@ -21,9 +21,10 @@ import models.NonEeaBusinessType
 
 import javax.inject.Inject
 
-class NonEeaBusinessAssetMapper @Inject()(addressMapper: AddressMapper) extends Mapping[NonEeaBusinessType, NonEeaBusinessAsset] {
+class NonEeaBusinessAssetMapper @Inject() (addressMapper: AddressMapper)
+    extends Mapping[NonEeaBusinessType, NonEeaBusinessAsset] {
 
-  override def mapAssets(assets: List[NonEeaBusinessAsset]): List[NonEeaBusinessType] = {
+  override def mapAssets(assets: List[NonEeaBusinessAsset]): List[NonEeaBusinessType] =
     assets.map(x =>
       NonEeaBusinessType(
         orgName = x.name,
@@ -32,5 +33,4 @@ class NonEeaBusinessAssetMapper @Inject()(addressMapper: AddressMapper) extends 
         startDate = x.startDate
       )
     )
-  }
 }

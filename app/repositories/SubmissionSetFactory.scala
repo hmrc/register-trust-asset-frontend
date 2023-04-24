@@ -26,71 +26,71 @@ import viewmodels.{AnswerRow, AnswerSection}
 
 import javax.inject.Inject
 
-class SubmissionSetFactory @Inject()(registrationProgress: RegistrationProgress,
-                                     assetMapper: AssetMapper,
-                                     moneyAnswersHelper: MoneyAnswersHelper,
-                                     propertyOrLandAnswersHelper: PropertyOrLandAnswersHelper,
-                                     sharesAnswersHelper: SharesAnswersHelper,
-                                     businessAnswersHelper: BusinessAnswersHelper,
-                                     partnershipAnswersHelper: PartnershipAnswersHelper,
-                                     otherAnswersHelper: OtherAnswersHelper,
-                                     nonEeaBusinessAnswersHelper: NonEeaBusinessAnswersHelper) {
+class SubmissionSetFactory @Inject() (
+  registrationProgress: RegistrationProgress,
+  assetMapper: AssetMapper,
+  moneyAnswersHelper: MoneyAnswersHelper,
+  propertyOrLandAnswersHelper: PropertyOrLandAnswersHelper,
+  sharesAnswersHelper: SharesAnswersHelper,
+  businessAnswersHelper: BusinessAnswersHelper,
+  partnershipAnswersHelper: PartnershipAnswersHelper,
+  otherAnswersHelper: OtherAnswersHelper,
+  nonEeaBusinessAnswersHelper: NonEeaBusinessAnswersHelper
+) {
 
-  def createFrom(userAnswers: UserAnswers)(implicit messages: Messages): RegistrationSubmission.DataSet = {
-
+  def createFrom(userAnswers: UserAnswers)(implicit messages: Messages): RegistrationSubmission.DataSet =
     RegistrationSubmission.DataSet(
       data = Json.toJson(userAnswers),
       registrationPieces = mappedData(userAnswers),
       answerSections = answerSections(userAnswers)
     )
-  }
 
-  private def mappedData(userAnswers: UserAnswers): List[RegistrationSubmission.MappedPiece] = {
-      assetMapper.build(userAnswers).map {
-        assets =>
-          RegistrationSubmission.MappedPiece("trust/assets", Json.toJson(assets))
-      }.toList
-  }
-
-  def answerSections(userAnswers: UserAnswers)
-                    (implicit messages: Messages): List[RegistrationSubmission.AnswerSection] = {
-
-      val entitySections: List[AnswerSection] = List(
-        moneyAnswersHelper(userAnswers),
-        propertyOrLandAnswersHelper(userAnswers),
-        sharesAnswersHelper(userAnswers),
-        businessAnswersHelper(userAnswers),
-        partnershipAnswersHelper(userAnswers),
-        otherAnswersHelper(userAnswers),
-        nonEeaBusinessAnswersHelper(userAnswers)
-      ).flatten
-
-      entitySections match {
-        case Nil =>
-          List.empty
-        case _ =>
-          val section = if (userAnswers.isTaxable) "assets" else "companyOwnershipOrControllingInterest"
-
-          val updatedFirstSection: AnswerSection =
-            entitySections.head.copy(sectionKey = Some(s"answerPage.section.$section.heading"))
-
-          val updatedSections: List[AnswerSection] =
-            updatedFirstSection :: entitySections.tail
-
-          updatedSections.map(convertForSubmission)
+  private def mappedData(userAnswers: UserAnswers): List[RegistrationSubmission.MappedPiece] =
+    assetMapper
+      .build(userAnswers)
+      .map { assets =>
+        RegistrationSubmission.MappedPiece("trust/assets", Json.toJson(assets))
       }
+      .toList
+
+  def answerSections(
+    userAnswers: UserAnswers
+  )(implicit messages: Messages): List[RegistrationSubmission.AnswerSection] = {
+
+    val entitySections: List[AnswerSection] = List(
+      moneyAnswersHelper(userAnswers),
+      propertyOrLandAnswersHelper(userAnswers),
+      sharesAnswersHelper(userAnswers),
+      businessAnswersHelper(userAnswers),
+      partnershipAnswersHelper(userAnswers),
+      otherAnswersHelper(userAnswers),
+      nonEeaBusinessAnswersHelper(userAnswers)
+    ).flatten
+
+    entitySections match {
+      case Nil =>
+        List.empty
+      case _   =>
+        val section = if (userAnswers.isTaxable) "assets" else "companyOwnershipOrControllingInterest"
+
+        val updatedFirstSection: AnswerSection =
+          entitySections.head.copy(sectionKey = Some(s"answerPage.section.$section.heading"))
+
+        val updatedSections: List[AnswerSection] =
+          updatedFirstSection :: entitySections.tail
+
+        updatedSections.map(convertForSubmission)
+    }
   }
 
-  private def convertForSubmission(section: AnswerSection): RegistrationSubmission.AnswerSection = {
+  private def convertForSubmission(section: AnswerSection): RegistrationSubmission.AnswerSection =
     RegistrationSubmission.AnswerSection(
       headingKey = section.headingKey,
       rows = section.rows.map(convertForSubmission),
       sectionKey = section.sectionKey,
       headingArgs = section.headingArgs.map(_.toString)
     )
-  }
 
-  private def convertForSubmission(row: AnswerRow): RegistrationSubmission.AnswerRow = {
+  private def convertForSubmission(row: AnswerRow): RegistrationSubmission.AnswerRow =
     RegistrationSubmission.AnswerRow(row.label, row.answer.toString, row.labelArg)
-  }
 }

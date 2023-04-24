@@ -24,7 +24,7 @@ import viewmodels.AnswerSection
 
 import scala.reflect.ClassTag
 
-class AnswersHelper[A <: Asset : ClassTag](printHelper: PrintHelper) {
+class AnswersHelper[A <: Asset: ClassTag](printHelper: PrintHelper) {
 
   def apply(userAnswers: UserAnswers)(implicit messages: Messages): Seq[AnswerSection] = {
 
@@ -34,15 +34,14 @@ class AnswersHelper[A <: Asset : ClassTag](printHelper: PrintHelper) {
       case (x: A, index: Int) if runtimeClass.isInstance(x) => (x, index)
     }
 
-    assets.zipWithIndex.map {
-      case ((asset, index), specificIndex) =>
-        printHelper.printSection(
-          userAnswers = userAnswers,
-          arg = asset.arg,
-          index = index,
-          specificIndex = specificIndex,
-          draftId = userAnswers.draftId
-        )
+    assets.zipWithIndex.map { case ((asset, index), specificIndex) =>
+      printHelper.printSection(
+        userAnswers = userAnswers,
+        arg = asset.arg,
+        index = index,
+        specificIndex = specificIndex,
+        draftId = userAnswers.draftId
+      )
     }
   }
 }

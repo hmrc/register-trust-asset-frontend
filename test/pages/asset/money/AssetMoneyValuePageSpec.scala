@@ -18,7 +18,6 @@ package pages.asset.money
 
 import pages.behaviours.PageBehaviours
 
-
 class AssetMoneyValuePageSpec extends PageBehaviours {
 
   "AssetMoneyValuePage" must {

@@ -30,10 +30,10 @@ import java.time.{LocalDate, ZoneOffset}
 
 class PartnershipStartDateControllerSpec extends SpecBase with IndexValidation {
 
-  private val formProvider = new StartDateFormProvider(frontendAppConfig)
+  private val formProvider   = new StartDateFormProvider(frontendAppConfig)
   private val prefix: String = "partnership.startDate"
-  private val form = formProvider.withConfig(prefix)
-  private val index = 0
+  private val form           = formProvider.withConfig(prefix)
+  private val index          = 0
 
   private val validAnswer = LocalDate.now(ZoneOffset.UTC)
 
@@ -168,7 +168,7 @@ class PartnershipStartDateControllerSpec extends SpecBase with IndexValidation {
     }
 
     validateIndex(
-      Gen.const(LocalDate.of(2010,10,10)),
+      Gen.const(LocalDate.of(2010, 10, 10)),
       PartnershipStartDatePage.apply,
       getForIndex
     )
@@ -190,7 +190,7 @@ class PartnershipStartDateControllerSpec extends SpecBase with IndexValidation {
     }
 
     validateIndex(
-      Gen.const(LocalDate.of(2010,10,10)),
+      Gen.const(LocalDate.of(2010, 10, 10)),
       PartnershipStartDatePage.apply,
       postForIndex
     )

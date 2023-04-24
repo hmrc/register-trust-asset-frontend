@@ -32,51 +32,48 @@ import views.html.asset.shares.SharePortfolioNameView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class SharePortfolioNameController @Inject()(
-                                              override val messagesApi: MessagesApi,
-                                              repository: RegistrationsRepository,
-                                              @Shares navigator: Navigator,
-                                              identify: RegistrationIdentifierAction,
-                                              getData: DraftIdRetrievalActionProvider,
-                                              requireData: RegistrationDataRequiredAction,
-                                              validateIndex: IndexActionFilterProvider,
-                                              formProvider: NameFormProvider,
-                                              val controllerComponents: MessagesControllerComponents,
-                                              view: SharePortfolioNameView
-                                            )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class SharePortfolioNameController @Inject() (
+  override val messagesApi: MessagesApi,
+  repository: RegistrationsRepository,
+  @Shares navigator: Navigator,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  validateIndex: IndexActionFilterProvider,
+  formProvider: NameFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: SharePortfolioNameView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   private val maxLength = 53
-  private val form = formProvider.withConfig(maxLength, "shares.portfolioName")
+  private val form      = formProvider.withConfig(maxLength, "shares.portfolioName")
 
-  private def actions(index : Int, draftId: String) =
+  private def actions(index: Int, draftId: String) =
     identify andThen getData(draftId) andThen
       requireData andThen
       validateIndex(index, sections.Assets)
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
-    implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    val preparedForm = request.userAnswers.get(SharePortfolioNamePage(index)) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(SharePortfolioNamePage(index)) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, draftId, index))
+    Ok(view(preparedForm, draftId, index))
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
-
-      form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, draftId, index))),
-
-        value => {
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    form
+      .bindFromRequest()
+      .fold(
+        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
+        value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(SharePortfolioNamePage(index), value))
             _              <- repository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(SharePortfolioNamePage(index), draftId)(updatedAnswers))
-        }
       )
   }
 }

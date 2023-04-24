@@ -27,7 +27,7 @@ import views.html.asset.property_or_land.PropertyOrLandInternationalAddressView
 class PropertyOrLandInternationalAddressViewSpec extends InternationalAddressViewBehaviours {
 
   private val messageKeyPrefix: String = "propertyOrLand.internationalAddress"
-  private val index: Int = 0
+  private val index: Int               = 0
 
   override val form = new InternationalAddressFormProvider()()
 

@@ -30,12 +30,13 @@ import views.html.asset.property_or_land.PropertyOrLandTotalValueView
 
 class PropertyOrLandTotalValueControllerSpec extends SpecBase with IndexValidation {
 
-  val formProvider = new ValueFormProvider(frontendAppConfig)
-  val form: Form[Long] = formProvider.withConfig(prefix = "propertyOrLand.totalValue")
-  val index = 0
+  val formProvider      = new ValueFormProvider(frontendAppConfig)
+  val form: Form[Long]  = formProvider.withConfig(prefix = "propertyOrLand.totalValue")
+  val index             = 0
   val validAnswer: Long = 4000L
 
-  lazy val propertyOrLandTotalValueRoute: String = routes.PropertyOrLandTotalValueController.onPageLoad(index, fakeDraftId).url
+  lazy val propertyOrLandTotalValueRoute: String =
+    routes.PropertyOrLandTotalValueController.onPageLoad(index, fakeDraftId).url
 
   "PropertyOrLandTotalValue Controller" must {
 
@@ -150,7 +151,7 @@ class PropertyOrLandTotalValueControllerSpec extends SpecBase with IndexValidati
 
     "for a GET" must {
 
-      def getForIndex(index: Int) : FakeRequest[AnyContentAsEmpty.type] = {
+      def getForIndex(index: Int): FakeRequest[AnyContentAsEmpty.type] = {
         val route = routes.PropertyOrLandTotalValueController.onPageLoad(index, fakeDraftId).url
 
         FakeRequest(GET, route)
@@ -180,7 +181,6 @@ class PropertyOrLandTotalValueControllerSpec extends SpecBase with IndexValidati
         postForIndex
       )
     }
-
 
   }
 }

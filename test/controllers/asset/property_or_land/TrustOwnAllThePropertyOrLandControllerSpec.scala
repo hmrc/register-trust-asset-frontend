@@ -33,7 +33,8 @@ class TrustOwnAllThePropertyOrLandControllerSpec extends SpecBase with IndexVali
 
   val index: Int = 0
 
-  lazy val trustOwnAllThePropertyOrLandRoute = routes.TrustOwnAllThePropertyOrLandController.onPageLoad(index, fakeDraftId).url
+  lazy val trustOwnAllThePropertyOrLandRoute =
+    routes.TrustOwnAllThePropertyOrLandController.onPageLoad(index, fakeDraftId).url
 
   "TrustOwnAllThePropertyOrLand Controller" must {
 
@@ -149,7 +150,7 @@ class TrustOwnAllThePropertyOrLandControllerSpec extends SpecBase with IndexVali
 
     "for a GET" must {
 
-      def getForIndex(index: Int) : FakeRequest[AnyContentAsEmpty.type] = {
+      def getForIndex(index: Int): FakeRequest[AnyContentAsEmpty.type] = {
         val route = routes.TrustOwnAllThePropertyOrLandController.onPageLoad(index, fakeDraftId).url
 
         FakeRequest(GET, route)

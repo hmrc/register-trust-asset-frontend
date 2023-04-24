@@ -21,7 +21,7 @@ import pages.asset.other.OtherAssetDescriptionPage.key
 import play.api.libs.json.JsPath
 import sections.Assets
 
-final case class OtherAssetDescriptionPage(index : Int) extends QuestionPage[String] {
+final case class OtherAssetDescriptionPage(index: Int) extends QuestionPage[String] {
 
   override def path: JsPath = Assets.path \ index \ toString
 

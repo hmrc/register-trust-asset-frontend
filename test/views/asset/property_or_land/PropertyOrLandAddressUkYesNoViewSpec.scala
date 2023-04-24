@@ -25,7 +25,7 @@ import views.html.asset.property_or_land.PropertyOrLandAddressUkYesNoView
 class PropertyOrLandAddressUkYesNoViewSpec extends YesNoViewBehaviours {
 
   private val messageKeyPrefix: String = "propertyOrLand.addressUkYesNo"
-  private val index: Int = 1
+  private val index: Int               = 1
 
   override val form: Form[Boolean] = new YesNoFormProvider().withPrefix(messageKeyPrefix)
 

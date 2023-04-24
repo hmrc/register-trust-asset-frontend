@@ -28,7 +28,7 @@ class ViewUtils {
   def breadcrumbTitle[T <: Request[_]](title: String)(implicit request: T, messages: Messages): String = {
     val section = request match {
       case x: RegistrationDataRequest[_] => Some(s"entities.${if (x.userAnswers.isTaxable) "assets" else "nonTaxable"}")
-      case _ => None
+      case _                             => None
     }
 
     s"$title ${section.fold("")(x => s"- ${messages(x)} ")}- ${messages("service.name")} - GOV.UK"
@@ -38,38 +38,35 @@ class ViewUtils {
 
 object ViewUtils {
 
-  def errorPrefix(form: Form[_])(implicit messages: Messages): String = {
+  def errorPrefix(form: Form[_])(implicit messages: Messages): String =
     if (form.hasErrors || form.hasGlobalErrors) messages("error.browser.title.prefix") else ""
-  }
 
-  def errorHref(error: FormError, radioOptions: Seq[RadioOption] = Nil): String = {
+  def errorHref(error: FormError, radioOptions: Seq[RadioOption] = Nil): String =
     error.args match {
       case x if x.contains("day") || x.contains("month") || x.contains("year") =>
         s"${error.key}.${error.args.head}"
-      case _ if error.message.toLowerCase.contains("yesno") =>
+      case _ if error.message.toLowerCase.contains("yesno")                    =>
         s"${error.key}-yes"
-      case _ if radioOptions.nonEmpty =>
+      case _ if radioOptions.nonEmpty                                          =>
         radioOptions.head.id
-      case _ =>
-        val isSingleDateField = error.message.toLowerCase.contains("date") && !error.message.toLowerCase.contains("yesno")
+      case _                                                                   =>
+        val isSingleDateField =
+          error.message.toLowerCase.contains("date") && !error.message.toLowerCase.contains("yesno")
         if (error.key.toLowerCase.contains("date") || isSingleDateField) {
           s"${error.key}.day"
         } else {
           s"${error.key}"
         }
     }
-  }
 
   def mapRadioOptionsToRadioItems(field: Field, inputs: Seq[RadioOption])(implicit messages: Messages): Seq[RadioItem] =
-    inputs.map(
-      a => {
-        RadioItem(
-          id = Some(a.id),
-          value = Some(a.value),
-          checked = field.value.contains(a.value),
-          content = Text(messages(a.messageKey)),
-          attributes = Map.empty
-        )
-      }
-    )
+    inputs.map { a =>
+      RadioItem(
+        id = Some(a.id),
+        value = Some(a.value),
+        checked = field.value.contains(a.value),
+        content = Text(messages(a.messageKey)),
+        attributes = Map.empty
+      )
+    }
 }

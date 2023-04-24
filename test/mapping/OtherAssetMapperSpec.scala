@@ -26,8 +26,7 @@ import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.other._
 
-class OtherAssetMapperSpec extends SpecBase with Matchers
-  with OptionValues with Generators {
+class OtherAssetMapperSpec extends SpecBase with Matchers with OptionValues with Generators {
 
   private val otherAssetMapper: OtherAssetMapper = injector.instanceOf[OtherAssetMapper]
 
@@ -40,7 +39,9 @@ class OtherAssetMapperSpec extends SpecBase with Matchers
 
       val userAnswers =
         emptyUserAnswers
-          .set(WhatKindOfAssetPage(0), WhatKindOfAsset.Other).success.value
+          .set(WhatKindOfAssetPage(0), WhatKindOfAsset.Other)
+          .success
+          .value
 
       otherAssetMapper.build(userAnswers) mustNot be(defined)
     }
@@ -49,10 +50,18 @@ class OtherAssetMapperSpec extends SpecBase with Matchers
 
       val userAnswers =
         emptyUserAnswers
-          .set(WhatKindOfAssetPage(0), WhatKindOfAsset.Other).success.value
-          .set(OtherAssetDescriptionPage(0), "Description").success.value
-          .set(OtherAssetValuePage(0), assetValue1).success.value
-          .set(AssetStatus(0), Completed).success.value
+          .set(WhatKindOfAssetPage(0), WhatKindOfAsset.Other)
+          .success
+          .value
+          .set(OtherAssetDescriptionPage(0), "Description")
+          .success
+          .value
+          .set(OtherAssetValuePage(0), assetValue1)
+          .success
+          .value
+          .set(AssetStatus(0), Completed)
+          .success
+          .value
 
       otherAssetMapper.build(userAnswers).value mustBe List(OtherAssetType("Description", assetValue1))
     }
@@ -61,14 +70,30 @@ class OtherAssetMapperSpec extends SpecBase with Matchers
 
       val userAnswers =
         emptyUserAnswers
-          .set(WhatKindOfAssetPage(0), WhatKindOfAsset.Other).success.value
-          .set(OtherAssetDescriptionPage(0), "Description 1").success.value
-          .set(OtherAssetValuePage(0), assetValue1).success.value
-          .set(AssetStatus(0), Completed).success.value
-          .set(WhatKindOfAssetPage(1), WhatKindOfAsset.Other).success.value
-          .set(OtherAssetDescriptionPage(1), "Description 2").success.value
-          .set(OtherAssetValuePage(1), assetValue2).success.value
-          .set(AssetStatus(1), Completed).success.value
+          .set(WhatKindOfAssetPage(0), WhatKindOfAsset.Other)
+          .success
+          .value
+          .set(OtherAssetDescriptionPage(0), "Description 1")
+          .success
+          .value
+          .set(OtherAssetValuePage(0), assetValue1)
+          .success
+          .value
+          .set(AssetStatus(0), Completed)
+          .success
+          .value
+          .set(WhatKindOfAssetPage(1), WhatKindOfAsset.Other)
+          .success
+          .value
+          .set(OtherAssetDescriptionPage(1), "Description 2")
+          .success
+          .value
+          .set(OtherAssetValuePage(1), assetValue2)
+          .success
+          .value
+          .set(AssetStatus(1), Completed)
+          .success
+          .value
 
       otherAssetMapper.build(userAnswers).value mustBe List(
         OtherAssetType("Description 1", assetValue1),

@@ -18,7 +18,6 @@ package pages.asset.shares
 
 import pages.behaviours.PageBehaviours
 
-
 class ShareValueInTrustPageSpec extends PageBehaviours {
 
   "ShareValueInTrustPage" must {

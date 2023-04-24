@@ -29,15 +29,14 @@ import scala.util.{Success, Try}
 
 trait AddAssetController extends FrontendBaseController with I18nSupport {
 
-  def setAssetType(userAnswers: UserAnswers, index: Int, selection: AddAssets = YesNow): Try[UserAnswers] = {
+  def setAssetType(userAnswers: UserAnswers, index: Int, selection: AddAssets = YesNow): Try[UserAnswers] =
     if (selection == YesNow && !userAnswers.isTaxable) {
       (index, userAnswers.get(AssetStatus(index - 1))) match {
         case (0, _) | (_, Some(Completed)) => userAnswers.set(WhatKindOfAssetPage(index), NonEeaBusiness)
-        case _ => Success(userAnswers)
+        case _                             => Success(userAnswers)
       }
     } else {
       Success(userAnswers)
     }
-  }
 
 }

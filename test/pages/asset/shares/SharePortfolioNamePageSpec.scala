@@ -18,7 +18,6 @@ package pages.asset.shares
 
 import pages.behaviours.PageBehaviours
 
-
 class SharePortfolioNamePageSpec extends PageBehaviours {
 
   "SharePortfolioNamePage" must {

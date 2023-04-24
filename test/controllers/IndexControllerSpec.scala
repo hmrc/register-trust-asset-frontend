@@ -37,7 +37,7 @@ import scala.concurrent.Future
 
 class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
-  private val trustsStoreService: TrustsStoreService = mock[TrustsStoreService]
+  private val trustsStoreService: TrustsStoreService             = mock[TrustsStoreService]
   private val submissionDraftConnector: SubmissionDraftConnector = mock[SubmissionDraftConnector]
 
   private lazy val onPageLoadRoute: String = routes.IndexController.onPageLoad(fakeDraftId).url
@@ -60,15 +60,22 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
           reset(registrationsRepository)
 
           val userAnswers: UserAnswers = emptyUserAnswers
-            .set(WhatKindOfAssetPage(0), WhatKindOfAsset.Money).success.value
-            .set(AssetMoneyValuePage(0), 100L).success.value
-            .set(AssetStatus(0), Completed).success.value
+            .set(WhatKindOfAssetPage(0), WhatKindOfAsset.Money)
+            .success
+            .value
+            .set(AssetMoneyValuePage(0), 100L)
+            .success
+            .value
+            .set(AssetStatus(0), Completed)
+            .success
+            .value
 
           val application = applicationBuilder()
             .overrides(
               bind[TrustsStoreService].toInstance(trustsStoreService),
               bind[SubmissionDraftConnector].toInstance(submissionDraftConnector)
-            ).build()
+            )
+            .build()
 
           when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(Some(userAnswers)))
           when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
@@ -82,7 +89,8 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
           redirectLocation(result).value mustBe AddAssetsController.onPageLoad(fakeDraftId).url
 
-          verify(trustsStoreService, atLeastOnce).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+          verify(trustsStoreService, atLeastOnce)
+            .updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
 
           application.stop()
         }
@@ -100,7 +108,8 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
               .overrides(
                 bind[TrustsStoreService].toInstance(trustsStoreService),
                 bind[SubmissionDraftConnector].toInstance(submissionDraftConnector)
-              ).build()
+              )
+              .build()
 
             when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(Some(emptyUserAnswers)))
             when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
@@ -114,7 +123,8 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
             redirectLocation(result).value mustBe AssetInterruptPageController.onPageLoad(fakeDraftId).url
 
-            verify(trustsStoreService, atLeastOnce).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+            verify(trustsStoreService, atLeastOnce)
+              .updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
 
             application.stop()
           }
@@ -131,7 +141,8 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
               .overrides(
                 bind[TrustsStoreService].toInstance(trustsStoreService),
                 bind[SubmissionDraftConnector].toInstance(submissionDraftConnector)
-              ).build()
+              )
+              .build()
 
             when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(Some(emptyUserAnswers)))
             when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
@@ -145,7 +156,8 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
             redirectLocation(result).value mustBe TrustOwnsNonEeaBusinessYesNoController.onPageLoad(fakeDraftId).url
 
-            verify(trustsStoreService, atLeastOnce).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+            verify(trustsStoreService, atLeastOnce)
+              .updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
 
             application.stop()
           }
@@ -162,7 +174,8 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
           .overrides(
             bind[TrustsStoreService].toInstance(trustsStoreService),
             bind[SubmissionDraftConnector].toInstance(submissionDraftConnector)
-          ).build()
+          )
+          .build()
 
         when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(Some(userAnswers)))
         when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
@@ -192,7 +205,8 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
             .overrides(
               bind[TrustsStoreService].toInstance(trustsStoreService),
               bind[SubmissionDraftConnector].toInstance(submissionDraftConnector)
-            ).build()
+            )
+            .build()
 
           when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
           when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
@@ -206,7 +220,8 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
           redirectLocation(result).value mustBe AssetInterruptPageController.onPageLoad(fakeDraftId).url
 
-          verify(trustsStoreService, atLeastOnce).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+          verify(trustsStoreService, atLeastOnce)
+            .updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
 
           application.stop()
         }
@@ -221,7 +236,8 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
             .overrides(
               bind[TrustsStoreService].toInstance(trustsStoreService),
               bind[SubmissionDraftConnector].toInstance(submissionDraftConnector)
-            ).build()
+            )
+            .build()
 
           when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
           when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
@@ -235,7 +251,8 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
           redirectLocation(result).value mustBe TrustOwnsNonEeaBusinessYesNoController.onPageLoad(fakeDraftId).url
 
-          verify(trustsStoreService, atLeastOnce).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+          verify(trustsStoreService, atLeastOnce)
+            .updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
 
           application.stop()
         }
@@ -243,65 +260,67 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
       "instantiate new set of user answers" when {
 
-          "taxable" must {
-            "add isTaxable = true to user answers" in {
+        "taxable" must {
+          "add isTaxable = true to user answers" in {
 
-              reset(registrationsRepository)
+            reset(registrationsRepository)
 
-              val application = applicationBuilder(userAnswers = None)
-                .overrides(
-                  bind[TrustsStoreService].toInstance(trustsStoreService),
-                  bind[SubmissionDraftConnector].toInstance(submissionDraftConnector)
-                ).build()
+            val application = applicationBuilder(userAnswers = None)
+              .overrides(
+                bind[TrustsStoreService].toInstance(trustsStoreService),
+                bind[SubmissionDraftConnector].toInstance(submissionDraftConnector)
+              )
+              .build()
 
-              when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
-              when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-              when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(true))
+            when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
+            when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+            when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(true))
 
-              val request = FakeRequest(GET, onPageLoadRoute)
+            val request = FakeRequest(GET, onPageLoadRoute)
 
-              route(application, request).value.map { _ =>
-                val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
-                verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+            route(application, request).value.map { _ =>
+              val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
+              verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
 
-                uaCaptor.getValue.isTaxable mustBe true
-                uaCaptor.getValue.draftId mustBe fakeDraftId
-                uaCaptor.getValue.internalAuthId mustBe "internalId"
+              uaCaptor.getValue.isTaxable mustBe true
+              uaCaptor.getValue.draftId mustBe fakeDraftId
+              uaCaptor.getValue.internalAuthId mustBe "internalId"
 
-                application.stop()
-              }
+              application.stop()
             }
           }
+        }
 
-          "non-taxable" must {
-            "add isTaxable = false to user answers" in {
+        "non-taxable" must {
+          "add isTaxable = false to user answers" in {
 
-              reset(registrationsRepository)
+            reset(registrationsRepository)
 
-              val application = applicationBuilder(userAnswers = None)
-                .overrides(
-                  bind[TrustsStoreService].toInstance(trustsStoreService),
-                  bind[SubmissionDraftConnector].toInstance(submissionDraftConnector)
-                ).build()
+            val application = applicationBuilder(userAnswers = None)
+              .overrides(
+                bind[TrustsStoreService].toInstance(trustsStoreService),
+                bind[SubmissionDraftConnector].toInstance(submissionDraftConnector)
+              )
+              .build()
 
-              when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
-              when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-              when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(false))
+            when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
+            when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+            when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(false))
 
-              val request = FakeRequest(GET, onPageLoadRoute)
+            val request = FakeRequest(GET, onPageLoadRoute)
 
-              route(application, request).value.map { _ =>
-                val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
-                verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+            route(application, request).value.map { _ =>
+              val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
+              verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
 
-                uaCaptor.getValue.isTaxable mustBe false
-                uaCaptor.getValue.draftId mustBe fakeDraftId
-                uaCaptor.getValue.internalAuthId mustBe "internalId"
+              uaCaptor.getValue.isTaxable mustBe false
+              uaCaptor.getValue.draftId mustBe fakeDraftId
+              uaCaptor.getValue.internalAuthId mustBe "internalId"
 
-                application.stop()
-              }
+              application.stop()
             }
           }
+        }
 
       }
     }

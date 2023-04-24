@@ -21,14 +21,13 @@ import models.{ShareClass, SharesType}
 
 class ShareAssetMapper extends Mapping[SharesType, ShareAsset] {
 
-  override def mapAssets(assets: List[ShareAsset]): List[SharesType] = {
+  override def mapAssets(assets: List[ShareAsset]): List[SharesType] =
     assets.flatMap {
       case x: ShareNonPortfolioAsset =>
         Some(SharesType(x.quantity, x.name, ShareClass.toDES(x.`class`), x.quoted, x.value))
-      case x: SharePortfolioAsset =>
+      case x: SharePortfolioAsset    =>
         Some(SharesType(x.quantity, x.name, ShareClass.toDES(ShareClass.Other), x.quoted, x.value))
-      case _ =>
+      case _                         =>
         None
     }
-  }
 }

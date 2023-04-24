@@ -32,18 +32,30 @@ class MoneyPrintHelperSpec extends SpecBase {
 
   private val index: Int = 0
 
-  private val heading: String = "answerPage.section.moneyAsset.subheading"
+  private val heading: String       = "answerPage.section.moneyAsset.subheading"
   private val headingArgs: Seq[Any] = Seq(index + 1)
 
   private val amount: Long = 100L
 
   private val answers: UserAnswers = emptyUserAnswers
-    .set(WhatKindOfAssetPage(index), Money).success.value
-    .set(AssetMoneyValuePage(index), amount).success.value
+    .set(WhatKindOfAssetPage(index), Money)
+    .success
+    .value
+    .set(AssetMoneyValuePage(index), amount)
+    .success
+    .value
 
   private val rows: Seq[AnswerRow] = Seq(
-    AnswerRow("whatKindOfAsset.first.checkYourAnswersLabel", Html("Money"), Some(WhatKindOfAssetController.onPageLoad(index, draftId).url)),
-    AnswerRow("money.value.checkYourAnswersLabel", Html(s"£100"), Some(AssetMoneyValueController.onPageLoad(index, fakeDraftId).url))
+    AnswerRow(
+      "whatKindOfAsset.first.checkYourAnswersLabel",
+      Html("Money"),
+      Some(WhatKindOfAssetController.onPageLoad(index, draftId).url)
+    ),
+    AnswerRow(
+      "money.value.checkYourAnswersLabel",
+      Html(s"£100"),
+      Some(AssetMoneyValueController.onPageLoad(index, fakeDraftId).url)
+    )
   )
 
   "MoneyPrintHelper" when {
@@ -75,10 +87,12 @@ class MoneyPrintHelperSpec extends SpecBase {
           draftId = fakeDraftId
         )
 
-        result mustBe Seq(AnswerSection(
-          headingKey = None,
-          rows = rows
-        ))
+        result mustBe Seq(
+          AnswerSection(
+            headingKey = None,
+            rows = rows
+          )
+        )
       }
     }
   }

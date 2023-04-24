@@ -19,20 +19,20 @@ package implicitConversions
 object Implicits {
 
   implicit class StringImplicits(str: String) {
-    def uncapitalize: String = str.split(' ').foldLeft("")((acc, word) => {
+    def uncapitalize: String = str.split(' ').foldLeft("") { (acc, word) =>
       def uncapitalizeWord = s"${word.head.toLower}${word.tail}"
       if (acc.isEmpty) {
         uncapitalizeWord
       } else {
         s"$acc $uncapitalizeWord"
       }
-    })
+    }
   }
 
   implicit class ListImplicits[T](list: List[T]) {
     def asSomeIf(condition: Boolean): Option[List[T]] = list match {
       case _ if !condition => None
-      case _ => Some(list)
+      case _               => Some(list)
     }
   }
 }

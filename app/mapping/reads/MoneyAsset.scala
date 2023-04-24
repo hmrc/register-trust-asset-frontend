@@ -23,14 +23,13 @@ import pages.asset.money._
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{Reads, _}
 
-final case class MoneyAsset(override val whatKindOfAsset: WhatKindOfAsset,
-                            value: Long) extends Asset
+final case class MoneyAsset(override val whatKindOfAsset: WhatKindOfAsset, value: Long) extends Asset
 
 object MoneyAsset {
 
   implicit lazy val reads: Reads[MoneyAsset] = (
     (__ \ WhatKindOfAssetPage.key).read[WhatKindOfAsset].filter(_ == Money) and
       (__ \ AssetMoneyValuePage.key).read[Long]
-    )(MoneyAsset.apply _)
+  )(MoneyAsset.apply _)
 
 }

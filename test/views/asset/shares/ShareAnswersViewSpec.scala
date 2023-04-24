@@ -21,7 +21,7 @@ import views.html.asset.shares.ShareAnswersView
 
 class ShareAnswersViewSpec extends ViewBehaviours {
 
-  private val index: Int = 0
+  private val index: Int     = 0
   private val prefix: String = "shares.answers"
 
   private val view: ShareAnswersView = viewFor[ShareAnswersView](Some(emptyUserAnswers))

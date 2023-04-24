@@ -23,11 +23,13 @@ import pages.asset.property_or_land._
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsSuccess, Reads, __}
 
-final case class PropertyOrLandAsset(override val whatKindOfAsset: WhatKindOfAsset,
-                                     propertyOrLandDescription: Option[String],
-                                     address: Option[Address],
-                                     propertyLandValueTrust: Option[Long],
-                                     propertyOrLandTotalValue: Long) extends Asset
+final case class PropertyOrLandAsset(
+  override val whatKindOfAsset: WhatKindOfAsset,
+  propertyOrLandDescription: Option[String],
+  address: Option[Address],
+  propertyLandValueTrust: Option[Long],
+  propertyOrLandTotalValue: Long
+) extends Asset
 
 object PropertyOrLandAsset {
 
@@ -43,8 +45,7 @@ object PropertyOrLandAsset {
       (__ \ PropertyOrLandDescriptionPage.key).readNullable[String] and
       optionalAddressReads and
       (__ \ PropertyLandValueTrustPage.key).readNullable[Long] and
-      (__ \ PropertyOrLandTotalValuePage.key).read[Long]
-      )(PropertyOrLandAsset.apply _)
+      (__ \ PropertyOrLandTotalValuePage.key).read[Long])(PropertyOrLandAsset.apply _)
 
   }
 }

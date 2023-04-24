@@ -34,9 +34,11 @@ class RegistrationRepositorySpec extends SpecBase with Matchers with MockitoSuga
 
   private val mockSubmissionSetFactory: SubmissionSetFactory = mock[SubmissionSetFactory]
 
-  private def createRepository(connector: SubmissionDraftConnector,submissionSetFactory: SubmissionSetFactory): DefaultRegistrationsRepository = {
+  private def createRepository(
+    connector: SubmissionDraftConnector,
+    submissionSetFactory: SubmissionSetFactory
+  ): DefaultRegistrationsRepository =
     new DefaultRegistrationsRepository(connector, frontendAppConfig, submissionSetFactory)
-  }
 
   "RegistrationRepository" when {
 
@@ -82,7 +84,8 @@ class RegistrationRepositorySpec extends SpecBase with Matchers with MockitoSuga
 
         val repository = createRepository(mockConnector, mockSubmissionSetFactory)
 
-        when(mockConnector.setDraftSectionSet(any(), any(), any())(any(), any())).thenReturn(Future.successful(HttpResponse(OK, "")))
+        when(mockConnector.setDraftSectionSet(any(), any(), any())(any(), any()))
+          .thenReturn(Future.successful(HttpResponse(OK, "")))
 
         val userAnswers = UserAnswers(draftId = fakeDraftId, internalAuthId = "internalId")
 
@@ -92,5 +95,5 @@ class RegistrationRepositorySpec extends SpecBase with Matchers with MockitoSuga
         verify(mockConnector).setDraftSectionSet(fakeDraftId, frontendAppConfig.repositoryKey, submissionSet)
       }
     }
-   }
- }
+  }
+}

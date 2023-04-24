@@ -18,7 +18,6 @@ package pages.asset.property_or_land
 
 import pages.behaviours.PageBehaviours
 
-
 class PropertyOrLandDescriptionPageSpec extends PageBehaviours {
 
   "PropertyOrLandDescriptionPage" must {

@@ -25,7 +25,7 @@ import views.html.asset.other.OtherAssetDescriptionView
 class OtherAssetDescriptionViewSpec extends StringViewBehaviours {
 
   private val prefix: String = "other.description"
-  private val index: Int = 0
+  private val index: Int     = 0
 
   override val form: Form[String] = new DescriptionFormProvider().withConfig(56, prefix)
 

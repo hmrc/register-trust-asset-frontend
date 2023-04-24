@@ -29,21 +29,31 @@ import views.html.asset.business.BusinessAnswersView
 
 class BusinessAnswersControllerSpec extends SpecBase {
 
-  private val index = 0
+  private val index            = 0
   private val totalValue: Long = 12L
 
   private val answers: UserAnswers = emptyUserAnswers
-    .set(BusinessNamePage(index), "test").success.value
-    .set(BusinessDescriptionPage(index), "test test test").success.value
-    .set(BusinessAddressUkYesNoPage(index), true).success.value
-    .set(BusinessUkAddressPage(index), UKAddress("test", "test", None, None, "NE11NE")).success.value
-    .set(BusinessValuePage(index), totalValue).success.value
+    .set(BusinessNamePage(index), "test")
+    .success
+    .value
+    .set(BusinessDescriptionPage(index), "test test test")
+    .success
+    .value
+    .set(BusinessAddressUkYesNoPage(index), true)
+    .success
+    .value
+    .set(BusinessUkAddressPage(index), UKAddress("test", "test", None, None, "NE11NE"))
+    .success
+    .value
+    .set(BusinessValuePage(index), totalValue)
+    .success
+    .value
 
   "AssetAnswerPage Controller" must {
 
     "return OK and the correct view for a GET" in {
 
-      val expectedSections = Nil
+      val expectedSections                     = Nil
       val mockPrintHelper: BusinessPrintHelper = mock[BusinessPrintHelper]
       when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(any())).thenReturn(Nil)
 

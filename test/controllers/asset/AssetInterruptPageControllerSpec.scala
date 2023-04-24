@@ -34,45 +34,45 @@ class AssetInterruptPageControllerSpec extends SpecBase {
 
     "return OK and the correct view for a GET" when {
 
-        "taxable" in {
+      "taxable" in {
 
-          val isTaxable: Boolean = true
+        val isTaxable: Boolean = true
 
-          val application = applicationBuilder(userAnswers = Some(emptyUserAnswers.copy(isTaxable = isTaxable))).build()
+        val application = applicationBuilder(userAnswers = Some(emptyUserAnswers.copy(isTaxable = isTaxable))).build()
 
-          val request = FakeRequest(GET, routes.AssetInterruptPageController.onPageLoad(fakeDraftId).url)
+        val request = FakeRequest(GET, routes.AssetInterruptPageController.onPageLoad(fakeDraftId).url)
 
-          val result = route(application, request).value
+        val result = route(application, request).value
 
-          val view = application.injector.instanceOf[TaxableInfoView]
+        val view = application.injector.instanceOf[TaxableInfoView]
 
-          status(result) mustEqual OK
+        status(result) mustEqual OK
 
-          contentAsString(result) mustEqual
-            view(fakeDraftId)(request, messages).toString
+        contentAsString(result) mustEqual
+          view(fakeDraftId)(request, messages).toString
 
-          application.stop()
-        }
+        application.stop()
+      }
 
-        "non-taxable" in {
+      "non-taxable" in {
 
-          val isTaxable: Boolean = false
+        val isTaxable: Boolean = false
 
-          val application = applicationBuilder(userAnswers = Some(emptyUserAnswers.copy(isTaxable = isTaxable))).build()
+        val application = applicationBuilder(userAnswers = Some(emptyUserAnswers.copy(isTaxable = isTaxable))).build()
 
-          val request = FakeRequest(GET, routes.AssetInterruptPageController.onPageLoad(fakeDraftId).url)
+        val request = FakeRequest(GET, routes.AssetInterruptPageController.onPageLoad(fakeDraftId).url)
 
-          val result = route(application, request).value
+        val result = route(application, request).value
 
-          val view = application.injector.instanceOf[NonTaxableInfoView]
+        val view = application.injector.instanceOf[NonTaxableInfoView]
 
-          status(result) mustEqual OK
+        status(result) mustEqual OK
 
-          contentAsString(result) mustEqual
-            view(fakeDraftId)(request, messages).toString
+        contentAsString(result) mustEqual
+          view(fakeDraftId)(request, messages).toString
 
-          application.stop()
-        }
+        application.stop()
+      }
 
     }
 

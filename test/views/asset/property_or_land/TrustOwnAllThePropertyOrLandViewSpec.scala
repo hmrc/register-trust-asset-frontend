@@ -25,7 +25,7 @@ import views.html.asset.property_or_land.TrustOwnAllThePropertyOrLandView
 class TrustOwnAllThePropertyOrLandViewSpec extends YesNoViewBehaviours {
 
   private val messageKeyPrefix: String = "propertyOrLand.trustOwnAllYesNo"
-  private val index: Int = 0
+  private val index: Int               = 0
 
   override val form: Form[Boolean] = new YesNoFormProvider().withPrefix(messageKeyPrefix)
 

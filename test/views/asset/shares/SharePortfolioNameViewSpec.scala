@@ -25,7 +25,7 @@ import views.html.asset.shares.SharePortfolioNameView
 class SharePortfolioNameViewSpec extends StringViewBehaviours {
 
   private val messageKeyPrefix: String = "shares.portfolioName"
-  private val index: Int = 0
+  private val index: Int               = 0
 
   override val form: Form[String] = new NameFormProvider().withConfig(53, messageKeyPrefix)
 

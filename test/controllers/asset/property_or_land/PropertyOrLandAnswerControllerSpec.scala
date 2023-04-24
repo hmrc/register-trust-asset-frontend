@@ -36,7 +36,8 @@ class PropertyOrLandAnswerControllerSpec extends SpecBase {
 
   private val totalValue: Long = 10000L
 
-  private lazy val propertyOrLandAnswerRoute: String = routes.PropertyOrLandAnswerController.onPageLoad(index, fakeDraftId).url
+  private lazy val propertyOrLandAnswerRoute: String =
+    routes.PropertyOrLandAnswerController.onPageLoad(index, fakeDraftId).url
 
   "PropertyOrLandAnswer Controller" must {
 
@@ -46,14 +47,26 @@ class PropertyOrLandAnswerControllerSpec extends SpecBase {
 
         val userAnswers =
           emptyUserAnswers
-            .set(WhatKindOfAssetPage(index), PropertyOrLand).success.value
-            .set(PropertyOrLandAddressYesNoPage(index), false).success.value
-            .set(PropertyOrLandDescriptionPage(index), "Property Land Description").success.value
-            .set(PropertyOrLandTotalValuePage(index), totalValue).success.value
-            .set(TrustOwnAllThePropertyOrLandPage(index), true).success.value
-            .set(AssetStatus(index), Completed).success.value
+            .set(WhatKindOfAssetPage(index), PropertyOrLand)
+            .success
+            .value
+            .set(PropertyOrLandAddressYesNoPage(index), false)
+            .success
+            .value
+            .set(PropertyOrLandDescriptionPage(index), "Property Land Description")
+            .success
+            .value
+            .set(PropertyOrLandTotalValuePage(index), totalValue)
+            .success
+            .value
+            .set(TrustOwnAllThePropertyOrLandPage(index), true)
+            .success
+            .value
+            .set(AssetStatus(index), Completed)
+            .success
+            .value
 
-        val expectedSections = Nil
+        val expectedSections                           = Nil
         val mockPrintHelper: PropertyOrLandPrintHelper = mock[PropertyOrLandPrintHelper]
         when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(any())).thenReturn(Nil)
 

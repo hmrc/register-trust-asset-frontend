@@ -31,8 +31,8 @@ class PartnershipNavigator extends Navigator {
 
   override protected def route(draftId: String): PartialFunction[Page, AffinityGroup => UserAnswers => Call] = {
     case PartnershipDescriptionPage(index) => _ => _ => PartnershipStartDateController.onPageLoad(index, draftId)
-    case PartnershipStartDatePage(index) => _ => _ => PartnershipAnswerController.onPageLoad(index, draftId)
-    case PartnershipAnswerPage => _ => _ => AddAssetsController.onPageLoad(draftId)
+    case PartnershipStartDatePage(index)   => _ => _ => PartnershipAnswerController.onPageLoad(index, draftId)
+    case PartnershipAnswerPage             => _ => _ => AddAssetsController.onPageLoad(draftId)
   }
 
 }

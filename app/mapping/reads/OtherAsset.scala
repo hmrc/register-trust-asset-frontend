@@ -23,9 +23,8 @@ import pages.asset.other._
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{Reads, __}
 
-final case class OtherAsset(override val whatKindOfAsset: WhatKindOfAsset,
-                            description: String,
-                            value: Long) extends Asset {
+final case class OtherAsset(override val whatKindOfAsset: WhatKindOfAsset, description: String, value: Long)
+    extends Asset {
 
   override val arg: String = description
 }
@@ -36,6 +35,6 @@ object OtherAsset {
     (__ \ WhatKindOfAssetPage.key).read[WhatKindOfAsset].filter(_ == Other) and
       (__ \ OtherAssetDescriptionPage.key).read[String] and
       (__ \ OtherAssetValuePage.key).read[Long]
-    )(OtherAsset.apply _)
+  )(OtherAsset.apply _)
 
 }

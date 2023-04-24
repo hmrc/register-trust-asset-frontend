@@ -30,7 +30,7 @@ class PropertyOrLandDescriptionViewSpec extends StringViewBehaviours {
 
   "PropertyOrLandDescription view" must {
 
-    val view = viewFor[PropertyOrLandDescriptionView](Some(emptyUserAnswers))
+    val view  = viewFor[PropertyOrLandDescriptionView](Some(emptyUserAnswers))
     val index = 0
 
     def applyView(form: Form[_]): HtmlFormat.Appendable =

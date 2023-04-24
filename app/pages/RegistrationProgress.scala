@@ -23,27 +23,26 @@ import pages.asset.{AddAssetsPage, TrustOwnsNonEeaBusinessYesNoPage}
 
 import javax.inject.Inject
 
-class RegistrationProgress @Inject()() {
+class RegistrationProgress @Inject() () {
 
-  private def determineStatus(complete: Boolean): Option[Status] = {
+  private def determineStatus(complete: Boolean): Option[Status] =
     if (complete) {
       Some(Completed)
     } else {
       Some(InProgress)
     }
-  }
 
   def assetsStatus(userAnswers: UserAnswers): Option[Status] = {
-    val assets = userAnswers.get(sections.Assets).getOrElse(List.empty)
+    val assets             = userAnswers.get(sections.Assets).getOrElse(List.empty)
     val noAssetsInProgress = !assets.exists(_.status == InProgress)
-    val noMoreToAdd = (userAnswers.get(AddAssetsPage), userAnswers.get(TrustOwnsNonEeaBusinessYesNoPage)) match {
+    val noMoreToAdd        = (userAnswers.get(AddAssetsPage), userAnswers.get(TrustOwnsNonEeaBusinessYesNoPage)) match {
       case (Some(NoComplete), _) | (_, Some(false)) => true
-      case _ => false
+      case _                                        => false
     }
 
     assets match {
       case Nil if userAnswers.isTaxable => None
-      case _ => determineStatus(noAssetsInProgress && noMoreToAdd)
+      case _                            => determineStatus(noAssetsInProgress && noMoreToAdd)
     }
   }
 

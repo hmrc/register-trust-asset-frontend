@@ -36,12 +36,15 @@ object ShareClass extends Enumerable.Implicits {
   case object Other extends WithName("other") with ShareClass
 
   val allValues: List[ShareClass] = List(
-    Ordinary, Preference, Deferred, Growth, Other
+    Ordinary,
+    Preference,
+    Deferred,
+    Growth,
+    Other
   )
 
-  def asRadioOptions(list: List[ShareClass]): List[RadioOption] = list.map {
-    value =>
-      RadioOption("shares.class", value.toString)
+  def asRadioOptions(list: List[ShareClass]): List[RadioOption] = list.map { value =>
+    RadioOption("shares.class", value.toString)
   }
 
   val allOptions: List[RadioOption] = asRadioOptions(allValues)
@@ -49,18 +52,18 @@ object ShareClass extends Enumerable.Implicits {
   implicit val enumerable: Enumerable[ShareClass] =
     Enumerable(allValues.map(v => v.toString -> v): _*)
 
-  def toDES(value : ShareClass) : String = value match {
-    case Ordinary => "Ordinary shares"
-    case NonVoting => "Non-voting shares"
-    case Redeemable => "Redeemable shares"
-    case Preference => "Preference shares"
-    case Deferred => "Deferred ordinary shares"
-    case Management => "Management shares"
+  def toDES(value: ShareClass): String            = value match {
+    case Ordinary     => "Ordinary shares"
+    case NonVoting    => "Non-voting shares"
+    case Redeemable   => "Redeemable shares"
+    case Preference   => "Preference shares"
+    case Deferred     => "Deferred ordinary shares"
+    case Management   => "Management shares"
     case OtherClasses => "Other classes of shares"
-    case Voting => "Voting shares"
-    case Dividend => "Dividend shares"
-    case Capital => "Capital share"
-    case Growth => "Other"
-    case Other => "Other"
+    case Voting       => "Voting shares"
+    case Dividend     => "Dividend shares"
+    case Capital      => "Capital share"
+    case Growth       => "Other"
+    case Other        => "Other"
   }
 }

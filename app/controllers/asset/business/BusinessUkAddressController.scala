@@ -35,19 +35,21 @@ import views.html.asset.business.BusinessUkAddressView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class BusinessUkAddressController @Inject()(
-                                             override val messagesApi: MessagesApi,
-                                             registrationsRepository: RegistrationsRepository,
-                                             @Business navigator: Navigator,
-                                             validateIndex: IndexActionFilterProvider,
-                                             identify: RegistrationIdentifierAction,
-                                             getData: DraftIdRetrievalActionProvider,
-                                             requireData: RegistrationDataRequiredAction,
-                                             requiredAnswer: RequiredAnswerActionProvider,
-                                             formProvider: UKAddressFormProvider,
-                                             val controllerComponents: MessagesControllerComponents,
-                                             view: BusinessUkAddressView
-                                           )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class BusinessUkAddressController @Inject() (
+  override val messagesApi: MessagesApi,
+  registrationsRepository: RegistrationsRepository,
+  @Business navigator: Navigator,
+  validateIndex: IndexActionFilterProvider,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  requiredAnswer: RequiredAnswerActionProvider,
+  formProvider: UKAddressFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: BusinessUkAddressView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form: Form[UKAddress] = formProvider()
 
@@ -58,35 +60,29 @@ class BusinessUkAddressController @Inject()(
       validateIndex(index, Assets) andThen
       requiredAnswer(RequiredAnswer(BusinessNamePage(index), routes.BusinessNameController.onPageLoad(index, draftId)))
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
-    implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    val businessName = request.userAnswers.get(BusinessNamePage(index)).get
 
-      val businessName = request.userAnswers.get(BusinessNamePage(index)).get
+    val preparedForm = request.userAnswers.get(BusinessUkAddressPage(index)) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(BusinessUkAddressPage(index)) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, draftId, index, businessName))
+    Ok(view(preparedForm, draftId, index, businessName))
   }
 
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    val businessName = request.userAnswers.get(BusinessNamePage(index)).get
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
-
-      val businessName = request.userAnswers.get(BusinessNamePage(index)).get
-
-      form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, draftId, index, businessName))),
-
-        value => {
+    form
+      .bindFromRequest()
+      .fold(
+        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index, businessName))),
+        value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(BusinessUkAddressPage(index), value))
             _              <- registrationsRepository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(BusinessUkAddressPage(index), draftId)(updatedAnswers))
-        }
       )
   }
 }

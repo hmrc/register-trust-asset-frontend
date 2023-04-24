@@ -24,7 +24,12 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.libs.json.{JsSuccess, Json}
 
-class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with Generators with ModelGenerators {
+class AssetViewModelSpec
+    extends AnyFreeSpec
+    with Matchers
+    with ScalaCheckPropertyChecks
+    with Generators
+    with ModelGenerators {
 
   "Asset" - {
 
@@ -46,8 +51,8 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
         "to a view model that is complete" in {
           val json = Json.obj(
             "whatKindOfAsset" -> Money.toString,
-            "moneyValue" -> 4000,
-            "status" -> Completed.toString
+            "moneyValue"      -> 4000,
+            "status"          -> Completed.toString
           )
 
           json.validate[AssetViewModel] mustEqual JsSuccess(
@@ -62,8 +67,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
         "to a view model that is not complete" - {
 
           "first question (are shares in a portfolio?) is unanswered" in {
-            val json = Json.parse(
-              """
+            val json = Json.parse("""
                 |{
                 |"whatKindOfAsset" : "Shares",
                 |"status": "progress"
@@ -76,8 +80,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
           }
 
           "name question is unanswered" in {
-            val json = Json.parse(
-              """
+            val json = Json.parse("""
                 |{
                 |"whatKindOfAsset" : "Shares",
                 |"status": "progress"
@@ -93,8 +96,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
         "to a view model that is complete" - {
 
           "shares are in a portfolio" in {
-            val json = Json.parse(
-              """
+            val json = Json.parse("""
                 |{
                 |"portfolioSharesListedOnStockExchangeYesNo" : true,
                 |"portfolioSharesName" : "adam",
@@ -112,8 +114,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
           }
 
           "shares are not in a portfolio" in {
-            val json = Json.parse(
-              """
+            val json = Json.parse("""
                 |{
                 |"nonPortfolioSharesListedOnStockExchangeYesNo" : true,
                 |"nonPortfolioSharesName" : "adam",
@@ -139,8 +140,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
         "with uk address" - {
 
           "to a view model that is not complete" in {
-            val json = Json.parse(
-              """
+            val json = Json.parse("""
                 |{
                 |"businessName": "Business Ltd",
                 |"businessDescription": "Some description",
@@ -156,8 +156,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
           }
 
           "to a view model that is complete" in {
-            val json = Json.parse(
-              """
+            val json = Json.parse("""
                 |{
                 |"businessName": "Business Ltd",
                 |"businessDescription": "Some description",
@@ -181,8 +180,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
         "with international address" - {
 
           "to a view model that is not complete" in {
-            val json = Json.parse(
-              """
+            val json = Json.parse("""
                 |{
                 |"businessName": "Business Ltd",
                 |"businessDescription": "Some description",
@@ -198,8 +196,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
           }
 
           "to a view model that is complete" in {
-            val json = Json.parse(
-              """
+            val json = Json.parse("""
                 |{
                 |"businessName": "Business Ltd",
                 |"businessDescription": "Some description",
@@ -226,8 +223,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
         "property or land with description" - {
 
           "to a view model that is not complete" in {
-            val json = Json.parse(
-              """
+            val json = Json.parse("""
                 |{
                 |"propertyOrLandAddressYesNo": false,
                 |"whatKindOfAsset" : "PropertyOrLand",
@@ -241,8 +237,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
           }
 
           "to a view model that is complete" in {
-            val json = Json.parse(
-              """
+            val json = Json.parse("""
                 |{
                 |"propertyOrLandAddressYesNo": false,
                 |"propertyOrLandDescription": "1 hectare",
@@ -263,8 +258,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
           "uk address" - {
 
             "to a view model that is not complete" in {
-              val json = Json.parse(
-                """
+              val json = Json.parse("""
                   |{
                   |"propertyOrLandAddressYesNo": true,
                   |"propertyOrLandAddressUkYesNo": true,
@@ -279,8 +273,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
             }
 
             "to a view model that is complete" in {
-              val json = Json.parse(
-                """
+              val json = Json.parse("""
                   |{
                   |"propertyOrLandAddressYesNo": true,
                   |"propertyOrLandAddressUkYesNo": true,
@@ -303,8 +296,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
           "international address" - {
 
             "to a view model that is not complete" in {
-              val json = Json.parse(
-                """
+              val json = Json.parse("""
                   |{
                   |"propertyOrLandAddressYesNo": true,
                   |"propertyOrLandAddressUkYesNo": false,
@@ -319,8 +311,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
             }
 
             "to a view model that is complete" in {
-              val json = Json.parse(
-                """
+              val json = Json.parse("""
                   |{
                   |"propertyOrLandAddressYesNo": true,
                   |"propertyOrLandAddressUkYesNo": false,
@@ -343,8 +334,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
           "address" - {
 
             "to a view model that is not complete" in {
-              val json = Json.parse(
-                """
+              val json = Json.parse("""
                   |{
                   |"propertyOrLandAddressYesNo": true,
                   |"whatKindOfAsset": "PropertyOrLand",
@@ -362,8 +352,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
         }
 
         "to default view model when no data provided" in {
-          val json = Json.parse(
-            """
+          val json = Json.parse("""
               |{
               |"whatKindOfAsset" : "PropertyOrLand"
               |}
@@ -382,7 +371,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
 
           val json = Json.obj(
             "whatKindOfAsset" -> Other.toString,
-            "status" -> InProgress.toString
+            "status"          -> InProgress.toString
           )
 
           json.validate[AssetViewModel] mustEqual JsSuccess(
@@ -392,10 +381,10 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
 
         "to a view model that is complete" in {
           val json = Json.obj(
-            "whatKindOfAsset" -> Other.toString,
+            "whatKindOfAsset"  -> Other.toString,
             "otherDescription" -> "Description",
-            "otherValue" -> 4000,
-            "status" -> Completed.toString
+            "otherValue"       -> 4000,
+            "status"           -> Completed.toString
           )
 
           json.validate[AssetViewModel] mustEqual JsSuccess(
@@ -411,7 +400,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
 
           val json = Json.obj(
             "whatKindOfAsset" -> Partnership.toString,
-            "status" -> InProgress.toString
+            "status"          -> InProgress.toString
           )
 
           json.validate[AssetViewModel] mustEqual JsSuccess(
@@ -421,9 +410,9 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
 
         "to a view model that is complete" in {
           val json = Json.obj(
-            "whatKindOfAsset" -> Partnership.toString,
+            "whatKindOfAsset"        -> Partnership.toString,
             "partnershipDescription" -> "Description",
-            "status" -> Completed.toString
+            "status"                 -> Completed.toString
           )
 
           json.validate[AssetViewModel] mustEqual JsSuccess(
@@ -437,8 +426,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
         "with no name" - {
 
           "to a view model that is not complete" in {
-            val json = Json.parse(
-              """
+            val json = Json.parse("""
                 |{
                 |  "whatKindOfAsset" : "NonEeaBusiness",
                 |  "status": "progress"
@@ -454,8 +442,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
         "with uk address" - {
 
           "to a view model that is not complete" in {
-            val json = Json.parse(
-              """
+            val json = Json.parse("""
                 |{
                 |  "nonEeaBusinessName": "Business Ltd",
                 |  "nonEeaBusinessAddressUkYesNo": true,
@@ -470,8 +457,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
           }
 
           "to a view model that is complete" in {
-            val json = Json.parse(
-              """
+            val json = Json.parse("""
                 |{
                 |  "nonEeaBusinessName": "Business Ltd",
                 |  "nonEeaBusinessAddressUkYesNo": true,
@@ -497,8 +483,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
         "with international address" - {
 
           "to a view model that is not complete" in {
-            val json = Json.parse(
-              """
+            val json = Json.parse("""
                 |{
                 |  "nonEeaBusinessName": "Business Ltd",
                 |  "nonEeaBusinessAddressUkYesNo": false,
@@ -513,8 +498,7 @@ class AssetViewModelSpec extends AnyFreeSpec with Matchers with ScalaCheckProper
           }
 
           "to a view model that is complete" in {
-            val json = Json.parse(
-              """
+            val json = Json.parse("""
                 |{
                 |  "nonEeaBusinessName": "Business Ltd",
                 |  "nonEeaBusinessAddressUkYesNo": false,

@@ -27,9 +27,9 @@ import views.html.asset.shares.ShareClassView
 class ShareClassViewSpec extends ViewBehaviours {
 
   private val messageKeyPrefix: String = "shares.class"
-  private val index: Int = 0
-  private val companyName: String = "Company"
-  private val form: Form[ShareClass] = new ShareClassFormProvider()()
+  private val index: Int               = 0
+  private val companyName: String      = "Company"
+  private val form: Form[ShareClass]   = new ShareClassFormProvider()()
 
   private val view: ShareClassView = viewFor[ShareClassView](Some(emptyUserAnswers))
 
@@ -53,26 +53,31 @@ class ShareClassViewSpec extends ViewBehaviours {
 
         val doc = asDocument(applyView(form))
 
-        for (option <- ShareClass.allOptions) {
+        for (option <- ShareClass.allOptions)
           assertContainsRadioButton(doc, option.id, "value", option.value, isChecked = false)
-        }
       }
 
       "not render radio buttons that are for maintain" in {
         val doc = asDocument(applyView(form))
 
-        val excluded = ShareClass.asRadioOptions(List(
-          NonVoting, Redeemable, Management, OtherClasses, Voting, Dividend, Capital
-        ))
+        val excluded = ShareClass.asRadioOptions(
+          List(
+            NonVoting,
+            Redeemable,
+            Management,
+            OtherClasses,
+            Voting,
+            Dividend,
+            Capital
+          )
+        )
 
-        for (option <- excluded) {
+        for (option <- excluded)
           assertNotRenderedById(doc, option.id)
-        }
       }
     }
 
-    for (option <- ShareClass.allOptions) {
-
+    for (option <- ShareClass.allOptions)
       s"rendered with a value of '${option.value}'" must {
 
         s"have the '${option.value}' radio button selected" in {
@@ -81,11 +86,9 @@ class ShareClassViewSpec extends ViewBehaviours {
 
           assertContainsRadioButton(doc, option.id, "value", option.value, isChecked = true)
 
-          for (unselectedOption <- ShareClass.allOptions.filterNot(o => o == option)) {
+          for (unselectedOption <- ShareClass.allOptions.filterNot(o => o == option))
             assertContainsRadioButton(doc, unselectedOption.id, "value", unselectedOption.value, isChecked = false)
-          }
         }
       }
-    }
   }
 }

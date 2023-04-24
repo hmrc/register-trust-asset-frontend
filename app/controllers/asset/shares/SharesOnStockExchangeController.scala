@@ -33,59 +33,55 @@ import views.html.asset.shares.SharesOnStockExchangeView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class SharesOnStockExchangeController @Inject()(
-                                                 override val messagesApi: MessagesApi,
-                                                 repository: RegistrationsRepository,
-                                                 @Shares navigator: Navigator,
-                                                 identify: RegistrationIdentifierAction,
-                                                 getData: DraftIdRetrievalActionProvider,
-                                                 requireData: RegistrationDataRequiredAction,
-                                                 formProvider: YesNoFormProvider,
-                                                 val controllerComponents: MessagesControllerComponents,
-                                                 view: SharesOnStockExchangeView,
-                                                 requiredAnswer: RequiredAnswerActionProvider,
-                                                 validateIndex: IndexActionFilterProvider
-                                               )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class SharesOnStockExchangeController @Inject() (
+  override val messagesApi: MessagesApi,
+  repository: RegistrationsRepository,
+  @Shares navigator: Navigator,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  formProvider: YesNoFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: SharesOnStockExchangeView,
+  requiredAnswer: RequiredAnswerActionProvider,
+  validateIndex: IndexActionFilterProvider
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form: Form[Boolean] = formProvider.withPrefix("shares.onStockExchangeYesNo")
 
-  private def actions(index : Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
+  private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen getData(draftId) andThen
       requireData andThen
       validateIndex(index, sections.Assets) andThen
-      requiredAnswer(RequiredAnswer(
-        ShareCompanyNamePage(index),
-        routes.ShareCompanyNameController.onPageLoad(index, draftId))
+      requiredAnswer(
+        RequiredAnswer(ShareCompanyNamePage(index), routes.ShareCompanyNameController.onPageLoad(index, draftId))
       )
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
-    implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    val companyName = request.userAnswers.get(ShareCompanyNamePage(index)).get
 
-      val companyName = request.userAnswers.get(ShareCompanyNamePage(index)).get
+    val preparedForm = request.userAnswers.get(SharesOnStockExchangePage(index)) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(SharesOnStockExchangePage(index)) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, draftId, index, companyName))
+    Ok(view(preparedForm, draftId, index, companyName))
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    val companyName = request.userAnswers.get(ShareCompanyNamePage(index)).get
 
-      val companyName = request.userAnswers.get(ShareCompanyNamePage(index)).get
-
-      form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, draftId, index, companyName))),
-
-        value => {
+    form
+      .bindFromRequest()
+      .fold(
+        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index, companyName))),
+        value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(SharesOnStockExchangePage(index), value))
             _              <- repository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(SharesOnStockExchangePage(index), draftId)(updatedAnswers))
-        }
       )
   }
 }

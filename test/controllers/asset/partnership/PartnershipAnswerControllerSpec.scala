@@ -33,72 +33,90 @@ import java.time.{LocalDate, ZoneOffset}
 
 class PartnershipAnswerControllerSpec extends SpecBase {
 
-  private val index: Int = 0
+  private val index: Int           = 0
   private val validDate: LocalDate = LocalDate.now(ZoneOffset.UTC)
 
-  private lazy val partnershipAnswerRoute: String = routes.PartnershipAnswerController.onPageLoad(index, fakeDraftId).url
+  private lazy val partnershipAnswerRoute: String =
+    routes.PartnershipAnswerController.onPageLoad(index, fakeDraftId).url
 
   "PartnershipAnswer Controller" must {
 
-      "return OK and the correct view for a GET" in {
+    "return OK and the correct view for a GET" in {
 
-        val userAnswers =
-          emptyUserAnswers
-            .set(WhatKindOfAssetPage(index), Partnership).success.value
-            .set(PartnershipDescriptionPage(index), "Partnership Description").success.value
-            .set(PartnershipStartDatePage(index), validDate).success.value
-            .set(AssetStatus(index), Completed).success.value
+      val userAnswers =
+        emptyUserAnswers
+          .set(WhatKindOfAssetPage(index), Partnership)
+          .success
+          .value
+          .set(PartnershipDescriptionPage(index), "Partnership Description")
+          .success
+          .value
+          .set(PartnershipStartDatePage(index), validDate)
+          .success
+          .value
+          .set(AssetStatus(index), Completed)
+          .success
+          .value
 
-        val expectedSections = Nil
-        val mockPrintHelper: PartnershipPrintHelper = mock[PartnershipPrintHelper]
-        when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(any())).thenReturn(Nil)
+      val expectedSections                        = Nil
+      val mockPrintHelper: PartnershipPrintHelper = mock[PartnershipPrintHelper]
+      when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(any())).thenReturn(Nil)
 
-        val application = applicationBuilder(userAnswers = Some(userAnswers))
-          .overrides(bind[PartnershipPrintHelper].toInstance(mockPrintHelper))
-          .build()
+      val application = applicationBuilder(userAnswers = Some(userAnswers))
+        .overrides(bind[PartnershipPrintHelper].toInstance(mockPrintHelper))
+        .build()
 
-        val request = FakeRequest(GET, partnershipAnswerRoute)
+      val request = FakeRequest(GET, partnershipAnswerRoute)
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        val view = application.injector.instanceOf[PartnershipAnswersView]
+      val view = application.injector.instanceOf[PartnershipAnswersView]
 
-        status(result) mustEqual OK
+      status(result) mustEqual OK
 
-        contentAsString(result) mustEqual
-          view(index, fakeDraftId, expectedSections)(request, messages).toString
+      contentAsString(result) mustEqual
+        view(index, fakeDraftId, expectedSections)(request, messages).toString
 
-        application.stop()
-      }
+      application.stop()
+    }
 
+    "redirect to PartnershipDescription page on a GET if no answer for 'What is the description for the partnership?' at index" in {
 
-      "redirect to PartnershipDescription page on a GET if no answer for 'What is the description for the partnership?' at index" in {
+      val answers =
+        emptyUserAnswers
+          .set(WhatKindOfAssetPage(index), Partnership)
+          .success
+          .value
+          .set(PartnershipStartDatePage(index), validDate)
+          .success
+          .value
 
-        val answers =
-          emptyUserAnswers
-            .set(WhatKindOfAssetPage(index), Partnership).success.value
-            .set(PartnershipStartDatePage(index), validDate).success.value
+      val application = applicationBuilder(userAnswers = Some(answers)).build()
 
-        val application = applicationBuilder(userAnswers = Some(answers)).build()
+      val request = FakeRequest(GET, partnershipAnswerRoute)
 
-        val request = FakeRequest(GET, partnershipAnswerRoute)
+      val result = route(application, request).value
 
-        val result = route(application, request).value
+      status(result) mustEqual SEE_OTHER
 
-        status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual routes.PartnershipDescriptionController
+        .onPageLoad(index, fakeDraftId)
+        .url
 
-        redirectLocation(result).value mustEqual routes.PartnershipDescriptionController.onPageLoad(index, fakeDraftId).url
+      application.stop()
 
-        application.stop()
-
-      }
+    }
 
     "redirect to PartnershipStartDate page on a GET if no answer for 'When did the partnership start?' at index" in {
 
       val answers =
         emptyUserAnswers
-          .set(WhatKindOfAssetPage(index), Partnership).success.value
-          .set(PartnershipDescriptionPage(index), "Partnership Description").success.value
+          .set(WhatKindOfAssetPage(index), Partnership)
+          .success
+          .value
+          .set(PartnershipDescriptionPage(index), "Partnership Description")
+          .success
+          .value
 
       val application = applicationBuilder(userAnswers = Some(answers)).build()
 

@@ -33,14 +33,16 @@ import scala.concurrent.Future
 
 class OtherAssetValueControllerSpec extends SpecBase {
 
-  val formProvider = new ValueFormProvider(frontendAppConfig)
-  val form: Form[Long] = formProvider.withConfig(prefix = "other.value")
-  val index = 0
+  val formProvider        = new ValueFormProvider(frontendAppConfig)
+  val form: Form[Long]    = formProvider.withConfig(prefix = "other.value")
+  val index               = 0
   val description: String = "Description"
-  val validAnswer: Long = 4000L
+  val validAnswer: Long   = 4000L
 
   val requiredAnswers: UserAnswers = emptyUserAnswers
-    .set(OtherAssetDescriptionPage(index), description).success.value
+    .set(OtherAssetDescriptionPage(index), description)
+    .success
+    .value
 
   lazy val valueRoute: String = routes.OtherAssetValueController.onPageLoad(index, fakeDraftId).url
 
@@ -67,7 +69,9 @@ class OtherAssetValueControllerSpec extends SpecBase {
     "populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = requiredAnswers
-        .set(OtherAssetValuePage(index), validAnswer).success.value
+        .set(OtherAssetValuePage(index), validAnswer)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -88,7 +92,9 @@ class OtherAssetValueControllerSpec extends SpecBase {
     "redirect to description page if no description found" in {
 
       val userAnswers: UserAnswers = emptyUserAnswers
-        .set(WhatKindOfAssetPage(index), Other).success.value
+        .set(WhatKindOfAssetPage(index), Other)
+        .success
+        .value
 
       val application: Application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 

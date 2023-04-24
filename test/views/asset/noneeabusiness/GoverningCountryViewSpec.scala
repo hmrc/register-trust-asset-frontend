@@ -27,8 +27,8 @@ import views.html.asset.noneeabusiness.GoverningCountryView
 class GoverningCountryViewSpec extends SelectCountryViewBehaviours {
 
   private val messageKeyPrefix: String = "nonEeaBusiness.governingCountry"
-  private val index: Int = 0
-  private val name: String = "Test"
+  private val index: Int               = 0
+  private val name: String             = "Test"
 
   override val form: Form[String] = new CountryFormProvider().withPrefix(messageKeyPrefix)
 

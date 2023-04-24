@@ -25,22 +25,28 @@ import viewmodels.AnswerRow
 
 import javax.inject.Inject
 
-class PartnershipPrintHelper @Inject()(checkAnswersFormatters: CheckAnswersFormatters) extends PrintHelper {
+class PartnershipPrintHelper @Inject() (checkAnswersFormatters: CheckAnswersFormatters) extends PrintHelper {
 
   override val assetType: String = "partnershipAsset"
 
-  override def answerRows(userAnswers: UserAnswers,
-                          arg: String,
-                          index: Int,
-                          draftId: String)
-                         (implicit messages: Messages): Seq[AnswerRow] = {
+  override def answerRows(userAnswers: UserAnswers, arg: String, index: Int, draftId: String)(implicit
+    messages: Messages
+  ): Seq[AnswerRow] = {
 
     val converter: AnswerRowConverter = new AnswerRowConverter(checkAnswersFormatters)(userAnswers, arg)
 
     Seq(
       converter.assetTypeQuestion(index, draftId),
-      converter.stringQuestion(PartnershipDescriptionPage(index), "partnership.description", PartnershipDescriptionController.onPageLoad(index, draftId).url),
-      converter.dateQuestion(PartnershipStartDatePage(index), "partnership.startDate", PartnershipStartDateController.onPageLoad(index, draftId).url)
+      converter.stringQuestion(
+        PartnershipDescriptionPage(index),
+        "partnership.description",
+        PartnershipDescriptionController.onPageLoad(index, draftId).url
+      ),
+      converter.dateQuestion(
+        PartnershipStartDatePage(index),
+        "partnership.startDate",
+        PartnershipStartDateController.onPageLoad(index, draftId).url
+      )
     ).flatten
   }
 }

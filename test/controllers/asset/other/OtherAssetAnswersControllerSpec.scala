@@ -36,20 +36,26 @@ class OtherAssetAnswersControllerSpec extends SpecBase {
 
   "OtherAssetAnswersController" must {
 
-    val index: Int = 0
+    val index: Int          = 0
     val description: String = "Description"
-    val totalValue: Long = 4000L
+    val totalValue: Long    = 4000L
 
     lazy val answersRoute = routes.OtherAssetAnswersController.onPageLoad(index, fakeDraftId).url
 
     val baseAnswers: UserAnswers = emptyUserAnswers
-      .set(WhatKindOfAssetPage(index), Other).success.value
-      .set(OtherAssetDescriptionPage(index), description).success.value
-      .set(OtherAssetValuePage(index), totalValue).success.value
+      .set(WhatKindOfAssetPage(index), Other)
+      .success
+      .value
+      .set(OtherAssetDescriptionPage(index), description)
+      .success
+      .value
+      .set(OtherAssetValuePage(index), totalValue)
+      .success
+      .value
 
     "return OK and the correct view for a GET" in {
 
-      val expectedSections = Nil
+      val expectedSections                  = Nil
       val mockPrintHelper: OtherPrintHelper = mock[OtherPrintHelper]
       when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(any())).thenReturn(Nil)
 
@@ -74,7 +80,9 @@ class OtherAssetAnswersControllerSpec extends SpecBase {
     "redirect to description page if no description found" in {
 
       val userAnswers: UserAnswers = emptyUserAnswers
-        .set(WhatKindOfAssetPage(index), Other).success.value
+        .set(WhatKindOfAssetPage(index), Other)
+        .success
+        .value
 
       val application: Application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -93,8 +101,12 @@ class OtherAssetAnswersControllerSpec extends SpecBase {
     "redirect to value page if description found but no value found" in {
 
       val userAnswers: UserAnswers = emptyUserAnswers
-        .set(WhatKindOfAssetPage(index), Other).success.value
-        .set(OtherAssetDescriptionPage(index), description).success.value
+        .set(WhatKindOfAssetPage(index), Other)
+        .success
+        .value
+        .set(OtherAssetDescriptionPage(index), description)
+        .success
+        .value
 
       val application: Application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 

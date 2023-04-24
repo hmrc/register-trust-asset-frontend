@@ -21,7 +21,7 @@ import views.html.asset.business.BusinessAnswersView
 
 class BusinessAnswersViewSpec extends ViewBehaviours {
 
-  private val index: Int = 0
+  private val index: Int     = 0
   private val prefix: String = "business.answers"
 
   private val view: BusinessAnswersView = viewFor[BusinessAnswersView](Some(emptyUserAnswers))

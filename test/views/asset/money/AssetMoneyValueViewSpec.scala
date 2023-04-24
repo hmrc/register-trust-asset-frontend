@@ -25,7 +25,7 @@ import views.html.asset.money.AssetMoneyValueView
 class AssetMoneyValueViewSpec extends LongViewBehaviours {
 
   private val messageKeyPrefix: String = "money.value"
-  private val index = 0
+  private val index                    = 0
 
   override val form: Form[Long] = new ValueFormProvider(frontendAppConfig).withConfig(messageKeyPrefix)
 

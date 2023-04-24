@@ -35,20 +35,22 @@ import views.html.asset.noneeabusiness.GoverningCountryView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class GoverningCountryController @Inject()(
-                                            override val messagesApi: MessagesApi,
-                                            registrationsRepository: RegistrationsRepository,
-                                            @NonEeaBusiness navigator: Navigator,
-                                            validateIndex: IndexActionFilterProvider,
-                                            identify: RegistrationIdentifierAction,
-                                            getData: DraftIdRetrievalActionProvider,
-                                            requireData: RegistrationDataRequiredAction,
-                                            requiredAnswer: RequiredAnswerActionProvider,
-                                            countryFormProvider: CountryFormProvider,
-                                            val controllerComponents: MessagesControllerComponents,
-                                            view: GoverningCountryView,
-                                            countryOptions: CountryOptions
-                                          )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class GoverningCountryController @Inject() (
+  override val messagesApi: MessagesApi,
+  registrationsRepository: RegistrationsRepository,
+  @NonEeaBusiness navigator: Navigator,
+  validateIndex: IndexActionFilterProvider,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  requiredAnswer: RequiredAnswerActionProvider,
+  countryFormProvider: CountryFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: GoverningCountryView,
+  countryOptions: CountryOptions
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   private val form: Form[String] = countryFormProvider.withPrefix("nonEeaBusiness.governingCountry")
 
@@ -59,34 +61,30 @@ class GoverningCountryController @Inject()(
       validateIndex(index, Assets) andThen
       requiredAnswer(RequiredAnswer(NamePage(index), routes.NameController.onPageLoad(index, draftId)))
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
-    implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    val name = request.userAnswers.get(NamePage(index)).get
 
-      val name = request.userAnswers.get(NamePage(index)).get
+    val preparedForm = request.userAnswers.get(GoverningCountryPage(index)) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(GoverningCountryPage(index)) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, countryOptions.options(), draftId, index, name))
+    Ok(view(preparedForm, countryOptions.options(), draftId, index, name))
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    val name = request.userAnswers.get(NamePage(index)).get
 
-      val name = request.userAnswers.get(NamePage(index)).get
-
-      form.bindFromRequest().fold(
+    form
+      .bindFromRequest()
+      .fold(
         (formWithErrors: Form[_]) =>
           Future.successful(BadRequest(view(formWithErrors, countryOptions.options(), draftId, index, name))),
-
-        value => {
+        value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(GoverningCountryPage(index), value))
-            _ <- registrationsRepository.set(updatedAnswers)
+            _              <- registrationsRepository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(GoverningCountryPage(index), draftId)(updatedAnswers))
-        }
       )
   }
 }

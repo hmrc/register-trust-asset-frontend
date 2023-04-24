@@ -24,7 +24,8 @@ object Status extends Enumerable.Implicits {
   case object InProgress extends WithName("progress") with Status
 
   val values: Set[Status] = Set(
-    Completed, InProgress
+    Completed,
+    InProgress
   )
 
   implicit val enumerable: Enumerable[Status] =

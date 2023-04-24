@@ -34,21 +34,39 @@ class PartnershipPrintHelperSpec extends SpecBase {
 
   private val index: Int = 0
 
-  private val heading: String = "answerPage.section.partnershipAsset.subheading"
+  private val heading: String       = "answerPage.section.partnershipAsset.subheading"
   private val headingArgs: Seq[Any] = Seq(index + 1)
 
   private val description: String = "Description"
-  private val date: LocalDate = LocalDate.parse("1996-02-03")
+  private val date: LocalDate     = LocalDate.parse("1996-02-03")
 
   private val answers: UserAnswers = emptyUserAnswers
-    .set(WhatKindOfAssetPage(index), Partnership).success.value
-    .set(PartnershipDescriptionPage(index), description).success.value
-    .set(PartnershipStartDatePage(index), date).success.value
+    .set(WhatKindOfAssetPage(index), Partnership)
+    .success
+    .value
+    .set(PartnershipDescriptionPage(index), description)
+    .success
+    .value
+    .set(PartnershipStartDatePage(index), date)
+    .success
+    .value
 
   private val rows: Seq[AnswerRow] = Seq(
-    AnswerRow("whatKindOfAsset.first.checkYourAnswersLabel", Html("Partnership"), Some(WhatKindOfAssetController.onPageLoad(index, fakeDraftId).url)),
-    AnswerRow("partnership.description.checkYourAnswersLabel", Html(description), Some(PartnershipDescriptionController.onPageLoad(index, fakeDraftId).url)),
-    AnswerRow("partnership.startDate.checkYourAnswersLabel", Html("3 February 1996"), Some(PartnershipStartDateController.onPageLoad(index, fakeDraftId).url))
+    AnswerRow(
+      "whatKindOfAsset.first.checkYourAnswersLabel",
+      Html("Partnership"),
+      Some(WhatKindOfAssetController.onPageLoad(index, fakeDraftId).url)
+    ),
+    AnswerRow(
+      "partnership.description.checkYourAnswersLabel",
+      Html(description),
+      Some(PartnershipDescriptionController.onPageLoad(index, fakeDraftId).url)
+    ),
+    AnswerRow(
+      "partnership.startDate.checkYourAnswersLabel",
+      Html("3 February 1996"),
+      Some(PartnershipStartDateController.onPageLoad(index, fakeDraftId).url)
+    )
   )
 
   "PartnershipPrintHelper" when {
@@ -80,10 +98,12 @@ class PartnershipPrintHelperSpec extends SpecBase {
           draftId = fakeDraftId
         )
 
-        result mustBe Seq(AnswerSection(
-          headingKey = None,
-          rows = rows
-        ))
+        result mustBe Seq(
+          AnswerSection(
+            headingKey = None,
+            rows = rows
+          )
+        )
       }
     }
   }

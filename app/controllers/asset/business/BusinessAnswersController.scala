@@ -31,17 +31,19 @@ import views.html.asset.business.BusinessAnswersView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class BusinessAnswersController @Inject()(
-                                           override val messagesApi: MessagesApi,
-                                           registrationsRepository: RegistrationsRepository,
-                                           identify: RegistrationIdentifierAction,
-                                           getData: DraftIdRetrievalActionProvider,
-                                           requireData: RegistrationDataRequiredAction,
-                                           requiredAnswer: RequiredAnswerActionProvider,
-                                           view: BusinessAnswersView,
-                                           val controllerComponents: MessagesControllerComponents,
-                                           printHelper: BusinessPrintHelper
-                                         )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class BusinessAnswersController @Inject() (
+  override val messagesApi: MessagesApi,
+  registrationsRepository: RegistrationsRepository,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  requiredAnswer: RequiredAnswerActionProvider,
+  view: BusinessAnswersView,
+  val controllerComponents: MessagesControllerComponents,
+  printHelper: BusinessPrintHelper
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen
@@ -49,30 +51,26 @@ class BusinessAnswersController @Inject()(
       requireData andThen
       requiredAnswer(RequiredAnswer(BusinessNamePage(index), routes.BusinessNameController.onPageLoad(index, draftId)))
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
-    implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    val name = request.userAnswers.get(BusinessNamePage(index)).get
 
-      val name = request.userAnswers.get(BusinessNamePage(index)).get
+    val section = printHelper.checkDetailsSection(
+      userAnswers = request.userAnswers,
+      arg = name,
+      index = index,
+      draftId = draftId
+    )
 
-      val section = printHelper.checkDetailsSection(
-        userAnswers = request.userAnswers,
-        arg = name,
-        index = index,
-        draftId = draftId
-      )
-
-      Ok(view(index, draftId, section))
+    Ok(view(index, draftId, section))
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    val answers = request.userAnswers.set(AssetStatus(index), Completed)
 
-      val answers = request.userAnswers.set(AssetStatus(index), Completed)
-
-      for {
-        updatedAnswers <- Future.fromTry(answers)
-        _ <- registrationsRepository.set(updatedAnswers)
-      } yield Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId))
+    for {
+      updatedAnswers <- Future.fromTry(answers)
+      _              <- registrationsRepository.set(updatedAnswers)
+    } yield Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId))
 
   }
 }

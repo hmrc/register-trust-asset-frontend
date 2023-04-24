@@ -35,26 +35,34 @@ class BusinessAddressUkYesNoPageSpec extends PageBehaviours {
     "remove relevant data" when {
 
       "set to true" in {
-        forAll(arbitrary[UserAnswers]) {
-          initial =>
-            val answers: UserAnswers = initial.set(page, false).success.value
-              .set(BusinessInternationalAddressPage(0), InternationalAddress("line 1", "line 2", None, "France")).success.value
+        forAll(arbitrary[UserAnswers]) { initial =>
+          val answers: UserAnswers = initial
+            .set(page, false)
+            .success
+            .value
+            .set(BusinessInternationalAddressPage(0), InternationalAddress("line 1", "line 2", None, "France"))
+            .success
+            .value
 
-            val result = answers.set(page, true).success.value
+          val result = answers.set(page, true).success.value
 
-            result.get(BusinessInternationalAddressPage(0)) must not be defined
+          result.get(BusinessInternationalAddressPage(0)) must not be defined
         }
       }
 
       "set to false" in {
-        forAll(arbitrary[UserAnswers]) {
-          initial =>
-            val answers: UserAnswers = initial.set(page, true).success.value
-              .set(BusinessUkAddressPage(0), UKAddress("line 1", "line 2", None, None, "NE1 1NE")).success.value
+        forAll(arbitrary[UserAnswers]) { initial =>
+          val answers: UserAnswers = initial
+            .set(page, true)
+            .success
+            .value
+            .set(BusinessUkAddressPage(0), UKAddress("line 1", "line 2", None, None, "NE1 1NE"))
+            .success
+            .value
 
-            val result = answers.set(page, false).success.value
+          val result = answers.set(page, false).success.value
 
-            result.get(BusinessUkAddressPage(0)) must not be defined
+          result.get(BusinessUkAddressPage(0)) must not be defined
         }
       }
     }
@@ -62,26 +70,28 @@ class BusinessAddressUkYesNoPageSpec extends PageBehaviours {
     "keep relevant data" when {
 
       "set to true and UK address already defined" in {
-        forAll(arbitrary[UserAnswers]) {
-          initial =>
-            val answers: UserAnswers = initial
-              .set(BusinessUkAddressPage(0), UKAddress("line 1", "line 2", None, None, "NE1 1NE")).success.value
+        forAll(arbitrary[UserAnswers]) { initial =>
+          val answers: UserAnswers = initial
+            .set(BusinessUkAddressPage(0), UKAddress("line 1", "line 2", None, None, "NE1 1NE"))
+            .success
+            .value
 
-            val result = answers.set(page, true).success.value
+          val result = answers.set(page, true).success.value
 
-            result.get(BusinessUkAddressPage(0)) must be(defined)
+          result.get(BusinessUkAddressPage(0)) must be(defined)
         }
       }
 
       "set to false and international address already defined" in {
-        forAll(arbitrary[UserAnswers]) {
-          initial =>
-            val answers: UserAnswers = initial
-              .set(BusinessInternationalAddressPage(0), InternationalAddress("line 1", "line 2", None, "France")).success.value
+        forAll(arbitrary[UserAnswers]) { initial =>
+          val answers: UserAnswers = initial
+            .set(BusinessInternationalAddressPage(0), InternationalAddress("line 1", "line 2", None, "France"))
+            .success
+            .value
 
-            val result = answers.set(page, false).success.value
+          val result = answers.set(page, false).success.value
 
-            result.get(BusinessInternationalAddressPage(0)) must be(defined)
+          result.get(BusinessInternationalAddressPage(0)) must be(defined)
         }
       }
     }

@@ -23,7 +23,7 @@ import pages.asset.partnership.PartnershipStartDatePage.key
 import play.api.libs.json.JsPath
 import sections.Assets
 
-final case class PartnershipStartDatePage(index : Int) extends QuestionPage[LocalDate] {
+final case class PartnershipStartDatePage(index: Int) extends QuestionPage[LocalDate] {
 
   override def path: JsPath = Assets.path \ index \ toString
 
