@@ -22,7 +22,7 @@ import views.html.asset.property_or_land.PropertyOrLandAnswersView
 class PropertyOrLandAnswerViewSpec extends ViewBehaviours {
 
   private val messageKeyPrefix: String = "propertyOrLand.answers"
-  private val index: Int = 0
+  private val index: Int               = 0
 
   "PropertyOrLandAnswer view" must {
 

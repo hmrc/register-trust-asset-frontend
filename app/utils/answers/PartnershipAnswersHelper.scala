@@ -21,4 +21,5 @@ import utils.print.PartnershipPrintHelper
 
 import javax.inject.Inject
 
-class PartnershipAnswersHelper @Inject()(printHelper: PartnershipPrintHelper) extends AnswersHelper[PartnershipAsset](printHelper)
+class PartnershipAnswersHelper @Inject() (printHelper: PartnershipPrintHelper)
+    extends AnswersHelper[PartnershipAsset](printHelper)

@@ -23,11 +23,13 @@ import pages.asset.business._
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{Reads, __}
 
-final case class BusinessAsset(override val whatKindOfAsset: WhatKindOfAsset,
-                               assetName: String,
-                               assetDescription: String,
-                               address: Address,
-                               currentValue: Long) extends Asset {
+final case class BusinessAsset(
+  override val whatKindOfAsset: WhatKindOfAsset,
+  assetName: String,
+  assetDescription: String,
+  address: Address,
+  currentValue: Long
+) extends Asset {
 
   override val arg: String = assetName
 }
@@ -45,8 +47,7 @@ object BusinessAsset {
       (__ \ BusinessNamePage.key).read[String] and
       (__ \ BusinessDescriptionPage.key).read[String] and
       addressReads and
-      (__ \ BusinessValuePage.key).read[Long]
-      )(BusinessAsset.apply _)
+      (__ \ BusinessValuePage.key).read[Long])(BusinessAsset.apply _)
 
   }
 }

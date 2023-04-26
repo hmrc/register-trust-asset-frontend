@@ -21,9 +21,10 @@ import models.PropertyLandType
 
 import javax.inject.Inject
 
-class PropertyOrLandMapper @Inject()(addressMapper: AddressMapper) extends Mapping[PropertyLandType, PropertyOrLandAsset] {
+class PropertyOrLandMapper @Inject() (addressMapper: AddressMapper)
+    extends Mapping[PropertyLandType, PropertyOrLandAsset] {
 
-  override def mapAssets(assets: List[PropertyOrLandAsset]): List[PropertyLandType] = {
+  override def mapAssets(assets: List[PropertyOrLandAsset]): List[PropertyLandType] =
     assets.map { x =>
       val totalValue: Long = x.propertyOrLandTotalValue
 
@@ -34,5 +35,4 @@ class PropertyOrLandMapper @Inject()(addressMapper: AddressMapper) extends Mappi
         x.propertyLandValueTrust.getOrElse(totalValue)
       )
     }
-  }
 }

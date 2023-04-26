@@ -38,9 +38,12 @@ class SubmissionSetFactorySpec extends SpecBase {
         "TrustOwnsNonEeaBusinessYesNoPage is false" in {
 
           val factory = injector.instanceOf[SubmissionSetFactory]
-          val answers = emptyUserAnswers.copy(isTaxable = false)
-            .set(TrustOwnsNonEeaBusinessYesNoPage, false).success.value
-          val result = factory.createFrom(answers)
+          val answers = emptyUserAnswers
+            .copy(isTaxable = false)
+            .set(TrustOwnsNonEeaBusinessYesNoPage, false)
+            .success
+            .value
+          val result  = factory.createFrom(answers)
 
           result mustBe RegistrationSubmission.DataSet(
             data = Json.toJson(answers),
@@ -57,7 +60,7 @@ class SubmissionSetFactorySpec extends SpecBase {
         "no assets exist" in {
 
           val factory = injector.instanceOf[SubmissionSetFactory]
-          val result = factory.answerSections(emptyUserAnswers)
+          val result  = factory.answerSections(emptyUserAnswers)
 
           result mustBe List.empty
         }
@@ -66,14 +69,14 @@ class SubmissionSetFactorySpec extends SpecBase {
       "return completed answer sections" when {
 
         val registrationProgress: RegistrationProgress = injector.instanceOf[RegistrationProgress]
-        val assetMapper: AssetMapper = injector.instanceOf[AssetMapper]
+        val assetMapper: AssetMapper                   = injector.instanceOf[AssetMapper]
 
-        val moneyAnswersHelper: MoneyAnswersHelper = mock[MoneyAnswersHelper]
+        val moneyAnswersHelper: MoneyAnswersHelper                   = mock[MoneyAnswersHelper]
         val propertyOrLandAnswersHelper: PropertyOrLandAnswersHelper = mock[PropertyOrLandAnswersHelper]
-        val sharesAnswersHelper: SharesAnswersHelper = mock[SharesAnswersHelper]
-        val businessAnswersHelper: BusinessAnswersHelper = mock[BusinessAnswersHelper]
-        val partnershipAnswersHelper: PartnershipAnswersHelper = mock[PartnershipAnswersHelper]
-        val otherAnswersHelper: OtherAnswersHelper = mock[OtherAnswersHelper]
+        val sharesAnswersHelper: SharesAnswersHelper                 = mock[SharesAnswersHelper]
+        val businessAnswersHelper: BusinessAnswersHelper             = mock[BusinessAnswersHelper]
+        val partnershipAnswersHelper: PartnershipAnswersHelper       = mock[PartnershipAnswersHelper]
+        val otherAnswersHelper: OtherAnswersHelper                   = mock[OtherAnswersHelper]
         val nonEeaBusinessAnswersHelper: NonEeaBusinessAnswersHelper = mock[NonEeaBusinessAnswersHelper]
 
         when(moneyAnswersHelper(any())(any())).thenReturn(Nil)
@@ -93,14 +96,13 @@ class SubmissionSetFactorySpec extends SpecBase {
           nonEeaBusinessAnswersHelper = nonEeaBusinessAnswersHelper
         )
 
-        def assetSection(headingKey: String, headingArg: Any): AnswerSection = {
+        def assetSection(headingKey: String, headingArg: Any): AnswerSection =
           AnswerSection(
             headingKey = Some(headingKey),
             rows = Nil,
             sectionKey = None,
             headingArgs = Seq(headingArg.toString)
           )
-        }
 
         "taxable" when {
 
@@ -180,10 +182,12 @@ class SubmissionSetFactorySpec extends SpecBase {
             when(partnershipAnswersHelper(any())(any())).thenReturn(Nil)
             when(otherAnswersHelper(any())(any())).thenReturn(Nil)
             when(nonEeaBusinessAnswersHelper(any())(any()))
-              .thenReturn(Seq(
-                assetSection("answerPage.section.nonEeaBusinessAsset.subheading", 1),
-                assetSection("answerPage.section.nonEeaBusinessAsset.subheading", 2)
-              ))
+              .thenReturn(
+                Seq(
+                  assetSection("answerPage.section.nonEeaBusinessAsset.subheading", 1),
+                  assetSection("answerPage.section.nonEeaBusinessAsset.subheading", 2)
+                )
+              )
 
             val result = factory.answerSections(baseAnswers)
 

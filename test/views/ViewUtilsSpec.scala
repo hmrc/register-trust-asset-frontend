@@ -35,17 +35,24 @@ class ViewUtilsSpec extends SpecBase {
       "return Assets" when {
         "registering a taxable trust" when {
 
-          lazy val dataRequest = RegistrationDataRequest(fakeRequest, "", "", emptyUserAnswers.copy(isTaxable = true), Organisation, Enrolments(Set()))
+          lazy val dataRequest = RegistrationDataRequest(
+            fakeRequest,
+            "",
+            "",
+            emptyUserAnswers.copy(isTaxable = true),
+            Organisation,
+            Enrolments(Set())
+          )
 
           "Request" in {
             implicit val request: Request[_] = fakeRequest
-            val result = viewUtils.breadcrumbTitle(fakeTitle)(request, messages)
+            val result                       = viewUtils.breadcrumbTitle(fakeTitle)(request, messages)
             result mustBe s"$fakeTitle - Register and Maintain a Trust - GOV.UK"
           }
 
           "RegistrationDataRequest" in {
             implicit val request: RegistrationDataRequest[_] = dataRequest
-            val result = viewUtils.breadcrumbTitle(fakeTitle)(request, messages)
+            val result                                       = viewUtils.breadcrumbTitle(fakeTitle)(request, messages)
             result mustBe s"$fakeTitle - Assets - Register and Maintain a Trust - GOV.UK"
           }
         }
@@ -54,17 +61,24 @@ class ViewUtilsSpec extends SpecBase {
       "return Non-EEA" when {
         "registering a non-taxable trust" when {
 
-          lazy val dataRequest = RegistrationDataRequest(fakeRequest, "", "", emptyUserAnswers.copy(isTaxable = false), Organisation, Enrolments(Set()))
+          lazy val dataRequest = RegistrationDataRequest(
+            fakeRequest,
+            "",
+            "",
+            emptyUserAnswers.copy(isTaxable = false),
+            Organisation,
+            Enrolments(Set())
+          )
 
           "Request" in {
             implicit val request: Request[_] = fakeRequest
-            val result = viewUtils.breadcrumbTitle(fakeTitle)(request, messages)
+            val result                       = viewUtils.breadcrumbTitle(fakeTitle)(request, messages)
             result mustBe s"$fakeTitle - Register and Maintain a Trust - GOV.UK"
           }
 
           "RegistrationDataRequest" in {
             implicit val request: RegistrationDataRequest[_] = dataRequest
-            val result = viewUtils.breadcrumbTitle(fakeTitle)(request, messages)
+            val result                                       = viewUtils.breadcrumbTitle(fakeTitle)(request, messages)
             result mustBe s"$fakeTitle - Non-EEA - Register and Maintain a Trust - GOV.UK"
           }
         }

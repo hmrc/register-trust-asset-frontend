@@ -32,7 +32,7 @@
     title = s"${errorPrefix(form)} ${messages("shares.class.title")}",
     showBackLink = true
 ) {
-    @formHelper(action = ShareClassController.onSubmit(index, draftId), 'autoComplete -> "off") {
+    @formHelper(action = ShareClassController.onSubmit(index, draftId), Symbol("autoComplete") -> "off") {
 
         @errorSummary(form.errors, ShareClass.allOptions)
 

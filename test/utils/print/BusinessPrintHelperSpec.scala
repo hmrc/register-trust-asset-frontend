@@ -32,45 +32,109 @@ class BusinessPrintHelperSpec extends SpecBase {
 
   private val index: Int = 0
 
-  private val heading: String = "answerPage.section.businessAsset.subheading"
+  private val heading: String       = "answerPage.section.businessAsset.subheading"
   private val headingArgs: Seq[Any] = Seq(index + 1)
 
-  private val name: String = "Name"
-  private val description: String = "Description"
-  private val ukAddress: UKAddress = UKAddress("Line 1", "Line 2", None, None, "AB1 1AB")
+  private val name: String                       = "Name"
+  private val description: String                = "Description"
+  private val ukAddress: UKAddress               = UKAddress("Line 1", "Line 2", None, None, "AB1 1AB")
   private val nonUkAddress: InternationalAddress = InternationalAddress("Line 1", "Line 2", None, "FR")
-  private val amount: Long = 100L
+  private val amount: Long                       = 100L
 
   private val baseAnswers: UserAnswers = emptyUserAnswers
-    .set(WhatKindOfAssetPage(index), Business).success.value
-    .set(BusinessNamePage(index), name).success.value
-    .set(BusinessDescriptionPage(index), description).success.value
-    .set(BusinessValuePage(index), amount).success.value
+    .set(WhatKindOfAssetPage(index), Business)
+    .success
+    .value
+    .set(BusinessNamePage(index), name)
+    .success
+    .value
+    .set(BusinessDescriptionPage(index), description)
+    .success
+    .value
+    .set(BusinessValuePage(index), amount)
+    .success
+    .value
 
   private val ukAddressAnswers: UserAnswers = baseAnswers
-    .set(BusinessAddressUkYesNoPage(index), true).success.value
-    .set(BusinessUkAddressPage(index), ukAddress).success.value
+    .set(BusinessAddressUkYesNoPage(index), true)
+    .success
+    .value
+    .set(BusinessUkAddressPage(index), ukAddress)
+    .success
+    .value
 
   private val nonUkAddressAnswers: UserAnswers = baseAnswers
-    .set(BusinessAddressUkYesNoPage(index), false).success.value
-    .set(BusinessInternationalAddressPage(index), nonUkAddress).success.value
+    .set(BusinessAddressUkYesNoPage(index), false)
+    .success
+    .value
+    .set(BusinessInternationalAddressPage(index), nonUkAddress)
+    .success
+    .value
 
   private val ukAddressRows: Seq[AnswerRow] = Seq(
-    AnswerRow("whatKindOfAsset.first.checkYourAnswersLabel", Html("Business"), Some(WhatKindOfAssetController.onPageLoad(index, fakeDraftId).url)),
-    AnswerRow("business.name.checkYourAnswersLabel", Html(name), Some(BusinessNameController.onPageLoad(index, draftId).url)),
-    AnswerRow("business.description.checkYourAnswersLabel", Html(description), Some(BusinessDescriptionController.onPageLoad(index, draftId).url)),
-    AnswerRow("business.addressUkYesNo.checkYourAnswersLabel", Html("Yes"), Some(BusinessAddressUkYesNoController.onPageLoad(index, draftId).url)),
-    AnswerRow("business.ukAddress.checkYourAnswersLabel", Html("Line 1<br />Line 2<br />AB1 1AB"), Some(BusinessUkAddressController.onPageLoad(index, draftId).url)),
-    AnswerRow("business.currentValue.checkYourAnswersLabel", Html("£100"), Some(BusinessValueController.onPageLoad(index, draftId).url))
+    AnswerRow(
+      "whatKindOfAsset.first.checkYourAnswersLabel",
+      Html("Business"),
+      Some(WhatKindOfAssetController.onPageLoad(index, fakeDraftId).url)
+    ),
+    AnswerRow(
+      "business.name.checkYourAnswersLabel",
+      Html(name),
+      Some(BusinessNameController.onPageLoad(index, draftId).url)
+    ),
+    AnswerRow(
+      "business.description.checkYourAnswersLabel",
+      Html(description),
+      Some(BusinessDescriptionController.onPageLoad(index, draftId).url)
+    ),
+    AnswerRow(
+      "business.addressUkYesNo.checkYourAnswersLabel",
+      Html("Yes"),
+      Some(BusinessAddressUkYesNoController.onPageLoad(index, draftId).url)
+    ),
+    AnswerRow(
+      "business.ukAddress.checkYourAnswersLabel",
+      Html("Line 1<br />Line 2<br />AB1 1AB"),
+      Some(BusinessUkAddressController.onPageLoad(index, draftId).url)
+    ),
+    AnswerRow(
+      "business.currentValue.checkYourAnswersLabel",
+      Html("£100"),
+      Some(BusinessValueController.onPageLoad(index, draftId).url)
+    )
   )
 
   private val nonUkAddressRows: Seq[AnswerRow] = Seq(
-    AnswerRow("whatKindOfAsset.first.checkYourAnswersLabel", Html("Business"), Some(WhatKindOfAssetController.onPageLoad(index, fakeDraftId).url)),
-    AnswerRow("business.name.checkYourAnswersLabel", Html(name), Some(BusinessNameController.onPageLoad(index, draftId).url)),
-    AnswerRow("business.description.checkYourAnswersLabel", Html(description), Some(BusinessDescriptionController.onPageLoad(index, draftId).url)),
-    AnswerRow("business.addressUkYesNo.checkYourAnswersLabel", Html("No"), Some(BusinessAddressUkYesNoController.onPageLoad(index, draftId).url)),
-    AnswerRow("business.internationalAddress.checkYourAnswersLabel", Html("Line 1<br />Line 2<br />France"), Some(BusinessInternationalAddressController.onPageLoad(index, draftId).url)),
-    AnswerRow("business.currentValue.checkYourAnswersLabel", Html("£100"), Some(BusinessValueController.onPageLoad(index, draftId).url))
+    AnswerRow(
+      "whatKindOfAsset.first.checkYourAnswersLabel",
+      Html("Business"),
+      Some(WhatKindOfAssetController.onPageLoad(index, fakeDraftId).url)
+    ),
+    AnswerRow(
+      "business.name.checkYourAnswersLabel",
+      Html(name),
+      Some(BusinessNameController.onPageLoad(index, draftId).url)
+    ),
+    AnswerRow(
+      "business.description.checkYourAnswersLabel",
+      Html(description),
+      Some(BusinessDescriptionController.onPageLoad(index, draftId).url)
+    ),
+    AnswerRow(
+      "business.addressUkYesNo.checkYourAnswersLabel",
+      Html("No"),
+      Some(BusinessAddressUkYesNoController.onPageLoad(index, draftId).url)
+    ),
+    AnswerRow(
+      "business.internationalAddress.checkYourAnswersLabel",
+      Html("Line 1<br />Line 2<br />France"),
+      Some(BusinessInternationalAddressController.onPageLoad(index, draftId).url)
+    ),
+    AnswerRow(
+      "business.currentValue.checkYourAnswersLabel",
+      Html("£100"),
+      Some(BusinessValueController.onPageLoad(index, draftId).url)
+    )
   )
 
   "BusinessPrintHelper" when {
@@ -123,10 +187,12 @@ class BusinessPrintHelperSpec extends SpecBase {
             draftId = fakeDraftId
           )
 
-          result mustBe Seq(AnswerSection(
-            headingKey = None,
-            rows = ukAddressRows
-          ))
+          result mustBe Seq(
+            AnswerSection(
+              headingKey = None,
+              rows = ukAddressRows
+            )
+          )
         }
 
         "business has non-UK address" in {
@@ -137,10 +203,12 @@ class BusinessPrintHelperSpec extends SpecBase {
             draftId = fakeDraftId
           )
 
-          result mustBe Seq(AnswerSection(
-            headingKey = None,
-            rows = nonUkAddressRows
-          ))
+          result mustBe Seq(
+            AnswerSection(
+              headingKey = None,
+              rows = nonUkAddressRows
+            )
+          )
         }
       }
     }

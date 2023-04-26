@@ -21,4 +21,5 @@ import utils.print.BusinessPrintHelper
 
 import javax.inject.Inject
 
-class BusinessAnswersHelper @Inject()(printHelper: BusinessPrintHelper) extends AnswersHelper[BusinessAsset](printHelper)
+class BusinessAnswersHelper @Inject() (printHelper: BusinessPrintHelper)
+    extends AnswersHelper[BusinessAsset](printHelper)

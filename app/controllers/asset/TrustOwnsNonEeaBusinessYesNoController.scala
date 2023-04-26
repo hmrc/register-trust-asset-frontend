@@ -34,18 +34,20 @@ import views.html.asset.TrustOwnsNonEeaBusinessYesNoView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class TrustOwnsNonEeaBusinessYesNoController @Inject()(
-                                                        override val messagesApi: MessagesApi,
-                                                        repository: RegistrationsRepository,
-                                                        @Asset navigator: Navigator,
-                                                        identify: RegistrationIdentifierAction,
-                                                        getData: DraftIdRetrievalActionProvider,
-                                                        requireData: RegistrationDataRequiredAction,
-                                                        yesNoFormProvider: YesNoFormProvider,
-                                                        val controllerComponents: MessagesControllerComponents,
-                                                        view: TrustOwnsNonEeaBusinessYesNoView,
-                                                        trustsStoreService: TrustsStoreService
-                                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class TrustOwnsNonEeaBusinessYesNoController @Inject() (
+  override val messagesApi: MessagesApi,
+  repository: RegistrationsRepository,
+  @Asset navigator: Navigator,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  yesNoFormProvider: YesNoFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: TrustOwnsNonEeaBusinessYesNoView,
+  trustsStoreService: TrustsStoreService
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form: Form[Boolean] = yesNoFormProvider.withPrefix("trustOwnsNonEeaBusinessYesNo")
 
@@ -54,31 +56,27 @@ class TrustOwnsNonEeaBusinessYesNoController @Inject()(
       getData(draftId) andThen
       requireData
 
-  def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) {
-    implicit request =>
+  def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) { implicit request =>
+    val preparedForm = request.userAnswers.get(TrustOwnsNonEeaBusinessYesNoPage) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(TrustOwnsNonEeaBusinessYesNoPage) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, draftId))
+    Ok(view(preparedForm, draftId))
   }
 
-  def onSubmit(draftId: String): Action[AnyContent] = actions(draftId).async {
-    implicit request =>
-
-      form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, draftId))),
-
-        value => {
+  def onSubmit(draftId: String): Action[AnyContent] = actions(draftId).async { implicit request =>
+    form
+      .bindFromRequest()
+      .fold(
+        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId))),
+        value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(TrustOwnsNonEeaBusinessYesNoPage, value))
             _              <- repository.set(updatedAnswers)
-            _              <- trustsStoreService.updateTaskStatus(draftId, if(value) TaskStatus.InProgress else TaskStatus.Completed)
+            _              <-
+              trustsStoreService.updateTaskStatus(draftId, if (value) TaskStatus.InProgress else TaskStatus.Completed)
           } yield Redirect(navigator.nextPage(TrustOwnsNonEeaBusinessYesNoPage, draftId)(updatedAnswers))
-        }
       )
   }
 }

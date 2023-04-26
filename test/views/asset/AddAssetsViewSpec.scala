@@ -44,12 +44,22 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
   private def applyView(form: Form[_]): HtmlFormat.Appendable =
     view.apply(form, fakeDraftId, Nil, Nil, "Add assets", messageKeyPrefix, Nil)(fakeRequest, messages)
 
-  private def applyView(form: Form[_], inProgressAssets: Seq[AddRow], completeAssets: Seq[AddRow], count: Int): HtmlFormat.Appendable = {
+  private def applyView(
+    form: Form[_],
+    inProgressAssets: Seq[AddRow],
+    completeAssets: Seq[AddRow],
+    count: Int
+  ): HtmlFormat.Appendable = {
     val title = if (count > 1) s"You have added $count assets" else "Add assets"
     view.apply(form, fakeDraftId, inProgressAssets, completeAssets, title, messageKeyPrefix, Nil)(fakeRequest, messages)
   }
 
-  def applyView(form: Form[_], completeAssets: Seq[AddRow], count: Int, maxedOut: List[(String, Int)]): HtmlFormat.Appendable = {
+  def applyView(
+    form: Form[_],
+    completeAssets: Seq[AddRow],
+    count: Int,
+    maxedOut: List[(String, Int)]
+  ): HtmlFormat.Appendable = {
     val title = if (count > 1) s"You have added $count assets" else "Add assets"
     view.apply(form, fakeDraftId, Nil, completeAssets, title, messageKeyPrefix, maxedOut)(fakeRequest, messages)
   }
@@ -108,7 +118,10 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
         val doc = asDocument(viewWithData)
 
         assertContainsText(doc, "You cannot add another partnership asset as you have entered a maximum of 10.")
-        assertContainsText(doc, "Check the assets you have added. If you have further assets to add within this type, write to HMRC with their details.")
+        assertContainsText(
+          doc,
+          "Check the assets you have added. If you have further assets to add within this type, write to HMRC with their details."
+        )
       }
     }
 
@@ -116,7 +129,7 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
 
       val viewWithData = applyView(form, completeAssets, 11, List(("Money", 1), ("Partnership", 10)))
 
-      behave like dynamicTitlePage(viewWithData,s"$messageKeyPrefix.count", "11")
+      behave like dynamicTitlePage(viewWithData, s"$messageKeyPrefix.count", "11")
 
       behave like pageWithBackLink(viewWithData)
 
@@ -128,7 +141,10 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
         val doc = asDocument(viewWithData)
 
         assertContainsText(doc, "You have entered the maximum number of assets for:")
-        assertContainsText(doc, "Check the assets you have added. If you have further assets to add within these types, write to HMRC with their details.")
+        assertContainsText(
+          doc,
+          "Check the assets you have added. If you have further assets to add within these types, write to HMRC with their details."
+        )
       }
     }
 

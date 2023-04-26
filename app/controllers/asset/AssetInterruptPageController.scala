@@ -28,17 +28,18 @@ import views.html.asset.{NonTaxableInfoView, TaxableInfoView}
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class AssetInterruptPageController @Inject()(
-                                              override val messagesApi: MessagesApi,
-                                              repository: RegistrationsRepository,
-                                              identify: RegistrationIdentifierAction,
-                                              getData: DraftIdRetrievalActionProvider,
-                                              requireData: RegistrationDataRequiredAction,
-                                              @Asset navigator: Navigator,
-                                              val controllerComponents: MessagesControllerComponents,
-                                              taxableView: TaxableInfoView,
-                                              nonTaxableView: NonTaxableInfoView
-                                            )(implicit ec: ExecutionContext) extends AddAssetController {
+class AssetInterruptPageController @Inject() (
+  override val messagesApi: MessagesApi,
+  repository: RegistrationsRepository,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  @Asset navigator: Navigator,
+  val controllerComponents: MessagesControllerComponents,
+  taxableView: TaxableInfoView,
+  nonTaxableView: NonTaxableInfoView
+)(implicit ec: ExecutionContext)
+    extends AddAssetController {
 
   def onPageLoad(draftId: String): Action[AnyContent] = (identify andThen getData(draftId) andThen requireData) {
     implicit request =>
@@ -55,10 +56,8 @@ class AssetInterruptPageController @Inject()(
     implicit request =>
       for {
         updatedAnswers <- Future.fromTry(setAssetType(request.userAnswers, 0))
-        _ <- repository.set(updatedAnswers)
-      } yield {
-        Redirect(navigator.nextPage(AssetInterruptPage, draftId)(updatedAnswers))
-      }
+        _              <- repository.set(updatedAnswers)
+      } yield Redirect(navigator.nextPage(AssetInterruptPage, draftId)(updatedAnswers))
   }
 
 }

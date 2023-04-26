@@ -32,49 +32,58 @@ import views.html.asset.other.OtherAssetAnswersView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class OtherAssetAnswersController @Inject()(
-                                             override val messagesApi: MessagesApi,
-                                             repository: RegistrationsRepository,
-                                             identify: RegistrationIdentifierAction,
-                                             getData: DraftIdRetrievalActionProvider,
-                                             requireData: RegistrationDataRequiredAction,
-                                             requiredAnswer: RequiredAnswerActionProvider,
-                                             view: OtherAssetAnswersView,
-                                             val controllerComponents: MessagesControllerComponents,
-                                             printHelper: OtherPrintHelper
-                                           )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class OtherAssetAnswersController @Inject() (
+  override val messagesApi: MessagesApi,
+  repository: RegistrationsRepository,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  requiredAnswer: RequiredAnswerActionProvider,
+  view: OtherAssetAnswersView,
+  val controllerComponents: MessagesControllerComponents,
+  printHelper: OtherPrintHelper
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] = {
+  private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen getData(draftId) andThen requireData andThen
-      requiredAnswer(RequiredAnswer(WhatKindOfAssetPage(index), controllers.asset.routes.WhatKindOfAssetController.onPageLoad(index, draftId))) andThen
-      requiredAnswer(RequiredAnswer(OtherAssetDescriptionPage(index), routes.OtherAssetDescriptionController.onPageLoad(index, draftId))) andThen
-      requiredAnswer(RequiredAnswer(OtherAssetValuePage(index), routes.OtherAssetValueController.onPageLoad(index, draftId)))
-  }
-
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
-    implicit request =>
-
-      val description = request.userAnswers.get(OtherAssetDescriptionPage(index)).get
-
-      val section = printHelper.checkDetailsSection(
-        userAnswers = request.userAnswers,
-        arg = description,
-        index = index,
-        draftId = draftId
+      requiredAnswer(
+        RequiredAnswer(
+          WhatKindOfAssetPage(index),
+          controllers.asset.routes.WhatKindOfAssetController.onPageLoad(index, draftId)
+        )
+      ) andThen
+      requiredAnswer(
+        RequiredAnswer(
+          OtherAssetDescriptionPage(index),
+          routes.OtherAssetDescriptionController.onPageLoad(index, draftId)
+        )
+      ) andThen
+      requiredAnswer(
+        RequiredAnswer(OtherAssetValuePage(index), routes.OtherAssetValueController.onPageLoad(index, draftId))
       )
 
-      Ok(view(index, draftId, section))
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    val description = request.userAnswers.get(OtherAssetDescriptionPage(index)).get
+
+    val section = printHelper.checkDetailsSection(
+      userAnswers = request.userAnswers,
+      arg = description,
+      index = index,
+      draftId = draftId
+    )
+
+    Ok(view(index, draftId, section))
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    val answers = request.userAnswers.set(AssetStatus(index), Completed)
 
-      val answers = request.userAnswers.set(AssetStatus(index), Completed)
-
-      for {
-        updatedAnswers <- Future.fromTry(answers)
-        _ <- repository.set(updatedAnswers)
-      } yield Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId))
+    for {
+      updatedAnswers <- Future.fromTry(answers)
+      _              <- repository.set(updatedAnswers)
+    } yield Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId))
 
   }
 }

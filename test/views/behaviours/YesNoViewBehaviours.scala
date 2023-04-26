@@ -21,18 +21,19 @@ import play.twirl.api.HtmlFormat
 
 trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
 
-  def yesNoPage(form: Form[Boolean],
-                createView: Form[Boolean] => HtmlFormat.Appendable,
-                messageKeyPrefix: String,
-                args: Seq[String] = Nil): Unit = {
-
+  def yesNoPage(
+    form: Form[Boolean],
+    createView: Form[Boolean] => HtmlFormat.Appendable,
+    messageKeyPrefix: String,
+    args: Seq[String] = Nil
+  ): Unit =
     "behave like a page with a Yes/No question" when {
 
       "rendered" must {
 
         "contain a legend for the question" in {
 
-          val doc = asDocument(createView(form))
+          val doc     = asDocument(createView(form))
           val legends = doc.getElementsByTag("legend")
           legends.size mustBe 1
           legends.first.text mustBe messages(s"$messageKeyPrefix.heading", args: _*)
@@ -79,7 +80,7 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
 
         "show an error associated with the value field" in {
 
-          val doc = asDocument(createView(form.withError(error)))
+          val doc       = asDocument(createView(form.withError(error)))
           val errorSpan = doc.getElementsByClass("govuk-error-message").first
           errorSpan.text mustBe (messages("error.browser.title.prefix") + " " + messages(errorMessage))
           doc.getElementsByTag("fieldset").first.attr("aria-describedby") contains errorSpan.attr("id")
@@ -88,12 +89,16 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
         "show an error prefix in the browser title" in {
 
           val doc = asDocument(createView(form.withError(error)))
-          assertEqualsValue(doc, "title", mockViewUtils.breadcrumbTitle(s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title", args: _*)}""")(fakeRequest, messages))
+          assertEqualsValue(
+            doc,
+            "title",
+            mockViewUtils.breadcrumbTitle(
+              s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title", args: _*)}"""
+            )(fakeRequest, messages)
+          )
         }
       }
     }
-  }
-
 
   def answeredYesNoPage(createView: Form[Boolean] => HtmlFormat.Appendable, answer: Boolean): Unit = {
 

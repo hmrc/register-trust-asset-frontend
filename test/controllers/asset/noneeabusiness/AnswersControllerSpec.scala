@@ -34,10 +34,18 @@ class AnswersControllerSpec extends SpecBase {
   private val index = 0
 
   private val answers: UserAnswers = emptyUserAnswers
-    .set(NamePage(index), "Name").success.value
-    .set(InternationalAddressPage(index), InternationalAddress("Line 1", "Line 2", Some("Line 3"), "FR")).success.value
-    .set(GoverningCountryPage(index), "FR").success.value
-    .set(StartDatePage(index), LocalDate.parse("1996-02-03")).success.value
+    .set(NamePage(index), "Name")
+    .success
+    .value
+    .set(InternationalAddressPage(index), InternationalAddress("Line 1", "Line 2", Some("Line 3"), "FR"))
+    .success
+    .value
+    .set(GoverningCountryPage(index), "FR")
+    .success
+    .value
+    .set(StartDatePage(index), LocalDate.parse("1996-02-03"))
+    .success
+    .value
 
   private lazy val onPageLoadRoute: String = routes.AnswersController.onSubmit(index, fakeDraftId).url
 
@@ -45,7 +53,7 @@ class AnswersControllerSpec extends SpecBase {
 
     "return OK and the correct view for a GET" in {
 
-      val expectedSections = Nil
+      val expectedSections                           = Nil
       val mockPrintHelper: NonEeaBusinessPrintHelper = mock[NonEeaBusinessPrintHelper]
       when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(any())).thenReturn(Nil)
 

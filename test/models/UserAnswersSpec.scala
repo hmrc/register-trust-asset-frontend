@@ -26,31 +26,31 @@ class UserAnswersSpec extends SpecBase {
 
       "return correct information" when {
 
-          "taxable" in {
-            val userAnswers = emptyUserAnswers.copy(isTaxable = true)
-            userAnswers.assets mustBe AssetViewModels(
-              monetary = Some(Nil),
-              propertyOrLand = Some(Nil),
-              shares = Some(Nil),
-              business = Some(Nil),
-              partnerShip = Some(Nil),
-              other = Some(Nil),
-              nonEEABusiness = Some(Nil)
-            )
-          }
+        "taxable" in {
+          val userAnswers = emptyUserAnswers.copy(isTaxable = true)
+          userAnswers.assets mustBe AssetViewModels(
+            monetary = Some(Nil),
+            propertyOrLand = Some(Nil),
+            shares = Some(Nil),
+            business = Some(Nil),
+            partnerShip = Some(Nil),
+            other = Some(Nil),
+            nonEEABusiness = Some(Nil)
+          )
+        }
 
-          "non-taxable" in {
-            val userAnswers = emptyUserAnswers.copy(isTaxable = false)
-            userAnswers.assets mustBe AssetViewModels(
-              monetary = None,
-              propertyOrLand = None,
-              shares = None,
-              business = None,
-              partnerShip = None,
-              other = None,
-              nonEEABusiness = Some(Nil)
-            )
-          }
+        "non-taxable" in {
+          val userAnswers = emptyUserAnswers.copy(isTaxable = false)
+          userAnswers.assets mustBe AssetViewModels(
+            monetary = None,
+            propertyOrLand = None,
+            shares = None,
+            business = None,
+            partnerShip = None,
+            other = None,
+            nonEEABusiness = Some(Nil)
+          )
+        }
 
       }
     }

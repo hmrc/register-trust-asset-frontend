@@ -32,18 +32,20 @@ import views.html.asset.property_or_land.PropertyOrLandAddressYesNoView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class PropertyOrLandAddressYesNoController @Inject()(
-                                                      override val messagesApi: MessagesApi,
-                                                      repository: RegistrationsRepository,
-                                                      @PropertyOrLand navigator: Navigator,
-                                                      identify: RegistrationIdentifierAction,
-                                                      getData: DraftIdRetrievalActionProvider,
-                                                      requireData: RegistrationDataRequiredAction,
-                                                      validateIndex: IndexActionFilterProvider,
-                                                      yesNoFormProvider: YesNoFormProvider,
-                                                      val controllerComponents: MessagesControllerComponents,
-                                                      view: PropertyOrLandAddressYesNoView
-                                                    )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class PropertyOrLandAddressYesNoController @Inject() (
+  override val messagesApi: MessagesApi,
+  repository: RegistrationsRepository,
+  @PropertyOrLand navigator: Navigator,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  validateIndex: IndexActionFilterProvider,
+  yesNoFormProvider: YesNoFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: PropertyOrLandAddressYesNoView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form: Form[Boolean] = yesNoFormProvider.withPrefix("propertyOrLand.addressYesNo")
 
@@ -53,30 +55,25 @@ class PropertyOrLandAddressYesNoController @Inject()(
       requireData andThen
       validateIndex(index, sections.Assets)
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
-    implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    val preparedForm = request.userAnswers.get(PropertyOrLandAddressYesNoPage(index)) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(PropertyOrLandAddressYesNoPage(index)) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, index, draftId))
+    Ok(view(preparedForm, index, draftId))
   }
 
-  def onSubmit(index: Int, draftId : String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
-
-      form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, index, draftId))),
-
-        value => {
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    form
+      .bindFromRequest()
+      .fold(
+        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, index, draftId))),
+        value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(PropertyOrLandAddressYesNoPage(index), value))
             _              <- repository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(PropertyOrLandAddressYesNoPage(index), draftId)(updatedAnswers))
-        }
       )
   }
 }

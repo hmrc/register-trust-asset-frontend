@@ -30,13 +30,14 @@ import views.html.asset.shares.ShareQuantityInTrustView
 
 class ShareQuantityInTrustControllerSpec extends SpecBase with ModelGenerators with IndexValidation {
 
-  private val formProvider = new QuantityFormProvider(frontendAppConfig)
-  private val form: Form[Long] = formProvider.withPrefix("shares.quantityInTrust")
-  private val index: Int = 0
-  private val companyName = "Company"
+  private val formProvider      = new QuantityFormProvider(frontendAppConfig)
+  private val form: Form[Long]  = formProvider.withPrefix("shares.quantityInTrust")
+  private val index: Int        = 0
+  private val companyName       = "Company"
   private val validAnswer: Long = 4000L
 
-  private lazy val shareQuantityInTrustRoute: String = routes.ShareQuantityInTrustController.onPageLoad(index, fakeDraftId).url
+  private lazy val shareQuantityInTrustRoute: String =
+    routes.ShareQuantityInTrustController.onPageLoad(index, fakeDraftId).url
 
   "ShareQuantityInTrustController" must {
 
@@ -62,8 +63,13 @@ class ShareQuantityInTrustControllerSpec extends SpecBase with ModelGenerators w
 
     "populate the view correctly on a GET when the question has previously been answered" in {
 
-      val ua = emptyUserAnswers.set(ShareCompanyNamePage(0), "Company").success.value
-        .set(ShareQuantityInTrustPage(index), validAnswer).success.value
+      val ua = emptyUserAnswers
+        .set(ShareCompanyNamePage(0), "Company")
+        .success
+        .value
+        .set(ShareQuantityInTrustPage(index), validAnswer)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(ua)).build()
 
@@ -174,7 +180,7 @@ class ShareQuantityInTrustControllerSpec extends SpecBase with ModelGenerators w
 
   "for a GET" must {
 
-    def getForIndex(index: Int) : FakeRequest[AnyContentAsEmpty.type] = {
+    def getForIndex(index: Int): FakeRequest[AnyContentAsEmpty.type] = {
       val route = routes.ShareQuantityInTrustController.onPageLoad(index, fakeDraftId).url
 
       FakeRequest(GET, route)

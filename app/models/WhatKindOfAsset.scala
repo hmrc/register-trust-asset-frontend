@@ -37,25 +37,28 @@ object WhatKindOfAsset extends Enumerable.Implicits {
   case object NonEeaBusiness extends WithName("NonEeaBusiness") with WhatKindOfAsset
 
   val values: List[WhatKindOfAsset] = List(
-    Money, PropertyOrLand, Shares, Business, NonEeaBusiness, Partnership, Other
+    Money,
+    PropertyOrLand,
+    Shares,
+    Business,
+    NonEeaBusiness,
+    Partnership,
+    Other
   )
 
   val prefix: String = "whatKindOfAsset"
 
-  def options(kindsOfAsset: List[WhatKindOfAsset] = values): List[RadioOption] = kindsOfAsset.map {
-    value =>
-      RadioOption(prefix, value.toString)
+  def options(kindsOfAsset: List[WhatKindOfAsset] = values): List[RadioOption] = kindsOfAsset.map { value =>
+    RadioOption(prefix, value.toString)
   }
 
   implicit val enumerable: Enumerable[WhatKindOfAsset] =
     Enumerable(values.map(v => v.toString -> v): _*)
 
-  def nonMaxedOutOptions(assets: AssetViewModels,
-                         assetTypeAtIndex: Option[WhatKindOfAsset]): List[RadioOption] = {
+  def nonMaxedOutOptions(assets: AssetViewModels, assetTypeAtIndex: Option[WhatKindOfAsset]): List[RadioOption] = {
 
-    def meetsLimitConditions(assetSize: AssetSize): Boolean = {
+    def meetsLimitConditions(assetSize: AssetSize): Boolean =
       assetSize.size < assetSize.maxSize || assetTypeAtIndex.contains(assetSize.kindOfAsset)
-    }
 
     options(assets.assetSizes.filter(meetsLimitConditions).map(_.kindOfAsset))
   }

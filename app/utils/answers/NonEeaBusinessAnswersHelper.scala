@@ -21,4 +21,5 @@ import utils.print.NonEeaBusinessPrintHelper
 
 import javax.inject.Inject
 
-class NonEeaBusinessAnswersHelper @Inject()(printHelper: NonEeaBusinessPrintHelper) extends AnswersHelper[NonEeaBusinessAsset](printHelper)
+class NonEeaBusinessAnswersHelper @Inject() (printHelper: NonEeaBusinessPrintHelper)
+    extends AnswersHelper[NonEeaBusinessAsset](printHelper)

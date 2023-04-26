@@ -33,52 +33,51 @@ import views.html.asset.property_or_land.PropertyOrLandInternationalAddressView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class PropertyOrLandInternationalAddressController @Inject()(
-                                                              override val messagesApi: MessagesApi,
-                                                              repository: RegistrationsRepository,
-                                                              @PropertyOrLand navigator: Navigator,
-                                                              identify: RegistrationIdentifierAction,
-                                                              getData: DraftIdRetrievalActionProvider,
-                                                              requireData: RegistrationDataRequiredAction,
-                                                              validateIndex: IndexActionFilterProvider,
-                                                              formProvider: InternationalAddressFormProvider,
-                                                              val controllerComponents: MessagesControllerComponents,
-                                                              view: PropertyOrLandInternationalAddressView,
-                                                              val countryOptions: CountryOptionsNonUK
-                                                            )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class PropertyOrLandInternationalAddressController @Inject() (
+  override val messagesApi: MessagesApi,
+  repository: RegistrationsRepository,
+  @PropertyOrLand navigator: Navigator,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  validateIndex: IndexActionFilterProvider,
+  formProvider: InternationalAddressFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: PropertyOrLandInternationalAddressView,
+  val countryOptions: CountryOptionsNonUK
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   private val form = formProvider()
 
   private def actions(index: Int, draftId: String) =
-      identify andThen
+    identify andThen
       getData(draftId) andThen
       requireData andThen
       validateIndex(index, sections.Assets)
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
-    implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    val preparedForm = request.userAnswers.get(PropertyOrLandInternationalAddressPage(index)) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(PropertyOrLandInternationalAddressPage(index)) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, countryOptions.options(), draftId, index))
+    Ok(view(preparedForm, countryOptions.options(), draftId, index))
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
-
-      form.bindFromRequest().fold(
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    form
+      .bindFromRequest()
+      .fold(
         (formWithErrors: Form[_]) =>
           Future.successful(BadRequest(view(formWithErrors, countryOptions.options(), draftId, index))),
-
-        value => {
+        value =>
           for {
-            updatedAnswers <- Future.fromTry(request.userAnswers.set(PropertyOrLandInternationalAddressPage(index), value))
+            updatedAnswers <-
+              Future.fromTry(request.userAnswers.set(PropertyOrLandInternationalAddressPage(index), value))
             _              <- repository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(PropertyOrLandInternationalAddressPage(index), draftId)(updatedAnswers))
-        }
       )
   }
 }

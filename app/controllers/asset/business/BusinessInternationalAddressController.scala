@@ -36,20 +36,22 @@ import views.html.asset.business.BusinessInternationalAddressView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class BusinessInternationalAddressController @Inject()(
-                                                        override val messagesApi: MessagesApi,
-                                                        registrationsRepository: RegistrationsRepository,
-                                                        @Business navigator: Navigator,
-                                                        validateIndex: IndexActionFilterProvider,
-                                                        identify: RegistrationIdentifierAction,
-                                                        getData: DraftIdRetrievalActionProvider,
-                                                        requireData: RegistrationDataRequiredAction,
-                                                        requiredAnswer: RequiredAnswerActionProvider,
-                                                        formProvider: InternationalAddressFormProvider,
-                                                        val controllerComponents: MessagesControllerComponents,
-                                                        view: BusinessInternationalAddressView,
-                                                        val countryOptions: CountryOptionsNonUK
-                                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class BusinessInternationalAddressController @Inject() (
+  override val messagesApi: MessagesApi,
+  registrationsRepository: RegistrationsRepository,
+  @Business navigator: Navigator,
+  validateIndex: IndexActionFilterProvider,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  requiredAnswer: RequiredAnswerActionProvider,
+  formProvider: InternationalAddressFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: BusinessInternationalAddressView,
+  val countryOptions: CountryOptionsNonUK
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form: Form[InternationalAddress] = formProvider()
 
@@ -60,34 +62,30 @@ class BusinessInternationalAddressController @Inject()(
       validateIndex(index, Assets) andThen
       requiredAnswer(RequiredAnswer(BusinessNamePage(index), routes.BusinessNameController.onPageLoad(index, draftId)))
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
-    implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    val businessName = request.userAnswers.get(BusinessNamePage(index)).get
 
-      val businessName = request.userAnswers.get(BusinessNamePage(index)).get
+    val preparedForm = request.userAnswers.get(BusinessInternationalAddressPage(index)) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(BusinessInternationalAddressPage(index)) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, countryOptions.options(), index, draftId, businessName))
+    Ok(view(preparedForm, countryOptions.options(), index, draftId, businessName))
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    val businessName = request.userAnswers.get(BusinessNamePage(index)).get
 
-      val businessName = request.userAnswers.get(BusinessNamePage(index)).get
-
-      form.bindFromRequest().fold(
+    form
+      .bindFromRequest()
+      .fold(
         (formWithErrors: Form[_]) =>
           Future.successful(BadRequest(view(formWithErrors, countryOptions.options(), index, draftId, businessName))),
-
-        value => {
+        value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(BusinessInternationalAddressPage(index), value))
             _              <- registrationsRepository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(BusinessInternationalAddressPage(index), draftId)(updatedAnswers))
-        }
       )
   }
 }

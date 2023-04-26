@@ -27,31 +27,29 @@ import pages.asset.other._
 class OtherNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
 
   private val navigator: Navigator = injector.instanceOf[OtherNavigator]
-  private val index: Int = 0
+  private val index: Int           = 0
 
   "Other Navigator" must {
 
     "go to other asset value from other asset description" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers = userAnswers.set(OtherAssetDescriptionPage(index), "Description").success.value
 
-          val answers = userAnswers.set(OtherAssetDescriptionPage(index), "Description").success.value
-
-          navigator.nextPage(OtherAssetDescriptionPage(index), fakeDraftId)(answers)
-            .mustBe(OtherAssetValueController.onPageLoad(index, fakeDraftId))
+        navigator
+          .nextPage(OtherAssetDescriptionPage(index), fakeDraftId)(answers)
+          .mustBe(OtherAssetValueController.onPageLoad(index, fakeDraftId))
       }
     }
 
     "go to check answers from other asset value" in {
 
-      forAll(arbitrary[UserAnswers]) {
-        userAnswers =>
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        val answers = userAnswers.set(OtherAssetValuePage(index), 4000L).success.value
 
-          val answers = userAnswers.set(OtherAssetValuePage(index), 4000L).success.value
-
-          navigator.nextPage(OtherAssetValuePage(index), fakeDraftId)(answers)
-            .mustBe(OtherAssetAnswersController.onPageLoad(index, fakeDraftId))
+        navigator
+          .nextPage(OtherAssetValuePage(index), fakeDraftId)(answers)
+          .mustBe(OtherAssetAnswersController.onPageLoad(index, fakeDraftId))
       }
     }
   }

@@ -24,9 +24,9 @@ import views.html.asset.business.BusinessValueView
 
 class BusinessValueViewSpec extends LongViewBehaviours {
 
-  private val index: Int = 0
+  private val index: Int               = 0
   private val messageKeyPrefix: String = "business.currentValue"
-  private val businessName: String = "Test"
+  private val businessName: String     = "Test"
 
   override val form: Form[Long] = new ValueFormProvider(frontendAppConfig).withConfig(messageKeyPrefix)
 

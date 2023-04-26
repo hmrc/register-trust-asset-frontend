@@ -25,7 +25,7 @@ import views.html.asset.shares.SharePortfolioValueInTrustView
 class SharePortfolioValueInTrustViewSpec extends LongViewBehaviours {
 
   private val messageKeyPrefix: String = "shares.portfolioValueInTrust"
-  private val index: Int = 0
+  private val index: Int               = 0
 
   override val form: Form[Long] = new ValueFormProvider(frontendAppConfig).withConfig(messageKeyPrefix)
 

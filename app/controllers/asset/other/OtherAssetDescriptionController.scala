@@ -33,45 +33,47 @@ import views.html.asset.other.OtherAssetDescriptionView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class OtherAssetDescriptionController @Inject()(
-                                                 override val messagesApi: MessagesApi,
-                                                 repository: RegistrationsRepository,
-                                                 @Other navigator: Navigator,
-                                                 identify: RegistrationIdentifierAction,
-                                                 getData: DraftIdRetrievalActionProvider,
-                                                 requireData: RegistrationDataRequiredAction,
-                                                 requiredAnswer: RequiredAnswerActionProvider,
-                                                 formProvider: DescriptionFormProvider,
-                                                 val controllerComponents: MessagesControllerComponents,
-                                                 view: OtherAssetDescriptionView
-                                               )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class OtherAssetDescriptionController @Inject() (
+  override val messagesApi: MessagesApi,
+  repository: RegistrationsRepository,
+  @Other navigator: Navigator,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  requiredAnswer: RequiredAnswerActionProvider,
+  formProvider: DescriptionFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: OtherAssetDescriptionView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] = {
+  private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen getData(draftId) andThen requireData andThen
-      requiredAnswer(RequiredAnswer(WhatKindOfAssetPage(index), controllers.asset.routes.WhatKindOfAssetController.onPageLoad(index, draftId)))
-  }
+      requiredAnswer(
+        RequiredAnswer(
+          WhatKindOfAssetPage(index),
+          controllers.asset.routes.WhatKindOfAssetController.onPageLoad(index, draftId)
+        )
+      )
 
-  private val maxLength = 56
+  private val maxLength          = 56
   private val form: Form[String] = formProvider.withConfig(length = maxLength, prefix = "other.description")
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
-    implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    val preparedForm = request.userAnswers.get(OtherAssetDescriptionPage(index)) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(OtherAssetDescriptionPage(index)) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, draftId, index))
+    Ok(view(preparedForm, draftId, index))
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
-
-      form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, draftId, index))),
-
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    form
+      .bindFromRequest()
+      .fold(
+        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
         value => {
 
           val answers = request.userAnswers.set(OtherAssetDescriptionPage(index), value)

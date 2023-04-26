@@ -31,9 +31,9 @@ import views.html.RemoveIndexView
 
 trait RemoveIndexController extends FrontendBaseController with I18nSupport {
 
-  val messagesPrefix : String
+  val messagesPrefix: String
 
-  val formProvider : RemoveForm
+  val formProvider: RemoveForm
 
   val removeView: RemoveIndexView
 
@@ -41,37 +41,35 @@ trait RemoveIndexController extends FrontendBaseController with I18nSupport {
 
   implicit val ec: ExecutionContext
 
-  def page(index: Int) : QuestionPage[_]
+  def page(index: Int): QuestionPage[_]
 
-  def repository : RegistrationsRepository
+  def repository: RegistrationsRepository
 
-  def actions(draftId: String, index: Int) : ActionBuilder[RegistrationDataRequest, AnyContent]
+  def actions(draftId: String, index: Int): ActionBuilder[RegistrationDataRequest, AnyContent]
 
-  def redirect(draftId : String) : Call
+  def redirect(draftId: String): Call
 
-  def formRoute(draftId : String, index: Int) : Call
+  def formRoute(draftId: String, index: Int): Call
 
-  def removeQuery(index : Int) : Settable[_]
+  def removeQuery(index: Int): Settable[_]
 
-  def content(index: Int)(implicit request: RegistrationDataRequest[AnyContent]) : String
+  def content(index: Int)(implicit request: RegistrationDataRequest[AnyContent]): String
 
-  def view(form: Form[_], index: Int, draftId: String)
-                   (implicit request: RegistrationDataRequest[AnyContent]): HtmlFormat.Appendable = {
+  def view(form: Form[_], index: Int, draftId: String)(implicit
+    request: RegistrationDataRequest[AnyContent]
+  ): HtmlFormat.Appendable =
     removeView(messagesPrefix, form, index, draftId, content(index), formRoute(draftId, index))
+
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(draftId, index) { implicit request =>
+    Ok(view(form, index, draftId))
   }
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(draftId, index) {
-    implicit request =>
-      Ok(view(form, index, draftId))
-  }
-
-  def onSubmit(index: Int, draftId : String): Action[AnyContent] = actions(draftId, index).async {
-    implicit request =>
-
-      form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, index, draftId))),
-        value => {
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(draftId, index).async { implicit request =>
+    form
+      .bindFromRequest()
+      .fold(
+        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, index, draftId))),
+        value =>
           if (value) {
             for {
               updatedAnswers <- Future.fromTry(request.userAnswers.remove(removeQuery(index)))
@@ -80,7 +78,6 @@ trait RemoveIndexController extends FrontendBaseController with I18nSupport {
           } else {
             Future.successful(Redirect(redirect(draftId).url))
           }
-        }
       )
   }
 

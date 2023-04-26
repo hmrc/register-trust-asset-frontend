@@ -33,7 +33,7 @@ class PropertyOrLandAnswersHelperSpec extends SpecBase {
   private val answersHelper: PropertyOrLandAnswersHelper = new PropertyOrLandAnswersHelper(mockPrintHelper)
 
   private val description: String = "Description"
-  private val amount: Long = 100L
+  private val amount: Long        = 100L
 
   "PropertyOrLandAnswersHelper" when {
 
@@ -50,11 +50,21 @@ class PropertyOrLandAnswersHelperSpec extends SpecBase {
       val index: Int = 0
 
       val userAnswers: UserAnswers = emptyUserAnswers
-        .set(WhatKindOfAssetPage(index), PropertyOrLand).success.value
-        .set(PropertyOrLandAddressYesNoPage(index), false).success.value
-        .set(PropertyOrLandDescriptionPage(index), description).success.value
-        .set(PropertyOrLandTotalValuePage(index), amount).success.value
-        .set(TrustOwnAllThePropertyOrLandPage(index), true).success.value
+        .set(WhatKindOfAssetPage(index), PropertyOrLand)
+        .success
+        .value
+        .set(PropertyOrLandAddressYesNoPage(index), false)
+        .success
+        .value
+        .set(PropertyOrLandDescriptionPage(index), description)
+        .success
+        .value
+        .set(PropertyOrLandTotalValuePage(index), amount)
+        .success
+        .value
+        .set(TrustOwnAllThePropertyOrLandPage(index), true)
+        .success
+        .value
 
       "interact with PropertyOrLandPrintHelper" in {
 
@@ -74,20 +84,42 @@ class PropertyOrLandAnswersHelperSpec extends SpecBase {
         val helper = injector.instanceOf[PropertyOrLandAnswersHelper]
 
         val userAnswers: UserAnswers = emptyUserAnswers
-          .set(WhatKindOfAssetPage(0), Money).success.value
-          .set(AssetMoneyValuePage(0), amount).success.value
-
-          .set(WhatKindOfAssetPage(1), PropertyOrLand).success.value
-          .set(PropertyOrLandAddressYesNoPage(1), false).success.value
-          .set(PropertyOrLandDescriptionPage(1), description).success.value
-          .set(PropertyOrLandTotalValuePage(1), amount).success.value
-          .set(TrustOwnAllThePropertyOrLandPage(1), true).success.value
-
-          .set(WhatKindOfAssetPage(2), PropertyOrLand).success.value
-          .set(PropertyOrLandAddressYesNoPage(2), false).success.value
-          .set(PropertyOrLandDescriptionPage(2), description).success.value
-          .set(PropertyOrLandTotalValuePage(2), amount).success.value
-          .set(TrustOwnAllThePropertyOrLandPage(2), true).success.value
+          .set(WhatKindOfAssetPage(0), Money)
+          .success
+          .value
+          .set(AssetMoneyValuePage(0), amount)
+          .success
+          .value
+          .set(WhatKindOfAssetPage(1), PropertyOrLand)
+          .success
+          .value
+          .set(PropertyOrLandAddressYesNoPage(1), false)
+          .success
+          .value
+          .set(PropertyOrLandDescriptionPage(1), description)
+          .success
+          .value
+          .set(PropertyOrLandTotalValuePage(1), amount)
+          .success
+          .value
+          .set(TrustOwnAllThePropertyOrLandPage(1), true)
+          .success
+          .value
+          .set(WhatKindOfAssetPage(2), PropertyOrLand)
+          .success
+          .value
+          .set(PropertyOrLandAddressYesNoPage(2), false)
+          .success
+          .value
+          .set(PropertyOrLandDescriptionPage(2), description)
+          .success
+          .value
+          .set(PropertyOrLandTotalValuePage(2), amount)
+          .success
+          .value
+          .set(TrustOwnAllThePropertyOrLandPage(2), true)
+          .success
+          .value
 
         val result: Seq[AnswerSection] = helper(userAnswers)
 

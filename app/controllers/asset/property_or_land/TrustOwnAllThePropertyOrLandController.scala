@@ -32,18 +32,20 @@ import views.html.asset.property_or_land.TrustOwnAllThePropertyOrLandView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class TrustOwnAllThePropertyOrLandController @Inject()(
-                                                        override val messagesApi: MessagesApi,
-                                                        repository: RegistrationsRepository,
-                                                        @PropertyOrLand navigator: Navigator,
-                                                        identify: RegistrationIdentifierAction,
-                                                        getData: DraftIdRetrievalActionProvider,
-                                                        requireData: RegistrationDataRequiredAction,
-                                                        validateIndex: IndexActionFilterProvider,
-                                                        yesNoFormProvider: YesNoFormProvider,
-                                                        val controllerComponents: MessagesControllerComponents,
-                                                        view: TrustOwnAllThePropertyOrLandView
-                                                      )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class TrustOwnAllThePropertyOrLandController @Inject() (
+  override val messagesApi: MessagesApi,
+  repository: RegistrationsRepository,
+  @PropertyOrLand navigator: Navigator,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  validateIndex: IndexActionFilterProvider,
+  yesNoFormProvider: YesNoFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: TrustOwnAllThePropertyOrLandView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   val form: Form[Boolean] = yesNoFormProvider.withPrefix("propertyOrLand.trustOwnAllYesNo")
 
@@ -53,30 +55,25 @@ class TrustOwnAllThePropertyOrLandController @Inject()(
       requireData andThen
       validateIndex(index, sections.Assets)
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
-    implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    val preparedForm = request.userAnswers.get(TrustOwnAllThePropertyOrLandPage(index)) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(TrustOwnAllThePropertyOrLandPage(index)) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, index, draftId))
+    Ok(view(preparedForm, index, draftId))
   }
 
-  def onSubmit(index: Int, draftId : String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
-
-      form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, index, draftId))),
-
-        value => {
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    form
+      .bindFromRequest()
+      .fold(
+        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, index, draftId))),
+        value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(TrustOwnAllThePropertyOrLandPage(index), value))
             _              <- repository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(TrustOwnAllThePropertyOrLandPage(index), draftId)(updatedAnswers))
-        }
       )
   }
 }

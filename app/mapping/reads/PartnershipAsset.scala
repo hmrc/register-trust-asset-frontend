@@ -25,9 +25,11 @@ import play.api.libs.json.{Reads, __}
 
 import java.time.LocalDate
 
-final case class PartnershipAsset(override val whatKindOfAsset: WhatKindOfAsset,
-                                  description: String,
-                                  startDate: LocalDate) extends Asset
+final case class PartnershipAsset(
+  override val whatKindOfAsset: WhatKindOfAsset,
+  description: String,
+  startDate: LocalDate
+) extends Asset
 
 object PartnershipAsset {
 
@@ -35,6 +37,6 @@ object PartnershipAsset {
     (__ \ WhatKindOfAssetPage.key).read[WhatKindOfAsset].filter(_ == Partnership) and
       (__ \ PartnershipDescriptionPage.key).read[String] and
       (__ \ PartnershipStartDatePage.key).read[LocalDate]
-    )(PartnershipAsset.apply _)
+  )(PartnershipAsset.apply _)
 
 }

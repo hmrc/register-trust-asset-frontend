@@ -21,4 +21,4 @@ import utils.print.OtherPrintHelper
 
 import javax.inject.Inject
 
-class OtherAnswersHelper @Inject()(printHelper: OtherPrintHelper) extends AnswersHelper[OtherAsset](printHelper)
+class OtherAnswersHelper @Inject() (printHelper: OtherPrintHelper) extends AnswersHelper[OtherAsset](printHelper)

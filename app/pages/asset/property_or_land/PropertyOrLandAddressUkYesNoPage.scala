@@ -31,10 +31,10 @@ final case class PropertyOrLandAddressUkYesNoPage(index: Int) extends QuestionPa
 
   override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] =
     value match {
-      case Some(true) =>
+      case Some(true)  =>
         userAnswers.remove(PropertyOrLandInternationalAddressPage(index))
       case Some(false) =>
         userAnswers.remove(PropertyOrLandUKAddressPage(index))
-      case _ => super.cleanup(value, userAnswers)
+      case _           => super.cleanup(value, userAnswers)
     }
 }

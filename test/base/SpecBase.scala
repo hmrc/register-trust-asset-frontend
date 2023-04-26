@@ -33,22 +33,23 @@ import uk.gov.hmrc.auth.core.AffinityGroup.Organisation
 import uk.gov.hmrc.auth.core.{AffinityGroup, Enrolment, Enrolments}
 import views.ViewUtils
 
-trait SpecBase extends PlaySpec
-  with GuiceOneAppPerSuite
-  with TryValues
-  with ScalaFutures
-  with IntegrationPatience
-  with Mocked
-  with FakeTrustsApp
-  with Matchers
-  with OptionValues {
+trait SpecBase
+    extends PlaySpec
+    with GuiceOneAppPerSuite
+    with TryValues
+    with ScalaFutures
+    with IntegrationPatience
+    with Mocked
+    with FakeTrustsApp
+    with Matchers
+    with OptionValues {
 
   final val ENGLISH = "en"
-  final val WELSH = "cy"
+  final val WELSH   = "cy"
 
-  lazy val draftId: String = "draftId"
+  lazy val draftId: String        = "draftId"
   lazy val userInternalId: String = "internalId"
-  lazy val fakeDraftId: String = draftId
+  lazy val fakeDraftId: String    = draftId
 
   def emptyUserAnswers: UserAnswers = UserAnswers(draftId, Json.obj(), internalAuthId = userInternalId)
 
@@ -57,11 +58,12 @@ trait SpecBase extends PlaySpec
   private def fakeDraftIdAction(userAnswers: Option[UserAnswers]): FakeDraftIdRetrievalActionProvider =
     new FakeDraftIdRetrievalActionProvider(userAnswers)
 
-  protected def applicationBuilder(userAnswers: Option[UserAnswers] = None,
-                                   affinityGroup: AffinityGroup = AffinityGroup.Organisation,
-                                   enrolments: Enrolments = Enrolments(Set.empty[Enrolment]),
-                                   navigator: Navigator = fakeNavigator
-                                  ): GuiceApplicationBuilder =
+  protected def applicationBuilder(
+    userAnswers: Option[UserAnswers] = None,
+    affinityGroup: AffinityGroup = AffinityGroup.Organisation,
+    enrolments: Enrolments = Enrolments(Set.empty[Enrolment]),
+    navigator: Navigator = fakeNavigator
+  ): GuiceApplicationBuilder =
     new GuiceApplicationBuilder()
       .overrides(
         bind[Navigator].toInstance(navigator),

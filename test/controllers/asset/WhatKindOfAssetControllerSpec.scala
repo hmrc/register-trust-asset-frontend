@@ -35,42 +35,116 @@ class WhatKindOfAssetControllerSpec extends SpecBase with IndexValidation {
 
   private val index = 0
 
-  private def whatKindOfAssetRoute(index: Int = index): String = routes.WhatKindOfAssetController.onPageLoad(index, fakeDraftId).url
+  private def whatKindOfAssetRoute(index: Int = index): String =
+    routes.WhatKindOfAssetController.onPageLoad(index, fakeDraftId).url
 
   private val formProvider = new WhatKindOfAssetFormProvider()
-  private val form = formProvider()
+  private val form         = formProvider()
 
   "WhatKindOfAsset Controller" when {
 
-      val options = WhatKindOfAsset.options()
-      val optionsWithoutMoney = options.filterNot(_.value == Money.toString)
+    val options             = WhatKindOfAsset.options()
+    val optionsWithoutMoney = options.filterNot(_.value == Money.toString)
 
-      "return OK and the correct view for a GET" in {
+    "return OK and the correct view for a GET" in {
 
-        val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-        val request = FakeRequest(GET, whatKindOfAssetRoute())
+      val request = FakeRequest(GET, whatKindOfAssetRoute())
 
-        val result = route(application, request).value
+      val result = route(application, request).value
+
+      val view = application.injector.instanceOf[WhatKindOfAssetView]
+
+      status(result) mustEqual OK
+
+      contentAsString(result) mustEqual
+        view(form, fakeDraftId, index, options)(request, messages).toString
+
+      application.stop()
+    }
+
+    "populate the view correctly on a GET when the question has previously been answered" in {
+
+      val userAnswers = emptyUserAnswers
+        .set(WhatKindOfAssetPage(index), Shares)
+        .success
+        .value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      val request = FakeRequest(GET, whatKindOfAssetRoute())
+
+      val view = application.injector.instanceOf[WhatKindOfAssetView]
+
+      val result = route(application, request).value
+
+      status(result) mustEqual OK
+
+      contentAsString(result) mustEqual
+        view(form.fill(Shares), fakeDraftId, index, options)(request, messages).toString
+
+      application.stop()
+    }
+
+    "display Money if the same index is an in progress Money asset" in {
+
+      val userAnswers = emptyUserAnswers
+        .set(WhatKindOfAssetPage(index), Money)
+        .success
+        .value
+
+      val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+
+      val request = FakeRequest(GET, whatKindOfAssetRoute())
+
+      val view = application.injector.instanceOf[WhatKindOfAssetView]
+
+      val result = route(application, request).value
+
+      status(result) mustEqual OK
+
+      contentAsString(result) mustEqual
+        view(form.fill(Money), fakeDraftId, index, options)(request, messages).toString
+
+      application.stop()
+    }
+
+    "not display Money if an in progress or complete Money asset already exists for a different index" when {
+
+      val initialAnswers = emptyUserAnswers
+        .set(WhatKindOfAssetPage(0), Money)
+        .success
+        .value
+
+      "it's in progress" in {
+
+        val application = applicationBuilder(userAnswers = Some(initialAnswers)).build()
+
+        val request = FakeRequest(GET, whatKindOfAssetRoute(index = 1))
 
         val view = application.injector.instanceOf[WhatKindOfAssetView]
+
+        val result = route(application, request).value
 
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form, fakeDraftId, index, options)(request, messages).toString
+          view(form, fakeDraftId, 1, optionsWithoutMoney)(request, messages).toString
 
         application.stop()
       }
 
-      "populate the view correctly on a GET when the question has previously been answered" in {
+      "it's complete" in {
 
-        val userAnswers = emptyUserAnswers
-          .set(WhatKindOfAssetPage(index), Shares).success.value
+        val userAnswers = initialAnswers
+          .set(AssetStatus(0), Completed)
+          .success
+          .value
 
         val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
-        val request = FakeRequest(GET, whatKindOfAssetRoute())
+        val request = FakeRequest(GET, whatKindOfAssetRoute(index = 1))
 
         val view = application.injector.instanceOf[WhatKindOfAssetView]
 
@@ -79,98 +153,33 @@ class WhatKindOfAssetControllerSpec extends SpecBase with IndexValidation {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form.fill(Shares), fakeDraftId, index, options)(request, messages).toString
+          view(form, fakeDraftId, 1, optionsWithoutMoney)(request, messages).toString
 
         application.stop()
       }
+    }
 
-      "display Money if the same index is an in progress Money asset" in {
+    "return a Bad Request and errors when invalid data is submitted" in {
 
-        val userAnswers = emptyUserAnswers
-          .set(WhatKindOfAssetPage(index), Money).success.value
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
-        val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
+      val request =
+        FakeRequest(POST, whatKindOfAssetRoute())
+          .withFormUrlEncodedBody(("value", "invalid value"))
 
-        val request = FakeRequest(GET, whatKindOfAssetRoute())
+      val boundForm = form.bind(Map("value" -> "invalid value"))
 
-        val view = application.injector.instanceOf[WhatKindOfAssetView]
+      val view = application.injector.instanceOf[WhatKindOfAssetView]
 
-        val result = route(application, request).value
+      val result = route(application, request).value
 
-        status(result) mustEqual OK
+      status(result) mustEqual BAD_REQUEST
 
-        contentAsString(result) mustEqual
-          view(form.fill(Money), fakeDraftId, index, options)(request, messages).toString
+      contentAsString(result) mustEqual
+        view(boundForm, fakeDraftId, index, options)(request, messages).toString
 
-        application.stop()
-      }
-
-      "not display Money if an in progress or complete Money asset already exists for a different index" when {
-
-        val initialAnswers = emptyUserAnswers
-          .set(WhatKindOfAssetPage(0), Money).success.value
-
-        "it's in progress" in {
-
-          val application = applicationBuilder(userAnswers = Some(initialAnswers)).build()
-
-          val request = FakeRequest(GET, whatKindOfAssetRoute(index = 1))
-
-          val view = application.injector.instanceOf[WhatKindOfAssetView]
-
-          val result = route(application, request).value
-
-          status(result) mustEqual OK
-
-          contentAsString(result) mustEqual
-            view(form, fakeDraftId, 1, optionsWithoutMoney)(request, messages).toString
-
-          application.stop()
-        }
-
-        "it's complete" in {
-
-          val userAnswers = initialAnswers
-            .set(AssetStatus(0), Completed).success.value
-
-          val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
-
-          val request = FakeRequest(GET, whatKindOfAssetRoute(index = 1))
-
-          val view = application.injector.instanceOf[WhatKindOfAssetView]
-
-          val result = route(application, request).value
-
-          status(result) mustEqual OK
-
-          contentAsString(result) mustEqual
-            view(form, fakeDraftId, 1, optionsWithoutMoney)(request, messages).toString
-
-          application.stop()
-        }
-      }
-
-      "return a Bad Request and errors when invalid data is submitted" in {
-
-        val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
-
-        val request =
-          FakeRequest(POST, whatKindOfAssetRoute())
-            .withFormUrlEncodedBody(("value", "invalid value"))
-
-        val boundForm = form.bind(Map("value" -> "invalid value"))
-
-        val view = application.injector.instanceOf[WhatKindOfAssetView]
-
-        val result = route(application, request).value
-
-        status(result) mustEqual BAD_REQUEST
-
-        contentAsString(result) mustEqual
-          view(boundForm, fakeDraftId, index, options)(request, messages).toString
-
-        application.stop()
-      }
+      application.stop()
+    }
 
     "redirect to the next page when valid data is submitted" in {
 

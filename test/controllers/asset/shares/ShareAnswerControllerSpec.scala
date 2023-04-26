@@ -40,10 +40,14 @@ class ShareAnswerControllerSpec extends SpecBase {
         val name: String = "Company Name"
 
         val userAnswers = emptyUserAnswers
-          .set(SharesInAPortfolioPage(index), false).success.value
-          .set(ShareCompanyNamePage(index), name).success.value
+          .set(SharesInAPortfolioPage(index), false)
+          .success
+          .value
+          .set(ShareCompanyNamePage(index), name)
+          .success
+          .value
 
-        val expectedSections = Nil
+        val expectedSections                   = Nil
         val mockPrintHelper: SharesPrintHelper = mock[SharesPrintHelper]
         when(mockPrintHelper.checkDetailsSection(any(), eqTo(name), any(), any())(any())).thenReturn(Nil)
 
@@ -70,10 +74,14 @@ class ShareAnswerControllerSpec extends SpecBase {
         val name: String = "Portfolio Name"
 
         val userAnswers = emptyUserAnswers
-          .set(SharesInAPortfolioPage(index), true).success.value
-          .set(SharePortfolioNamePage(index), name).success.value
+          .set(SharesInAPortfolioPage(index), true)
+          .success
+          .value
+          .set(SharePortfolioNamePage(index), name)
+          .success
+          .value
 
-        val expectedSections = Nil
+        val expectedSections                   = Nil
         val mockPrintHelper: SharesPrintHelper = mock[SharesPrintHelper]
         when(mockPrintHelper.checkDetailsSection(any(), eqTo(name), any(), any())(any())).thenReturn(Nil)
 
@@ -98,9 +106,11 @@ class ShareAnswerControllerSpec extends SpecBase {
       "no name" in {
 
         val userAnswers = emptyUserAnswers
-          .set(SharesInAPortfolioPage(index), true).success.value
+          .set(SharesInAPortfolioPage(index), true)
+          .success
+          .value
 
-        val expectedSections = Nil
+        val expectedSections                   = Nil
         val mockPrintHelper: SharesPrintHelper = mock[SharesPrintHelper]
         when(mockPrintHelper.checkDetailsSection(any(), eqTo("the asset"), any(), any())(any())).thenReturn(Nil)
 

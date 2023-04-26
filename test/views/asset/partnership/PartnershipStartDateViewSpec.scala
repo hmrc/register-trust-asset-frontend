@@ -37,7 +37,7 @@ class PartnershipStartDateViewSpec extends QuestionViewBehaviours[LocalDate] {
     def applyView(form: Form[_]): HtmlFormat.Appendable =
       view.apply(form, 0, fakeDraftId)(fakeRequest, messages)
 
-    val applyViewF = (form : Form[_]) => applyView(form)
+    val applyViewF = (form: Form[_]) => applyView(form)
 
     behave like normalPage(applyView(form), messageKeyPrefix)
 

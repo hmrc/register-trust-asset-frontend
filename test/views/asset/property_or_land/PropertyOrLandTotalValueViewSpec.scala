@@ -25,7 +25,7 @@ import views.html.asset.property_or_land.PropertyOrLandTotalValueView
 class PropertyOrLandTotalValueViewSpec extends LongViewBehaviours {
 
   private val messageKeyPrefix: String = "propertyOrLand.totalValue"
-  private val index: Int = 0
+  private val index: Int               = 0
 
   override val form: Form[Long] = new ValueFormProvider(frontendAppConfig).withConfig(messageKeyPrefix)
 

@@ -26,8 +26,7 @@ import viewmodels.{AddRow, AddToRows, _}
 
 import javax.inject.Inject
 
-class AddAssetViewHelper @Inject()(userAnswers: UserAnswers, draftId: String)
-                                  (implicit messages: Messages) {
+class AddAssetViewHelper @Inject() (userAnswers: UserAnswers, draftId: String)(implicit messages: Messages) {
 
   def rows: AddToRows = {
 
@@ -40,42 +39,41 @@ class AddAssetViewHelper @Inject()(userAnswers: UserAnswers, draftId: String)
     AddToRows(inProgress, completed)
   }
 
-  private val defaultValue = messages("entities.no.value.added")
-  private val defaultAddress = messages("entities.no.address.added")
+  private val defaultValue       = messages("entities.no.value.added")
+  private val defaultAddress     = messages("entities.no.address.added")
   private val defaultDescription = messages("entities.no.description.added")
-  private val defaultName = messages("entities.no.name.added")
+  private val defaultName        = messages("entities.no.name.added")
 
   private def parseAsset(asset: (AssetViewModel, Int)): Option[AddRow] = {
-    val vm = asset._1
+    val vm    = asset._1
     val index = asset._2
 
     vm match {
-      case money: MoneyAssetViewModel => Some(parseMoney(money, index))
-      case share: ShareAssetViewModel => Some(parseShare(share, index))
+      case money: MoneyAssetViewModel                   => Some(parseMoney(money, index))
+      case share: ShareAssetViewModel                   => Some(parseShare(share, index))
       case propertyOrLand: PropertyOrLandAssetViewModel => Some(parsePropertyOrLand(propertyOrLand, index))
-      case business: BusinessAssetViewModel => Some(parseBusiness(business, index))
-      case partnership: PartnershipAssetViewModel => Some(parsePartnership(partnership, index))
-      case other: OtherAssetViewModel => Some(parseOther(other, index))
+      case business: BusinessAssetViewModel             => Some(parseBusiness(business, index))
+      case partnership: PartnershipAssetViewModel       => Some(parsePartnership(partnership, index))
+      case other: OtherAssetViewModel                   => Some(parseOther(other, index))
       case nonEeaBusiness: NonEeaBusinessAssetViewModel => Some(parseNonEeaBusiness(nonEeaBusiness, index))
-      case _ => None
+      case _                                            => None
     }
   }
 
-  private def parseMoney(mvm: MoneyAssetViewModel, index: Int): AddRow = {
+  private def parseMoney(mvm: MoneyAssetViewModel, index: Int): AddRow =
     AddRow(
       name = mvm.label.getOrElse(defaultValue),
       typeLabel = mvm.`type`.label,
       changeUrl = money.routes.AssetMoneyValueController.onPageLoad(index, draftId).url,
       removeUrl = routes.RemoveAssetYesNoController.onPageLoad(index, draftId).url
     )
-  }
 
-  private def parsePropertyOrLand(plvm: PropertyOrLandAssetViewModel, index: Int): AddRow = {
+  private def parsePropertyOrLand(plvm: PropertyOrLandAssetViewModel, index: Int): AddRow =
     AddRow(
       name = (plvm.hasAddress, plvm.address, plvm.description) match {
-        case (Some(true), address, _) => address.getOrElse(defaultAddress)
+        case (Some(true), address, _)      => address.getOrElse(defaultAddress)
         case (Some(false), _, description) => description.getOrElse(defaultDescription)
-        case _ => messages("entities.no.addressOrDescription.added")
+        case _                             => messages("entities.no.addressOrDescription.added")
       },
       typeLabel = plvm.`type`.label,
       changeUrl = if (plvm.status == Completed) {
@@ -85,9 +83,8 @@ class AddAssetViewHelper @Inject()(userAnswers: UserAnswers, draftId: String)
       },
       removeUrl = routes.RemoveAssetYesNoController.onPageLoad(index, draftId).url
     )
-  }
 
-  private def parseShare(svm: ShareAssetViewModel, index: Int): AddRow = {
+  private def parseShare(svm: ShareAssetViewModel, index: Int): AddRow =
     AddRow(
       name = svm.label.getOrElse(defaultName),
       typeLabel = svm.`type`.label,
@@ -98,9 +95,8 @@ class AddAssetViewHelper @Inject()(userAnswers: UserAnswers, draftId: String)
       },
       removeUrl = routes.RemoveAssetYesNoController.onPageLoad(index, draftId).url
     )
-  }
 
-  private def parseBusiness(bvm: BusinessAssetViewModel, index: Int): AddRow = {
+  private def parseBusiness(bvm: BusinessAssetViewModel, index: Int): AddRow =
     AddRow(
       name = bvm.label.getOrElse(defaultName),
       typeLabel = bvm.`type`.label,
@@ -111,9 +107,8 @@ class AddAssetViewHelper @Inject()(userAnswers: UserAnswers, draftId: String)
       },
       removeUrl = routes.RemoveAssetYesNoController.onPageLoad(index, draftId).url
     )
-  }
 
-  private def parsePartnership(pvm: PartnershipAssetViewModel, index: Int): AddRow = {
+  private def parsePartnership(pvm: PartnershipAssetViewModel, index: Int): AddRow =
     AddRow(
       name = pvm.label.getOrElse(defaultDescription),
       typeLabel = pvm.`type`.label,
@@ -124,9 +119,8 @@ class AddAssetViewHelper @Inject()(userAnswers: UserAnswers, draftId: String)
       },
       removeUrl = routes.RemoveAssetYesNoController.onPageLoad(index, draftId).url
     )
-  }
 
-  private def parseOther(ovm: OtherAssetViewModel, index: Int): AddRow = {
+  private def parseOther(ovm: OtherAssetViewModel, index: Int): AddRow =
     AddRow(
       name = ovm.label.getOrElse(defaultDescription),
       typeLabel = ovm.`type`.label,
@@ -137,9 +131,8 @@ class AddAssetViewHelper @Inject()(userAnswers: UserAnswers, draftId: String)
       },
       removeUrl = routes.RemoveAssetYesNoController.onPageLoad(index, draftId).url
     )
-  }
 
-  private def parseNonEeaBusiness(nebvm: NonEeaBusinessAssetViewModel, index: Int): AddRow = {
+  private def parseNonEeaBusiness(nebvm: NonEeaBusinessAssetViewModel, index: Int): AddRow =
     AddRow(
       name = nebvm.label.getOrElse(defaultName),
       typeLabel = nebvm.`type`.label,
@@ -150,6 +143,5 @@ class AddAssetViewHelper @Inject()(userAnswers: UserAnswers, draftId: String)
       },
       removeUrl = routes.RemoveAssetYesNoController.onPageLoad(index, draftId).url
     )
-  }
 
 }

@@ -33,18 +33,20 @@ import views.html.asset.property_or_land.PropertyLandValueTrustView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class PropertyLandValueTrustController @Inject()(
-                                                  override val messagesApi: MessagesApi,
-                                                  repository: RegistrationsRepository,
-                                                  @PropertyOrLand navigator: Navigator,
-                                                  identify: RegistrationIdentifierAction,
-                                                  getData: DraftIdRetrievalActionProvider,
-                                                  requireData: RegistrationDataRequiredAction,
-                                                  validateIndex: IndexActionFilterProvider,
-                                                  formProvider: ValueFormProvider,
-                                                  val controllerComponents: MessagesControllerComponents,
-                                                  view: PropertyLandValueTrustView
-                                                )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class PropertyLandValueTrustController @Inject() (
+  override val messagesApi: MessagesApi,
+  repository: RegistrationsRepository,
+  @PropertyOrLand navigator: Navigator,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  validateIndex: IndexActionFilterProvider,
+  formProvider: ValueFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: PropertyLandValueTrustView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen
@@ -52,41 +54,35 @@ class PropertyLandValueTrustController @Inject()(
       requireData andThen
       validateIndex(index, sections.Assets)
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
-    implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    val form: Form[Long] = configuredForm(index)
 
-      val form: Form[Long] = configuredForm(index)
+    val preparedForm = request.userAnswers.get(PropertyLandValueTrustPage(index)) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(PropertyLandValueTrustPage(index)) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, index, draftId))
+    Ok(view(preparedForm, index, draftId))
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    val form: Form[Long] = configuredForm(index)
 
-      val form: Form[Long] = configuredForm(index)
-
-      form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, index, draftId))),
-
-        value => {
+    form
+      .bindFromRequest()
+      .fold(
+        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, index, draftId))),
+        value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(PropertyLandValueTrustPage(index), value))
             _              <- repository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(PropertyLandValueTrustPage(index), draftId)(updatedAnswers))
-        }
       )
   }
 
-  private def configuredForm(index: Int)(implicit request: RegistrationDataRequest[AnyContent]): Form[Long] = {
+  private def configuredForm(index: Int)(implicit request: RegistrationDataRequest[AnyContent]): Form[Long] =
     formProvider.withConfig(
       prefix = "propertyOrLand.valueInTrust",
       maxValue = request.userAnswers.get(PropertyOrLandTotalValuePage(index))
     )
-  }
 }

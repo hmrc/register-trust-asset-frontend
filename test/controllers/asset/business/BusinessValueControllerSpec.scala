@@ -28,17 +28,19 @@ import views.html.asset.business.BusinessValueView
 
 class BusinessValueControllerSpec extends SpecBase {
 
-  val formProvider = new ValueFormProvider(frontendAppConfig)
+  val formProvider     = new ValueFormProvider(frontendAppConfig)
   val form: Form[Long] = formProvider.withConfig(prefix = "business.currentValue")
-  val businessName = "Test"
+  val businessName     = "Test"
 
-  val index = 0
+  val index             = 0
   val validAnswer: Long = 4000L
 
   lazy val currentValueRoute: String = routes.BusinessValueController.onPageLoad(index, fakeDraftId).url
 
   val baseAnswers: UserAnswers = emptyUserAnswers
-    .set(BusinessNamePage(index), businessName).success.value
+    .set(BusinessNamePage(index), businessName)
+    .success
+    .value
 
   "CurrentValue Controller" must {
 
@@ -63,7 +65,9 @@ class BusinessValueControllerSpec extends SpecBase {
     "populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = baseAnswers
-        .set(BusinessValuePage(index), validAnswer).success.value
+        .set(BusinessValuePage(index), validAnswer)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -116,7 +120,9 @@ class BusinessValueControllerSpec extends SpecBase {
     "return a Bad Request and errors when invalid data is submitted" in {
 
       val userAnswers = emptyUserAnswers
-        .set(BusinessNamePage(index), businessName).success.value
+        .set(BusinessNamePage(index), businessName)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 

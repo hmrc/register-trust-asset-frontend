@@ -21,29 +21,31 @@ import play.api.Logging
 
 import javax.inject.Inject
 
-class AssetMapper @Inject()(moneyAssetMapper: MoneyAssetMapper,
-                            propertyOrLandMapper: PropertyOrLandMapper,
-                            shareAssetMapper: ShareAssetMapper,
-                            businessAssetMapper: BusinessAssetMapper,
-                            partnershipAssetMapper: PartnershipAssetMapper,
-                            otherAssetMapper: OtherAssetMapper,
-                            nonEeaBusinessAssetMapper: NonEeaBusinessAssetMapper) extends Logging {
+class AssetMapper @Inject() (
+  moneyAssetMapper: MoneyAssetMapper,
+  propertyOrLandMapper: PropertyOrLandMapper,
+  shareAssetMapper: ShareAssetMapper,
+  businessAssetMapper: BusinessAssetMapper,
+  partnershipAssetMapper: PartnershipAssetMapper,
+  otherAssetMapper: OtherAssetMapper,
+  nonEeaBusinessAssetMapper: NonEeaBusinessAssetMapper
+) extends Logging {
 
   def build(userAnswers: UserAnswers): Option[Assets] = {
 
-    val money = moneyAssetMapper.build(userAnswers)
+    val money          = moneyAssetMapper.build(userAnswers)
     val propertyOrLand = propertyOrLandMapper.build(userAnswers)
-    val shares = shareAssetMapper.build(userAnswers)
-    val business = businessAssetMapper.build(userAnswers)
-    val partnership = partnershipAssetMapper.build(userAnswers)
-    val other = otherAssetMapper.build(userAnswers)
+    val shares         = shareAssetMapper.build(userAnswers)
+    val business       = businessAssetMapper.build(userAnswers)
+    val partnership    = partnershipAssetMapper.build(userAnswers)
+    val other          = otherAssetMapper.build(userAnswers)
     val nonEeaBusiness = nonEeaBusinessAssetMapper.build(userAnswers)
 
     (money, propertyOrLand, shares, business, partnership, other, nonEeaBusiness) match {
       case (None, None, None, None, None, None, None) =>
         logger.info(s"[build] unable to map assets")
         None
-      case _ =>
+      case _                                          =>
         Some(
           Assets(
             monetary = money,

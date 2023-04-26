@@ -31,13 +31,14 @@ import views.html.asset.property_or_land.PropertyLandValueTrustView
 
 class PropertyLandValueTrustControllerSpec extends SpecBase with IndexValidation {
 
-  val formProvider = new ValueFormProvider(frontendAppConfig)
+  val formProvider     = new ValueFormProvider(frontendAppConfig)
   val form: Form[Long] = formProvider.withConfig(prefix = "propertyOrLand.valueInTrust")
 
-  val index: Int = 0
+  val index: Int        = 0
   val validAnswer: Long = 4000L
 
-  lazy val propertyLandValueTrustRoute: String = routes.PropertyLandValueTrustController.onPageLoad(index, fakeDraftId).url
+  lazy val propertyLandValueTrustRoute: String =
+    routes.PropertyLandValueTrustController.onPageLoad(index, fakeDraftId).url
 
   val baseAnswers: UserAnswers = emptyUserAnswers.set(PropertyOrLandTotalValuePage(index), 5000L).success.value
 
@@ -150,7 +151,7 @@ class PropertyLandValueTrustControllerSpec extends SpecBase with IndexValidation
 
     "for a GET" must {
 
-      def getForIndex(index: Int) : FakeRequest[AnyContentAsEmpty.type] = {
+      def getForIndex(index: Int): FakeRequest[AnyContentAsEmpty.type] = {
         val route = routes.PropertyLandValueTrustController.onPageLoad(index, fakeDraftId).url
 
         FakeRequest(GET, route)

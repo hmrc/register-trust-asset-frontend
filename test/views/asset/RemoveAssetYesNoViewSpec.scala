@@ -25,7 +25,7 @@ import views.html.asset.RemoveAssetYesNoView
 class RemoveAssetYesNoViewSpec extends YesNoViewBehaviours {
 
   val assetLabel: String = "Label"
-  val index: Int = 0
+  val index: Int         = 0
 
   override val form: Form[Boolean] = new YesNoFormProvider().withPrefix("")
 
@@ -33,9 +33,9 @@ class RemoveAssetYesNoViewSpec extends YesNoViewBehaviours {
 
     "taxable" must {
 
-      val prefix: String = "assets"
+      val prefix: String           = "assets"
       val messageKeyPrefix: String = s"$prefix.removeYesNo"
-      val form: Form[Boolean] = new YesNoFormProvider().withPrefix(messageKeyPrefix)
+      val form: Form[Boolean]      = new YesNoFormProvider().withPrefix(messageKeyPrefix)
 
       val view = viewFor[RemoveAssetYesNoView](Some(emptyUserAnswers.copy(isTaxable = true)))
 
@@ -53,7 +53,7 @@ class RemoveAssetYesNoViewSpec extends YesNoViewBehaviours {
 
     "non-taxable" must {
 
-      val prefix: String = "assets.nonTaxable"
+      val prefix: String           = "assets.nonTaxable"
       val messageKeyPrefix: String = s"$prefix.removeYesNo"
 
       val view = viewFor[RemoveAssetYesNoView](Some(emptyUserAnswers.copy(isTaxable = false)))

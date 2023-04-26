@@ -29,8 +29,8 @@ import views.html.asset.shares.SharesOnStockExchangeView
 
 class SharesOnStockExchangeControllerSpec extends SpecBase with ModelGenerators with IndexValidation {
 
-  val form = new YesNoFormProvider().withPrefix("shares.onStockExchangeYesNo")
-  val index: Int = 0
+  val form        = new YesNoFormProvider().withPrefix("shares.onStockExchangeYesNo")
+  val index: Int  = 0
   val companyName = "Company"
 
   lazy val sharesOnStockExchangeRoute = routes.SharesOnStockExchangeController.onPageLoad(index, fakeDraftId).url
@@ -59,8 +59,13 @@ class SharesOnStockExchangeControllerSpec extends SpecBase with ModelGenerators 
 
     "populate the view correctly on a GET when the question has previously been answered" in {
 
-      val ua = emptyUserAnswers.set(ShareCompanyNamePage(index), companyName).success.value
-        .set(SharesOnStockExchangePage(index), true).success.value
+      val ua = emptyUserAnswers
+        .set(ShareCompanyNamePage(index), companyName)
+        .success
+        .value
+        .set(SharesOnStockExchangePage(index), true)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(ua)).build()
 
@@ -172,7 +177,7 @@ class SharesOnStockExchangeControllerSpec extends SpecBase with ModelGenerators 
 
   "for a GET" must {
 
-    def getForIndex(index: Int) : FakeRequest[AnyContentAsEmpty.type] = {
+    def getForIndex(index: Int): FakeRequest[AnyContentAsEmpty.type] = {
       val route =
         routes.SharesOnStockExchangeController.onPageLoad(index, fakeDraftId).url
 

@@ -32,37 +32,36 @@ import views.html.asset.property_or_land.PropertyOrLandAnswersView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class PropertyOrLandAnswerController @Inject()(
-                                                override val messagesApi: MessagesApi,
-                                                repository: RegistrationsRepository,
-                                                @PropertyOrLand navigator: Navigator,
-                                                actions: Actions,
-                                                view: PropertyOrLandAnswersView,
-                                                val controllerComponents: MessagesControllerComponents,
-                                                printHelper: PropertyOrLandPrintHelper
-                                              )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class PropertyOrLandAnswerController @Inject() (
+  override val messagesApi: MessagesApi,
+  repository: RegistrationsRepository,
+  @PropertyOrLand navigator: Navigator,
+  actions: Actions,
+  view: PropertyOrLandAnswersView,
+  val controllerComponents: MessagesControllerComponents,
+  printHelper: PropertyOrLandPrintHelper
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions.authWithData(draftId) {
-    implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions.authWithData(draftId) { implicit request =>
+    val sections = printHelper.checkDetailsSection(
+      userAnswers = request.userAnswers,
+      index = index,
+      draftId = draftId
+    )
 
-      val sections = printHelper.checkDetailsSection(
-        userAnswers = request.userAnswers,
-        index = index,
-        draftId = draftId
-      )
-
-      Ok(view(index, draftId, sections))
+    Ok(view(index, draftId, sections))
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions.authWithData(draftId).async {
-    implicit request =>
-
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] =
+    actions.authWithData(draftId).async { implicit request =>
       val answers = request.userAnswers.set(AssetStatus(index), Completed)
 
       for {
         updatedAnswers <- Future.fromTry(answers)
-        _ <- repository.set(updatedAnswers)
+        _              <- repository.set(updatedAnswers)
       } yield Redirect(navigator.nextPage(PropertyOrLandAnswerPage, draftId)(request.userAnswers))
 
-  }
+    }
 }

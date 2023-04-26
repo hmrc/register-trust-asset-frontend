@@ -34,20 +34,22 @@ import views.html.asset.noneeabusiness.NameView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class NameController @Inject()(
-                                override val messagesApi: MessagesApi,
-                                registrationsRepository: RegistrationsRepository,
-                                @NonEeaBusiness navigator: Navigator,
-                                identify: RegistrationIdentifierAction,
-                                getData: DraftIdRetrievalActionProvider,
-                                requireData: RegistrationDataRequiredAction,
-                                validateIndex: IndexActionFilterProvider,
-                                formProvider: NameFormProvider,
-                                val controllerComponents: MessagesControllerComponents,
-                                view: NameView
-                              )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class NameController @Inject() (
+  override val messagesApi: MessagesApi,
+  registrationsRepository: RegistrationsRepository,
+  @NonEeaBusiness navigator: Navigator,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  validateIndex: IndexActionFilterProvider,
+  formProvider: NameFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: NameView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  private val maxLength = 105
+  private val maxLength          = 105
   private val form: Form[String] = formProvider.withConfig(maxLength, "nonEeaBusiness.name")
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
@@ -55,30 +57,25 @@ class NameController @Inject()(
       requireData andThen
       validateIndex(index, Assets)
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
-    implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    val preparedForm = request.userAnswers.get(NamePage(index)) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(NamePage(index)) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, draftId, index))
+    Ok(view(preparedForm, draftId, index))
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
-
-      form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, draftId, index))),
-
-        value => {
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    form
+      .bindFromRequest()
+      .fold(
+        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
+        value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(NamePage(index), value))
-            _ <- registrationsRepository.set(updatedAnswers)
+            _              <- registrationsRepository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(NamePage(index), draftId)(updatedAnswers))
-        }
       )
   }
 }

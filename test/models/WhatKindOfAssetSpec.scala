@@ -34,10 +34,8 @@ class WhatKindOfAssetSpec extends SpecBase with ScalaCheckPropertyChecks {
 
       val gen = Gen.oneOf(WhatKindOfAsset.values)
 
-      forAll(gen) {
-        whatKindOfAsset =>
-
-          JsString(whatKindOfAsset.toString).validate[WhatKindOfAsset].asOpt.value mustEqual whatKindOfAsset
+      forAll(gen) { whatKindOfAsset =>
+        JsString(whatKindOfAsset.toString).validate[WhatKindOfAsset].asOpt.value mustEqual whatKindOfAsset
       }
     }
 
@@ -45,10 +43,8 @@ class WhatKindOfAssetSpec extends SpecBase with ScalaCheckPropertyChecks {
 
       val gen = arbitrary[String] suchThat (!WhatKindOfAsset.values.map(_.toString).contains(_))
 
-      forAll(gen) {
-        invalidValue =>
-
-          JsString(invalidValue).validate[WhatKindOfAsset] mustEqual JsError("error.invalid")
+      forAll(gen) { invalidValue =>
+        JsString(invalidValue).validate[WhatKindOfAsset] mustEqual JsError("error.invalid")
       }
     }
 
@@ -56,28 +52,53 @@ class WhatKindOfAssetSpec extends SpecBase with ScalaCheckPropertyChecks {
 
       val gen = Gen.oneOf(WhatKindOfAsset.values)
 
-      forAll(gen) {
-        whatKindOfAsset =>
-
-          Json.toJson(whatKindOfAsset) mustEqual JsString(whatKindOfAsset.toString)
+      forAll(gen) { whatKindOfAsset =>
+        Json.toJson(whatKindOfAsset) mustEqual JsString(whatKindOfAsset.toString)
       }
     }
 
     "return the non maxed out options" when {
 
-        "no assets" in {
+      "no assets" in {
 
-          val assets: AssetViewModels = AssetViewModels(
-            monetary = Some(Nil),
-            propertyOrLand = Some(Nil),
-            shares = Some(Nil),
-            business = Some(Nil),
-            partnerShip = Some(Nil),
-            other = Some(Nil),
-            nonEEABusiness = Some(Nil)
-          )
+        val assets: AssetViewModels = AssetViewModels(
+          monetary = Some(Nil),
+          propertyOrLand = Some(Nil),
+          shares = Some(Nil),
+          business = Some(Nil),
+          partnerShip = Some(Nil),
+          other = Some(Nil),
+          nonEEABusiness = Some(Nil)
+        )
 
-          WhatKindOfAsset.nonMaxedOutOptions(assets, assetTypeAtIndex = None) mustBe List(
+        WhatKindOfAsset.nonMaxedOutOptions(assets, assetTypeAtIndex = None) mustBe List(
+          RadioOption("whatKindOfAsset", Money.toString),
+          RadioOption("whatKindOfAsset", PropertyOrLand.toString),
+          RadioOption("whatKindOfAsset", Shares.toString),
+          RadioOption("whatKindOfAsset", Business.toString),
+          RadioOption("whatKindOfAsset", NonEeaBusiness.toString),
+          RadioOption("whatKindOfAsset", Partnership.toString),
+          RadioOption("whatKindOfAsset", Other.toString)
+        )
+
+      }
+
+      "there is a 'Money' asset" when {
+
+        val moneyAsset              = MoneyAssetViewModel(Money, Some("4000"), Completed)
+        val assets: AssetViewModels = AssetViewModels(
+          monetary = Some(List(moneyAsset)),
+          propertyOrLand = Some(Nil),
+          shares = Some(Nil),
+          business = Some(Nil),
+          partnerShip = Some(Nil),
+          other = Some(Nil),
+          nonEEABusiness = Some(Nil)
+        )
+
+        "at this index" in {
+
+          WhatKindOfAsset.nonMaxedOutOptions(assets, assetTypeAtIndex = Some(Money)) mustBe List(
             RadioOption("whatKindOfAsset", Money.toString),
             RadioOption("whatKindOfAsset", PropertyOrLand.toString),
             RadioOption("whatKindOfAsset", Shares.toString),
@@ -86,126 +107,100 @@ class WhatKindOfAssetSpec extends SpecBase with ScalaCheckPropertyChecks {
             RadioOption("whatKindOfAsset", Partnership.toString),
             RadioOption("whatKindOfAsset", Other.toString)
           )
-
         }
 
-        "there is a 'Money' asset" when {
+        "at a different index" in {
 
-          val moneyAsset = MoneyAssetViewModel(Money, Some("4000"), Completed)
-          val assets: AssetViewModels = AssetViewModels(
-            monetary = Some(List(moneyAsset)),
-            propertyOrLand = Some(Nil),
-            shares = Some(Nil),
-            business = Some(Nil),
-            partnerShip = Some(Nil),
-            other = Some(Nil),
-            nonEEABusiness = Some(Nil)
+          WhatKindOfAsset.nonMaxedOutOptions(assets, assetTypeAtIndex = None) mustBe List(
+            RadioOption("whatKindOfAsset", PropertyOrLand.toString),
+            RadioOption("whatKindOfAsset", Shares.toString),
+            RadioOption("whatKindOfAsset", Business.toString),
+            RadioOption("whatKindOfAsset", NonEeaBusiness.toString),
+            RadioOption("whatKindOfAsset", Partnership.toString),
+            RadioOption("whatKindOfAsset", Other.toString)
           )
-
-          "at this index" in {
-
-            WhatKindOfAsset.nonMaxedOutOptions(assets, assetTypeAtIndex = Some(Money)) mustBe List(
-              RadioOption("whatKindOfAsset", Money.toString),
-              RadioOption("whatKindOfAsset", PropertyOrLand.toString),
-              RadioOption("whatKindOfAsset", Shares.toString),
-              RadioOption("whatKindOfAsset", Business.toString),
-              RadioOption("whatKindOfAsset", NonEeaBusiness.toString),
-              RadioOption("whatKindOfAsset", Partnership.toString),
-              RadioOption("whatKindOfAsset", Other.toString)
-            )
-          }
-
-          "at a different index" in {
-
-            WhatKindOfAsset.nonMaxedOutOptions(assets, assetTypeAtIndex = None) mustBe List(
-              RadioOption("whatKindOfAsset", PropertyOrLand.toString),
-              RadioOption("whatKindOfAsset", Shares.toString),
-              RadioOption("whatKindOfAsset", Business.toString),
-              RadioOption("whatKindOfAsset", NonEeaBusiness.toString),
-              RadioOption("whatKindOfAsset", Partnership.toString),
-              RadioOption("whatKindOfAsset", Other.toString)
-            )
-          }
         }
+      }
 
-        "there are a combined 10 Completed and InProgress assets of a particular type that isn't 'Money'" when {
+      "there are a combined 10 Completed and InProgress assets of a particular type that isn't 'Money'" when {
 
-          val otherAssetCompleted = OtherAssetViewModel(Other, Some("description"), Completed)
-          val otherAssetInProgress = OtherAssetViewModel(Other, None, InProgress)
-          val assets: AssetViewModels = AssetViewModels(
-            monetary = Some(Nil),
-            propertyOrLand = Some(Nil),
-            shares = Some(Nil),
-            business = Some(Nil),
-            partnerShip = Some(Nil),
-            other = Some(List.fill(5)(otherAssetCompleted) ++ List.fill(5)(otherAssetInProgress)),
-            nonEEABusiness = Some(Nil)
+        val otherAssetCompleted     = OtherAssetViewModel(Other, Some("description"), Completed)
+        val otherAssetInProgress    = OtherAssetViewModel(Other, None, InProgress)
+        val assets: AssetViewModels = AssetViewModels(
+          monetary = Some(Nil),
+          propertyOrLand = Some(Nil),
+          shares = Some(Nil),
+          business = Some(Nil),
+          partnerShip = Some(Nil),
+          other = Some(List.fill(5)(otherAssetCompleted) ++ List.fill(5)(otherAssetInProgress)),
+          nonEEABusiness = Some(Nil)
+        )
+
+        "asset at this index is of that type" in {
+
+          WhatKindOfAsset.nonMaxedOutOptions(assets, assetTypeAtIndex = Some(Other)) mustBe List(
+            RadioOption("whatKindOfAsset", Money.toString),
+            RadioOption("whatKindOfAsset", PropertyOrLand.toString),
+            RadioOption("whatKindOfAsset", Shares.toString),
+            RadioOption("whatKindOfAsset", Business.toString),
+            RadioOption("whatKindOfAsset", NonEeaBusiness.toString),
+            RadioOption("whatKindOfAsset", Partnership.toString),
+            RadioOption("whatKindOfAsset", Other.toString)
           )
-
-          "asset at this index is of that type" in {
-
-            WhatKindOfAsset.nonMaxedOutOptions(assets, assetTypeAtIndex = Some(Other)) mustBe List(
-              RadioOption("whatKindOfAsset", Money.toString),
-              RadioOption("whatKindOfAsset", PropertyOrLand.toString),
-              RadioOption("whatKindOfAsset", Shares.toString),
-              RadioOption("whatKindOfAsset", Business.toString),
-              RadioOption("whatKindOfAsset", NonEeaBusiness.toString),
-              RadioOption("whatKindOfAsset", Partnership.toString),
-              RadioOption("whatKindOfAsset", Other.toString)
-            )
-          }
-
-          "no asset at this index" in {
-
-            WhatKindOfAsset.nonMaxedOutOptions(assets, assetTypeAtIndex = None) mustBe List(
-              RadioOption("whatKindOfAsset", Money.toString),
-              RadioOption("whatKindOfAsset", PropertyOrLand.toString),
-              RadioOption("whatKindOfAsset", Shares.toString),
-              RadioOption("whatKindOfAsset", Business.toString),
-              RadioOption("whatKindOfAsset", NonEeaBusiness.toString),
-              RadioOption("whatKindOfAsset", Partnership.toString)
-            )
-          }
         }
 
-        "there are a combined 25 Completed and InProgress non-EEA business assets" when {
+        "no asset at this index" in {
 
-          val nonEeaBusinessAssetCompleted = NonEeaBusinessAssetViewModel(NonEeaBusiness, Some("name"), Completed)
-          val nonEeaBusinessAssetInProgress = NonEeaBusinessAssetViewModel(NonEeaBusiness, None, InProgress)
-
-          val assets: AssetViewModels = AssetViewModels(
-            monetary = Some(Nil),
-            propertyOrLand = Some(Nil),
-            shares = Some(Nil),
-            business = Some(Nil),
-            partnerShip = Some(Nil),
-            other = Some(Nil),
-            nonEEABusiness = Some(List.fill(20)(nonEeaBusinessAssetCompleted) ++List.fill(5)(nonEeaBusinessAssetInProgress))
+          WhatKindOfAsset.nonMaxedOutOptions(assets, assetTypeAtIndex = None) mustBe List(
+            RadioOption("whatKindOfAsset", Money.toString),
+            RadioOption("whatKindOfAsset", PropertyOrLand.toString),
+            RadioOption("whatKindOfAsset", Shares.toString),
+            RadioOption("whatKindOfAsset", Business.toString),
+            RadioOption("whatKindOfAsset", NonEeaBusiness.toString),
+            RadioOption("whatKindOfAsset", Partnership.toString)
           )
-
-          "asset at this index is of type NonEeaBusiness" in {
-            WhatKindOfAsset.nonMaxedOutOptions(assets, assetTypeAtIndex = Some(NonEeaBusiness)) mustBe List(
-              RadioOption("whatKindOfAsset", Money.toString),
-              RadioOption("whatKindOfAsset", PropertyOrLand.toString),
-              RadioOption("whatKindOfAsset", Shares.toString),
-              RadioOption("whatKindOfAsset", Business.toString),
-              RadioOption("whatKindOfAsset", NonEeaBusiness.toString),
-              RadioOption("whatKindOfAsset", Partnership.toString),
-              RadioOption("whatKindOfAsset", Other.toString)
-            )
-          }
-
-          "no asset at this index" in {
-            WhatKindOfAsset.nonMaxedOutOptions(assets, assetTypeAtIndex = None) mustBe List(
-              RadioOption("whatKindOfAsset", Money.toString),
-              RadioOption("whatKindOfAsset", PropertyOrLand.toString),
-              RadioOption("whatKindOfAsset", Shares.toString),
-              RadioOption("whatKindOfAsset", Business.toString),
-              RadioOption("whatKindOfAsset", Partnership.toString),
-              RadioOption("whatKindOfAsset", Other.toString)
-            )
-          }
         }
+      }
+
+      "there are a combined 25 Completed and InProgress non-EEA business assets" when {
+
+        val nonEeaBusinessAssetCompleted  = NonEeaBusinessAssetViewModel(NonEeaBusiness, Some("name"), Completed)
+        val nonEeaBusinessAssetInProgress = NonEeaBusinessAssetViewModel(NonEeaBusiness, None, InProgress)
+
+        val assets: AssetViewModels = AssetViewModels(
+          monetary = Some(Nil),
+          propertyOrLand = Some(Nil),
+          shares = Some(Nil),
+          business = Some(Nil),
+          partnerShip = Some(Nil),
+          other = Some(Nil),
+          nonEEABusiness =
+            Some(List.fill(20)(nonEeaBusinessAssetCompleted) ++ List.fill(5)(nonEeaBusinessAssetInProgress))
+        )
+
+        "asset at this index is of type NonEeaBusiness" in {
+          WhatKindOfAsset.nonMaxedOutOptions(assets, assetTypeAtIndex = Some(NonEeaBusiness)) mustBe List(
+            RadioOption("whatKindOfAsset", Money.toString),
+            RadioOption("whatKindOfAsset", PropertyOrLand.toString),
+            RadioOption("whatKindOfAsset", Shares.toString),
+            RadioOption("whatKindOfAsset", Business.toString),
+            RadioOption("whatKindOfAsset", NonEeaBusiness.toString),
+            RadioOption("whatKindOfAsset", Partnership.toString),
+            RadioOption("whatKindOfAsset", Other.toString)
+          )
+        }
+
+        "no asset at this index" in {
+          WhatKindOfAsset.nonMaxedOutOptions(assets, assetTypeAtIndex = None) mustBe List(
+            RadioOption("whatKindOfAsset", Money.toString),
+            RadioOption("whatKindOfAsset", PropertyOrLand.toString),
+            RadioOption("whatKindOfAsset", Shares.toString),
+            RadioOption("whatKindOfAsset", Business.toString),
+            RadioOption("whatKindOfAsset", Partnership.toString),
+            RadioOption("whatKindOfAsset", Other.toString)
+          )
+        }
+      }
 
     }
 
@@ -216,7 +211,7 @@ class WhatKindOfAssetSpec extends SpecBase with ScalaCheckPropertyChecks {
       "English" in {
 
         val messages: MessagesImpl = MessagesImpl(Lang("en"), messagesApi)
-        val result = asset.label(messages)
+        val result                 = asset.label(messages)
 
         result mustBe "Non-EEA Company"
 
@@ -225,7 +220,7 @@ class WhatKindOfAssetSpec extends SpecBase with ScalaCheckPropertyChecks {
       "Welsh" in {
 
         val messages: MessagesImpl = MessagesImpl(Lang("cy"), messagesApi)
-        val result = asset.label(messages)
+        val result                 = asset.label(messages)
 
         result mustBe "Cwmni nad yw’n rhan o’r AEE"
       }

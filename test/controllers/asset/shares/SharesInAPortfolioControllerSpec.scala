@@ -29,7 +29,7 @@ import views.html.asset.shares.SharesInAPortfolioView
 
 class SharesInAPortfolioControllerSpec extends SpecBase with ModelGenerators with IndexValidation {
 
-  val form = new YesNoFormProvider().withPrefix("shares.inAPortfolioYesNo")
+  val form       = new YesNoFormProvider().withPrefix("shares.inAPortfolioYesNo")
   val index: Int = 0
 
   lazy val sharesInAPortfolioRoute = routes.SharesInAPortfolioController.onPageLoad(index, fakeDraftId).url
@@ -148,7 +148,7 @@ class SharesInAPortfolioControllerSpec extends SpecBase with ModelGenerators wit
 
   "for a GET" must {
 
-    def getForIndex(index: Int) : FakeRequest[AnyContentAsEmpty.type] = {
+    def getForIndex(index: Int): FakeRequest[AnyContentAsEmpty.type] = {
       val route = routes.SharesInAPortfolioController.onPageLoad(index, fakeDraftId).url
 
       FakeRequest(GET, route)

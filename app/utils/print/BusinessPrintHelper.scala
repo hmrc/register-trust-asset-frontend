@@ -25,26 +25,48 @@ import viewmodels.AnswerRow
 
 import javax.inject.Inject
 
-class BusinessPrintHelper @Inject()(checkAnswersFormatters: CheckAnswersFormatters) extends PrintHelper {
+class BusinessPrintHelper @Inject() (checkAnswersFormatters: CheckAnswersFormatters) extends PrintHelper {
 
   override val assetType: String = "businessAsset"
 
-  override def answerRows(userAnswers: UserAnswers,
-                          arg: String,
-                          index: Int,
-                          draftId: String)
-                         (implicit messages: Messages): Seq[AnswerRow] = {
+  override def answerRows(userAnswers: UserAnswers, arg: String, index: Int, draftId: String)(implicit
+    messages: Messages
+  ): Seq[AnswerRow] = {
 
     val converter: AnswerRowConverter = new AnswerRowConverter(checkAnswersFormatters)(userAnswers, arg)
 
     Seq(
       converter.assetTypeQuestion(index, draftId),
-      converter.stringQuestion(BusinessNamePage(index), "business.name", BusinessNameController.onPageLoad(index, draftId).url),
-      converter.stringQuestion(BusinessDescriptionPage(index), "business.description", BusinessDescriptionController.onPageLoad(index, draftId).url),
-      converter.yesNoQuestion(BusinessAddressUkYesNoPage(index), "business.addressUkYesNo", BusinessAddressUkYesNoController.onPageLoad(index, draftId).url),
-      converter.addressQuestion(BusinessUkAddressPage(index), "business.ukAddress", BusinessUkAddressController.onPageLoad(index, draftId).url),
-      converter.addressQuestion(BusinessInternationalAddressPage(index), "business.internationalAddress", BusinessInternationalAddressController.onPageLoad(index, draftId).url),
-      converter.currencyQuestion(BusinessValuePage(index), "business.currentValue", BusinessValueController.onPageLoad(index, draftId).url)
+      converter.stringQuestion(
+        BusinessNamePage(index),
+        "business.name",
+        BusinessNameController.onPageLoad(index, draftId).url
+      ),
+      converter.stringQuestion(
+        BusinessDescriptionPage(index),
+        "business.description",
+        BusinessDescriptionController.onPageLoad(index, draftId).url
+      ),
+      converter.yesNoQuestion(
+        BusinessAddressUkYesNoPage(index),
+        "business.addressUkYesNo",
+        BusinessAddressUkYesNoController.onPageLoad(index, draftId).url
+      ),
+      converter.addressQuestion(
+        BusinessUkAddressPage(index),
+        "business.ukAddress",
+        BusinessUkAddressController.onPageLoad(index, draftId).url
+      ),
+      converter.addressQuestion(
+        BusinessInternationalAddressPage(index),
+        "business.internationalAddress",
+        BusinessInternationalAddressController.onPageLoad(index, draftId).url
+      ),
+      converter.currencyQuestion(
+        BusinessValuePage(index),
+        "business.currentValue",
+        BusinessValueController.onPageLoad(index, draftId).url
+      )
     ).flatten
   }
 }

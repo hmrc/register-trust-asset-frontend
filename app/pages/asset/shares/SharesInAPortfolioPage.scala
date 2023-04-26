@@ -24,17 +24,17 @@ import sections.Assets
 
 import scala.util.Try
 
-final case class SharesInAPortfolioPage(index : Int) extends QuestionPage[Boolean] {
+final case class SharesInAPortfolioPage(index: Int) extends QuestionPage[Boolean] {
 
   override def path: JsPath = Assets.path \ index \ toString
 
   override def toString: String = key
 
-  override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] = {
+  override def cleanup(value: Option[Boolean], userAnswers: UserAnswers): Try[UserAnswers] =
     value match {
       case Some(true) =>
-
-        userAnswers.remove(SharesOnStockExchangePage(index))
+        userAnswers
+          .remove(SharesOnStockExchangePage(index))
           .flatMap(_.remove(ShareCompanyNamePage(index)))
           .flatMap(_.remove(ShareClassPage(index)))
           .flatMap(_.remove(ShareQuantityInTrustPage(index)))
@@ -42,8 +42,8 @@ final case class SharesInAPortfolioPage(index : Int) extends QuestionPage[Boolea
           .flatMap(_.remove(AssetStatus(index)))
 
       case Some(false) =>
-
-        userAnswers.remove(SharePortfolioNamePage(index))
+        userAnswers
+          .remove(SharePortfolioNamePage(index))
           .flatMap(_.remove(SharePortfolioOnStockExchangePage(index)))
           .flatMap(_.remove(SharePortfolioQuantityInTrustPage(index)))
           .flatMap(_.remove(SharePortfolioValueInTrustPage(index)))
@@ -51,7 +51,6 @@ final case class SharesInAPortfolioPage(index : Int) extends QuestionPage[Boolea
 
       case _ => super.cleanup(value, userAnswers)
     }
-  }
 }
 
 object SharesInAPortfolioPage {

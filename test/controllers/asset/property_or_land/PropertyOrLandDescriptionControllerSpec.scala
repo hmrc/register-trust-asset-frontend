@@ -30,10 +30,11 @@ import views.html.asset.property_or_land.PropertyOrLandDescriptionView
 class PropertyOrLandDescriptionControllerSpec extends SpecBase with IndexValidation {
 
   val formProvider = new DescriptionFormProvider()
-  val form = formProvider.withConfig(56, "propertyOrLand.description")
-  val index = 0
+  val form         = formProvider.withConfig(56, "propertyOrLand.description")
+  val index        = 0
 
-  lazy val propertyOrLandDescriptionRoute = routes.PropertyOrLandDescriptionController.onPageLoad(index, fakeDraftId).url
+  lazy val propertyOrLandDescriptionRoute =
+    routes.PropertyOrLandDescriptionController.onPageLoad(index, fakeDraftId).url
 
   "PropertyOrLandDescription Controller" must {
 
@@ -149,7 +150,7 @@ class PropertyOrLandDescriptionControllerSpec extends SpecBase with IndexValidat
 
   "for a GET" must {
 
-    def getForIndex(index: Int) : FakeRequest[AnyContentAsEmpty.type] = {
+    def getForIndex(index: Int): FakeRequest[AnyContentAsEmpty.type] = {
       val route = routes.PropertyOrLandDescriptionController.onPageLoad(index, fakeDraftId).url
 
       FakeRequest(GET, route)

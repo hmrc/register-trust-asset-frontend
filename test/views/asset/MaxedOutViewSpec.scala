@@ -33,27 +33,30 @@ class MaxedOutViewSpec extends OptionsViewBehaviours with TabularDataViewBehavio
 
       val messageKeyPrefix: String = "addAssets"
 
-        val max: Int = 76
+      val max: Int = 76
 
-        val view: MaxedOutView = viewFor[MaxedOutView](Some(emptyUserAnswers.copy(isTaxable = true)))
+      val view: MaxedOutView = viewFor[MaxedOutView](Some(emptyUserAnswers.copy(isTaxable = true)))
 
-        def applyView(): HtmlFormat.Appendable =
-          view.apply(fakeDraftId, Nil, completeRows(max), "Add assets", max, messageKeyPrefix)(fakeRequest, messages)
+      def applyView(): HtmlFormat.Appendable =
+        view.apply(fakeDraftId, Nil, completeRows(max), "Add assets", max, messageKeyPrefix)(fakeRequest, messages)
 
-        behave like normalPage(applyView(), messageKeyPrefix)
+      behave like normalPage(applyView(), messageKeyPrefix)
 
-        behave like pageWithBackLink(applyView())
+      behave like pageWithBackLink(applyView())
 
-        behave like pageWithCompleteTabularData(applyView(), completeRows(max))
+      behave like pageWithCompleteTabularData(applyView(), completeRows(max))
 
-        behave like pageWithASubmitButton(applyView())
+      behave like pageWithASubmitButton(applyView())
 
-        "show maxed out assets content" in {
-          val doc = asDocument(applyView())
+      "show maxed out assets content" in {
+        val doc = asDocument(applyView())
 
-          assertContainsText(doc, s"You cannot add another asset as you have entered a maximum of $max.")
-          assertContainsText(doc, "You can add another asset by removing an existing one, or write to HMRC with details of any additional assets.")
-        }
+        assertContainsText(doc, s"You cannot add another asset as you have entered a maximum of $max.")
+        assertContainsText(
+          doc,
+          "You can add another asset by removing an existing one, or write to HMRC with details of any additional assets."
+        )
+      }
 
     }
 
@@ -66,7 +69,10 @@ class MaxedOutViewSpec extends OptionsViewBehaviours with TabularDataViewBehavio
       val view: MaxedOutView = viewFor[MaxedOutView](Some(emptyUserAnswers.copy(isTaxable = false)))
 
       def applyView(): HtmlFormat.Appendable =
-        view.apply(fakeDraftId, Nil, completeRows(max), "Add a non-EEA company", max, messageKeyPrefix)(fakeRequest, messages)
+        view.apply(fakeDraftId, Nil, completeRows(max), "Add a non-EEA company", max, messageKeyPrefix)(
+          fakeRequest,
+          messages
+        )
 
       behave like normalPage(applyView(), messageKeyPrefix)
 
@@ -80,7 +86,10 @@ class MaxedOutViewSpec extends OptionsViewBehaviours with TabularDataViewBehavio
         val doc = asDocument(applyView())
 
         assertContainsText(doc, s"You cannot add another non-EEA company as you have entered a maximum of $max.")
-        assertContainsText(doc, "You can add another non-EEA company by removing an existing one, or write to HMRC with details of any additional non-EEA companies.")
+        assertContainsText(
+          doc,
+          "You can add another non-EEA company by removing an existing one, or write to HMRC with details of any additional non-EEA companies."
+        )
       }
     }
   }

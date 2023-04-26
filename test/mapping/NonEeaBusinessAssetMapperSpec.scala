@@ -30,11 +30,11 @@ class NonEeaBusinessAssetMapperSpec extends SpecBase {
 
   private val mapper: NonEeaBusinessAssetMapper = injector.instanceOf[NonEeaBusinessAssetMapper]
 
-  private val name: String = "Name"
-  private val country: String = "FR"
+  private val name: String                       = "Name"
+  private val country: String                    = "FR"
   private val nonUkAddress: InternationalAddress = InternationalAddress("Line 1", "Line 2", Some("Line 3"), country)
-  private val nonUkAddressType: AddressType = AddressType("Line 1", "Line 2", Some("Line 3"), None, None, country)
-  private val date: LocalDate = LocalDate.parse("1996-02-03")
+  private val nonUkAddressType: AddressType      = AddressType("Line 1", "Line 2", Some("Line 3"), None, None, country)
+  private val date: LocalDate                    = LocalDate.parse("1996-02-03")
 
   "NonEeaBusinessAssetMapper" must {
 
@@ -53,12 +53,24 @@ class NonEeaBusinessAssetMapperSpec extends SpecBase {
       "one asset" in {
 
         val answers = emptyUserAnswers
-          .set(WhatKindOfAssetPage(0), NonEeaBusiness).success.value
-          .set(NamePage(0), name).success.value
-          .set(InternationalAddressPage(0), nonUkAddress).success.value
-          .set(GoverningCountryPage(0), country).success.value
-          .set(StartDatePage(0), date).success.value
-          .set(AssetStatus(0), Completed).success.value
+          .set(WhatKindOfAssetPage(0), NonEeaBusiness)
+          .success
+          .value
+          .set(NamePage(0), name)
+          .success
+          .value
+          .set(InternationalAddressPage(0), nonUkAddress)
+          .success
+          .value
+          .set(GoverningCountryPage(0), country)
+          .success
+          .value
+          .set(StartDatePage(0), date)
+          .success
+          .value
+          .set(AssetStatus(0), Completed)
+          .success
+          .value
 
         val result = mapper.build(answers).get
 
@@ -71,23 +83,46 @@ class NonEeaBusinessAssetMapperSpec extends SpecBase {
           )
         )
       }
-      
+
       "multiple assets" in {
 
         val answers = emptyUserAnswers
-          .set(WhatKindOfAssetPage(0), NonEeaBusiness).success.value
-          .set(NamePage(0), name).success.value
-          .set(InternationalAddressPage(0), nonUkAddress).success.value
-          .set(GoverningCountryPage(0), country).success.value
-          .set(StartDatePage(0), date).success.value
-          .set(AssetStatus(0), Completed).success.value
-
-          .set(WhatKindOfAssetPage(1), NonEeaBusiness).success.value
-          .set(NamePage(1), name).success.value
-          .set(InternationalAddressPage(1), nonUkAddress).success.value
-          .set(GoverningCountryPage(1), country).success.value
-          .set(StartDatePage(1), date).success.value
-          .set(AssetStatus(1), Completed).success.value
+          .set(WhatKindOfAssetPage(0), NonEeaBusiness)
+          .success
+          .value
+          .set(NamePage(0), name)
+          .success
+          .value
+          .set(InternationalAddressPage(0), nonUkAddress)
+          .success
+          .value
+          .set(GoverningCountryPage(0), country)
+          .success
+          .value
+          .set(StartDatePage(0), date)
+          .success
+          .value
+          .set(AssetStatus(0), Completed)
+          .success
+          .value
+          .set(WhatKindOfAssetPage(1), NonEeaBusiness)
+          .success
+          .value
+          .set(NamePage(1), name)
+          .success
+          .value
+          .set(InternationalAddressPage(1), nonUkAddress)
+          .success
+          .value
+          .set(GoverningCountryPage(1), country)
+          .success
+          .value
+          .set(StartDatePage(1), date)
+          .success
+          .value
+          .set(AssetStatus(1), Completed)
+          .success
+          .value
 
         val result = mapper.build(answers).get
 

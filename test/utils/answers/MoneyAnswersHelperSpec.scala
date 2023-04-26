@@ -33,7 +33,7 @@ class MoneyAnswersHelperSpec extends SpecBase {
   private val answersHelper: MoneyAnswersHelper = new MoneyAnswersHelper(mockPrintHelper)
 
   private val description: String = "Description"
-  private val amount: Long = 100L
+  private val amount: Long        = 100L
 
   "MoneyAnswersHelper" when {
 
@@ -54,8 +54,12 @@ class MoneyAnswersHelperSpec extends SpecBase {
         when(mockPrintHelper.printSection(any(), any(), any(), any(), any())(any())).thenReturn(AnswerSection())
 
         val userAnswers: UserAnswers = emptyUserAnswers
-          .set(WhatKindOfAssetPage(index), Money).success.value
-          .set(AssetMoneyValuePage(index), amount).success.value
+          .set(WhatKindOfAssetPage(index), Money)
+          .success
+          .value
+          .set(AssetMoneyValuePage(index), amount)
+          .success
+          .value
 
         val result: Seq[AnswerSection] = answersHelper(userAnswers)
 
@@ -69,12 +73,21 @@ class MoneyAnswersHelperSpec extends SpecBase {
         val helper = injector.instanceOf[MoneyAnswersHelper]
 
         val userAnswers: UserAnswers = emptyUserAnswers
-          .set(WhatKindOfAssetPage(0), Other).success.value
-          .set(OtherAssetDescriptionPage(0), description).success.value
-          .set(OtherAssetValuePage(0), amount).success.value
-
-          .set(WhatKindOfAssetPage(1), Money).success.value
-          .set(AssetMoneyValuePage(1), amount).success.value
+          .set(WhatKindOfAssetPage(0), Other)
+          .success
+          .value
+          .set(OtherAssetDescriptionPage(0), description)
+          .success
+          .value
+          .set(OtherAssetValuePage(0), amount)
+          .success
+          .value
+          .set(WhatKindOfAssetPage(1), Money)
+          .success
+          .value
+          .set(AssetMoneyValuePage(1), amount)
+          .success
+          .value
 
         val result: Seq[AnswerSection] = helper(userAnswers)
 

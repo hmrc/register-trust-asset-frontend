@@ -26,11 +26,13 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import scala.concurrent.Future
 
 @Singleton
-class SessionTimeoutController @Inject()(val appConfig: FrontendAppConfig,
-                                         val config: Configuration,
-                                         val env: Environment,
-                                         mcc: MessagesControllerComponents) extends FrontendController(mcc) with AuthRedirects {
-
+class SessionTimeoutController @Inject() (
+  val appConfig: FrontendAppConfig,
+  val config: Configuration,
+  val env: Environment,
+  mcc: MessagesControllerComponents
+) extends FrontendController(mcc)
+    with AuthRedirects {
 
   val keepAlive: Action[AnyContent] = Action.async { implicit request =>
     Future.successful(Ok.withSession(request.session))

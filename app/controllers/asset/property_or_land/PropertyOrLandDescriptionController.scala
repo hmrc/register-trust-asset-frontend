@@ -32,52 +32,49 @@ import views.html.asset.property_or_land.PropertyOrLandDescriptionView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class PropertyOrLandDescriptionController @Inject()(
-                                                     override val messagesApi: MessagesApi,
-                                                     repository: RegistrationsRepository,
-                                                     @PropertyOrLand navigator: Navigator,
-                                                     identify: RegistrationIdentifierAction,
-                                                     getData: DraftIdRetrievalActionProvider,
-                                                     requireData: RegistrationDataRequiredAction,
-                                                     validateIndex: IndexActionFilterProvider,
-                                                     formProvider: DescriptionFormProvider,
-                                                     val controllerComponents: MessagesControllerComponents,
-                                                     view: PropertyOrLandDescriptionView
-                                                   )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class PropertyOrLandDescriptionController @Inject() (
+  override val messagesApi: MessagesApi,
+  repository: RegistrationsRepository,
+  @PropertyOrLand navigator: Navigator,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  validateIndex: IndexActionFilterProvider,
+  formProvider: DescriptionFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: PropertyOrLandDescriptionView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  private val maxLength = 56
+  private val maxLength          = 56
   private val form: Form[String] = formProvider.withConfig(maxLength, "propertyOrLand.description")
 
   private def actions(index: Int, draftId: String) =
     identify andThen
-    getData(draftId) andThen
-    requireData andThen
-    validateIndex(index, sections.Assets)
+      getData(draftId) andThen
+      requireData andThen
+      validateIndex(index, sections.Assets)
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
-    implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    val preparedForm = request.userAnswers.get(PropertyOrLandDescriptionPage(index)) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(PropertyOrLandDescriptionPage(index)) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, index, draftId))
+    Ok(view(preparedForm, index, draftId))
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
-
-      form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, index, draftId))),
-
-        value => {
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    form
+      .bindFromRequest()
+      .fold(
+        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, index, draftId))),
+        value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(PropertyOrLandDescriptionPage(index), value))
             _              <- repository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(PropertyOrLandDescriptionPage(index), draftId)(updatedAnswers))
-        }
       )
   }
 }

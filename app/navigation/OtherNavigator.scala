@@ -30,7 +30,7 @@ class OtherNavigator extends Navigator {
 
   override protected def route(draftId: String): PartialFunction[Page, AffinityGroup => UserAnswers => Call] = {
     case OtherAssetDescriptionPage(index) => _ => _ => OtherAssetValueController.onPageLoad(index, draftId)
-    case OtherAssetValuePage(index) => _ => _ => OtherAssetAnswersController.onPageLoad(index, draftId)
+    case OtherAssetValuePage(index)       => _ => _ => OtherAssetAnswersController.onPageLoad(index, draftId)
   }
 
 }

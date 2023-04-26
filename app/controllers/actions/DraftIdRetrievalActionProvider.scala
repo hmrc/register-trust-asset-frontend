@@ -26,8 +26,10 @@ import utils.Session
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class DraftIdDataRetrievalActionProviderImpl @Inject()(repository: RegistrationsRepository, executionContext: ExecutionContext)
-  extends DraftIdRetrievalActionProvider {
+class DraftIdDataRetrievalActionProviderImpl @Inject() (
+  repository: RegistrationsRepository,
+  executionContext: ExecutionContext
+) extends DraftIdRetrievalActionProvider {
 
   def apply(draftId: String): DraftIdDataRetrievalAction =
     new DraftIdDataRetrievalAction(draftId, repository, executionContext)
@@ -36,23 +38,29 @@ class DraftIdDataRetrievalActionProviderImpl @Inject()(repository: Registrations
 
 trait DraftIdRetrievalActionProvider {
 
-  def apply(draftId : String) : DraftIdDataRetrievalAction
+  def apply(draftId: String): DraftIdDataRetrievalAction
 
 }
 
 class DraftIdDataRetrievalAction(
-                                  draftId : String,
-                                  repository: RegistrationsRepository,
-                                  implicit protected val executionContext: ExecutionContext
-                                )
-  extends ActionTransformer[IdentifierRequest, OptionalRegistrationDataRequest] {
+  draftId: String,
+  repository: RegistrationsRepository,
+  implicit protected val executionContext: ExecutionContext
+) extends ActionTransformer[IdentifierRequest, OptionalRegistrationDataRequest] {
 
   override protected def transform[A](request: IdentifierRequest[A]): Future[OptionalRegistrationDataRequest[A]] = {
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
-    repository.get(draftId).map {
-      userAnswers =>
-        OptionalRegistrationDataRequest(request.request, request.identifier, Session.id(hc), userAnswers, request.affinityGroup, request.enrolments, request.agentARN)
+    repository.get(draftId).map { userAnswers =>
+      OptionalRegistrationDataRequest(
+        request.request,
+        request.identifier,
+        Session.id(hc),
+        userAnswers,
+        request.affinityGroup,
+        request.enrolments,
+        request.agentARN
+      )
     }
   }
 }

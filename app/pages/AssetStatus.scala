@@ -21,7 +21,7 @@ import pages.AssetStatus.key
 import play.api.libs.json.JsPath
 import sections.Assets
 
-final case class AssetStatus(index : Int) extends QuestionPage[Status] {
+final case class AssetStatus(index: Int) extends QuestionPage[Status] {
 
   override def path: JsPath = JsPath \ Assets \ index \ toString
 

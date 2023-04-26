@@ -25,9 +25,9 @@ import views.html.asset.business.BusinessAddressUkYesNoView
 class BusinessAddressUkYesNoViewSpec extends YesNoViewBehaviours {
 
   private val messageKeyPrefix: String = "business.addressUkYesNo"
-  override val form: Form[Boolean] = new YesNoFormProvider().withPrefix(messageKeyPrefix)
-  private val index: Int = 0
-  private val businessName: String = "Test"
+  override val form: Form[Boolean]     = new YesNoFormProvider().withPrefix(messageKeyPrefix)
+  private val index: Int               = 0
+  private val businessName: String     = "Test"
 
   private val view: BusinessAddressUkYesNoView = viewFor[BusinessAddressUkYesNoView](Some(emptyUserAnswers))
 

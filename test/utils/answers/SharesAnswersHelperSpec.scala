@@ -32,8 +32,8 @@ class SharesAnswersHelperSpec extends SpecBase {
   private val mockPrintHelper: SharesPrintHelper = mock[SharesPrintHelper]
   private val answersHelper: SharesAnswersHelper = new SharesAnswersHelper(mockPrintHelper)
 
-  private val name: String = "Name"
-  private val amount: Long = 100L
+  private val name: String   = "Name"
+  private val amount: Long   = 100L
   private val quantity: Long = 100L
 
   "SharesAnswersHelper" when {
@@ -49,20 +49,45 @@ class SharesAnswersHelperSpec extends SpecBase {
     "there are assets" must {
 
       val userAnswers: UserAnswers = emptyUserAnswers
-        .set(WhatKindOfAssetPage(0), Shares).success.value
-        .set(SharesInAPortfolioPage(0), true).success.value
-        .set(SharePortfolioNamePage(0), name).success.value
-        .set(SharePortfolioOnStockExchangePage(0), true).success.value
-        .set(SharePortfolioQuantityInTrustPage(0), quantity).success.value
-        .set(SharePortfolioValueInTrustPage(0), amount).success.value
-
-        .set(WhatKindOfAssetPage(1), Shares).success.value
-        .set(SharesInAPortfolioPage(1), false).success.value
-        .set(ShareCompanyNamePage(1), name).success.value
-        .set(SharesOnStockExchangePage(1), true).success.value
-        .set(ShareClassPage(1), ShareClass.Ordinary).success.value
-        .set(ShareQuantityInTrustPage(1), quantity).success.value
-        .set(ShareValueInTrustPage(1), amount).success.value
+        .set(WhatKindOfAssetPage(0), Shares)
+        .success
+        .value
+        .set(SharesInAPortfolioPage(0), true)
+        .success
+        .value
+        .set(SharePortfolioNamePage(0), name)
+        .success
+        .value
+        .set(SharePortfolioOnStockExchangePage(0), true)
+        .success
+        .value
+        .set(SharePortfolioQuantityInTrustPage(0), quantity)
+        .success
+        .value
+        .set(SharePortfolioValueInTrustPage(0), amount)
+        .success
+        .value
+        .set(WhatKindOfAssetPage(1), Shares)
+        .success
+        .value
+        .set(SharesInAPortfolioPage(1), false)
+        .success
+        .value
+        .set(ShareCompanyNamePage(1), name)
+        .success
+        .value
+        .set(SharesOnStockExchangePage(1), true)
+        .success
+        .value
+        .set(ShareClassPage(1), ShareClass.Ordinary)
+        .success
+        .value
+        .set(ShareQuantityInTrustPage(1), quantity)
+        .success
+        .value
+        .set(ShareValueInTrustPage(1), amount)
+        .success
+        .value
 
       "interact with SharesPrintHelper" in {
 
@@ -82,24 +107,54 @@ class SharesAnswersHelperSpec extends SpecBase {
         val helper = injector.instanceOf[SharesAnswersHelper]
 
         val userAnswers: UserAnswers = emptyUserAnswers
-          .set(WhatKindOfAssetPage(0), Money).success.value
-          .set(AssetMoneyValuePage(0), amount).success.value
-
-          .set(WhatKindOfAssetPage(1), Shares).success.value
-          .set(SharesInAPortfolioPage(1), false).success.value
-          .set(ShareCompanyNamePage(1), name).success.value
-          .set(SharesOnStockExchangePage(1), true).success.value
-          .set(ShareClassPage(1), ShareClass.Ordinary).success.value
-          .set(ShareQuantityInTrustPage(1), quantity).success.value
-          .set(ShareValueInTrustPage(1), amount).success.value
-
-          .set(WhatKindOfAssetPage(2), Shares).success.value
-          .set(SharesInAPortfolioPage(2), false).success.value
-          .set(ShareCompanyNamePage(2), name).success.value
-          .set(SharesOnStockExchangePage(2), true).success.value
-          .set(ShareClassPage(2), ShareClass.Ordinary).success.value
-          .set(ShareQuantityInTrustPage(2), quantity).success.value
-          .set(ShareValueInTrustPage(2), amount).success.value
+          .set(WhatKindOfAssetPage(0), Money)
+          .success
+          .value
+          .set(AssetMoneyValuePage(0), amount)
+          .success
+          .value
+          .set(WhatKindOfAssetPage(1), Shares)
+          .success
+          .value
+          .set(SharesInAPortfolioPage(1), false)
+          .success
+          .value
+          .set(ShareCompanyNamePage(1), name)
+          .success
+          .value
+          .set(SharesOnStockExchangePage(1), true)
+          .success
+          .value
+          .set(ShareClassPage(1), ShareClass.Ordinary)
+          .success
+          .value
+          .set(ShareQuantityInTrustPage(1), quantity)
+          .success
+          .value
+          .set(ShareValueInTrustPage(1), amount)
+          .success
+          .value
+          .set(WhatKindOfAssetPage(2), Shares)
+          .success
+          .value
+          .set(SharesInAPortfolioPage(2), false)
+          .success
+          .value
+          .set(ShareCompanyNamePage(2), name)
+          .success
+          .value
+          .set(SharesOnStockExchangePage(2), true)
+          .success
+          .value
+          .set(ShareClassPage(2), ShareClass.Ordinary)
+          .success
+          .value
+          .set(ShareQuantityInTrustPage(2), quantity)
+          .success
+          .value
+          .set(ShareValueInTrustPage(2), amount)
+          .success
+          .value
 
         val result: Seq[AnswerSection] = helper(userAnswers)
 

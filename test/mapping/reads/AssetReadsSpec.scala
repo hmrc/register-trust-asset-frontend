@@ -33,15 +33,14 @@ class AssetReadsSpec extends AnyFreeSpec with Matchers {
       "a money asset of the incorrect structure" in {
         val json = Json.obj(
           "whatKindOfAsset" -> "Property",
-          "moneyValue" -> 4000
+          "moneyValue"      -> 4000
         )
 
         json.validate[Asset] mustBe a[JsError]
       }
 
       "a non-portfolio share asset of the incorrect structure" in {
-        val json = Json.parse(
-          """
+        val json = Json.parse("""
             |{
             |"nonPortfolioSharesListedOnStockExchangeYesNo" : true,
             |"nonPortfolioSharesName" : "adam",
@@ -57,8 +56,7 @@ class AssetReadsSpec extends AnyFreeSpec with Matchers {
       }
 
       "a portfolio share asset of the incorrect structure" in {
-        val json = Json.parse(
-          """
+        val json = Json.parse("""
             |{
             |"portfolioSharesListedOnStockExchangeYesNo" : true,
             |"sharesInPortfolioYesNo" : true,
@@ -72,8 +70,7 @@ class AssetReadsSpec extends AnyFreeSpec with Matchers {
       }
 
       "a business asset of the incorrect structure" in {
-        val json = Json.parse(
-          """
+        val json = Json.parse("""
             |{
             |"whatKindOfAsset" : "Business",
             |"businessName": "Business Ltd",
@@ -92,8 +89,7 @@ class AssetReadsSpec extends AnyFreeSpec with Matchers {
       }
 
       "a property or land asset of the incorrect structure" in {
-        val json = Json.parse(
-          """
+        val json = Json.parse("""
             |{
             |"whatKindOfAsset" : "PropertyOrLand",
             |"propertyOrLandDescription" : "Property Or Land",
@@ -113,7 +109,7 @@ class AssetReadsSpec extends AnyFreeSpec with Matchers {
 
       "a partnership asset of the incorrect structure" in {
         val json = Json.obj(
-          "whatKindOfAsset" -> "Partnership",
+          "whatKindOfAsset"        -> "Partnership",
           "partnershipDescription" -> "Description"
         )
 
@@ -122,7 +118,7 @@ class AssetReadsSpec extends AnyFreeSpec with Matchers {
 
       "an other asset of the incorrect structure" in {
         val json = Json.obj(
-          "whatKindOfAsset" -> "Other",
+          "whatKindOfAsset"  -> "Other",
           "otherDescription" -> "Description"
         )
 
@@ -131,7 +127,7 @@ class AssetReadsSpec extends AnyFreeSpec with Matchers {
 
       "a non-EEA business asset of the incorrect structure" in {
         val json = Json.obj(
-          "whatKindOfAsset" -> "NonEeaBusiness",
+          "whatKindOfAsset"    -> "NonEeaBusiness",
           "nonEeaBusinessName" -> "Name"
         )
 
@@ -144,7 +140,7 @@ class AssetReadsSpec extends AnyFreeSpec with Matchers {
       "a money asset" in {
         val json = Json.obj(
           "whatKindOfAsset" -> "Money",
-          "moneyValue" -> 4000
+          "moneyValue"      -> 4000
         )
 
         json.validate[Asset] mustEqual JsSuccess(MoneyAsset(Money, 4000L))
@@ -152,8 +148,7 @@ class AssetReadsSpec extends AnyFreeSpec with Matchers {
 
       "a non-portfolio share asset" in {
 
-        val json = Json.parse(
-          """
+        val json = Json.parse("""
             |{
             |"nonPortfolioSharesOnStockExchangeYesNo" : true,
             |"nonPortfolioSharesName" : "adam",
@@ -181,8 +176,7 @@ class AssetReadsSpec extends AnyFreeSpec with Matchers {
       }
 
       "a portfolio share asset" in {
-        val json = Json.parse(
-          """
+        val json = Json.parse("""
             |{
             |"portfolioSharesOnStockExchangeYesNo" : true,
             |"sharesInPortfolioYesNo" : true,
@@ -207,8 +201,7 @@ class AssetReadsSpec extends AnyFreeSpec with Matchers {
       }
 
       "a business asset" in {
-        val json = Json.parse(
-          """
+        val json = Json.parse("""
             |{
             |"whatKindOfAsset" : "Business",
             |"businessName": "Business Ltd",
@@ -238,12 +231,12 @@ class AssetReadsSpec extends AnyFreeSpec with Matchers {
               postcode = "Z99 2YY"
             ),
             currentValue = 75L
-          ))
+          )
+        )
       }
 
       "a property or land asset" in {
-        val json = Json.parse(
-          """
+        val json = Json.parse("""
             |{
             |"whatKindOfAsset" : "PropertyOrLand",
             |"propertyOrLandDescription" : "Property Or Land",
@@ -270,15 +263,16 @@ class AssetReadsSpec extends AnyFreeSpec with Matchers {
                 line3 = Some("Tyne and Wear"),
                 line4 = Some("Newcastle"),
                 postcode = "Z99 2YY"
-              )),
+              )
+            ),
             propertyLandValueTrust = Some(75L),
             propertyOrLandTotalValue = 1000L
-          ))
+          )
+        )
       }
 
       "a property or land asset with minimum data" in {
-        val json = Json.parse(
-          """
+        val json = Json.parse("""
             |{
             |"whatKindOfAsset" : "PropertyOrLand",
             |"propertyOrLandUkAddress" : {
@@ -301,17 +295,19 @@ class AssetReadsSpec extends AnyFreeSpec with Matchers {
                 line3 = None,
                 line4 = None,
                 postcode = "Z99 2YY"
-              )),
+              )
+            ),
             propertyLandValueTrust = None,
             propertyOrLandTotalValue = 1000L
-          ))
+          )
+        )
       }
 
       "a partnership asset" in {
         val json = Json.obj(
-          "whatKindOfAsset" -> "Partnership",
+          "whatKindOfAsset"        -> "Partnership",
           "partnershipDescription" -> "Description",
-          "partnershipStartDate" -> "1996-02-03"
+          "partnershipStartDate"   -> "1996-02-03"
         )
 
         json.validate[Asset] mustEqual JsSuccess(
@@ -325,9 +321,9 @@ class AssetReadsSpec extends AnyFreeSpec with Matchers {
 
       "an other asset" in {
         val json = Json.obj(
-          "whatKindOfAsset" -> "Other",
+          "whatKindOfAsset"  -> "Other",
           "otherDescription" -> "Description",
-          "otherValue" -> 4000
+          "otherValue"       -> 4000
         )
 
         json.validate[Asset] mustBe JsSuccess(
@@ -340,8 +336,7 @@ class AssetReadsSpec extends AnyFreeSpec with Matchers {
       }
 
       "a non-EEA business asset" in {
-        val json = Json.parse(
-          """
+        val json = Json.parse("""
             |{
             |  "whatKindOfAsset": "NonEeaBusiness",
             |  "nonEeaBusinessName": "Name",

@@ -34,20 +34,22 @@ import views.html.asset.noneeabusiness.StartDateView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class StartDateController @Inject()(
-                                     override val messagesApi: MessagesApi,
-                                     repository: RegistrationsRepository,
-                                     @NonEeaBusiness navigator: Navigator,
-                                     identify: RegistrationIdentifierAction,
-                                     getData: DraftIdRetrievalActionProvider,
-                                     validateIndex: IndexActionFilterProvider,
-                                     requireData: RegistrationDataRequiredAction,
-                                     requiredAnswer: RequiredAnswerActionProvider,
-                                     formProvider: StartDateFormProvider,
-                                     val controllerComponents: MessagesControllerComponents,
-                                     view: StartDateView,
-                                     submissionDraftConnector: SubmissionDraftConnector
-                                   )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class StartDateController @Inject() (
+  override val messagesApi: MessagesApi,
+  repository: RegistrationsRepository,
+  @NonEeaBusiness navigator: Navigator,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  validateIndex: IndexActionFilterProvider,
+  requireData: RegistrationDataRequiredAction,
+  requiredAnswer: RequiredAnswerActionProvider,
+  formProvider: StartDateFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: StartDateView,
+  submissionDraftConnector: SubmissionDraftConnector
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   private def messageKeyPrefix: String = "nonEeaBusiness.startDate"
 
@@ -58,42 +60,37 @@ class StartDateController @Inject()(
       validateIndex(index, sections.Assets) andThen
       requiredAnswer(RequiredAnswer(NamePage(index), routes.NameController.onPageLoad(index, draftId)))
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    val name = request.userAnswers.get(NamePage(index)).get
 
-      val name = request.userAnswers.get(NamePage(index)).get
+    submissionDraftConnector.getTrustSetupDate(draftId) map { trustSetupDate =>
+      val form = formProvider.withConfig(messageKeyPrefix, trustSetupDate)
 
-      submissionDraftConnector.getTrustSetupDate(draftId) map { trustSetupDate =>
-        val form = formProvider.withConfig(messageKeyPrefix, trustSetupDate)
-
-        val preparedForm = request.userAnswers.get(StartDatePage(index)) match {
-          case None => form
-          case Some(value) => form.fill(value)
-        }
-
-        Ok(view(preparedForm, index, draftId, name))
+      val preparedForm = request.userAnswers.get(StartDatePage(index)) match {
+        case None        => form
+        case Some(value) => form.fill(value)
       }
+
+      Ok(view(preparedForm, index, draftId, name))
+    }
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    val name = request.userAnswers.get(NamePage(index)).get
 
-      val name = request.userAnswers.get(NamePage(index)).get
+    submissionDraftConnector.getTrustSetupDate(draftId) flatMap { trustSetupDate =>
+      val form = formProvider.withConfig(messageKeyPrefix, trustSetupDate)
 
-      submissionDraftConnector.getTrustSetupDate(draftId) flatMap { trustSetupDate =>
-        val form = formProvider.withConfig(messageKeyPrefix, trustSetupDate)
-
-        form.bindFromRequest().fold(
-          (formWithErrors: Form[_]) =>
-            Future.successful(BadRequest(view(formWithErrors, index, draftId, name))),
-
-          value => {
+      form
+        .bindFromRequest()
+        .fold(
+          (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, index, draftId, name))),
+          value =>
             for {
               updatedAnswers <- Future.fromTry(request.userAnswers.set(StartDatePage(index), value))
-              _ <- repository.set(updatedAnswers)
+              _              <- repository.set(updatedAnswers)
             } yield Redirect(navigator.nextPage(StartDatePage(index), draftId)(updatedAnswers))
-          }
         )
-      }
+    }
   }
 }

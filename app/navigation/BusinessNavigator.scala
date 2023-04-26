@@ -29,17 +29,20 @@ import javax.inject.Singleton
 class BusinessNavigator extends Navigator {
 
   override protected def route(draftId: String): PartialFunction[Page, AffinityGroup => UserAnswers => Call] = {
-    case BusinessNamePage(index) => _ => _ => BusinessDescriptionController.onPageLoad(index, draftId)
-    case BusinessDescriptionPage(index) => _ => _ => BusinessAddressUkYesNoController.onPageLoad(index, draftId)
-    case page @ BusinessAddressUkYesNoPage(index) => _ => ua => yesNoNav(
-      ua = ua,
-      fromPage = page,
-      yesCall = BusinessUkAddressController.onPageLoad(index, draftId),
-      noCall = BusinessInternationalAddressController.onPageLoad(index, draftId)
-    )
-    case BusinessUkAddressPage(index) => _ => _ => BusinessValueController.onPageLoad(index, draftId)
-    case BusinessInternationalAddressPage(index) => _ => _ => BusinessValueController.onPageLoad(index, draftId)
-    case BusinessValuePage(index) => _ => _ => BusinessAnswersController.onPageLoad(index, draftId)
+    case BusinessNamePage(index)                  => _ => _ => BusinessDescriptionController.onPageLoad(index, draftId)
+    case BusinessDescriptionPage(index)           => _ => _ => BusinessAddressUkYesNoController.onPageLoad(index, draftId)
+    case page @ BusinessAddressUkYesNoPage(index) =>
+      _ =>
+        ua =>
+          yesNoNav(
+            ua = ua,
+            fromPage = page,
+            yesCall = BusinessUkAddressController.onPageLoad(index, draftId),
+            noCall = BusinessInternationalAddressController.onPageLoad(index, draftId)
+          )
+    case BusinessUkAddressPage(index)             => _ => _ => BusinessValueController.onPageLoad(index, draftId)
+    case BusinessInternationalAddressPage(index)  => _ => _ => BusinessValueController.onPageLoad(index, draftId)
+    case BusinessValuePage(index)                 => _ => _ => BusinessAnswersController.onPageLoad(index, draftId)
   }
 
 }

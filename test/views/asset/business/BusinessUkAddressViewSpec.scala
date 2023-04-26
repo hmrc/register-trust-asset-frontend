@@ -25,8 +25,8 @@ import views.html.asset.business.BusinessUkAddressView
 class BusinessUkAddressViewSpec extends UkAddressViewBehaviours {
 
   private val messageKeyPrefix: String = "business.ukAddress"
-  private val index: Int = 0
-  private val businessName: String = "Test"
+  private val index: Int               = 0
+  private val businessName: String     = "Test"
 
   override val form = new UKAddressFormProvider()()
 

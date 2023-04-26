@@ -34,21 +34,23 @@ import views.html.asset.business.BusinessDescriptionView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class BusinessDescriptionController @Inject()(
-                                               override val messagesApi: MessagesApi,
-                                               registrationsRepository: RegistrationsRepository,
-                                               @Business navigator: Navigator,
-                                               identify: RegistrationIdentifierAction,
-                                               getData: DraftIdRetrievalActionProvider,
-                                               requireData: RegistrationDataRequiredAction,
-                                               validateIndex: IndexActionFilterProvider,
-                                               formProvider: DescriptionFormProvider,
-                                               requiredAnswer: RequiredAnswerActionProvider,
-                                               val controllerComponents: MessagesControllerComponents,
-                                               view: BusinessDescriptionView
-                                             )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class BusinessDescriptionController @Inject() (
+  override val messagesApi: MessagesApi,
+  registrationsRepository: RegistrationsRepository,
+  @Business navigator: Navigator,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  validateIndex: IndexActionFilterProvider,
+  formProvider: DescriptionFormProvider,
+  requiredAnswer: RequiredAnswerActionProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: BusinessDescriptionView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  private val maxLength = 56
+  private val maxLength          = 56
   private val form: Form[String] = formProvider.withConfig(length = maxLength, prefix = "business.description")
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
@@ -57,35 +59,31 @@ class BusinessDescriptionController @Inject()(
       validateIndex(index, Assets) andThen
       requiredAnswer(RequiredAnswer(BusinessNamePage(index), routes.BusinessNameController.onPageLoad(index, draftId)))
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
-    implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    val assetDescription = request.userAnswers.get(BusinessNamePage(index)).get
 
-      val assetDescription = request.userAnswers.get(BusinessNamePage(index)).get
+    val preparedForm = request.userAnswers.get(BusinessDescriptionPage(index)) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(BusinessDescriptionPage(index)) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, draftId, index, assetDescription))
+    Ok(view(preparedForm, draftId, index, assetDescription))
 
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    val assetDescription = request.userAnswers.get(BusinessNamePage(index)).get
 
-      val assetDescription = request.userAnswers.get(BusinessNamePage(index)).get
-
-      form.bindFromRequest().fold(
+    form
+      .bindFromRequest()
+      .fold(
         (formWithErrors: Form[_]) =>
           Future.successful(BadRequest(view(formWithErrors, draftId, index, assetDescription))),
-
-        value => {
+        value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(BusinessDescriptionPage(index), value))
-            _ <- registrationsRepository.set(updatedAnswers)
+            _              <- registrationsRepository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(BusinessDescriptionPage(index), draftId)(updatedAnswers))
-        }
       )
   }
 }

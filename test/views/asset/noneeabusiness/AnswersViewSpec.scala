@@ -21,7 +21,7 @@ import views.html.asset.noneeabusiness.AnswersView
 
 class AnswersViewSpec extends ViewBehaviours {
 
-  private val index: Int = 0
+  private val index: Int     = 0
   private val prefix: String = "nonEeaBusiness.answers"
 
   private val view: AnswersView = viewFor[AnswersView](Some(emptyUserAnswers))

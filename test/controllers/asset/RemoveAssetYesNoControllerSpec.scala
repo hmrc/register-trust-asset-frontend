@@ -40,14 +40,14 @@ import java.time.LocalDate
 
 class RemoveAssetYesNoControllerSpec extends SpecBase {
 
-  private val formProvider = new YesNoFormProvider()
-  private val prefix: String = "assets.removeYesNo"
-  private val form: Form[Boolean] = formProvider.withPrefix(prefix)
-  private val index: Int = 0
-  private val assetValue: Long = 4000L
-  private val ukAddress: UKAddress = UKAddress("Line 1", "Line 2", None, None, "POSTCODE")
+  private val formProvider                       = new YesNoFormProvider()
+  private val prefix: String                     = "assets.removeYesNo"
+  private val form: Form[Boolean]                = formProvider.withPrefix(prefix)
+  private val index: Int                         = 0
+  private val assetValue: Long                   = 4000L
+  private val ukAddress: UKAddress               = UKAddress("Line 1", "Line 2", None, None, "POSTCODE")
   private val nonUkAddress: InternationalAddress = InternationalAddress("Line 1", "Line 2", Some("Line 3"), "FR")
-  private val date: LocalDate = LocalDate.parse("2000-02-03")
+  private val date: LocalDate                    = LocalDate.parse("2000-02-03")
 
   private lazy val removeAssetYesNoRoute: String = routes.RemoveAssetYesNoController.onPageLoad(index, fakeDraftId).url
 
@@ -55,7 +55,7 @@ class RemoveAssetYesNoControllerSpec extends SpecBase {
 
     "return OK and the correct view for a GET" when {
 
-      val taxablePrefix = "assets"
+      val taxablePrefix    = "assets"
       val nonTaxablePrefix = "assets.nonTaxable"
 
       "Money asset" when {
@@ -63,8 +63,12 @@ class RemoveAssetYesNoControllerSpec extends SpecBase {
         "complete" in {
 
           val userAnswers = emptyUserAnswers
-            .set(WhatKindOfAssetPage(index), Money).success.value
-            .set(AssetMoneyValuePage(index), assetValue).success.value
+            .set(WhatKindOfAssetPage(index), Money)
+            .success
+            .value
+            .set(AssetMoneyValuePage(index), assetValue)
+            .success
+            .value
 
           val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -85,7 +89,9 @@ class RemoveAssetYesNoControllerSpec extends SpecBase {
         "in progress" in {
 
           val userAnswers = emptyUserAnswers
-            .set(WhatKindOfAssetPage(index), Money).success.value
+            .set(WhatKindOfAssetPage(index), Money)
+            .success
+            .value
 
           val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -111,12 +117,24 @@ class RemoveAssetYesNoControllerSpec extends SpecBase {
           "address known" in {
 
             val userAnswers = emptyUserAnswers
-              .set(WhatKindOfAssetPage(index), PropertyOrLand).success.value
-              .set(PropertyOrLandAddressYesNoPage(index), true).success.value
-              .set(PropertyOrLandAddressUkYesNoPage(index), true).success.value
-              .set(PropertyOrLandUKAddressPage(index), ukAddress).success.value
-              .set(PropertyOrLandTotalValuePage(index), assetValue).success.value
-              .set(TrustOwnAllThePropertyOrLandPage(index), true).success.value
+              .set(WhatKindOfAssetPage(index), PropertyOrLand)
+              .success
+              .value
+              .set(PropertyOrLandAddressYesNoPage(index), true)
+              .success
+              .value
+              .set(PropertyOrLandAddressUkYesNoPage(index), true)
+              .success
+              .value
+              .set(PropertyOrLandUKAddressPage(index), ukAddress)
+              .success
+              .value
+              .set(PropertyOrLandTotalValuePage(index), assetValue)
+              .success
+              .value
+              .set(TrustOwnAllThePropertyOrLandPage(index), true)
+              .success
+              .value
 
             val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -137,11 +155,21 @@ class RemoveAssetYesNoControllerSpec extends SpecBase {
           "address not known and description known" in {
 
             val userAnswers = emptyUserAnswers
-              .set(WhatKindOfAssetPage(index), PropertyOrLand).success.value
-              .set(PropertyOrLandAddressYesNoPage(index), false).success.value
-              .set(PropertyOrLandDescriptionPage(index), "Property or land description").success.value
-              .set(PropertyOrLandTotalValuePage(index), assetValue).success.value
-              .set(TrustOwnAllThePropertyOrLandPage(index), true).success.value
+              .set(WhatKindOfAssetPage(index), PropertyOrLand)
+              .success
+              .value
+              .set(PropertyOrLandAddressYesNoPage(index), false)
+              .success
+              .value
+              .set(PropertyOrLandDescriptionPage(index), "Property or land description")
+              .success
+              .value
+              .set(PropertyOrLandTotalValuePage(index), assetValue)
+              .success
+              .value
+              .set(TrustOwnAllThePropertyOrLandPage(index), true)
+              .success
+              .value
 
             val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -163,8 +191,12 @@ class RemoveAssetYesNoControllerSpec extends SpecBase {
         "in progress" in {
 
           val userAnswers = emptyUserAnswers
-            .set(WhatKindOfAssetPage(index), PropertyOrLand).success.value
-            .set(PropertyOrLandAddressYesNoPage(index), false).success.value
+            .set(WhatKindOfAssetPage(index), PropertyOrLand)
+            .success
+            .value
+            .set(PropertyOrLandAddressYesNoPage(index), false)
+            .success
+            .value
 
           val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -190,12 +222,24 @@ class RemoveAssetYesNoControllerSpec extends SpecBase {
           "portfolio name" in {
 
             val userAnswers = emptyUserAnswers
-              .set(WhatKindOfAssetPage(index), Shares).success.value
-              .set(SharesInAPortfolioPage(index), true).success.value
-              .set(SharePortfolioNamePage(index), "Portfolio Name").success.value
-              .set(SharePortfolioOnStockExchangePage(index), true).success.value
-              .set(SharePortfolioQuantityInTrustPage(index), 100L).success.value
-              .set(SharePortfolioValueInTrustPage(index), assetValue).success.value
+              .set(WhatKindOfAssetPage(index), Shares)
+              .success
+              .value
+              .set(SharesInAPortfolioPage(index), true)
+              .success
+              .value
+              .set(SharePortfolioNamePage(index), "Portfolio Name")
+              .success
+              .value
+              .set(SharePortfolioOnStockExchangePage(index), true)
+              .success
+              .value
+              .set(SharePortfolioQuantityInTrustPage(index), 100L)
+              .success
+              .value
+              .set(SharePortfolioValueInTrustPage(index), assetValue)
+              .success
+              .value
 
             val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -216,13 +260,27 @@ class RemoveAssetYesNoControllerSpec extends SpecBase {
           "company name" in {
 
             val userAnswers = emptyUserAnswers
-              .set(WhatKindOfAssetPage(index), Shares).success.value
-              .set(SharesInAPortfolioPage(index), false).success.value
-              .set(ShareCompanyNamePage(index), "Company Name").success.value
-              .set(SharesOnStockExchangePage(index), true).success.value
-              .set(ShareClassPage(index), Ordinary).success.value
-              .set(ShareQuantityInTrustPage(index), 100L).success.value
-              .set(ShareValueInTrustPage(index), assetValue).success.value
+              .set(WhatKindOfAssetPage(index), Shares)
+              .success
+              .value
+              .set(SharesInAPortfolioPage(index), false)
+              .success
+              .value
+              .set(ShareCompanyNamePage(index), "Company Name")
+              .success
+              .value
+              .set(SharesOnStockExchangePage(index), true)
+              .success
+              .value
+              .set(ShareClassPage(index), Ordinary)
+              .success
+              .value
+              .set(ShareQuantityInTrustPage(index), 100L)
+              .success
+              .value
+              .set(ShareValueInTrustPage(index), assetValue)
+              .success
+              .value
 
             val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -244,8 +302,12 @@ class RemoveAssetYesNoControllerSpec extends SpecBase {
         "in progress" in {
 
           val userAnswers = emptyUserAnswers
-            .set(WhatKindOfAssetPage(index), Shares).success.value
-            .set(SharesInAPortfolioPage(index), false).success.value
+            .set(WhatKindOfAssetPage(index), Shares)
+            .success
+            .value
+            .set(SharesInAPortfolioPage(index), false)
+            .success
+            .value
 
           val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -267,12 +329,24 @@ class RemoveAssetYesNoControllerSpec extends SpecBase {
       "Business asset" in {
 
         val userAnswers = emptyUserAnswers
-          .set(WhatKindOfAssetPage(index), Business).success.value
-          .set(BusinessNamePage(index), "Business name").success.value
-          .set(BusinessDescriptionPage(index), "Business description").success.value
-          .set(BusinessAddressUkYesNoPage(index), true).success.value
-          .set(BusinessUkAddressPage(index), ukAddress).success.value
-          .set(BusinessValuePage(index), assetValue).success.value
+          .set(WhatKindOfAssetPage(index), Business)
+          .success
+          .value
+          .set(BusinessNamePage(index), "Business name")
+          .success
+          .value
+          .set(BusinessDescriptionPage(index), "Business description")
+          .success
+          .value
+          .set(BusinessAddressUkYesNoPage(index), true)
+          .success
+          .value
+          .set(BusinessUkAddressPage(index), ukAddress)
+          .success
+          .value
+          .set(BusinessValuePage(index), assetValue)
+          .success
+          .value
 
         val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -293,9 +367,15 @@ class RemoveAssetYesNoControllerSpec extends SpecBase {
       "Partnership asset" in {
 
         val userAnswers = emptyUserAnswers
-          .set(WhatKindOfAssetPage(index), Partnership).success.value
-          .set(PartnershipDescriptionPage(index), "Partnership description").success.value
-          .set(PartnershipStartDatePage(index), date).success.value
+          .set(WhatKindOfAssetPage(index), Partnership)
+          .success
+          .value
+          .set(PartnershipDescriptionPage(index), "Partnership description")
+          .success
+          .value
+          .set(PartnershipStartDatePage(index), date)
+          .success
+          .value
 
         val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -316,9 +396,15 @@ class RemoveAssetYesNoControllerSpec extends SpecBase {
       "Other asset" in {
 
         val userAnswers = emptyUserAnswers
-          .set(WhatKindOfAssetPage(index), Other).success.value
-          .set(OtherAssetDescriptionPage(index), "Other description").success.value
-          .set(OtherAssetValuePage(index), assetValue).success.value
+          .set(WhatKindOfAssetPage(index), Other)
+          .success
+          .value
+          .set(OtherAssetDescriptionPage(index), "Other description")
+          .success
+          .value
+          .set(OtherAssetValuePage(index), assetValue)
+          .success
+          .value
 
         val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -341,11 +427,21 @@ class RemoveAssetYesNoControllerSpec extends SpecBase {
         "complete" in {
 
           val userAnswers = emptyUserAnswers
-            .set(WhatKindOfAssetPage(index), NonEeaBusiness).success.value
-            .set(NamePage(index), "Non-EEA business name").success.value
-            .set(InternationalAddressPage(index), nonUkAddress).success.value
-            .set(GoverningCountryPage(index), "GB").success.value
-            .set(StartDatePage(index), date).success.value
+            .set(WhatKindOfAssetPage(index), NonEeaBusiness)
+            .success
+            .value
+            .set(NamePage(index), "Non-EEA business name")
+            .success
+            .value
+            .set(InternationalAddressPage(index), nonUkAddress)
+            .success
+            .value
+            .set(GoverningCountryPage(index), "GB")
+            .success
+            .value
+            .set(StartDatePage(index), date)
+            .success
+            .value
 
           val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -367,8 +463,11 @@ class RemoveAssetYesNoControllerSpec extends SpecBase {
 
           "taxable" in {
 
-            val userAnswers = emptyUserAnswers.copy(isTaxable = true)
-              .set(WhatKindOfAssetPage(index), NonEeaBusiness).success.value
+            val userAnswers = emptyUserAnswers
+              .copy(isTaxable = true)
+              .set(WhatKindOfAssetPage(index), NonEeaBusiness)
+              .success
+              .value
 
             val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -388,8 +487,11 @@ class RemoveAssetYesNoControllerSpec extends SpecBase {
 
           "non-taxable" in {
 
-            val userAnswers = emptyUserAnswers.copy(isTaxable = false)
-              .set(WhatKindOfAssetPage(index), NonEeaBusiness).success.value
+            val userAnswers = emptyUserAnswers
+              .copy(isTaxable = false)
+              .set(WhatKindOfAssetPage(index), NonEeaBusiness)
+              .success
+              .value
 
             val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 
@@ -430,8 +532,12 @@ class RemoveAssetYesNoControllerSpec extends SpecBase {
     "remove asset and redirect to add assets page when YES is submitted" in {
 
       val userAnswers = emptyUserAnswers
-        .set(WhatKindOfAssetPage(index), Money).success.value
-        .set(AssetMoneyValuePage(index), assetValue).success.value
+        .set(WhatKindOfAssetPage(index), Money)
+        .success
+        .value
+        .set(AssetMoneyValuePage(index), assetValue)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 

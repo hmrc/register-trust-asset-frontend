@@ -38,7 +38,7 @@ class CheckAnswersFormattersSpec extends SpecBase {
       }
 
       val recentDate: LocalDate = LocalDate.parse("2015-01-25")
-      val oldDate: LocalDate = LocalDate.parse("1840-12-01")
+      val oldDate: LocalDate    = LocalDate.parse("1840-12-01")
 
       "in English mode" must {
         "format date in English" when {
@@ -100,13 +100,13 @@ class CheckAnswersFormattersSpec extends SpecBase {
 
           "lines 3 and 4 provided" in {
             val address: UKAddress = UKAddress("Line 1", "Line 2", Some("Line 3"), Some("Line 4"), "AB1 1AB")
-            val result: Html = checkAnswersFormatters.addressFormatter(address)
+            val result: Html       = checkAnswersFormatters.addressFormatter(address)
             result mustBe Html("Line 1<br />Line 2<br />Line 3<br />Line 4<br />AB1 1AB")
           }
 
           "lines 3 and 4 not provided" in {
             val address: UKAddress = UKAddress("Line 1", "Line 2", None, None, "AB1 1AB")
-            val result: Html = checkAnswersFormatters.addressFormatter(address)
+            val result: Html       = checkAnswersFormatters.addressFormatter(address)
             result mustBe Html("Line 1<br />Line 2<br />AB1 1AB")
           }
         }
@@ -117,13 +117,13 @@ class CheckAnswersFormattersSpec extends SpecBase {
 
           "line 3 provided" in {
             val address: InternationalAddress = InternationalAddress("Line 1", "Line 2", Some("Line 3"), "FR")
-            val result: Html = checkAnswersFormatters.addressFormatter(address)
+            val result: Html                  = checkAnswersFormatters.addressFormatter(address)
             result mustBe Html("Line 1<br />Line 2<br />Line 3<br />France")
           }
 
           "line 3 not provided" in {
             val address: InternationalAddress = InternationalAddress("Line 1", "Line 2", None, "FR")
-            val result: Html = checkAnswersFormatters.addressFormatter(address)
+            val result: Html                  = checkAnswersFormatters.addressFormatter(address)
             result mustBe Html("Line 1<br />Line 2<br />France")
           }
         }

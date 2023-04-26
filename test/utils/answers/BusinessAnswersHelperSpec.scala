@@ -32,10 +32,10 @@ class BusinessAnswersHelperSpec extends SpecBase {
   private val mockPrintHelper: BusinessPrintHelper = mock[BusinessPrintHelper]
   private val answersHelper: BusinessAnswersHelper = new BusinessAnswersHelper(mockPrintHelper)
 
-  private val name: String = "Name"
+  private val name: String        = "Name"
   private val description: String = "Description"
-  private val address: UKAddress = UKAddress("Line 1", "Line 2", None, None, "AB1 1AB")
-  private val amount: Long = 100L
+  private val address: UKAddress  = UKAddress("Line 1", "Line 2", None, None, "AB1 1AB")
+  private val amount: Long        = 100L
 
   "BusinessAnswersHelper" when {
 
@@ -58,12 +58,24 @@ class BusinessAnswersHelperSpec extends SpecBase {
         val index: Int = 0
 
         val userAnswers: UserAnswers = emptyUserAnswers
-          .set(WhatKindOfAssetPage(index), Business).success.value
-          .set(BusinessNamePage(index), name).success.value
-          .set(BusinessDescriptionPage(index), description).success.value
-          .set(BusinessAddressUkYesNoPage(index), true).success.value
-          .set(BusinessUkAddressPage(index), address).success.value
-          .set(BusinessValuePage(index), amount).success.value
+          .set(WhatKindOfAssetPage(index), Business)
+          .success
+          .value
+          .set(BusinessNamePage(index), name)
+          .success
+          .value
+          .set(BusinessDescriptionPage(index), description)
+          .success
+          .value
+          .set(BusinessAddressUkYesNoPage(index), true)
+          .success
+          .value
+          .set(BusinessUkAddressPage(index), address)
+          .success
+          .value
+          .set(BusinessValuePage(index), amount)
+          .success
+          .value
 
         val result: Seq[AnswerSection] = answersHelper(userAnswers)
 
@@ -77,22 +89,48 @@ class BusinessAnswersHelperSpec extends SpecBase {
         val helper = injector.instanceOf[BusinessAnswersHelper]
 
         val userAnswers: UserAnswers = emptyUserAnswers
-          .set(WhatKindOfAssetPage(0), Money).success.value
-          .set(AssetMoneyValuePage(0), amount).success.value
-
-          .set(WhatKindOfAssetPage(1), Business).success.value
-          .set(BusinessNamePage(1), name).success.value
-          .set(BusinessDescriptionPage(1), description).success.value
-          .set(BusinessAddressUkYesNoPage(1), true).success.value
-          .set(BusinessUkAddressPage(1), address).success.value
-          .set(BusinessValuePage(1), amount).success.value
-
-          .set(WhatKindOfAssetPage(2), Business).success.value
-          .set(BusinessNamePage(2), name).success.value
-          .set(BusinessDescriptionPage(2), description).success.value
-          .set(BusinessAddressUkYesNoPage(2), true).success.value
-          .set(BusinessUkAddressPage(2), address).success.value
-          .set(BusinessValuePage(2), amount).success.value
+          .set(WhatKindOfAssetPage(0), Money)
+          .success
+          .value
+          .set(AssetMoneyValuePage(0), amount)
+          .success
+          .value
+          .set(WhatKindOfAssetPage(1), Business)
+          .success
+          .value
+          .set(BusinessNamePage(1), name)
+          .success
+          .value
+          .set(BusinessDescriptionPage(1), description)
+          .success
+          .value
+          .set(BusinessAddressUkYesNoPage(1), true)
+          .success
+          .value
+          .set(BusinessUkAddressPage(1), address)
+          .success
+          .value
+          .set(BusinessValuePage(1), amount)
+          .success
+          .value
+          .set(WhatKindOfAssetPage(2), Business)
+          .success
+          .value
+          .set(BusinessNamePage(2), name)
+          .success
+          .value
+          .set(BusinessDescriptionPage(2), description)
+          .success
+          .value
+          .set(BusinessAddressUkYesNoPage(2), true)
+          .success
+          .value
+          .set(BusinessUkAddressPage(2), address)
+          .success
+          .value
+          .set(BusinessValuePage(2), amount)
+          .success
+          .value
 
         val result: Seq[AnswerSection] = helper(userAnswers)
 

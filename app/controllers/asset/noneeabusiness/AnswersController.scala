@@ -31,17 +31,19 @@ import views.html.asset.noneeabusiness.AnswersView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class AnswersController @Inject()(
-                                   override val messagesApi: MessagesApi,
-                                   registrationsRepository: RegistrationsRepository,
-                                   identify: RegistrationIdentifierAction,
-                                   getData: DraftIdRetrievalActionProvider,
-                                   requireData: RegistrationDataRequiredAction,
-                                   requiredAnswer: RequiredAnswerActionProvider,
-                                   view: AnswersView,
-                                   val controllerComponents: MessagesControllerComponents,
-                                   printHelper: NonEeaBusinessPrintHelper
-                                 )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class AnswersController @Inject() (
+  override val messagesApi: MessagesApi,
+  registrationsRepository: RegistrationsRepository,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  requiredAnswer: RequiredAnswerActionProvider,
+  view: AnswersView,
+  val controllerComponents: MessagesControllerComponents,
+  printHelper: NonEeaBusinessPrintHelper
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen
@@ -49,30 +51,26 @@ class AnswersController @Inject()(
       requireData andThen
       requiredAnswer(RequiredAnswer(NamePage(index), routes.NameController.onPageLoad(index, draftId)))
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
-    implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    val name = request.userAnswers.get(NamePage(index)).get
 
-      val name = request.userAnswers.get(NamePage(index)).get
+    val section = printHelper.checkDetailsSection(
+      userAnswers = request.userAnswers,
+      arg = name,
+      index = index,
+      draftId = draftId
+    )
 
-      val section = printHelper.checkDetailsSection(
-        userAnswers = request.userAnswers,
-        arg = name,
-        index = index,
-        draftId = draftId
-      )
-
-      Ok(view(index, draftId, section))
+    Ok(view(index, draftId, section))
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    val answers = request.userAnswers.set(AssetStatus(index), Completed)
 
-      val answers = request.userAnswers.set(AssetStatus(index), Completed)
-
-      for {
-        updatedAnswers <- Future.fromTry(answers)
-        _ <- registrationsRepository.set(updatedAnswers)
-      } yield Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId))
+    for {
+      updatedAnswers <- Future.fromTry(answers)
+      _              <- registrationsRepository.set(updatedAnswers)
+    } yield Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId))
 
   }
 }

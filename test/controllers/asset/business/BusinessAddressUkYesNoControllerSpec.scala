@@ -31,16 +31,19 @@ import views.html.asset.business.BusinessAddressUkYesNoView
 
 class BusinessAddressUkYesNoControllerSpec extends SpecBase with IndexValidation {
 
-  val formProvider = new YesNoFormProvider()
+  val formProvider        = new YesNoFormProvider()
   val form: Form[Boolean] = formProvider.withPrefix("business.addressUkYesNo")
 
-  val index = 0
+  val index        = 0
   val businessName = "Test"
 
-  lazy val businessAssetAddressUkYesNoRoute: String = routes.BusinessAddressUkYesNoController.onPageLoad(index, fakeDraftId).url
+  lazy val businessAssetAddressUkYesNoRoute: String =
+    routes.BusinessAddressUkYesNoController.onPageLoad(index, fakeDraftId).url
 
   val baseAnswers: UserAnswers = emptyUserAnswers
-    .set(BusinessNamePage(index), businessName).success.value
+    .set(BusinessNamePage(index), businessName)
+    .success
+    .value
 
   "BusinessAddressUkYesNoController Controller" must {
 
@@ -65,7 +68,9 @@ class BusinessAddressUkYesNoControllerSpec extends SpecBase with IndexValidation
     "populate the view correctly on a GET when the question has previously been answered" in {
 
       val userAnswers = baseAnswers
-        .set(BusinessAddressUkYesNoPage(index), true).success.value
+        .set(BusinessAddressUkYesNoPage(index), true)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(userAnswers)).build()
 

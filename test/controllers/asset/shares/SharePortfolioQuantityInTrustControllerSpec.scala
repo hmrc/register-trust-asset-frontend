@@ -30,12 +30,13 @@ import views.html.asset.shares.SharePortfolioQuantityInTrustView
 
 class SharePortfolioQuantityInTrustControllerSpec extends SpecBase with ModelGenerators with IndexValidation {
 
-  private val formProvider = new QuantityFormProvider(frontendAppConfig)
-  private val form: Form[Long] = formProvider.withPrefix("shares.portfolioQuantityInTrust")
-  private val index: Int = 0
+  private val formProvider      = new QuantityFormProvider(frontendAppConfig)
+  private val form: Form[Long]  = formProvider.withPrefix("shares.portfolioQuantityInTrust")
+  private val index: Int        = 0
   private val validAnswer: Long = 4000L
 
-  private lazy val sharePortfolioQuantityInTrustRoute: String = routes.SharePortfolioQuantityInTrustController.onPageLoad(index, fakeDraftId).url
+  private lazy val sharePortfolioQuantityInTrustRoute: String =
+    routes.SharePortfolioQuantityInTrustController.onPageLoad(index, fakeDraftId).url
 
   "SharePortfolioQuantityInTrust Controller" must {
 
@@ -152,7 +153,7 @@ class SharePortfolioQuantityInTrustControllerSpec extends SpecBase with ModelGen
 
   "for a GET" must {
 
-    def getForIndex(index: Int) : FakeRequest[AnyContentAsEmpty.type] = {
+    def getForIndex(index: Int): FakeRequest[AnyContentAsEmpty.type] = {
       val route = routes.SharePortfolioQuantityInTrustController.onPageLoad(index, fakeDraftId).url
 
       FakeRequest(GET, route)

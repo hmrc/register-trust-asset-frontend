@@ -21,4 +21,4 @@ import utils.print.MoneyPrintHelper
 
 import javax.inject.Inject
 
-class MoneyAnswersHelper @Inject()(printHelper: MoneyPrintHelper) extends AnswersHelper[MoneyAsset](printHelper)
+class MoneyAnswersHelper @Inject() (printHelper: MoneyPrintHelper) extends AnswersHelper[MoneyAsset](printHelper)

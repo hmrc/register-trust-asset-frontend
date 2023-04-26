@@ -21,4 +21,5 @@ import utils.print.PropertyOrLandPrintHelper
 
 import javax.inject.Inject
 
-class PropertyOrLandAnswersHelper @Inject()(printHelper: PropertyOrLandPrintHelper) extends AnswersHelper[PropertyOrLandAsset](printHelper)
+class PropertyOrLandAnswersHelper @Inject() (printHelper: PropertyOrLandPrintHelper)
+    extends AnswersHelper[PropertyOrLandAsset](printHelper)

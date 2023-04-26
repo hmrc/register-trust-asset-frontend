@@ -21,11 +21,9 @@ import forms.mappings.Mappings
 import javax.inject.Inject
 import play.api.data.Form
 
-class ValueFormProvider @Inject()(config: FrontendAppConfig) extends Mappings {
+class ValueFormProvider @Inject() (config: FrontendAppConfig) extends Mappings {
 
-  def withConfig(prefix: String,
-                 minValue: Option[Long] = None,
-                 maxValue: Option[Long] = None): Form[Long] =
+  def withConfig(prefix: String, minValue: Option[Long] = None, maxValue: Option[Long] = None): Form[Long] =
     Form(
       "value" -> longValue(
         prefix = prefix,

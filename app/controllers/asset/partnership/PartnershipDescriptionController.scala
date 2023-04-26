@@ -32,21 +32,23 @@ import views.html.asset.partnership.PartnershipDescriptionView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class PartnershipDescriptionController @Inject()(
-                                                  override val messagesApi: MessagesApi,
-                                                  repository: RegistrationsRepository,
-                                                  @Partnership navigator: Navigator,
-                                                  identify: RegistrationIdentifierAction,
-                                                  getData: DraftIdRetrievalActionProvider,
-                                                  requireData: RegistrationDataRequiredAction,
-                                                  validateIndex: IndexActionFilterProvider,
-                                                  formProvider: DescriptionFormProvider,
-                                                  val controllerComponents: MessagesControllerComponents,
-                                                  view: PartnershipDescriptionView
-                                                )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class PartnershipDescriptionController @Inject() (
+  override val messagesApi: MessagesApi,
+  repository: RegistrationsRepository,
+  @Partnership navigator: Navigator,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  validateIndex: IndexActionFilterProvider,
+  formProvider: DescriptionFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: PartnershipDescriptionView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   private val maxLength = 56
-  private val form = formProvider.withConfig(maxLength, "partnership.description")
+  private val form      = formProvider.withConfig(maxLength, "partnership.description")
 
   private def actions(index: Int, draftId: String) =
     identify andThen
@@ -54,30 +56,25 @@ class PartnershipDescriptionController @Inject()(
       requireData andThen
       validateIndex(index, sections.Assets)
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
-    implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    val preparedForm = request.userAnswers.get(PartnershipDescriptionPage(index)) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(PartnershipDescriptionPage(index)) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, index, draftId))
+    Ok(view(preparedForm, index, draftId))
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
-
-      form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, index, draftId))),
-
-        value => {
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    form
+      .bindFromRequest()
+      .fold(
+        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, index, draftId))),
+        value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(PartnershipDescriptionPage(index), value))
             _              <- repository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(PartnershipDescriptionPage(index), draftId)(updatedAnswers))
-        }
       )
   }
 }

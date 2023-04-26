@@ -21,4 +21,4 @@ import utils.print.SharesPrintHelper
 
 import javax.inject.Inject
 
-class SharesAnswersHelper @Inject()(printHelper: SharesPrintHelper) extends AnswersHelper[ShareAsset](printHelper)
+class SharesAnswersHelper @Inject() (printHelper: SharesPrintHelper) extends AnswersHelper[ShareAsset](printHelper)

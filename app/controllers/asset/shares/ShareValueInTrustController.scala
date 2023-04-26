@@ -33,19 +33,21 @@ import views.html.asset.shares.ShareValueInTrustView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class ShareValueInTrustController @Inject()(
-                                             override val messagesApi: MessagesApi,
-                                             repository: RegistrationsRepository,
-                                             @Shares navigator: Navigator,
-                                             identify: RegistrationIdentifierAction,
-                                             getData: DraftIdRetrievalActionProvider,
-                                             requireData: RegistrationDataRequiredAction,
-                                             formProvider: ValueFormProvider,
-                                             val controllerComponents: MessagesControllerComponents,
-                                             view: ShareValueInTrustView,
-                                             requiredAnswer: RequiredAnswerActionProvider,
-                                             validateIndex: IndexActionFilterProvider
-                                           )(implicit ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class ShareValueInTrustController @Inject() (
+  override val messagesApi: MessagesApi,
+  repository: RegistrationsRepository,
+  @Shares navigator: Navigator,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  formProvider: ValueFormProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: ShareValueInTrustView,
+  requiredAnswer: RequiredAnswerActionProvider,
+  validateIndex: IndexActionFilterProvider
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
   private val form = formProvider.withConfig(prefix = "shares.valueInTrust")
 
@@ -53,39 +55,36 @@ class ShareValueInTrustController @Inject()(
     identify andThen getData(draftId) andThen
       requireData andThen
       validateIndex(index, sections.Assets) andThen
-      requiredAnswer(RequiredAnswer(
-        ShareCompanyNamePage(index),
-        routes.ShareCompanyNameController.onPageLoad(index, draftId)
-      ))
+      requiredAnswer(
+        RequiredAnswer(
+          ShareCompanyNamePage(index),
+          routes.ShareCompanyNameController.onPageLoad(index, draftId)
+        )
+      )
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) {
-    implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    val companyName = request.userAnswers.get(ShareCompanyNamePage(index)).get
 
-      val companyName = request.userAnswers.get(ShareCompanyNamePage(index)).get
+    val preparedForm = request.userAnswers.get(ShareValueInTrustPage(index)) match {
+      case None        => form
+      case Some(value) => form.fill(value)
+    }
 
-      val preparedForm = request.userAnswers.get(ShareValueInTrustPage(index)) match {
-        case None => form
-        case Some(value) => form.fill(value)
-      }
-
-      Ok(view(preparedForm, draftId, index, companyName))
+    Ok(view(preparedForm, draftId, index, companyName))
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async {
-    implicit request =>
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    val companyName = request.userAnswers.get(ShareCompanyNamePage(index)).get
 
-      val companyName = request.userAnswers.get(ShareCompanyNamePage(index)).get
-
-      form.bindFromRequest().fold(
-        (formWithErrors: Form[_]) =>
-          Future.successful(BadRequest(view(formWithErrors, draftId, index, companyName))),
-
-        value => {
+    form
+      .bindFromRequest()
+      .fold(
+        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index, companyName))),
+        value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(ShareValueInTrustPage(index), value))
             _              <- repository.set(updatedAnswers)
           } yield Redirect(navigator.nextPage(ShareValueInTrustPage(index), draftId)(updatedAnswers))
-        }
       )
   }
 }

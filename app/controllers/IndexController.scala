@@ -33,19 +33,23 @@ import viewmodels.AssetViewModel
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class IndexController @Inject()(
-                                 val controllerComponents: MessagesControllerComponents,
-                                 repository: RegistrationsRepository,
-                                 identify: RegistrationIdentifierAction,
-                                 submissionDraftConnector: SubmissionDraftConnector,
-                                 trustsStoreService: TrustsStoreService
-                               )(implicit appConfig: FrontendAppConfig, ec: ExecutionContext) extends FrontendBaseController with I18nSupport {
+class IndexController @Inject() (
+  val controllerComponents: MessagesControllerComponents,
+  repository: RegistrationsRepository,
+  identify: RegistrationIdentifierAction,
+  submissionDraftConnector: SubmissionDraftConnector,
+  trustsStoreService: TrustsStoreService
+)(implicit appConfig: FrontendAppConfig, ec: ExecutionContext)
+    extends FrontendBaseController
+    with I18nSupport {
 
-  private def updateTaskStatus(draftId: String, userAnswers: UserAnswers)
-                      (implicit hc: HeaderCarrier, messages: Messages): Future[Result] = for {
-    _ <- repository.set(userAnswers)
+  private def updateTaskStatus(draftId: String, userAnswers: UserAnswers)(implicit
+    hc: HeaderCarrier,
+    messages: Messages
+  ): Future[Result] = for {
+    _      <- repository.set(userAnswers)
     assets <- Future.successful(userAnswers.get(sections.Assets).toList.flatten)
-    _ <- trustsStoreService.updateTaskStatus(draftId, TaskStatus.InProgress)
+    _      <- trustsStoreService.updateTaskStatus(draftId, TaskStatus.InProgress)
   } yield navigate(draftId, assets, userAnswers.isTaxable)
 
   private def navigate(draftId: String, assets: List[AssetViewModel], isTaxable: Boolean): Result =
@@ -56,21 +60,21 @@ class IndexController @Inject()(
         } else {
           Redirect(TrustOwnsNonEeaBusinessYesNoController.onPageLoad(draftId))
         }
-      case _ =>
+      case _   =>
         Redirect(AddAssetsController.onPageLoad(draftId))
     }
 
   def onPageLoad(draftId: String): Action[AnyContent] = identify.async { implicit request =>
     for {
-      isTaxable <- submissionDraftConnector.getIsTrustTaxable(draftId)
+      isTaxable   <- submissionDraftConnector.getIsTrustTaxable(draftId)
       userAnswers <- repository.get(draftId)
-      result <- userAnswers match {
-        case Some(answers) =>
-          updateTaskStatus(draftId, answers.copy(isTaxable = isTaxable))
-        case None =>
-          val userAnswers = UserAnswers(draftId, Json.obj(), request.identifier, isTaxable)
-          updateTaskStatus(draftId, userAnswers)
-      }
+      result      <- userAnswers match {
+                       case Some(answers) =>
+                         updateTaskStatus(draftId, answers.copy(isTaxable = isTaxable))
+                       case None          =>
+                         val userAnswers = UserAnswers(draftId, Json.obj(), request.identifier, isTaxable)
+                         updateTaskStatus(draftId, userAnswers)
+                     }
     } yield result
   }
 }

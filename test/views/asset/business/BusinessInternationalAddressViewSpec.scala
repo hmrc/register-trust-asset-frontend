@@ -27,8 +27,8 @@ import views.html.asset.business.BusinessInternationalAddressView
 class BusinessInternationalAddressViewSpec extends InternationalAddressViewBehaviours {
 
   private val messageKeyPrefix: String = "business.internationalAddress"
-  private val index: Int = 0
-  private val businessName: String = "Test"
+  private val index: Int               = 0
+  private val businessName: String     = "Test"
 
   override val form = new InternationalAddressFormProvider()()
 

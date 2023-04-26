@@ -25,21 +25,23 @@ import viewmodels.AnswerRow
 
 import javax.inject.Inject
 
-class MoneyPrintHelper @Inject()(checkAnswersFormatters: CheckAnswersFormatters) extends PrintHelper {
+class MoneyPrintHelper @Inject() (checkAnswersFormatters: CheckAnswersFormatters) extends PrintHelper {
 
   override val assetType: String = "moneyAsset"
 
-  override def answerRows(userAnswers: UserAnswers,
-                          arg: String,
-                          index: Int,
-                          draftId: String)
-                         (implicit messages: Messages): Seq[AnswerRow] = {
+  override def answerRows(userAnswers: UserAnswers, arg: String, index: Int, draftId: String)(implicit
+    messages: Messages
+  ): Seq[AnswerRow] = {
 
     val converter: AnswerRowConverter = new AnswerRowConverter(checkAnswersFormatters)(userAnswers, arg)
 
     Seq(
       converter.assetTypeQuestion(index, draftId),
-      converter.currencyQuestion(AssetMoneyValuePage(index), "money.value", AssetMoneyValueController.onPageLoad(index, draftId).url)
+      converter.currencyQuestion(
+        AssetMoneyValuePage(index),
+        "money.value",
+        AssetMoneyValueController.onPageLoad(index, draftId).url
+      )
     ).flatten
   }
 }
