@@ -16,7 +16,6 @@
 
 package controllers
 
-import config.FrontendAppConfig
 import connectors.SubmissionDraftConnector
 import controllers.actions.RegistrationIdentifierAction
 import controllers.asset.routes._
@@ -39,7 +38,7 @@ class IndexController @Inject() (
   identify: RegistrationIdentifierAction,
   submissionDraftConnector: SubmissionDraftConnector,
   trustsStoreService: TrustsStoreService
-)(implicit appConfig: FrontendAppConfig, ec: ExecutionContext)
+)(implicit ec: ExecutionContext)
     extends FrontendBaseController
     with I18nSupport {
 
