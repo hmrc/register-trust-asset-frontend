@@ -71,13 +71,14 @@ trait Formatters {
           .bind(key, data)
           .map(_.replace(",", ""))
           .flatMap {
-          case s if s.matches(decimalRegexp) =>
-            Left(Seq(FormError(key, wholeNumberKey, args)))
-          case s =>
-            nonFatalCatch
-              .either(s.toInt)
-              .left.map(_ => Seq(FormError(key, nonNumericKey, args)))
-        }
+            case s if s.matches(decimalRegexp) =>
+              Left(Seq(FormError(key, wholeNumberKey, args)))
+            case s                             =>
+              nonFatalCatch
+                .either(s.toInt)
+                .left
+                .map(_ => Seq(FormError(key, nonNumericKey, args)))
+          }
 
       override def unbind(key: String, value: Int) =
         baseFormatter.unbind(key, value.toString)
@@ -99,13 +100,14 @@ trait Formatters {
           .bind(key, data)
           .map(_.replace(",", ""))
           .flatMap {
-          case s if s.matches(decimalRegexp) =>
-            Left(Seq(FormError(key, wholeNumberKey)))
-          case s =>
-            nonFatalCatch
-              .either(s.toLong)
-              .left.map(_ => Seq(FormError(key, nonNumericKey)))
-        }
+            case s if s.matches(decimalRegexp) =>
+              Left(Seq(FormError(key, wholeNumberKey)))
+            case s                             =>
+              nonFatalCatch
+                .either(s.toLong)
+                .left
+                .map(_ => Seq(FormError(key, nonNumericKey)))
+          }
 
       override def unbind(key: String, value: Long): Map[String, String] =
         baseFormatter.unbind(key, value.toString)

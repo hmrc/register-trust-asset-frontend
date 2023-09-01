@@ -68,9 +68,9 @@ lazy val root = (project in file("."))
       "-Wconf:cat=unused-imports&src=views/.*:s"
     )
   )
-  .settings(inConfig(Test)(testSettings): _*)
+  .settings(inConfig(Test)(testSettings) *)
 
-lazy val testSettings: Seq[Def.Setting[_]] = Seq(
+lazy val testSettings: Seq[Def.Setting[?]] = Seq(
   fork := true,
   javaOptions ++= Seq(
     "-Dconfig.resource=test.application.conf"
@@ -78,4 +78,4 @@ lazy val testSettings: Seq[Def.Setting[_]] = Seq(
 )
 
 addCommandAlias("scalafmtAll", "all scalafmtSbt scalafmt Test/scalafmt")
-addCommandAlias("scalastyleAll", "all scalastyle test:scalastyle")
+addCommandAlias("scalastyleAll", "all scalastyle Test/scalastyle")
