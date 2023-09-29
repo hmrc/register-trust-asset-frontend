@@ -20,8 +20,11 @@ import models.requests.RegistrationDataRequest
 import play.api.data.{Field, Form, FormError}
 import play.api.i18n.Messages
 import play.api.mvc.Request
+import play.twirl.api.{Html, HtmlFormat}
 import uk.gov.hmrc.govukfrontend.views.html.components.{RadioItem, Text}
 import viewmodels.RadioOption
+
+import scala.collection.immutable
 
 class ViewUtils {
 
@@ -68,5 +71,15 @@ object ViewUtils {
         content = Text(messages(a.messageKey)),
         attributes = Map.empty
       )
+    }
+
+  //  Copied over from the play-frontend-hmrc view utils
+
+  private[views] def govukPluralisedI18nAttributes(
+    translationKey: String,
+    pluralForms: Option[Map[String, String]]
+  ): immutable.Iterable[Html] =
+    pluralForms.getOrElse(Map.empty).map { case (k, v) =>
+      Html(s"""data-i18n.$translationKey.${HtmlFormat.escape(k)}="${HtmlFormat.escape(v)}" """)
     }
 }
