@@ -50,8 +50,7 @@ class InternationalAddressFormProvider @Inject() extends Mappings {
           ),
       "line3"   ->
         optional(
-          Forms.text
-            .transform(trimWhitespace, identity[String])
+          text()
             .verifying(
               firstError(
                 maxLength(maxLength, "internationalAddress.error.line3.length"),
