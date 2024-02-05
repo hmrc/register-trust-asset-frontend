@@ -50,8 +50,7 @@ class UKAddressFormProvider @Inject() extends Mappings {
           ),
       "line3"    ->
         optional(
-          Forms.text
-            .transform(trimWhitespace, identity[String])
+          text()
             .verifying(
               firstError(
                 maxLength(maxLength, "ukAddress.error.line3.length"),
@@ -61,8 +60,7 @@ class UKAddressFormProvider @Inject() extends Mappings {
         ).transform(emptyToNone, identity[Option[String]]),
       "line4"    ->
         optional(
-          Forms.text
-            .transform(trimWhitespace, identity[String])
+          text()
             .verifying(
               firstError(
                 maxLength(maxLength, "ukAddress.error.line4.length"),
