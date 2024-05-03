@@ -44,6 +44,12 @@ trait SpecBase
     with Matchers
     with OptionValues {
 
+  val defaultAppConfigurations: Map[String, Any] = Map(
+    "auditing.enabled" -> false,
+    "metrics.enabled" -> false,
+    "play.filters.disabled" -> List("play.filters.csrf.CSRFFilter", "play.filters.csp.CSPFilter")
+  )
+
   final val ENGLISH = "en"
   final val WELSH   = "cy"
 
@@ -84,4 +90,5 @@ trait SpecBase
         bind[AffinityGroup].toInstance(Organisation),
         bind[ViewUtils].toInstance(mockViewUtils)
       )
+      .configure(defaultAppConfigurations)
 }

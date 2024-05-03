@@ -1,20 +1,17 @@
 import play.sbt.routes.RoutesKeys
 import sbt.Def
 import scoverage.ScoverageKeys
-import uk.gov.hmrc.DefaultBuildSettings
 import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
 
-lazy val appName: String = "register-trust-asset-frontend"
+
+ThisBuild / scalaVersion := "2.13.13"
+ThisBuild / majorVersion := 0
 
 lazy val root = (project in file("."))
   .enablePlugins(PlayScala, SbtDistributablesPlugin, SbtSassify)
   .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
   .settings(
-    majorVersion := 0,
-    DefaultBuildSettings.scalaSettings,
-    DefaultBuildSettings.defaultSettings(),
-    scalaVersion := "2.13.13",
-    name := appName,
+    name := "register-trust-asset-frontend",
     RoutesKeys.routesImport += "models._",
     TwirlKeys.templateImports ++= Seq(
       "play.twirl.api.HtmlFormat",
@@ -27,20 +24,12 @@ lazy val root = (project in file("."))
       "controllers.routes._"
     ),
     PlayKeys.playDefaultPort := 9853,
-    ScoverageKeys.coverageExcludedFiles := "<empty>;Reverse.*;.*filters.*;.*handlers.*;.*components.*;" +
-      ".*BuildInfo.*;.*javascript.*;.*FrontendAuditConnector.*;.*Routes.*;.*GuiceInjector;" +
-      ".*ControllerConfiguration;.*LanguageSwitchController",
+    ScoverageKeys.coverageExcludedFiles := "<empty>;.*components.*;.*Mode.*;.*Routes.*;",
     ScoverageKeys.coverageMinimumStmtTotal := 80,
     ScoverageKeys.coverageFailOnMinimum := true,
     ScoverageKeys.coverageHighlighting := true,
-    scalacOptions ++= Seq("-feature", "-Wconf:cat=unused-imports&src=html/.*:s"),
+    scalacOptions ++= Seq( "-feature", "-Wconf:src=routes/.*:s", "-Wconf:cat=unused-imports&src=views/.*:s" ),
     libraryDependencies ++= AppDependencies(),
-    retrieveManaged := true,
-    update / evictionWarningOptions :=
-      EvictionWarningOptions.default.withWarnScalaVersionEviction(false),
-    resolvers ++= Seq(
-      Resolver.jcenterRepo
-    ),
     // concatenate js
     Concat.groups := Seq(
       "javascripts/registertrustassetfrontend-app.js" ->
@@ -66,14 +55,7 @@ lazy val root = (project in file("."))
       "-Wconf:cat=unused-imports&src=views/.*:s"
     )
   )
-  .settings(inConfig(Test)(testSettings) *)
 
-lazy val testSettings: Seq[Def.Setting[?]] = Seq(
-  fork := true,
-  javaOptions ++= Seq(
-    "-Dconfig.resource=test.application.conf"
-  )
-)
 
 addCommandAlias("scalafmtAll", "all scalafmtSbt scalafmt Test/scalafmt")
 addCommandAlias("scalastyleAll", "all scalastyle Test/scalastyle")
