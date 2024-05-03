@@ -31,9 +31,7 @@ class CountryOptionsSpec extends SpecBase with MockitoSugar {
 
       val application = new GuiceApplicationBuilder()
         .configure(
-          Map(
-            "location.canonical.list.all" -> "countries-canonical-list-test.json"
-          )
+          defaultAppConfigurations ++ Map("location.canonical.list.all" -> "countries-canonical-list-test.json")
         )
         .build()
 
@@ -50,9 +48,7 @@ class CountryOptionsSpec extends SpecBase with MockitoSugar {
 
       val application = new GuiceApplicationBuilder()
         .configure(
-          Map(
-            "location.canonical.list.allCY" -> "countries-canonical-list-test-cy.json"
-          )
+          defaultAppConfigurations ++ Map("location.canonical.list.allCY" -> "countries-canonical-list-test-cy.json")
         )
         .build()
 
@@ -69,9 +65,7 @@ class CountryOptionsSpec extends SpecBase with MockitoSugar {
 
       val application = new GuiceApplicationBuilder()
         .configure(
-          Map(
-            "location.canonical.list.all" -> "countries-canonical-test.json"
-          )
+          defaultAppConfigurations ++ Map("location.canonical.list.all" -> "countries-canonical-test.json")
         )
         .build()
 
