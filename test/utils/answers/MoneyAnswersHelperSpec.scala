@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import base.SpecBase
 import models.UserAnswers
 import models.WhatKindOfAsset.{Money, Other}
 import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.{verify, when}
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.money._
 import pages.asset.other.{OtherAssetDescriptionPage, OtherAssetValuePage}
@@ -29,7 +30,7 @@ import viewmodels.AnswerSection
 
 class MoneyAnswersHelperSpec extends SpecBase {
 
-  private val mockPrintHelper: MoneyPrintHelper = mock[MoneyPrintHelper]
+  private val mockPrintHelper: MoneyPrintHelper = mock[MoneyPrintHelper]()
   private val answersHelper: MoneyAnswersHelper = new MoneyAnswersHelper(mockPrintHelper)
 
   private val description: String = "Description"

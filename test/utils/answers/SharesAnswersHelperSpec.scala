@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import base.SpecBase
 import models.WhatKindOfAsset.{Money, Shares}
 import models.{ShareClass, UserAnswers}
 import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.{reset, times, verify, when}
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.money.AssetMoneyValuePage
 import pages.asset.shares._
@@ -29,7 +30,7 @@ import viewmodels.AnswerSection
 
 class SharesAnswersHelperSpec extends SpecBase {
 
-  private val mockPrintHelper: SharesPrintHelper = mock[SharesPrintHelper]
+  private val mockPrintHelper: SharesPrintHelper = mock[SharesPrintHelper]()
   private val answersHelper: SharesAnswersHelper = new SharesAnswersHelper(mockPrintHelper)
 
   private val name: String   = "Name"

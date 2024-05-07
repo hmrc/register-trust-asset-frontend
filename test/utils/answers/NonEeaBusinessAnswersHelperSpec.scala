@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import base.SpecBase
 import models.WhatKindOfAsset._
 import models.{InternationalAddress, UserAnswers}
 import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.{reset, verify, when}
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.money._
 import pages.asset.noneeabusiness._
@@ -31,7 +32,7 @@ import java.time.LocalDate
 
 class NonEeaBusinessAnswersHelperSpec extends SpecBase {
 
-  private val mockPrintHelper: NonEeaBusinessPrintHelper = mock[NonEeaBusinessPrintHelper]
+  private val mockPrintHelper: NonEeaBusinessPrintHelper = mock[NonEeaBusinessPrintHelper]()
   private val answersHelper: NonEeaBusinessAnswersHelper = new NonEeaBusinessAnswersHelper(mockPrintHelper)
 
   private val name: String                  = "Name"

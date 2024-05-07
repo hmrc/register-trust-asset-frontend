@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,9 @@ class SubmissionDraftConnectorSpec extends SpecBase with WireMockHelper {
   implicit lazy val hc: HeaderCarrier = HeaderCarrier()
 
   override lazy val app: Application = new GuiceApplicationBuilder()
-    .configure(Seq("microservice.services.trusts.port" -> server.port(), "auditing.enabled" -> false): _*)
+    .configure(
+      defaultAppConfigurations ++ Map("microservice.services.trusts.port" -> server.port())
+    )
     .build()
 
   private lazy val connector = injector.instanceOf[SubmissionDraftConnector]

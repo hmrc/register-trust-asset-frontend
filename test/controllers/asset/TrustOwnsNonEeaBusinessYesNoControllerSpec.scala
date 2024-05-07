@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import controllers.routes._
 import forms.YesNoFormProvider
 import models.TaskStatus
 import org.mockito.ArgumentMatchers.{any, eq => mEq}
+import org.mockito.Mockito.{reset, verify, when}
 import org.scalatest.BeforeAndAfterEach
 import pages.asset.TrustOwnsNonEeaBusinessYesNoPage
 import play.api.data.Form
@@ -40,7 +41,7 @@ class TrustOwnsNonEeaBusinessYesNoControllerSpec extends SpecBase with BeforeAnd
 
   private val validAnswer: Boolean = true
 
-  private val mockTrustsStoreService = mock[TrustsStoreService]
+  private val mockTrustsStoreService = mock[TrustsStoreService]()
 
   private lazy val onPageLoadRoute: String = TrustOwnsNonEeaBusinessYesNoController.onPageLoad(fakeDraftId).url
 

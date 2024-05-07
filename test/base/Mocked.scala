@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,19 +17,23 @@
 package base
 
 import org.mockito.ArgumentMatchers.any
-import org.mockito.MockitoSugar
+import org.mockito.Mockito.when
+import org.mockito.Mockito
 import repositories.RegistrationsRepository
 import views.ViewUtils
 
 import scala.concurrent.Future
+import scala.reflect.ClassTag
 
-trait Mocked extends MockitoSugar {
+trait Mocked {
 
-  val registrationsRepository: RegistrationsRepository = mock[RegistrationsRepository]
+  def mock[T <: AnyRef]()(implicit classTag: ClassTag[T]) =  Mockito.mock(classTag.runtimeClass.asInstanceOf[Class[T]])
+
+  val registrationsRepository: RegistrationsRepository = mock[RegistrationsRepository]()
 
   when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
   when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
 
-  val mockViewUtils: ViewUtils = mock[ViewUtils]
+  val mockViewUtils: ViewUtils = mock[ViewUtils]()
   when(mockViewUtils.breadcrumbTitle(any())(any(), any())).thenReturn("")
 }

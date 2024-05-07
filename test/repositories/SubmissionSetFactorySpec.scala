@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import base.SpecBase
 import mapping.AssetMapper
 import models.RegistrationSubmission
 import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.when
 import pages.RegistrationProgress
 import pages.asset.TrustOwnsNonEeaBusinessYesNoPage
 import play.api.libs.json.Json
@@ -71,13 +72,13 @@ class SubmissionSetFactorySpec extends SpecBase {
         val registrationProgress: RegistrationProgress = injector.instanceOf[RegistrationProgress]
         val assetMapper: AssetMapper                   = injector.instanceOf[AssetMapper]
 
-        val moneyAnswersHelper: MoneyAnswersHelper                   = mock[MoneyAnswersHelper]
-        val propertyOrLandAnswersHelper: PropertyOrLandAnswersHelper = mock[PropertyOrLandAnswersHelper]
-        val sharesAnswersHelper: SharesAnswersHelper                 = mock[SharesAnswersHelper]
-        val businessAnswersHelper: BusinessAnswersHelper             = mock[BusinessAnswersHelper]
-        val partnershipAnswersHelper: PartnershipAnswersHelper       = mock[PartnershipAnswersHelper]
-        val otherAnswersHelper: OtherAnswersHelper                   = mock[OtherAnswersHelper]
-        val nonEeaBusinessAnswersHelper: NonEeaBusinessAnswersHelper = mock[NonEeaBusinessAnswersHelper]
+        val moneyAnswersHelper: MoneyAnswersHelper                   = mock[MoneyAnswersHelper]()
+        val propertyOrLandAnswersHelper: PropertyOrLandAnswersHelper = mock[PropertyOrLandAnswersHelper]()
+        val sharesAnswersHelper: SharesAnswersHelper                 = mock[SharesAnswersHelper]()
+        val businessAnswersHelper: BusinessAnswersHelper             = mock[BusinessAnswersHelper]()
+        val partnershipAnswersHelper: PartnershipAnswersHelper       = mock[PartnershipAnswersHelper]()
+        val otherAnswersHelper: OtherAnswersHelper                   = mock[OtherAnswersHelper]()
+        val nonEeaBusinessAnswersHelper: NonEeaBusinessAnswersHelper = mock[NonEeaBusinessAnswersHelper]()
 
         when(moneyAnswersHelper(any())(any())).thenReturn(Nil)
         when(propertyOrLandAnswersHelper(any())(any())).thenReturn(Nil)

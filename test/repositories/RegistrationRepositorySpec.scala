@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,8 @@ import base.SpecBase
 import connectors.SubmissionDraftConnector
 import models._
 import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.{verify, when}
 import org.scalatest.matchers.must.Matchers
-import org.mockito.MockitoSugar
 import play.api.http.Status.OK
 import play.api.libs.json.Json
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
@@ -30,9 +30,9 @@ import java.time.LocalDateTime
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 
-class RegistrationRepositorySpec extends SpecBase with Matchers with MockitoSugar {
+class RegistrationRepositorySpec extends SpecBase with Matchers {
 
-  private val mockSubmissionSetFactory: SubmissionSetFactory = mock[SubmissionSetFactory]
+  private val mockSubmissionSetFactory: SubmissionSetFactory = mock[SubmissionSetFactory]()
 
   private def createRepository(
     connector: SubmissionDraftConnector,
@@ -50,7 +50,7 @@ class RegistrationRepositorySpec extends SpecBase with Matchers with MockitoSuga
 
         val userAnswers = UserAnswers(draftId = fakeDraftId, internalAuthId = "internalId")
 
-        val mockConnector = mock[SubmissionDraftConnector]
+        val mockConnector = mock[SubmissionDraftConnector]()
 
         val repository = createRepository(mockConnector, mockSubmissionSetFactory)
 
@@ -77,9 +77,9 @@ class RegistrationRepositorySpec extends SpecBase with Matchers with MockitoSuga
           Nil
         )
 
-        val mockConnector = mock[SubmissionDraftConnector]
+        val mockConnector = mock[SubmissionDraftConnector]()
 
-        val mockSubmissionSetFactory = mock[SubmissionSetFactory]
+        val mockSubmissionSetFactory = mock[SubmissionSetFactory]()
         when(mockSubmissionSetFactory.createFrom(any())(any())).thenReturn(submissionSet)
 
         val repository = createRepository(mockConnector, mockSubmissionSetFactory)

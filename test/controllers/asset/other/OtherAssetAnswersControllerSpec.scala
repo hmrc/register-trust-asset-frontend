@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import base.SpecBase
 import models.UserAnswers
 import models.WhatKindOfAsset.Other
 import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.when
 import pages.asset._
 import pages.asset.other._
 import play.api.Application
@@ -56,7 +57,7 @@ class OtherAssetAnswersControllerSpec extends SpecBase {
     "return OK and the correct view for a GET" in {
 
       val expectedSections                  = Nil
-      val mockPrintHelper: OtherPrintHelper = mock[OtherPrintHelper]
+      val mockPrintHelper: OtherPrintHelper = mock[OtherPrintHelper]()
       when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(any())).thenReturn(Nil)
 
       val application = applicationBuilder(userAnswers = Some(baseAnswers))

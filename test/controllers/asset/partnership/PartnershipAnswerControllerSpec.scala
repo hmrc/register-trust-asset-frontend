@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import base.SpecBase
 import models.Status.Completed
 import models.WhatKindOfAsset.Partnership
 import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.when
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.partnership._
@@ -59,7 +60,7 @@ class PartnershipAnswerControllerSpec extends SpecBase {
           .value
 
       val expectedSections                        = Nil
-      val mockPrintHelper: PartnershipPrintHelper = mock[PartnershipPrintHelper]
+      val mockPrintHelper: PartnershipPrintHelper = mock[PartnershipPrintHelper]()
       when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(any())).thenReturn(Nil)
 
       val application = applicationBuilder(userAnswers = Some(userAnswers))

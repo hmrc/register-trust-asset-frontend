@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,6 +49,7 @@ class LanguageSwitchControllerSpec extends SpecBase {
         "switch to English" in {
 
           val application = new GuiceApplicationBuilder()
+            .configure(defaultAppConfigurations)
             .overrides(bind[FrontendAppConfig].toInstance(frontendAppConfig()))
             .build()
 
@@ -72,6 +73,7 @@ class LanguageSwitchControllerSpec extends SpecBase {
         "switch to Welsh" in {
 
           val application = new GuiceApplicationBuilder()
+            .configure(defaultAppConfigurations)
             .overrides(bind[FrontendAppConfig].toInstance(frontendAppConfig()))
             .build()
 
@@ -97,6 +99,7 @@ class LanguageSwitchControllerSpec extends SpecBase {
       "default to English" in {
 
         val application = new GuiceApplicationBuilder()
+          .configure(defaultAppConfigurations)
           .overrides(bind[FrontendAppConfig].toInstance(frontendAppConfig(false)))
           .build()
 
@@ -121,6 +124,7 @@ class LanguageSwitchControllerSpec extends SpecBase {
       "redirect to login continue url" in {
 
         val application = new GuiceApplicationBuilder()
+          .configure(defaultAppConfigurations)
           .overrides(bind[FrontendAppConfig].toInstance(frontendAppConfig()))
           .build()
 

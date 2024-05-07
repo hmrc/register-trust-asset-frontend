@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ package controllers
 import base.SpecBase
 import generators.Generators
 import org.scalacheck.Gen
-import org.mockito.MockitoSugar
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import pages.QuestionPage
 import play.api.http.Writeable
@@ -28,7 +27,7 @@ import play.api.mvc.Request
 import play.api.test.Helpers._
 import views.html.PageNotFoundView
 
-trait IndexValidation extends SpecBase with ScalaCheckPropertyChecks with MockitoSugar with Generators {
+trait IndexValidation extends SpecBase with ScalaCheckPropertyChecks with Generators {
 
   def validateIndex[A, B](
     generator: Gen[A],

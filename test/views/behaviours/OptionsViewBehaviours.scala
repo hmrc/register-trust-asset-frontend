@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ trait OptionsViewBehaviours extends ViewBehaviours {
           val doc = asDocument(createView(form))
 
           for (option <- options)
-            assertContainsRadioButton(doc, option.id, "value", option.value, false)
+            assertContainsRadioButton(doc, option.id, "value", option.value, isChecked = false)
         }
       }
 
@@ -47,10 +47,10 @@ trait OptionsViewBehaviours extends ViewBehaviours {
 
             val doc = asDocument(createView(form.bind(Map("value" -> s"${option.value}"))))
 
-            assertContainsRadioButton(doc, option.id, "value", option.value, true)
+            assertContainsRadioButton(doc, option.id, "value", option.value, isChecked = true)
 
             for (unselectedOption <- options.filterNot(o => o == option))
-              assertContainsRadioButton(doc, unselectedOption.id, "value", unselectedOption.value, false)
+              assertContainsRadioButton(doc, unselectedOption.id, "value", unselectedOption.value, isChecked = false)
           }
         }
     }

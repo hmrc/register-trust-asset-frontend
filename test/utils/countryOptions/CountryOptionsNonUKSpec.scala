@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,12 +18,11 @@ package utils.countryOptions
 
 import base.SpecBase
 import com.typesafe.config.ConfigException
-import org.mockito.MockitoSugar
 import play.api.i18n.{Lang, MessagesApi, MessagesImpl}
 import play.api.inject.guice.GuiceApplicationBuilder
 import utils.InputOption
 
-class CountryOptionsNonUKSpec extends SpecBase with MockitoSugar {
+class CountryOptionsNonUKSpec extends SpecBase {
 
   "Country Options Non UK" must {
 
@@ -31,9 +30,7 @@ class CountryOptionsNonUKSpec extends SpecBase with MockitoSugar {
 
       val application = new GuiceApplicationBuilder()
         .configure(
-          Map(
-            "location.canonical.list.all" -> "non-uk-countries-canonical-list-test.json"
-          )
+          defaultAppConfigurations ++ Map("location.canonical.list.all" -> "non-uk-countries-canonical-list-test.json")
         )
         .build()
 
@@ -50,7 +47,7 @@ class CountryOptionsNonUKSpec extends SpecBase with MockitoSugar {
 
       val application = new GuiceApplicationBuilder()
         .configure(
-          Map(
+          defaultAppConfigurations ++ Map(
             "location.canonical.list.allCY" -> "non-uk-countries-canonical-list-test-cy.json"
           )
         )
@@ -69,9 +66,7 @@ class CountryOptionsNonUKSpec extends SpecBase with MockitoSugar {
 
       val application = new GuiceApplicationBuilder()
         .configure(
-          Map(
-            "location.canonical.list.all" -> "countries-canonical-test.json"
-          )
+          defaultAppConfigurations ++ Map("location.canonical.list.all" -> "countries-canonical-test.json")
         )
         .build()
 
