@@ -3,7 +3,6 @@ import sbt.Def
 import scoverage.ScoverageKeys
 import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
 
-
 ThisBuild / scalaVersion := "2.13.13"
 ThisBuild / majorVersion := 0
 
@@ -28,7 +27,7 @@ lazy val root = (project in file("."))
     ScoverageKeys.coverageMinimumStmtTotal := 80,
     ScoverageKeys.coverageFailOnMinimum := true,
     ScoverageKeys.coverageHighlighting := true,
-    scalacOptions ++= Seq( "-feature", "-Wconf:src=routes/.*:s", "-Wconf:cat=unused-imports&src=views/.*:s" ),
+    scalacOptions ++= Seq("-feature", "-Wconf:src=routes/.*:s", "-Wconf:cat=unused-imports&src=views/.*:s"),
     libraryDependencies ++= AppDependencies(),
     // concatenate js
     Concat.groups := Seq(
@@ -55,7 +54,6 @@ lazy val root = (project in file("."))
       "-Wconf:cat=unused-imports&src=views/.*:s"
     )
   )
-
 
 addCommandAlias("scalafmtAll", "all scalafmtSbt scalafmt Test/scalafmt")
 addCommandAlias("scalastyleAll", "all scalastyle Test/scalastyle")

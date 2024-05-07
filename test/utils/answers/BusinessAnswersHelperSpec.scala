@@ -20,6 +20,7 @@ import base.SpecBase
 import models.WhatKindOfAsset._
 import models.{UKAddress, UserAnswers}
 import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.{reset, verify, when}
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.business._
 import pages.asset.money._
@@ -29,7 +30,7 @@ import viewmodels.AnswerSection
 
 class BusinessAnswersHelperSpec extends SpecBase {
 
-  private val mockPrintHelper: BusinessPrintHelper = mock[BusinessPrintHelper]
+  private val mockPrintHelper: BusinessPrintHelper = mock[BusinessPrintHelper]()
   private val answersHelper: BusinessAnswersHelper = new BusinessAnswersHelper(mockPrintHelper)
 
   private val name: String        = "Name"

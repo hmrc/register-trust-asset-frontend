@@ -22,6 +22,7 @@ import controllers.routes._
 import forms.YesNoFormProvider
 import models.TaskStatus
 import org.mockito.ArgumentMatchers.{any, eq => mEq}
+import org.mockito.Mockito.{reset, verify, when}
 import org.scalatest.BeforeAndAfterEach
 import pages.asset.TrustOwnsNonEeaBusinessYesNoPage
 import play.api.data.Form
@@ -40,7 +41,7 @@ class TrustOwnsNonEeaBusinessYesNoControllerSpec extends SpecBase with BeforeAnd
 
   private val validAnswer: Boolean = true
 
-  private val mockTrustsStoreService = mock[TrustsStoreService]
+  private val mockTrustsStoreService = mock[TrustsStoreService]()
 
   private lazy val onPageLoadRoute: String = TrustOwnsNonEeaBusinessYesNoController.onPageLoad(fakeDraftId).url
 

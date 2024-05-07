@@ -18,6 +18,7 @@ package controllers.asset.shares
 
 import base.SpecBase
 import org.mockito.ArgumentMatchers.{any, eq => eqTo}
+import org.mockito.Mockito.when
 import pages.asset.shares._
 import play.api.inject.bind
 import play.api.test.FakeRequest
@@ -48,7 +49,7 @@ class ShareAnswerControllerSpec extends SpecBase {
           .value
 
         val expectedSections                   = Nil
-        val mockPrintHelper: SharesPrintHelper = mock[SharesPrintHelper]
+        val mockPrintHelper: SharesPrintHelper = mock[SharesPrintHelper]()
         when(mockPrintHelper.checkDetailsSection(any(), eqTo(name), any(), any())(any())).thenReturn(Nil)
 
         val application = applicationBuilder(userAnswers = Some(userAnswers))
@@ -82,7 +83,7 @@ class ShareAnswerControllerSpec extends SpecBase {
           .value
 
         val expectedSections                   = Nil
-        val mockPrintHelper: SharesPrintHelper = mock[SharesPrintHelper]
+        val mockPrintHelper: SharesPrintHelper = mock[SharesPrintHelper]()
         when(mockPrintHelper.checkDetailsSection(any(), eqTo(name), any(), any())(any())).thenReturn(Nil)
 
         val application = applicationBuilder(userAnswers = Some(userAnswers))
@@ -111,7 +112,7 @@ class ShareAnswerControllerSpec extends SpecBase {
           .value
 
         val expectedSections                   = Nil
-        val mockPrintHelper: SharesPrintHelper = mock[SharesPrintHelper]
+        val mockPrintHelper: SharesPrintHelper = mock[SharesPrintHelper]()
         when(mockPrintHelper.checkDetailsSection(any(), eqTo("the asset"), any(), any())(any())).thenReturn(Nil)
 
         val application = applicationBuilder(userAnswers = Some(userAnswers))

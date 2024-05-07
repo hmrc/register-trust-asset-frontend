@@ -20,6 +20,7 @@ import base.SpecBase
 import models.UserAnswers
 import models.WhatKindOfAsset._
 import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.{reset, verify, when}
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.money._
 import pages.asset.partnership._
@@ -31,7 +32,7 @@ import java.time.LocalDate
 
 class PartnershipAnswersHelperSpec extends SpecBase {
 
-  private val mockPrintHelper: PartnershipPrintHelper = mock[PartnershipPrintHelper]
+  private val mockPrintHelper: PartnershipPrintHelper = mock[PartnershipPrintHelper]()
   private val answersHelper: PartnershipAnswersHelper = new PartnershipAnswersHelper(mockPrintHelper)
 
   private val description: String = "Description"

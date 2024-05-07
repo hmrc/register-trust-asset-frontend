@@ -20,6 +20,7 @@ import base.SpecBase
 import controllers.routes._
 import models.{InternationalAddress, UserAnswers}
 import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.when
 import pages.asset.noneeabusiness._
 import play.api.inject.bind
 import play.api.test.FakeRequest
@@ -54,7 +55,7 @@ class AnswersControllerSpec extends SpecBase {
     "return OK and the correct view for a GET" in {
 
       val expectedSections                           = Nil
-      val mockPrintHelper: NonEeaBusinessPrintHelper = mock[NonEeaBusinessPrintHelper]
+      val mockPrintHelper: NonEeaBusinessPrintHelper = mock[NonEeaBusinessPrintHelper]()
       when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(any())).thenReturn(Nil)
 
       val application = applicationBuilder(userAnswers = Some(answers))

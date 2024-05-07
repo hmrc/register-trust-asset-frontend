@@ -25,6 +25,7 @@ import models.WhatKindOfAsset._
 import models.{AddAssets, Status, TaskStatus, UserAnswers}
 import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers.{any, eq => mEq}
+import org.mockito.Mockito.{reset, verify, when}
 import org.scalatest.BeforeAndAfterEach
 import pages.asset.noneeabusiness.NamePage
 import pages.asset.{AddAnAssetYesNoPage, AddAssetsPage, WhatKindOfAssetPage}
@@ -58,8 +59,8 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
   private val addNonTaxableAssetsForm: Form[AddAssets] = new AddAssetsFormProvider().withPrefix("addAssets.nonTaxable")
   private val yesNoForm: Form[Boolean]                 = new YesNoFormProvider().withPrefix("addAnAssetYesNo")
 
-  private val mockTrustsStoreService   = mock[TrustsStoreService]
-  private val mockRegistrationProgress = mock[RegistrationProgress]
+  private val mockTrustsStoreService   = mock[TrustsStoreService]()
+  private val mockRegistrationProgress = mock[RegistrationProgress]()
 
   private lazy val oneAsset: List[AddRow] = List(
     AddRow("Name", typeLabel = "Non-EEA Company", changeNonEeaAssetRoute(0), removeAssetYesNoRoute(0))

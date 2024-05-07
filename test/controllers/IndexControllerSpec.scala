@@ -23,6 +23,7 @@ import models.Status.Completed
 import models.{TaskStatus, UserAnswers, WhatKindOfAsset}
 import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers.{any, eq => mEq}
+import org.mockito.Mockito.{atLeastOnce, reset, verify, when}
 import org.scalatest.BeforeAndAfterEach
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
@@ -37,8 +38,8 @@ import scala.concurrent.Future
 
 class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
 
-  private val trustsStoreService: TrustsStoreService             = mock[TrustsStoreService]
-  private val submissionDraftConnector: SubmissionDraftConnector = mock[SubmissionDraftConnector]
+  private val trustsStoreService: TrustsStoreService             = mock[TrustsStoreService]()
+  private val submissionDraftConnector: SubmissionDraftConnector = mock[SubmissionDraftConnector]()
 
   private lazy val onPageLoadRoute: String = routes.IndexController.onPageLoad(fakeDraftId).url
 

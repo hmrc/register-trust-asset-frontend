@@ -18,17 +18,17 @@ package controllers
 
 import base.SpecBase
 import org.mockito.ArgumentMatchers.{eq => eqTo, _}
-import org.mockito.MockitoSugar
+import org.mockito.Mockito.{verify, never}
 import play.api.inject.bind
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 
-class LogoutControllerSpec extends SpecBase with MockitoSugar {
+class LogoutControllerSpec extends SpecBase {
 
   "logout should redirect to feedback and audit" in {
 
-    val mockAuditConnector = mock[AuditConnector]
+    val mockAuditConnector = mock[AuditConnector]()
 
     val application = applicationBuilder(userAnswers = Some(emptyUserAnswers))
       .overrides(bind[AuditConnector].toInstance(mockAuditConnector))

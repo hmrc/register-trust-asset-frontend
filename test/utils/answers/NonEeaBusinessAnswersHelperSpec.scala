@@ -20,6 +20,7 @@ import base.SpecBase
 import models.WhatKindOfAsset._
 import models.{InternationalAddress, UserAnswers}
 import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.{reset, verify, when}
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.money._
 import pages.asset.noneeabusiness._
@@ -31,7 +32,7 @@ import java.time.LocalDate
 
 class NonEeaBusinessAnswersHelperSpec extends SpecBase {
 
-  private val mockPrintHelper: NonEeaBusinessPrintHelper = mock[NonEeaBusinessPrintHelper]
+  private val mockPrintHelper: NonEeaBusinessPrintHelper = mock[NonEeaBusinessPrintHelper]()
   private val answersHelper: NonEeaBusinessAnswersHelper = new NonEeaBusinessAnswersHelper(mockPrintHelper)
 
   private val name: String                  = "Name"

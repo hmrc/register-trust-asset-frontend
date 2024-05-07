@@ -58,7 +58,8 @@ class MessagesSpec extends SpecBase {
     }
     "not have the same messages" in {
       val same = defaultMessages.keys.collect({
-        case messageKey if defaultMessages.get(messageKey) == welshMessages.get(messageKey) && !messageKey.contains(".url") =>
+        case messageKey
+            if defaultMessages.get(messageKey) == welshMessages.get(messageKey) && !messageKey.contains(".url") =>
           (messageKey, defaultMessages.get(messageKey))
       })
 
@@ -77,8 +78,14 @@ class MessagesSpec extends SpecBase {
       assertCorrectUseOfQuotesForWelshMessages()
     }
     "have a resolvable message for keys which take args" in {
-      val englishWithArgsMsgKeys = defaultMessages collect { case (messageKey, value) if countArgs(value) > 0 => messageKey }
-      val welshWithArgsMsgKeys   = welshMessages collect { case (messageKey, value) if countArgs(value) > 0 => messageKey }
+      val englishWithArgsMsgKeys = defaultMessages collect {
+        case (messageKey, messageValue) if countArgs(messageValue) > 0 => messageKey
+      }
+
+      val welshWithArgsMsgKeys   = welshMessages collect {
+        case (messageKey, messageValue) if countArgs(messageValue) > 0 => messageKey
+      }
+
       val missingFromEnglish     = englishWithArgsMsgKeys.toList diff welshWithArgsMsgKeys.toList
       val missingFromWelsh       = welshWithArgsMsgKeys.toList diff englishWithArgsMsgKeys.toList
       missingFromEnglish foreach { key =>
@@ -91,10 +98,10 @@ class MessagesSpec extends SpecBase {
     }
     "have the same args in the same order for all keys which take args" in {
       val englishWithArgsMsgKeysAndArgList = defaultMessages collect {
-        case (messageKey, value) if countArgs(value) > 0 => (messageKey, listArgs(value))
+        case (messageKey, messageValue) if countArgs(messageValue) > 0 => (messageKey, listArgs(messageValue))
       }
       val welshWithArgsMsgKeysAndArgList   = welshMessages collect {
-        case (messageKey, value) if countArgs(value) > 0 => (messageKey, listArgs(value))
+        case (messageKey, messageValue) if countArgs(messageValue) > 0 => (messageKey, listArgs(messageValue))
       }
       val mismatchedArgSequences           = englishWithArgsMsgKeysAndArgList collect {
         case (messageKey, engArgSeq) if engArgSeq != welshWithArgsMsgKeysAndArgList(messageKey) =>

@@ -21,6 +21,7 @@ import controllers.routes._
 import models.Status.Completed
 import models.WhatKindOfAsset.PropertyOrLand
 import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.when
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.property_or_land._
@@ -67,7 +68,7 @@ class PropertyOrLandAnswerControllerSpec extends SpecBase {
             .value
 
         val expectedSections                           = Nil
-        val mockPrintHelper: PropertyOrLandPrintHelper = mock[PropertyOrLandPrintHelper]
+        val mockPrintHelper: PropertyOrLandPrintHelper = mock[PropertyOrLandPrintHelper]()
         when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(any())).thenReturn(Nil)
 
         val application = applicationBuilder(userAnswers = Some(userAnswers))

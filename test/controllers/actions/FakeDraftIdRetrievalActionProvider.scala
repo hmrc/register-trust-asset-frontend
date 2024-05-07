@@ -16,21 +16,21 @@
 
 package controllers.actions
 
+import base.Mocked
 import models.UserAnswers
 import org.mockito.ArgumentMatchers._
-import org.mockito.MockitoSugar
+import org.mockito.Mockito.when
 import repositories.RegistrationsRepository
 
 import scala.concurrent.{ExecutionContext, Future}
 
 class FakeDraftIdRetrievalActionProvider(dataToReturn: Option[UserAnswers])
-    extends DraftIdRetrievalActionProvider
-    with MockitoSugar {
+    extends DraftIdRetrievalActionProvider with Mocked {
 
   implicit val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
-  val mockedRepository: RegistrationsRepository = mock[RegistrationsRepository]
+  val mockedRepository: RegistrationsRepository = mock[RegistrationsRepository]()
 
   when(mockedRepository.get(any())(any())).thenReturn(Future.successful(dataToReturn))
 

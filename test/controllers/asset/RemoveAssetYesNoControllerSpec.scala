@@ -23,6 +23,7 @@ import models.WhatKindOfAsset._
 import models.{InternationalAddress, UKAddress, UserAnswers}
 import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.verify
 import pages.asset._
 import pages.asset.business._
 import pages.asset.money._
