@@ -27,7 +27,7 @@ import scala.reflect.ClassTag
 
 trait Mocked {
 
-  def mock[T <: AnyRef]()(implicit classTag: ClassTag[T]) =  Mockito.mock(classTag.runtimeClass.asInstanceOf[Class[T]])
+  def mock[T <: AnyRef]()(implicit classTag: ClassTag[T]) = Mockito.mock(classTag.runtimeClass.asInstanceOf[Class[T]])
 
   val registrationsRepository: RegistrationsRepository = mock[RegistrationsRepository]()
 

@@ -82,12 +82,12 @@ class MessagesSpec extends SpecBase {
         case (messageKey, messageValue) if countArgs(messageValue) > 0 => messageKey
       }
 
-      val welshWithArgsMsgKeys   = welshMessages collect {
+      val welshWithArgsMsgKeys = welshMessages collect {
         case (messageKey, messageValue) if countArgs(messageValue) > 0 => messageKey
       }
 
-      val missingFromEnglish     = englishWithArgsMsgKeys.toList diff welshWithArgsMsgKeys.toList
-      val missingFromWelsh       = welshWithArgsMsgKeys.toList diff englishWithArgsMsgKeys.toList
+      val missingFromEnglish = englishWithArgsMsgKeys.toList diff welshWithArgsMsgKeys.toList
+      val missingFromWelsh   = welshWithArgsMsgKeys.toList diff englishWithArgsMsgKeys.toList
       missingFromEnglish foreach { key =>
         println(s"Key which has arguments in English but not in Welsh: $key")
       }
