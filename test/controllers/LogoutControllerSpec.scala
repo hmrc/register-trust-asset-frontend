@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import org.mockito.ArgumentMatchers.{eq => eqTo, _}
-import org.mockito.Mockito.{verify, never}
+import org.mockito.Mockito.{never, verify}
 import play.api.inject.bind
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
