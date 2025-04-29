@@ -19,7 +19,7 @@ package views
 import models.requests.RegistrationDataRequest
 import play.api.data.{Field, Form, FormError}
 import play.api.i18n.Messages
-import play.api.mvc.Request
+import play.api.mvc.RequestHeader
 import play.twirl.api.{Html, HtmlFormat}
 import uk.gov.hmrc.govukfrontend.views.html.components.{RadioItem, Text}
 import viewmodels.RadioOption
@@ -28,7 +28,7 @@ import scala.collection.immutable
 
 class ViewUtils {
 
-  def breadcrumbTitle[T <: Request[_]](title: String)(implicit request: T, messages: Messages): String = {
+  def breadcrumbTitle[T <: RequestHeader](title: String)(implicit request: T, messages: Messages): String = {
     val section = request match {
       case x: RegistrationDataRequest[_] => Some(s"entities.${if (x.userAnswers.isTaxable) "assets" else "nonTaxable"}")
       case _                             => None
