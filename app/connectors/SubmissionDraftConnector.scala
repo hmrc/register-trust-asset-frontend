@@ -18,15 +18,16 @@ package connectors
 
 import config.FrontendAppConfig
 import models.{RegistrationSubmission, SubmissionDraftResponse}
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.Json
 import uk.gov.hmrc.http.HttpReads.Implicits._
-import uk.gov.hmrc.http.{HeaderCarrier, HttpClient, HttpResponse}
+import uk.gov.hmrc.http.client.HttpClientV2
+import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse, StringContextOps}
 
 import java.time.LocalDate
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class SubmissionDraftConnector @Inject() (http: HttpClient, config: FrontendAppConfig) {
+class SubmissionDraftConnector @Inject() (http: HttpClientV2, config: FrontendAppConfig) {
 
   private val submissionsBaseUrl = s"${config.trustsUrl}/trusts/register/submission-drafts"
 
@@ -34,22 +35,31 @@ class SubmissionDraftConnector @Inject() (http: HttpClient, config: FrontendAppC
     hc: HeaderCarrier,
     ec: ExecutionContext
   ): Future[HttpResponse] =
-    http.POST[JsValue, HttpResponse](s"$submissionsBaseUrl/$draftId/set/$section", Json.toJson(data))
+    http
+      .post(url"$submissionsBaseUrl/$draftId/set/$section")
+      .withBody(Json.toJson(data))
+      .execute[HttpResponse]
 
   def getDraftSection(draftId: String, section: String)(implicit
     hc: HeaderCarrier,
     ec: ExecutionContext
   ): Future[SubmissionDraftResponse] =
-    http.GET[SubmissionDraftResponse](s"$submissionsBaseUrl/$draftId/$section")
+    http
+      .get(url"$submissionsBaseUrl/$draftId/$section")
+      .execute[SubmissionDraftResponse]
 
   def getIsTrustTaxable(draftId: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Boolean] =
-    http.GET[Boolean](s"$submissionsBaseUrl/$draftId/is-trust-taxable").recover { case _ =>
-      true
-    }
+    http
+      .get(url"$submissionsBaseUrl/$draftId/is-trust-taxable")
+      .execute[Boolean]
+      .recover { case _ =>
+        true
+      }
 
   def getTrustSetupDate(draftId: String)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[Option[LocalDate]] =
     http
-      .GET[HttpResponse](s"$submissionsBaseUrl/$draftId/when-trust-setup")
+      .get(url"$submissionsBaseUrl/$draftId/when-trust-setup")
+      .execute[HttpResponse]
       .map { response =>
         (response.json \ "startDate").asOpt[LocalDate]
       }
