@@ -40,11 +40,12 @@ class CountryFormProviderSpec extends StringFieldBehaviours {
       stringsWithMaxLength(maxLength)
     )
 
-    behave like fieldWithMaxLength(
+    behave like checkForMaxLengthAndInvalid(
       form,
       fieldName,
       maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+      lengthError = FormError(fieldName, lengthKey, Seq(maxLength)),
+      invalidError = FormError(fieldName, invalidKey, Seq(maxLength))
     )
 
     behave like mandatoryField(
