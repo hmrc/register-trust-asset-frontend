@@ -64,4 +64,23 @@ trait StringFieldBehaviours extends FieldBehaviours with OptionalFieldBehaviours
       result.errors shouldBe Seq(requiredError)
     }
 
+  def checkForMaxLengthAndInvalid(
+    form: Form[_],
+    fieldName: String,
+    maxLength: Int,
+    lengthError: FormError,
+    invalidError: FormError
+  ): Unit =
+    s"check for max length and invalid for generated $maxLength chars" in {
+
+      forAll(stringsLongerThan(maxLength) -> "longString") { string =>
+        val result = form.bind(Map(fieldName -> string)).apply(fieldName)
+        if (result.errors.size > 1) {
+          result.errors should contain allOf (lengthError, invalidError)
+        } else {
+          result.errors should contain oneOf (lengthError, invalidError)
+        }
+      }
+    }
+
 }

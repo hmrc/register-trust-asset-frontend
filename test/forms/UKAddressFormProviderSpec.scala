@@ -31,6 +31,7 @@ class UKAddressFormProviderSpec extends StringFieldBehaviours {
     val requiredKey = "ukAddress.error.line1.required"
     val lengthKey   = "ukAddress.error.line1.length"
     val maxLength   = 35
+    val invalidKey  = "ukAddress.error.line1.length.invalid"
 
     behave like fieldThatBindsValidData(
       form,
@@ -38,11 +39,12 @@ class UKAddressFormProviderSpec extends StringFieldBehaviours {
       RegexpGen.from(Validation.addressLineRegex)
     )
 
-    behave like fieldWithMaxLength(
+    behave like checkForMaxLengthAndInvalid(
       form,
       fieldName,
       maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+      lengthError = FormError(fieldName, lengthKey, Seq(maxLength)),
+      invalidError = FormError(fieldName, invalidKey, Seq(maxLength))
     )
 
     behave like mandatoryField(
@@ -64,6 +66,7 @@ class UKAddressFormProviderSpec extends StringFieldBehaviours {
     val fieldName   = "line2"
     val requiredKey = "ukAddress.error.line2.required"
     val lengthKey   = "ukAddress.error.line2.length"
+    val invalidKey  = "ukAddress.error.line2.length.invalid"
     val maxLength   = 35
 
     behave like fieldThatBindsValidData(
@@ -72,11 +75,12 @@ class UKAddressFormProviderSpec extends StringFieldBehaviours {
       RegexpGen.from(Validation.addressLineRegex)
     )
 
-    behave like fieldWithMaxLength(
+    behave like checkForMaxLengthAndInvalid(
       form,
       fieldName,
       maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+      lengthError = FormError(fieldName, lengthKey, Seq(maxLength)),
+      invalidError = FormError(fieldName, invalidKey, Seq(maxLength))
     )
 
     behave like mandatoryField(
@@ -95,15 +99,17 @@ class UKAddressFormProviderSpec extends StringFieldBehaviours {
 
   ".line3" must {
 
-    val fieldName = "line3"
-    val lengthKey = "ukAddress.error.line3.length"
-    val maxLength = 35
+    val fieldName  = "line3"
+    val lengthKey  = "ukAddress.error.line3.length"
+    val invalidKey = "ukAddress.error.line3.length.invalid"
+    val maxLength  = 35
 
-    behave like fieldWithMaxLength(
+    behave like checkForMaxLengthAndInvalid(
       form,
       fieldName,
       maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+      lengthError = FormError(fieldName, lengthKey, Seq(maxLength)),
+      invalidError = FormError(fieldName, invalidKey, Seq(maxLength))
     )
 
     behave like optionalField(
@@ -136,15 +142,17 @@ class UKAddressFormProviderSpec extends StringFieldBehaviours {
 
   ".line4" must {
 
-    val fieldName = "line4"
-    val lengthKey = "ukAddress.error.line4.length"
-    val maxLength = 35
+    val fieldName  = "line4"
+    val lengthKey  = "ukAddress.error.line4.length"
+    val invalidKey = "ukAddress.error.line4.length.invalid"
+    val maxLength  = 35
 
-    behave like fieldWithMaxLength(
+    behave like checkForMaxLengthAndInvalid(
       form,
       fieldName,
       maxLength = maxLength,
-      lengthError = FormError(fieldName, lengthKey, Seq(maxLength))
+      lengthError = FormError(fieldName, lengthKey, Seq(maxLength)),
+      invalidError = FormError(fieldName, invalidKey, Seq(maxLength))
     )
 
     behave like optionalField(
