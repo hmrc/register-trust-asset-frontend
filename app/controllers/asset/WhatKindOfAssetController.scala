@@ -23,7 +23,7 @@ import forms.WhatKindOfAssetFormProvider
 import models.requests.RegistrationDataRequest
 import models.{Enumerable, UserAnswers, WhatKindOfAsset}
 import navigation.Navigator
-import pages.asset.WhatKindOfAssetPage
+import pages.asset.{NonEeaInterruptPage, WhatKindOfAssetPage}
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, ActionBuilder, AnyContent, MessagesControllerComponents}
@@ -80,7 +80,18 @@ class WhatKindOfAssetController @Inject() (
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(WhatKindOfAssetPage(index), value))
             _              <- repository.set(updatedAnswers)
-          } yield Redirect(navigator.nextPage(WhatKindOfAssetPage(index), draftId)(updatedAnswers))
+            hasUserSelectedNonEea = true // todo, actually check the anser
+            // note: here we need to check whether the user has selected the 'NonEea' radio option
+          } yield {
+
+            val onwardCall = if (hasUserSelectedNonEea) {
+              navigator.nextPage(NonEeaInterruptPage(index), draftId)(updatedAnswers)
+            } else {
+              navigator.nextPage(WhatKindOfAssetPage(index), draftId)(updatedAnswers)
+            }
+
+            Redirect(onwardCall)
+          } // note: this is where we redirect to our new page - check this is correct
       )
   }
 }
