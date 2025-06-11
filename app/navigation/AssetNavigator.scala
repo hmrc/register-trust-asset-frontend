@@ -44,6 +44,7 @@ class AssetNavigator @Inject() (config: FrontendAppConfig) extends Navigator {
             noCall = assetsCompletedRoute(draftId)
           )
     case AssetInterruptPage               => _ => ua => redirectToAddToPageIfTaxable(ua, draftId)
+    case NonEeaInterruptPage(index)       => _ => ua => nonEeaInterruptRoute(ua, index, draftId) // note: check if we need the index and draft id (think we do?)
     case WhatKindOfAssetPage(index)       => _ => ua => whatKindOfAssetRoute(ua, index, draftId)
     case AddAssetsPage                    => _ => addAssetsRoute(draftId)
     case AddAnAssetYesNoPage              =>
@@ -63,7 +64,7 @@ class AssetNavigator @Inject() (config: FrontendAppConfig) extends Navigator {
       route = if (userAnswers.isTaxable) {
         controllers.asset.routes.WhatKindOfAssetController.onPageLoad
       } else {
-        controllers.asset.noneeabusiness.routes.NameController.onPageLoad
+        controllers.asset.noneeabusiness.routes.NameController.onPageLoad // note: this is the "what is the company name" page
       },
       draftId = draftId
     )
@@ -78,11 +79,19 @@ class AssetNavigator @Inject() (config: FrontendAppConfig) extends Navigator {
       case _                      => SessionExpiredController.onPageLoad
     }
 
-  private def whatKindOfAssetRoute(answers: UserAnswers, index: Int, draftId: String): Call =
+  private def whatKindOfAssetRoute(answers: UserAnswers, index: Int, draftId: String): Call = {
     answers.get(WhatKindOfAssetPage(index)) match {
-      case Some(kindOfAsset) => AssetNavigator.addAssetNowRoute(kindOfAsset, answers, draftId, Some(index))
+      case Some(kindOfAsset: WhatKindOfAsset) => AssetNavigator.addAssetNowRoute(kindOfAsset, answers, draftId, Some(index))
       case _                 => SessionExpiredController.onPageLoad
     }
+  }
+
+  // note: this is where you will add your new controller, the index and draft id.
+  //  The new controller's onward route for the onSubmit will be this (maybe)
+  //  controllers.asset.noneeabusiness.routes.NameController.onPageLoad
+  private def nonEeaInterruptRoute(answers: UserAnswers, index: Int, draftId: String): Call = {
+    SessionExpiredController.onPageLoad
+  }
 
 }
 
@@ -155,6 +164,7 @@ object AssetNavigator {
   private def routeToOtherIndex(answers: UserAnswers, draftId: String, index: Option[Int]): Call =
     routeToIndex(answers, controllers.asset.other.routes.OtherAssetDescriptionController.onPageLoad, draftId, index)
 
+  // note: may be useful
   private def routeToNonEeaBusinessIndex(answers: UserAnswers, draftId: String, index: Option[Int]): Call =
     routeToIndex(answers, controllers.asset.noneeabusiness.routes.NameController.onPageLoad, draftId, index)
 
