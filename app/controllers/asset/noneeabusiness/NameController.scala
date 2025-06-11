@@ -57,6 +57,7 @@ class NameController @Inject() (
       requireData andThen
       validateIndex(index, Assets)
 
+  // note: think this is the onward page
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
     val preparedForm = request.userAnswers.get(NamePage(index)) match {
       case None        => form
