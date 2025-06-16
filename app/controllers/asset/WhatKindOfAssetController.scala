@@ -81,18 +81,19 @@ class WhatKindOfAssetController @Inject() (
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(WhatKindOfAssetPage(index), value))
             _              <- repository.set(updatedAnswers)
-            hasUserSelectedNonEea = value == NonEeaBusiness // todo, actually check the answer
-            // note: here we need to check whether the user has selected the 'NonEea' radio option
           } yield {
+            /*  todo: We might end up using this, so leaving here for now
+            val hasUserSelectedNonEea = value == NonEeaBusiness
 
             val onwardCall = if (hasUserSelectedNonEea) {
               navigator.nextPage(NonEeaInterruptPage(index), draftId)(updatedAnswers)
             } else {
               navigator.nextPage(WhatKindOfAssetPage(index), draftId)(updatedAnswers)
             }
+             */
 
-            Redirect(onwardCall)
-          } // note: this is where we redirect to our new page - check this is correct
+            Redirect(navigator.nextPage(WhatKindOfAssetPage(index), draftId)(updatedAnswers))
+          }
       )
   }
 }
