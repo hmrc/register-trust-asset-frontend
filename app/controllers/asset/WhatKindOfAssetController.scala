@@ -20,6 +20,7 @@ import config.annotations.Asset
 import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
 import controllers.filters.IndexActionFilterProvider
 import forms.WhatKindOfAssetFormProvider
+import models.WhatKindOfAsset.NonEeaBusiness
 import models.requests.RegistrationDataRequest
 import models.{Enumerable, UserAnswers, WhatKindOfAsset}
 import navigation.Navigator
@@ -80,7 +81,7 @@ class WhatKindOfAssetController @Inject() (
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(WhatKindOfAssetPage(index), value))
             _              <- repository.set(updatedAnswers)
-            hasUserSelectedNonEea = true // todo, actually check the anser
+            hasUserSelectedNonEea = value == NonEeaBusiness // todo, actually check the answer
             // note: here we need to check whether the user has selected the 'NonEea' radio option
           } yield {
 
