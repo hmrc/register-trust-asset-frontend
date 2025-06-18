@@ -47,13 +47,13 @@ class ViewUtilsSpec extends SpecBase {
           "Request" in {
             implicit val request: Request[_] = fakeRequest
             val result                       = viewUtils.breadcrumbTitle(fakeTitle)(request, messages)
-            result mustBe s"$fakeTitle - Register and Maintain a Trust - GOV.UK"
+            result mustBe s"$fakeTitle - Register a trust - GOV.UK"
           }
 
           "RegistrationDataRequest" in {
             implicit val request: RegistrationDataRequest[_] = dataRequest
             val result                                       = viewUtils.breadcrumbTitle(fakeTitle)(request, messages)
-            result mustBe s"$fakeTitle - Assets - Register and Maintain a Trust - GOV.UK"
+            result mustBe s"$fakeTitle - Assets - Register a trust - GOV.UK"
           }
         }
       }
@@ -73,13 +73,13 @@ class ViewUtilsSpec extends SpecBase {
           "Request" in {
             implicit val request: Request[_] = fakeRequest
             val result                       = viewUtils.breadcrumbTitle(fakeTitle)(request, messages)
-            result mustBe s"$fakeTitle - Register and Maintain a Trust - GOV.UK"
+            result mustBe s"$fakeTitle - Register a trust - GOV.UK"
           }
 
           "RegistrationDataRequest" in {
             implicit val request: RegistrationDataRequest[_] = dataRequest
             val result                                       = viewUtils.breadcrumbTitle(fakeTitle)(request, messages)
-            result mustBe s"$fakeTitle - Non-EEA - Register and Maintain a Trust - GOV.UK"
+            result mustBe s"$fakeTitle - Non-EEA - Register a trust - GOV.UK"
           }
         }
       }
