@@ -53,7 +53,7 @@
 
         @addToList(inProgressAssets, "inprogress", "asset")
 
-        @addToList(completeAssets, "complete", "asset")
+        @addToList(completeAssets, heading, "asset", Some(completeAssets.size.toString))
 
         @if(maxedOut.size == 1) {
             <div class="govuk-inset-text">

@@ -32,9 +32,9 @@ addAssets.nonTaxable.count.heading=Rydych wedi ychwanegu {0} o gwmnïau nad ydyn
 addAssets.nonTaxable.maxedOut.p1=Ni allwch ychwanegu cwmni arall nad yw’n rhan o’r AEE gan eich bod wedi nodi uchafswm o {0}.
 addAssets.nonTaxable.maxedOut.p2=Gallwch ychwanegu cwmni arall nad yw’n rhan o’r AEE drwy gael gwared ar un sy’n bodoli eisoes, neu ysgrifennu i CThEF gyda manylion unrhyw gwmnïau ychwanegol nad ydynt yn aelodau o’r AEE.
 
-addAssets.nonTaxable.title=Ychwanegu cwmni nad yw’n rhan o’r AEE
-addAssets.nonTaxable.heading=Ychwanegu cwmni nad yw’n rhan o’r AEE
-addAssets.nonTaxable.additional-content=A ydych am ychwanegu cwmni arall nad yw’n rhan o’r AEE?
+addAssets.nonTaxable.title=Ychwanegu perchnogaeth neu gyfran reolaethol o gwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE
+addAssets.nonTaxable.heading=Ychwanegu perchnogaeth neu gyfran reolaethol o gwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE
+addAssets.nonTaxable.additional-content=A ydych chi am ychwanegu cwmni arall?
 addAssets.nonTaxable.add-them-now=Iawn, rwyf am ei ychwanegu nawr
 addAssets.nonTaxable.add-them-later=Iawn, rwyf am ei ychwanegu yn nes ymlaen
 addAssets.nonTaxable.no-complete=Nac ydw, rwyf wedi ychwanegu pob cwmni nad yw’n rhan o’r AEE
@@ -211,8 +211,8 @@ money.value.hint=Adiwch bob swm presennol at ei gilydd. Wedi’i dalgrynnu i law
 money.value.link=Yn ôl i gynnydd cofrestru
 money.value.title=Beth yw cyfanswm yr arian yn yr ymddiriedolaeth?
 
-nonEeaBusiness.answers.heading=Gwirio manylion yr ased
-nonEeaBusiness.answers.title=Gwirio manylion yr ased
+nonEeaBusiness.answers.heading=Gwirio manylion y cwmni
+nonEeaBusiness.answers.title=Gwirio manylion y cwmni
 
 nonEeaBusiness.governingCountry.checkYourAnswersLabel=Cyfreithiau pa wlad sy’n llywodraethu {0}?
 nonEeaBusiness.governingCountry.error.invalidCharacters=Mae’n rhaid i’r wlad gynnwys y llythrennau a i z yn unig
@@ -486,6 +486,22 @@ timeout.title=Bydd eich cais yn dod i ben cyn hir
 trustOwnsNonEeaBusinessYesNo.error.required=Dewiswch ‘Iawn’ os yw’r ymddiriedolaeth yn berchen ar gwmni nad yw’n rhan o’r AEE neu a oes ganddi gyfran reolaethol ynddo
 trustOwnsNonEeaBusinessYesNo.heading=A yw’r ymddiriedolaeth yn berchen ar gwmni nad yw’n rhan o’r AEE neu a oes ganddi gyfran reolaethol ynddo?
 trustOwnsNonEeaBusinessYesNo.title=A yw’r ymddiriedolaeth yn berchen ar gwmni nad yw’n rhan o’r AEE neu a oes ganddi gyfran reolaethol ynddo?
+
+trustOwnsNonEeaBusinessYesNo.title = Cwmnïau sydd wedi’u cofrestru y tu allan i’r DU neu’r AEE (Ardal Economaidd Ewropeaidd)
+trustOwnsNonEeaBusinessYesNo.heading = Cwmnïau sydd wedi’u cofrestru y tu allan i’r DU neu’r AEE (Ardal Economaidd Ewropeaidd)
+trustOwnsNonEeaBusinessYesNo.paragraph1 = Mae angen i chi roi gwybod i CThEF a oes gan yr ymddiriedolaeth berchnogaeth neu gyfran reolaethol mewn cwmni sydd wedi’i leoli y tu allan i’r DU neu’r AEE.
+trustOwnsNonEeaBusinessYesNo.lead_in = Mae’r AEE yn cynnwys:
+trustOwnsNonEeaBusinessYesNo.bullet1 = yr holl wledydd yn yr Undeb Ewropeaidd (UE)
+trustOwnsNonEeaBusinessYesNo.bullet2 = Gwlad yr Iâ
+trustOwnsNonEeaBusinessYesNo.bullet3 = Liechtenstein
+trustOwnsNonEeaBusinessYesNo.bullet4 = Norwy
+trustOwnsNonEeaBusinessYesNo.heading2 = Pryd sydd gan ymddiriedolaeth gyfran reolaethol
+trustOwnsNonEeaBusinessYesNo.paragraph2 = Bydd gan yr ymddiriedolaeth gyfran reolaethol mewn cwmni os bydd unrhyw un o’r canlynol yn berthnasol:
+trustOwnsNonEeaBusinessYesNo.bullet5 = mae gan yr ymddiriedolwyr fwy na 50 y cant o’r cyfranddaliadau yn y cwmni
+trustOwnsNonEeaBusinessYesNo.bullet6 = mae gan yr ymddiriedolwyr fwy na 50 y cant o’r hawliau pleidleisio yn y cwmni
+trustOwnsNonEeaBusinessYesNo.bullet7 = mae gan yr ymddiriedolwyr yr hawl i benodi neu dynnu mwyafrif bwrdd cyfarwyddwyr y cwmni
+trustOwnsNonEeaBusinessYesNo.bullet8 = gall yr ymddiriedolwyr arfer dylanwad neu reolaeth sylweddol dros y cwmni
+trustOwnsNonEeaBusinessYesNo.question = A oes gan yr ymddiriedolaeth berchnogaeth neu gyfran reolaethol mewn cwmni sydd wedi’i leoli y tu allan i’r DU a’r AEE?
 
 ukAddress.error.line1.invalidCharacters=Mae’n rhaid i gyfeiriad – llinell 1 gynnwys y llythrennau a i z yn unig
 ukAddress.error.line1.length=Mae’n rhaid i gyfeiriad – llinell 1 fod yn 35 o gymeriadau neu lai

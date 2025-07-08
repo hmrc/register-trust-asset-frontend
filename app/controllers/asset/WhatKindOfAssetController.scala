@@ -81,8 +81,8 @@ class WhatKindOfAssetController @Inject() (
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(WhatKindOfAssetPage(index), value))
             _              <- repository.set(updatedAnswers)
-          } yield {
-            /*  todo: We might end up using this, so leaving here for now
+          } yield
+          /*  todo: We might end up using this, so leaving here for now
             val hasUserSelectedNonEea = value == NonEeaBusiness
 
             val onwardCall = if (hasUserSelectedNonEea) {
@@ -90,10 +90,9 @@ class WhatKindOfAssetController @Inject() (
             } else {
               navigator.nextPage(WhatKindOfAssetPage(index), draftId)(updatedAnswers)
             }
-             */
+           */
 
-            Redirect(navigator.nextPage(WhatKindOfAssetPage(index), draftId)(updatedAnswers))
-          }
+          Redirect(navigator.nextPage(WhatKindOfAssetPage(index), draftId)(updatedAnswers))
       )
   }
 }

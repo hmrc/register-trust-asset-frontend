@@ -78,15 +78,15 @@ class AssetNavigator @Inject() (config: FrontendAppConfig) extends Navigator {
       case _                      => SessionExpiredController.onPageLoad
     }
 
-  private def whatKindOfAssetRoute(answers: UserAnswers, index: Int, draftId: String): Call = {
+  private def whatKindOfAssetRoute(answers: UserAnswers, index: Int, draftId: String): Call =
     answers.get(WhatKindOfAssetPage(index)) match {
       case Some(kindOfAsset) if kindOfAsset == NonEeaBusiness =>
         // todo: maybe use this from the navigator below? ->  routeToNonEeaBusinessIndex
-        controllers.asset.noneeabusiness.routes.NameController.onPageLoad(index, draftId)
-      case Some(kindOfAsset: WhatKindOfAsset) => AssetNavigator.addAssetNowRoute(kindOfAsset, answers, draftId, Some(index))
-      case _                 => SessionExpiredController.onPageLoad
+        controllers.asset.noneeabusiness.routes.NonEeaInterruptController.onPageLoad(index, draftId)
+      case Some(kindOfAsset: WhatKindOfAsset)                 =>
+        AssetNavigator.addAssetNowRoute(kindOfAsset, answers, draftId, Some(index))
+      case _                                                  => SessionExpiredController.onPageLoad
     }
-  }
 
 }
 

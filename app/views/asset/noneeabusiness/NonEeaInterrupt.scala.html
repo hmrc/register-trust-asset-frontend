@@ -16,27 +16,57 @@
 
 @import controllers.asset.noneeabusiness.routes._
 @import viewmodels.Section
-@import views.html.components.{SubmitButton, Heading}
-@import utils.SectionFormatter.formatSections
+@import views.html.components.{SubmitButton, Heading, BulletList}
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
     submitButton: SubmitButton,
+    bulletList: BulletList,
     heading: Heading,
 )
 
 @(index: Int, draftId: String)(implicit request: RequestHeader, messages: Messages)
 
+@content = {
+    <p>@messages("nonEeaBusiness.interrupt.para")</p>
+
+    <P>@messages("nonEeaBusiness.interrupt.eea.lead_in")</P>
+
+    @bulletList("nonEeaBusiness.interrupt.eea", Seq(
+            "bullet1",
+            "bullet2",
+            "bullet3",
+            "bullet4",
+        )
+    )
+
+    <p><h2>@messages("nonEeaBusiness.interrupt.h2")</h2>
+
+    <p>@messages("nonEeaBusiness.interrupt.trust.lead_in")</p>
+
+    @bulletList("nonEeaBusiness.interrupt.trust", Seq(
+            "bullet1",
+            "bullet2",
+            "bullet3",
+            "bullet4",
+        )
+    )
+}
+
 @main_template(
-    title = messages("nonEeaBusiness.answers.title"),
+    title = messages("nonEeaBusiness.interrupt.title"),
     showBackLink = true
 ) {
+    @formHelper(action = controllers.asset.noneeabusiness.routes.NameController.onPageLoad(index, draftId),  Symbol("autoComplete") -> "off") {
 
-    <p>Hello from the view</p>
+        @heading(messages("nonEeaBusiness.interrupt.heading"))
 
-    @formHelper(action = NonEeaInterruptController.onSubmit(index, draftId),  Symbol("autoComplete") -> "off") {
-        @submitButton()
+        @content
+
+    @formHelper(action = controllers.asset.noneeabusiness.routes.NameController.onPageLoad(index, draftId),  Symbol("autoComplete") -> "off") {
+        @submitButton(Some("site.onlyContinue"))
+        }
+
     }
-
 }
