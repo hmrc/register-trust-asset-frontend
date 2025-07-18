@@ -102,11 +102,12 @@ assetInterruptPage.nonTaxable.bullet1=enw’r cwmni
 assetInterruptPage.nonTaxable.bullet2=cyfeiriad y cwmni
 assetInterruptPage.nonTaxable.bullet3=cyfreithiau pa wlad sy’n llywodraethu’r cwmni
 assetInterruptPage.nonTaxable.bullet4=y dyddiad y dechreuodd yr ymddiriedolaeth ei pherchnogaeth neu gyfran reolaethol yn y cwmni
-assetInterruptPage.nonTaxable.caption=Perchnogaeth y cwmni neu gyfran reolaethol
+assetInterruptPage.nonTaxable.caption=Perchnogaeth neu gyfran reolaethol mewn cwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE
 assetInterruptPage.nonTaxable.caption.hidden=Teitl yr adran hon yw
-assetInterruptPage.nonTaxable.heading=Cwmni Ardal Economaidd nad yw’n Ewropeaidd (AEE)
-assetInterruptPage.nonTaxable.paragraph1=Os oes gan yr ymddiriedolaeth berchnogaeth neu gyfran reolaethol mewn cwmni nad yw’n rhan o’r AEE, mae angen i chi roi gwybod i CThEF:
-assetInterruptPage.nonTaxable.title=Cwmni Ardal Economaidd nad yw’n Ewropeaidd (AEE)
+assetInterruptPage.nonTaxable.heading=Gwybodaeth sydd ei hangen arnoch i ychwanegu cwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE (Ardal Economaidd Ewropeaidd)
+assetInterruptPage.nonTaxable.leadin = Mae’r AEE yn cynnwys:
+assetInterruptPage.nonTaxable.paragraph1=Os oes gan yr ymddiriedolaeth berchnogaeth neu gyfran reolaethol mewn cwmni sydd wedi’i gofrestru y tu allan i’r DU neu’r AEE, mae angen i chi roi gwybod i CThEF am y canlynol:
+assetInterruptPage.nonTaxable.title=Gwybodaeth sydd ei hangen arnoch i ychwanegu cwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE (Ardal Economaidd Ewropeaidd)
 
 assets.defaultText=yr ased
 assets.removeYesNo.error.required=Dewiswch ‘Iawn’ os ydych am dynnu’r ased

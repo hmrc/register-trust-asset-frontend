@@ -233,11 +233,12 @@ assetInterruptPage.bullet12 = the address of the company
 assetInterruptPage.bullet13 = which country’s laws govern the company
 assetInterruptPage.bullet14 = the start date of the trust’s ownership or controlling interest in the company
 
-assetInterruptPage.nonTaxable.title = Non-European Economic Area (EEA) company
-assetInterruptPage.nonTaxable.heading = Non-European Economic Area (EEA) company
-assetInterruptPage.nonTaxable.caption = Company ownership or controlling interest
+assetInterruptPage.nonTaxable.title = Information you need to add a company registered outside the UK and the EEA (European Economic Area)
+assetInterruptPage.nonTaxable.heading = Information you need to add a company registered outside the UK and the EEA (European Economic Area)
+assetInterruptPage.nonTaxable.caption = Ownership or controlling interest of a company registered outside UK and EEA
 assetInterruptPage.nonTaxable.caption.hidden = This section is
-assetInterruptPage.nonTaxable.paragraph1 = If the trust has ownership or a controlling interest in a non-EEA company, you need to tell HMRC:
+assetInterruptPage.nonTaxable.paragraph1 = If the trust owns or has a controlling interest in a company registered outside the UK and EEA, you need to tell HMRC:
+assetInterruptPage.nonTaxable.leadin = The EEA includes:
 assetInterruptPage.nonTaxable.bullet1 = the name of the company
 assetInterruptPage.nonTaxable.bullet2 = the address of the company
 assetInterruptPage.nonTaxable.bullet3 = which country’s laws govern the company
