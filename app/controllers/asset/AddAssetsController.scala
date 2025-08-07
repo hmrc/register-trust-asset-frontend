@@ -65,7 +65,7 @@ class AddAssetsController @Inject() (
   private def actions(draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen getData(draftId) andThen requireData
 
-  private def determinePrefix(isTaxable: Boolean) = "addAssets" + (if (!isTaxable) ".nonTaxable" else "")
+  private def determinePrefix(isTaxable: Boolean): String = "addAssets" + (if (!isTaxable) ".nonTaxable" else "")
 
   private def heading(count: Int, prefix: String)(implicit mp: MessagesProvider): String =
     count match {

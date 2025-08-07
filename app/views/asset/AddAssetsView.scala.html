@@ -51,9 +51,11 @@
 
         @headingComp(heading)
 
-        @addToList(inProgressAssets, "inprogress", "asset")
-
-        @addToList(completeAssets, heading, "asset", Some(completeAssets.size.toString))
+        @if(completeAssets.size > 1) {
+            @addToList(completeAssets, "addAssets.nonTaxable.count.subHeading", "asset", Some(completeAssets.size.toString))
+        } else {
+            @addToList(completeAssets, "complete", "asset")
+        }
 
         @if(maxedOut.size == 1) {
             <div class="govuk-inset-text">

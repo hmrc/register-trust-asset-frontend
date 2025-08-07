@@ -27,21 +27,18 @@ addAssets.maxedOut.just1.paragraph=Gwiriwch yr asedion yr ydych wedi’u hychwan
 addAssets.maxedOut.moreThan1=Rydych wedi nodi uchafswm yr asedion ar gyfer:
 addAssets.maxedOut.moreThan1.paragraph=Gwiriwch yr asedion yr ydych wedi’u hychwanegu. Os oes gennych ragor o asedion i’w hychwanegu o dan y mathau hyn, ysgrifennwch i CThEF gyda’r manylion.
 
-addAssets.nonTaxable.count.title=Rydych wedi ychwanegu {0} o gwmnïau nad ydynt yn rhan o’r AEE
-addAssets.nonTaxable.count.heading=Rydych wedi ychwanegu {0} o gwmnïau nad ydynt yn rhan o’r AEE
-addAssets.nonTaxable.maxedOut.p1=Ni allwch ychwanegu cwmni arall nad yw’n rhan o’r AEE gan eich bod wedi nodi uchafswm o {0}.
+addAssets.nonTaxable.count.heading=Ychwanegu perchnogaeth neu gyfran reolaethol o gwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE
 addAssets.nonTaxable.maxedOut.p2=Gallwch ychwanegu cwmni arall nad yw’n rhan o’r AEE drwy gael gwared ar un sy’n bodoli eisoes, neu ysgrifennu i CThEF gyda manylion unrhyw gwmnïau ychwanegol nad ydynt yn aelodau o’r AEE.
 
 addAssets.nonTaxable.title=Ychwanegu perchnogaeth neu gyfran reolaethol o gwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE
 addAssets.nonTaxable.heading=Ychwanegu perchnogaeth neu gyfran reolaethol o gwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE
+addAssets.nonTaxable.count.subHeading=Rydych wedi ychwanegu {0} o gwmnïau
 addAssets.nonTaxable.additional-content=A ydych chi am ychwanegu cwmni arall?
 addAssets.nonTaxable.add-them-now=Iawn, rwyf am ei ychwanegu nawr
 addAssets.nonTaxable.add-them-later=Iawn, rwyf am ei ychwanegu yn nes ymlaen
 addAssets.nonTaxable.no-complete=Nac ydw, rwyf wedi ychwanegu pob cwmni nad yw’n rhan o’r AEE
 addAssets.nonTaxable.error.required=Dewiswch ‘Iawn’ os ydych am ychwanegu cwmni arall nad yw’n rhan o’r AEE
 
-addAssets.nonTaxable.count.title=Rydych wedi ychwanegu {0} o gwmnïau nad ydynt yn rhan o’r AEE
-addAssets.nonTaxable.count.heading=Rydych wedi ychwanegu {0} o gwmnïau nad ydynt yn rhan o’r AEE
 addAssets.nonTaxable.maxedOut.p1=Ni allwch ychwanegu cwmni arall nad yw’n rhan o’r AEE gan eich bod wedi nodi uchafswm o {0}.
 addAssets.nonTaxable.maxedOut.p2=Gallwch ychwanegu cwmni arall nad yw’n rhan o’r AEE drwy gael gwared ar un sy’n bodoli eisoes, neu ysgrifennu at CThEF gyda manylion unrhyw gwmnïau ychwanegol nad ydynt yn aelodau o’r AEE.
 

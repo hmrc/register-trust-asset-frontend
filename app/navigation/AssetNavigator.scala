@@ -81,7 +81,7 @@ class AssetNavigator @Inject() (config: FrontendAppConfig) extends Navigator {
   private def whatKindOfAssetRoute(answers: UserAnswers, index: Int, draftId: String): Call =
     answers.get(WhatKindOfAssetPage(index)) match {
       case Some(kindOfAsset) if kindOfAsset == NonEeaBusiness =>
-        // todo: maybe use this from the navigator below? ->  routeToNonEeaBusinessIndex
+        // todo: as this change is only for taxable trusts, do we need to check this here?
         controllers.asset.noneeabusiness.routes.NonEeaInterruptController.onPageLoad(index, draftId)
       case Some(kindOfAsset: WhatKindOfAsset)                 =>
         AssetNavigator.addAssetNowRoute(kindOfAsset, answers, draftId, Some(index))

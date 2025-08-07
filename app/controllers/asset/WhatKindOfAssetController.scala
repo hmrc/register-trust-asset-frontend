@@ -20,11 +20,10 @@ import config.annotations.Asset
 import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
 import controllers.filters.IndexActionFilterProvider
 import forms.WhatKindOfAssetFormProvider
-import models.WhatKindOfAsset.NonEeaBusiness
 import models.requests.RegistrationDataRequest
 import models.{Enumerable, UserAnswers, WhatKindOfAsset}
 import navigation.Navigator
-import pages.asset.{NonEeaInterruptPage, WhatKindOfAssetPage}
+import pages.asset.WhatKindOfAssetPage
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, ActionBuilder, AnyContent, MessagesControllerComponents}
@@ -81,18 +80,7 @@ class WhatKindOfAssetController @Inject() (
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(WhatKindOfAssetPage(index), value))
             _              <- repository.set(updatedAnswers)
-          } yield
-          /*  todo: We might end up using this, so leaving here for now
-            val hasUserSelectedNonEea = value == NonEeaBusiness
-
-            val onwardCall = if (hasUserSelectedNonEea) {
-              navigator.nextPage(NonEeaInterruptPage(index), draftId)(updatedAnswers)
-            } else {
-              navigator.nextPage(WhatKindOfAssetPage(index), draftId)(updatedAnswers)
-            }
-           */
-
-          Redirect(navigator.nextPage(WhatKindOfAssetPage(index), draftId)(updatedAnswers))
+          } yield Redirect(navigator.nextPage(WhatKindOfAssetPage(index), draftId)(updatedAnswers))
       )
   }
 }
