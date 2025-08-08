@@ -23,7 +23,6 @@
 
 @(data: Seq[AddRow], id: String, countOpt: Option[String] = None)(implicit messages: Messages)
 
-
 @if(data.nonEmpty) {
   <h2 class="govuk-heading-m" id="data-list-heading--@id">
     @if(countOpt.isDefined) {
@@ -32,14 +31,13 @@
       @messages(s"site.$id")
     }
   </h2>
+
+  <div class="govuk-form-group">
+    <dl id="data-list--@id" class="hmrc-add-to-a-list hmrc-add-to-a-list--short">
+      @for(item <- data) {
+        @addToRow(item)
+      }
+    </dl>
+  </div>
+
 }
-
-<div class="govuk-form-group">
-  <dl id="data-list--@id" class="hmrc-add-to-a-list hmrc-add-to-a-list--short">
-    @for(item <- data) {
-      @addToRow(item)
-    }
-  </dl>
-</div>
-
-
