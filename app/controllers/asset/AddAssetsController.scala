@@ -67,7 +67,7 @@ class AddAssetsController @Inject() (
 
   private def determinePrefix(isTaxable: Boolean): String = "addAssets" + (if (!isTaxable) ".nonTaxable" else "")
 
-  private def heading(count: Int, prefix: String)(implicit mp: MessagesProvider): String =
+  private def headingMessageKey(count: Int, prefix: String)(implicit mp: MessagesProvider): String =
     count match {
       case c if c > 1 => Messages(s"$prefix.count.heading", c)
       case _          => Messages(s"$prefix.heading")
@@ -100,7 +100,8 @@ class AddAssetsController @Inject() (
       } else {
         MAX_NON_TAXABLE_ASSETS
       }
-      Ok(maxedOutView(draftId, rows.inProgress, rows.complete, heading(rows.count, prefix), maxLimit, prefix))
+      // todo: do we need to amend the 'maxedOutView' as well?
+      Ok(maxedOutView(draftId, rows.inProgress, rows.complete, headingMessageKey(rows.count, prefix), maxLimit, prefix))
     } else {
       if (rows.nonEmpty) {
         Ok(
@@ -109,7 +110,7 @@ class AddAssetsController @Inject() (
             draftId,
             rows.inProgress,
             rows.complete,
-            heading(rows.count, prefix),
+            headingMessageKey(rows.count, prefix),
             prefix,
             userAnswers.assets.maxedOutOptions
           )
@@ -166,7 +167,7 @@ class AddAssetsController @Inject() (
                 draftId,
                 rows.inProgress,
                 rows.complete,
-                heading(rows.count, prefix),
+                headingMessageKey(rows.count, prefix),
                 prefix,
                 userAnswers.assets.maxedOutOptions
               )
