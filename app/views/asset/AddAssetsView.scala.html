@@ -1,5 +1,5 @@
 @*
- * Copyright 2024 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 @import models.AddAssets
 @import implicitConversions.Implicits._
 @import viewmodels.AddRow
-@import views.html.components.{SubmitButton, Heading, InputRadio, ErrorSummary, AddToList}
+@import views.html.components.{SubmitButton, Heading, InputRadio, ErrorSummary, RowFormGroupWithSubHeading}
 
 @this(
     main_template: MainTemplate,
@@ -27,7 +27,7 @@
     headingComp: Heading,
     inputRadio: InputRadio,
     errorSummary: ErrorSummary,
-    addToList: AddToList
+    rowFormGroupWithSubHeading: RowFormGroupWithSubHeading
 )
 
 @(
@@ -51,10 +51,16 @@
 
         @headingComp(heading)
 
-        @if(completeAssets.size > 1) {
-            @addToList(completeAssets, "addAssets.nonTaxable.count.subHeading", "asset", Some(completeAssets.size.toString))
-        } else {
-            @addToList(completeAssets, "complete", "asset")
+        @rowFormGroupWithSubHeading(inProgressAssets, "inprogress")
+
+        @* display number of in progress and complete companies in sub-heading if greater than one, else show 'complete' *@
+        @{
+            if(completeAssets.size > 1) {
+                val totalAssetsCountForSubHeading = completeAssets.size + inProgressAssets.size
+                rowFormGroupWithSubHeading(completeAssets, "addAssets.nonTaxable.count.subHeading", Some(totalAssetsCountForSubHeading.toString))
+            } else {
+                rowFormGroupWithSubHeading(completeAssets, "complete")
+            }
         }
 
         @if(maxedOut.size == 1) {

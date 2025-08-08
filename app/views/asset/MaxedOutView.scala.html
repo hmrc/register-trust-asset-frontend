@@ -16,14 +16,14 @@
 
 @import controllers.asset.routes._
 @import viewmodels.AddRow
-@import views.html.components.{SubmitButton, Heading, AddToList}
+@import views.html.components.{SubmitButton, Heading, RowFormGroupWithSubHeading}
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
     submitButton: SubmitButton,
     headingComp: Heading,
-    addToList: AddToList
+    rowFormGroupWithSubHeading: RowFormGroupWithSubHeading
 )
 
 @(
@@ -44,9 +44,9 @@
 
         @headingComp(heading)
 
-        @addToList(inProgressAssets, "inprogress", "asset")
+        @rowFormGroupWithSubHeading(inProgressAssets, "inprogress")
 
-        @addToList(completeAssets, "complete", "asset")
+        @rowFormGroupWithSubHeading(completeAssets, "complete")
 
         <div class="govuk-inset-text">
             <ul class="govuk-list">
