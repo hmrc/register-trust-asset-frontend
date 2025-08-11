@@ -21,7 +21,7 @@ If you want to run your local copy, then stop the frontend ran by the service ma
 `sbt run`
 
 ### Testing the service
-To test the service locally use the following command, this will run the unit tests and check the coverage of the tests.
+To test the service locally use the following command, this will run the unit tests, scalafmt and check the coverage of the tests.
 
 ```
 ./run_all_tests.sh
