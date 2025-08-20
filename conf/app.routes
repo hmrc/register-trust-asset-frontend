@@ -28,8 +28,8 @@ POST       /:draftId/:index/assets-type           controllers.asset.WhatKindOfAs
 GET        /:draftId/trust-owns-non-eea-company   controllers.asset.TrustOwnsNonEeaBusinessYesNoController.onPageLoad(draftId: String)
 POST       /:draftId/trust-owns-non-eea-company   controllers.asset.TrustOwnsNonEeaBusinessYesNoController.onSubmit(draftId: String)
 
-GET        /:draftId/information-you-need         controllers.asset.AssetInterruptPageController.onPageLoad(draftId: String)
-POST       /:draftId/information-you-need         controllers.asset.AssetInterruptPageController.onSubmit(draftId: String)
+GET        /:draftId/asset-start                   controllers.asset.AssetInterruptPageController.onPageLoad(draftId: String)
+POST       /:draftId/asset-start                   controllers.asset.AssetInterruptPageController.onSubmit(draftId: String)
 
 GET        /:draftId/add                          controllers.asset.AddAssetsController.onPageLoad(draftId: String)
 POST       /:draftId/add                          controllers.asset.AddAssetsController.submitOne(draftId: String)
