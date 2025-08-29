@@ -33,6 +33,7 @@ addAssets.nonTaxable.maxedOut.p2=Gallwch ychwanegu cwmni arall nad yw’n rhan o
 addAssets.nonTaxable.title=Ychwanegu perchnogaeth neu gyfran reolaethol o gwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE
 addAssets.nonTaxable.heading=Ychwanegu perchnogaeth neu gyfran reolaethol o gwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE
 addAssets.nonTaxable.count.subHeading=Rydych wedi ychwanegu {0} o gwmnïau
+addAssets.nonTaxable.count.one.heading=Rydych wedi ychwanegu {0} o gwmnïau
 addAssets.nonTaxable.additional-content=A ydych chi am ychwanegu cwmni arall?
 addAssets.nonTaxable.add-them-now=Iawn, rwyf am ei ychwanegu nawr
 addAssets.nonTaxable.add-them-later=Iawn, rwyf am ei ychwanegu yn nes ymlaen

@@ -63,11 +63,21 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
   private val mockRegistrationProgress = mock[RegistrationProgress]()
 
   private lazy val oneAsset: List[AddRow] = List(
-    AddRow("Name", typeLabel = "Non-EEA Company", changeNonEeaAssetRoute(0), removeAssetYesNoRoute(0))
+    AddRow(
+      "Name",
+      typeLabel = "Company outside UK and EEA (European Economic Area)",
+      changeNonEeaAssetRoute(0),
+      removeAssetYesNoRoute(0)
+    )
   )
 
   private lazy val multipleAssets: List[AddRow] =
-    oneAsset :+ AddRow("Name", typeLabel = "Non-EEA Company", changeNonEeaAssetRoute(1), removeAssetYesNoRoute(1))
+    oneAsset :+ AddRow(
+      "Name",
+      typeLabel = "Company outside UK and EEA (European Economic Area)",
+      changeNonEeaAssetRoute(1),
+      removeAssetYesNoRoute(1)
+    )
 
   private val userAnswersWithOneAsset: UserAnswers = emptyUserAnswers
     .set(WhatKindOfAssetPage(0), NonEeaBusiness)
@@ -384,7 +394,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
               fakeDraftId,
               Nil,
               oneAsset,
-              "Add a non-EEA company",
+              "Add ownership or controlling interest of a company registered outside UK and EEA",
               "addAssets.nonTaxable",
               Nil
             )(request, messages).toString
@@ -439,7 +449,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
               fakeDraftId,
               Nil,
               multipleAssets,
-              "You have added 2 non-EEA companies",
+              "Add ownership or controlling interest of a company registered outside UK and EEA",
               "addAssets.nonTaxable",
               Nil
             )(request, messages).toString
@@ -1041,15 +1051,17 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
               fakeDraftId,
               rows.inProgress,
               rows.complete,
-              "You have added 25 non-EEA companies",
+              "Add ownership or controlling interest of a company registered outside UK and EEA",
               max,
               "addAssets.nonTaxable"
             )(request, messages).toString
 
-          content must include("You cannot add another non-EEA company as you have entered a maximum of 25.")
           content must include(
-            "You can add another non-EEA company by removing an existing one," +
-              " or write to HMRC with details of any additional non-EEA companies."
+            "You cannot add another company as you have entered a maximum of 25."
+          )
+          content must include(
+            "You can add another company by removing an existing one, or write to HMRC " +
+              "with details of any additional non-EEA companies."
           )
 
           application.stop()

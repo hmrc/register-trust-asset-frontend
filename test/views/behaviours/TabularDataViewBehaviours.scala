@@ -87,24 +87,26 @@ trait TabularDataViewBehaviours extends ViewSpecBase {
       }
     }
 
-  def pageWithCompleteTabularData(view: HtmlFormat.Appendable, data: Seq[AddRow]): Unit =
+  def pageWithCompleteTabularData(view: HtmlFormat.Appendable, data: Seq[AddRow], heading: String = "complete"): Unit =
     "behave like a page with complete tabular data" should {
 
+      val renderedListHeadingId = s"data-list-heading--$heading"
+      val renderedListId        = s"data-list--$heading"
       "render a h2" in {
         val doc = asDocument(view)
-        assertRenderedById(doc, "data-list-heading--complete")
+        assertRenderedById(doc, renderedListHeadingId)
       }
 
       "render an add to list" in {
         val doc = asDocument(view)
-        assertRenderedById(doc, "data-list--complete")
+        assertRenderedById(doc, renderedListHeadingId)
         assertNotRenderedById(doc, "data-list--inprogress")
         assertNotRenderedById(doc, "data-list-heading--inprogress")
       }
 
       "render a row for each data item" in {
         val doc = asDocument(view)
-        assertDataList(doc, "data-list--complete", data)
+        assertDataList(doc, renderedListId, data)
       }
     }
 
