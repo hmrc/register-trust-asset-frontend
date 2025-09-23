@@ -97,7 +97,7 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
 
       behave like pageWithBackLink(viewWithData)
 
-      behave like pageWithCompleteTabularData(viewWithData, completeAssets, "addAssets.nonTaxable.count.subHeading")
+      behave like pageWithCompleteTabularData(viewWithData, completeAssets)
 
       behave like pageWithOptions(form, applyView, AddAssets.options(messageKeyPrefix))
     }
@@ -110,7 +110,7 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
 
       behave like pageWithBackLink(viewWithData)
 
-      behave like pageWithCompleteTabularData(viewWithData, completeAssets, "addAssets.nonTaxable.count.subHeading")
+      behave like pageWithCompleteTabularData(viewWithData, completeAssets)
 
       behave like pageWithOptions(form, applyView, AddAssets.options(messageKeyPrefix))
 
@@ -133,7 +133,7 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
 
       behave like pageWithBackLink(viewWithData)
 
-      behave like pageWithCompleteTabularData(viewWithData, completeAssets, "addAssets.nonTaxable.count.subHeading")
+      behave like pageWithCompleteTabularData(viewWithData, completeAssets)
 
       behave like pageWithOptions(form, applyView, AddAssets.options(messageKeyPrefix))
 
