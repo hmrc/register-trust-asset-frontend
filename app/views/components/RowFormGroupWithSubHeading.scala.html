@@ -26,7 +26,7 @@
 @if(data.nonEmpty) {
   <h2 class="govuk-heading-m" id="data-list-heading--@id">
     @if(countOpt.isDefined) {
-      @messages(s"$id", countOpt.get)
+      @messages("addAssets.nonTaxable.count.subHeading", countOpt.get)
     } else {
       @messages(s"site.$id")
     }

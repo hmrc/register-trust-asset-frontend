@@ -51,13 +51,12 @@
 
         @headingComp(heading)
 
-        @rowFormGroupWithSubHeading(inProgressAssets, "inprogress")
+        @rowFormGroupWithSubHeading(inProgressAssets, "in-progress")
 
         @* display number of in progress and complete companies in sub-heading if greater than one, else show 'complete' *@
         @{
             if(completeAssets.size > 1) {
-                val totalAssetsCountForSubHeading = completeAssets.size + inProgressAssets.size
-                rowFormGroupWithSubHeading(completeAssets, "addAssets.nonTaxable.count.subHeading", Some(totalAssetsCountForSubHeading.toString))
+                rowFormGroupWithSubHeading(completeAssets, "complete", Some(completeAssets.size.toString))
             } else {
                 rowFormGroupWithSubHeading(completeAssets, "complete")
             }
