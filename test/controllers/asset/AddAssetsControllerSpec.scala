@@ -1061,7 +1061,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
           )
           content must include(
             "You can add another company by removing an existing one, or write to HMRC " +
-              "with details of any additional non-EEA companies."
+              "with details of any additional companies outside the UK or EEA."
           )
 
           application.stop()

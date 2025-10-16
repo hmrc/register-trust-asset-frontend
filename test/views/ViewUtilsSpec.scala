@@ -79,7 +79,7 @@ class ViewUtilsSpec extends SpecBase {
           "RegistrationDataRequest" in {
             implicit val request: RegistrationDataRequest[_] = dataRequest
             val result                                       = viewUtils.breadcrumbTitle(fakeTitle)(request, messages)
-            result mustBe s"$fakeTitle - Non-EEA - Register a trust - GOV.UK"
+            result mustBe s"$fakeTitle - Company outside the UK or EEA - Register a trust - GOV.UK"
           }
         }
       }
