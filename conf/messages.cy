@@ -28,7 +28,7 @@ addAssets.maxedOut.moreThan1=Rydych wedi nodi uchafswm yr asedion ar gyfer:
 addAssets.maxedOut.moreThan1.paragraph=Gwiriwch yr asedion yr ydych wedi’u hychwanegu. Os oes gennych ragor o asedion i’w hychwanegu o dan y mathau hyn, ysgrifennwch i CThEF gyda’r manylion.
 
 addAssets.nonTaxable.count.heading=Ychwanegu perchnogaeth neu gyfran reolaethol o gwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE
-addAssets.nonTaxable.maxedOut.p2=Gallwch ychwanegu cwmni arall nad yw’n rhan o’r AEE drwy gael gwared ar un sy’n bodoli eisoes, neu ysgrifennu i CThEF gyda manylion unrhyw gwmnïau ychwanegol nad ydynt yn aelodau o’r AEE.
+addAssets.nonTaxable.maxedOut.p2=Gallwch ychwanegu cwmni arall drwy dynnu un presennol, neu drwy ysgrifennu at CThEF gyda manylion unrhyw gwmni arall sydd wedi’i leoli y tu allan i’r DU neu’r AEE.
 
 addAssets.nonTaxable.title=Ychwanegu perchnogaeth neu gyfran reolaethol o gwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE
 addAssets.nonTaxable.heading=Ychwanegu perchnogaeth neu gyfran reolaethol o gwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE
@@ -41,12 +41,11 @@ addAssets.nonTaxable.no-complete=Nac ydw, rwyf wedi ychwanegu pob cwmni nad yw�
 addAssets.nonTaxable.error.required=Dewiswch ‘Iawn’ os ydych am ychwanegu cwmni arall
 
 addAssets.nonTaxable.maxedOut.p1=Ni allwch ychwanegu cwmni arall nad yw’n rhan o’r AEE gan eich bod wedi nodi uchafswm o {0}.
-addAssets.nonTaxable.maxedOut.p2=Gallwch ychwanegu cwmni arall nad yw’n rhan o’r AEE drwy gael gwared ar un sy’n bodoli eisoes, neu ysgrifennu at CThEF gyda manylion unrhyw gwmnïau ychwanegol nad ydynt yn aelodau o’r AEE.
 
-assets.nonTaxable.defaultText=y cwmni hwn nad yw’n rhan o’r AEE
-assets.nonTaxable.removeYesNo.title=A ydych yn siŵr eich bod am dynnu’r cwmni nad yw’n rhan o’r AEE?
+assets.nonTaxable.defaultText=y cwmni hwn sydd wedi’i leoli y tu allan i’r DU neu’r AEE
+assets.nonTaxable.removeYesNo.title=A ydych yn siŵr eich bod chi am dynnu’r cwmni sydd wedi’i leoli y tu allan i’r DU neu’r AEE?
 assets.nonTaxable.removeYesNo.heading=A ydych yn siŵr eich bod am dynnu {0}?
-assets.nonTaxable.removeYesNo.error.required=Dewiswch ‘Iawn’ os ydych am dynnu’r cwmni nad yw’n rhan o’r AEE
+assets.nonTaxable.removeYesNo.error.required=Dewiswch ‘Iawn’ os ydych am dynnu’r cwmni sydd wedi’i leoli y tu allan i’r DU neu’r AEE
 
 address.country=Gwlad
 
@@ -54,7 +53,7 @@ answerPage.section.assets.heading=Asedion
 answerPage.section.companyOwnershipOrControllingInterest.heading=Perchnogaeth y cwmni neu gyfran reolaethol
 answerPage.section.businessAsset.subheading=Busnes {0}
 answerPage.section.moneyAsset.subheading=Arian
-answerPage.section.nonEeaBusinessAsset.subheading=Cwmni nad yw’n rhan o’r AEE {0}
+answerPage.section.nonEeaBusinessAsset.subheading=Cwmni sydd wedi’i leoli y tu allan i’r DU neu’r AEE {0}
 answerPage.section.otherAsset.subheading=Arall {0}
 answerPage.section.partnershipAsset.subheading=Partneriaeth {0}
 answerPage.section.propertyOrLandAsset.subheading=Eiddo neu dir {0}
@@ -163,10 +162,10 @@ entities.no.addressOrDescription.added=Dim cyfeiriad na disgrifiad wedi’u hych
 entities.no.description.added=Dim disgrifiad wedi’i ychwanegu
 entities.no.name.added=Dim enw wedi’i ychwanegu
 entities.no.value.added=Dim gwerth wedi’i ychwanegu
-entities.nonTaxable=Nad yw’n rhan o’r AEE
+entities.nonTaxable=Cwmni sydd wedi’i leoli y tu allan i’r DU neu’r AEE
 
 entity.asset=Asedion
-entity.nonTaxable.asset=Cwmnïau nad ydynt yn rhan o’r AEE
+entity.nonTaxable.asset=Cwmnïau sydd wedi’u lleoli y tu allan i’r DU neu’r AEE
 
 error.boolean=Rhowch ateb
 error.browser.title.prefix=Gwall:

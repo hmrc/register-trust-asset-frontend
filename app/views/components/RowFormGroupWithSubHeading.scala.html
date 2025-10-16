@@ -25,11 +25,10 @@
 
 @if(data.nonEmpty) {
   <h2 class="govuk-heading-m" id="data-list-heading--@id">
-    @if(countOpt.isDefined) {
-      @messages("addAssets.nonTaxable.count.subHeading", countOpt.get)
-    } else {
-      @messages(s"site.$id")
-    }
+    @* todo - figure out what we were trying to do here *@
+    @* @if(countOpt.isDefined) { @messages("addAssets.nonTaxable.count.subHeading", countOpt.get) } else { @messages(s"site.$id") } *@
+
+    @messages(s"site.$id")
   </h2>
 
   <div class="govuk-form-group">

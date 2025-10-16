@@ -27,9 +27,9 @@ entities.no.description.added = No description added
 entities.no.addressOrDescription.added = No address or description added
 
 entities.assets = Assets
-entities.nonTaxable = Non-EEA
+entities.nonTaxable = Company outside the UK or EEA
 entity.asset = Assets
-entity.nonTaxable.asset = Non-EEA Companies
+entity.nonTaxable.asset = Companies outside the UK or EEA
 
 session_expired.title = For your security, we signed you out
 session_expired.heading = For your security, we signed you out
@@ -126,7 +126,7 @@ answerPage.section.propertyOrLandAsset.subheading = Property or land {0}
 answerPage.section.partnershipAsset.subheading = Partnership {0}
 answerPage.section.businessAsset.subheading = Business {0}
 answerPage.section.otherAsset.subheading = Other {0}
-answerPage.section.nonEeaBusinessAsset.subheading = Non-EEA Company {0}
+answerPage.section.nonEeaBusinessAsset.subheading = Company outside the UK or EEA {0}
 
 addAnAssetYesNo.title = Do you want to add an asset?
 addAnAssetYesNo.heading = Do you want to add an asset?
@@ -160,18 +160,18 @@ addAssets.nonTaxable.count.subHeading = You have added {0} companies
 addAssets.nonTaxable.count.one.heading = You have added {0} company
 addAssets.nonTaxable.count.heading = Add ownership or controlling interest of a company registered outside UK and EEA
 addAssets.nonTaxable.maxedOut.p1 = You cannot add another company as you have entered a maximum of {0}.
-addAssets.nonTaxable.maxedOut.p2 = You can add another company by removing an existing one, or write to HMRC with details of any additional non-EEA companies.
+addAssets.nonTaxable.maxedOut.p2 = You can add another company by removing an existing one, or write to HMRC with details of any additional companies outside the UK or EEA.
 
 assets.defaultText = the asset
-assets.nonTaxable.defaultText = this non-EEA company
+assets.nonTaxable.defaultText = this company outside the UK or EEA
 
 assets.removeYesNo.title = Are you sure you want to remove the asset?
 assets.removeYesNo.heading = Are you sure you want to remove {0}?
 assets.removeYesNo.error.required = Select yes if you want to remove the asset
 
-assets.nonTaxable.removeYesNo.title = Are you sure you want to remove the non-EEA company?
+assets.nonTaxable.removeYesNo.title = Are you sure you want to remove the company outside the UK or EEA?
 assets.nonTaxable.removeYesNo.heading = Are you sure you want to remove {0}?
-assets.nonTaxable.removeYesNo.error.required = Select yes if you want to remove the non-EEA company
+assets.nonTaxable.removeYesNo.error.required = Select yes if you want to remove the company outside the UK or EEA
 
 trustOwnsNonEeaBusinessYesNo.error.required = Select yes if the trust owns or has a controlling interest in a company outside the UK and EEA
 trustOwnsNonEeaBusinessYesNo.title = Companies registered outside the UK and EEA (European Economic Area)
