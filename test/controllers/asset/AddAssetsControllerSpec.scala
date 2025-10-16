@@ -1057,7 +1057,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
             )(request, messages).toString
 
           content must include(
-            "You cannot add another company as you have entered a maximum of 25."
+            "You cannot add another company outside the UK or EEA as you have entered a maximum of 25."
           )
           content must include(
             "You can add another company by removing an existing one, or write to HMRC " +

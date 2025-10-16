@@ -40,8 +40,7 @@ addAssets.nonTaxable.add-them-later=Iawn, rwyf am ei ychwanegu yn nes ymlaen
 addAssets.nonTaxable.no-complete=Nac ydw, rwyf wedi ychwanegu pob cwmni nad yw’n rhan o’r AEE
 addAssets.nonTaxable.error.required=Dewiswch ‘Iawn’ os ydych am ychwanegu cwmni arall
 
-addAssets.nonTaxable.maxedOut.p1=Ni allwch ychwanegu cwmni arall nad yw’n rhan o’r AEE gan eich bod wedi nodi uchafswm o {0}.
-
+addAssets.nonTaxable.maxedOut.p1=Ni allwch ychwanegu cwmni arall sydd wedi’i leoli y tu allan i’r DU neu’r AEE gan eich bod wedi nodi uchafswm o {0}.
 assets.nonTaxable.defaultText=y cwmni hwn sydd wedi’i leoli y tu allan i’r DU neu’r AEE
 assets.nonTaxable.removeYesNo.title=A ydych yn siŵr eich bod chi am dynnu’r cwmni sydd wedi’i leoli y tu allan i’r DU neu’r AEE?
 assets.nonTaxable.removeYesNo.heading=A ydych yn siŵr eich bod am dynnu {0}?

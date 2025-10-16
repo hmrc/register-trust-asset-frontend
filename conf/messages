@@ -47,7 +47,7 @@ site.continue = Continue
 site.save.continue = Save and continue
 site.onlyContinue = Continue
 site.address = Address
-site.inprogress = In progress
+site.inprogress = In Progress
 site.complete = Completed
 site.textarea.char_limit = (Limit is {0} characters)
 site.error = Error:
@@ -159,7 +159,7 @@ addAssets.nonTaxable.error.required = Select yes if you want to add another comp
 addAssets.nonTaxable.count.subHeading = You have added {0} companies
 addAssets.nonTaxable.count.one.heading = You have added {0} company
 addAssets.nonTaxable.count.heading = Add ownership or controlling interest of a company registered outside UK and EEA
-addAssets.nonTaxable.maxedOut.p1 = You cannot add another company as you have entered a maximum of {0}.
+addAssets.nonTaxable.maxedOut.p1 = You cannot add another company outside the UK or EEA as you have entered a maximum of {0}.
 addAssets.nonTaxable.maxedOut.p2 = You can add another company by removing an existing one, or write to HMRC with details of any additional companies outside the UK or EEA.
 
 assets.defaultText = the asset
