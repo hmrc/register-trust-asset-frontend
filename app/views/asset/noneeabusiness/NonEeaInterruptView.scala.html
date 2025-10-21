@@ -58,15 +58,12 @@
     title = messages("nonEeaBusiness.interrupt.title"),
     showBackLink = true
 ) {
-    @formHelper(action = controllers.asset.noneeabusiness.routes.NameController.onPageLoad(index, draftId),  Symbol("autoComplete") -> "off") {
+    @formHelper(action = NonEeaInterruptController.onSubmit(index, draftId),  Symbol("autoComplete") -> "off") {
 
         @heading(messages("nonEeaBusiness.interrupt.heading"))
 
         @content
 
-    @formHelper(action = controllers.asset.noneeabusiness.routes.NameController.onPageLoad(index, draftId),  Symbol("autoComplete") -> "off") {
         @submitButton(Some("site.onlyContinue"))
-        }
-
     }
 }

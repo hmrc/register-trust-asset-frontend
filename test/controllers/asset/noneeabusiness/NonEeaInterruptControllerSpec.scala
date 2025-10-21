@@ -46,6 +46,8 @@ class NonEeaInterruptControllerSpec extends SpecBase with IndexValidation {
 
       application.stop()
     }
+
+    // todo: more tests?
   }
 
 }

@@ -57,7 +57,7 @@ class NonEeaInterruptController @Inject() (
   }
 
   def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
-    Future(
+    Future.successful(
       Redirect(
         navigator.nextPage(NonEeaInterruptPage(index), draftId)(request.userAnswers)
       )

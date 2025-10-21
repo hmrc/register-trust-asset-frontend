@@ -22,6 +22,7 @@ import generators.Generators
 import models.UserAnswers
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
+import pages.asset.NonEeaInterruptPage
 import pages.asset.noneeabusiness._
 
 class NonEeaBusinessNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
@@ -72,6 +73,17 @@ class NonEeaBusinessNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks
         navigator
           .nextPage(page, fakeDraftId)(userAnswers)
           .mustBe(AnswersController.onPageLoad(index, fakeDraftId))
+      }
+    }
+
+    "navigate from NonEeaInterruptPage to Company Name page" in {
+
+      val page = NonEeaInterruptPage(index)
+
+      forAll(arbitrary[UserAnswers]) { userAnswers =>
+        navigator
+          .nextPage(page, fakeDraftId)(userAnswers)
+          .mustBe(NameController.onPageLoad(index, fakeDraftId))
       }
     }
   }

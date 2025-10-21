@@ -14,5 +14,5 @@ GET        /:draftId/:index/check-company-outside-UK-EEA                        
 POST       /:draftId/:index/check-company-outside-UK-EEA                              controllers.asset.noneeabusiness.AnswersController.onSubmit(index: Int, draftId: String)
 
 GET        /:draftId/:index/eea-interrupt                                             controllers.asset.noneeabusiness.NonEeaInterruptController.onPageLoad(index: Int, draftId: String)
-GET        /:draftId/:index/eea-interrupt                                             controllers.asset.noneeabusiness.NonEeaInterruptController.onSubmit(index: Int, draftId: String)
+POST       /:draftId/:index/eea-interrupt                                             controllers.asset.noneeabusiness.NonEeaInterruptController.onSubmit(index: Int, draftId: String)
 
