@@ -36,8 +36,9 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
 
           val doc            = asDocument(createView(form))
           val legends        = doc.getElementsByTag("legend")
+
           legends.size mustBe 1
-          val legend: String = legends.first.text
+
           if (legendAsHeading) {
             legends.first.text mustBe messages(s"$messageKeyPrefix.heading", args: _*)
           } else {

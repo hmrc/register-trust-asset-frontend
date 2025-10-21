@@ -18,6 +18,7 @@ package navigation
 
 import config.FrontendAppConfig
 import controllers.asset.routes.AssetInterruptPageController
+import controllers.asset.noneeabusiness.routes.NameController
 import controllers.routes.SessionExpiredController
 import models.Constants._
 import models.WhatKindOfAsset._
@@ -73,6 +74,8 @@ class AssetNavigator @Inject() (config: FrontendAppConfig) extends Navigator {
 
   private def addAssetsRoute(draftId: String)(answers: UserAnswers): Call =
     answers.get(AddAssetsPage) match {
+      case Some(AddAssets.YesNow) if !answers.isTaxable && answers.assets.nonEEABusiness.isDefined => // todo: check & test this
+        NameController.onPageLoad(answers.assets.nonEEABusiness.get.size - 1, draftId)
       case Some(AddAssets.YesNow) => AssetNavigator.addAssetRoute(answers, draftId)
       case Some(_)                => assetsCompletedRoute(draftId)
       case _                      => SessionExpiredController.onPageLoad
