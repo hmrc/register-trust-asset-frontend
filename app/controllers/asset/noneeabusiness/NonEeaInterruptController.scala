@@ -27,7 +27,7 @@ import play.api.mvc.{Action, ActionBuilder, AnyContent, MessagesControllerCompon
 import sections.Assets
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import utils.countryOptions.CountryOptionsNonUK
-import views.html.asset.noneeabusiness.NonEeaInterrupt
+import views.html.asset.noneeabusiness.NonEeaInterruptView
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
@@ -40,7 +40,7 @@ class NonEeaInterruptController @Inject() (
   getData: DraftIdRetrievalActionProvider,
   requireData: RegistrationDataRequiredAction,
   val controllerComponents: MessagesControllerComponents,
-  view: NonEeaInterrupt,
+  view: NonEeaInterruptView,
   val countryOptions: CountryOptionsNonUK
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
