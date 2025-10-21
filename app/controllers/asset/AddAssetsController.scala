@@ -100,7 +100,7 @@ class AddAssetsController @Inject() (
       } else {
         MAX_NON_TAXABLE_ASSETS
       }
-      // todo: do we need to amend the 'maxedOutView' as well?
+
       Ok(maxedOutView(draftId, rows.inProgress, rows.complete, headingMessageKey(rows.count, prefix), maxLimit, prefix))
     } else {
       if (rows.nonEmpty) {
