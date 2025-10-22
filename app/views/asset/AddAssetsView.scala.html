@@ -18,7 +18,7 @@
 @import models.AddAssets
 @import implicitConversions.Implicits._
 @import viewmodels.AddRow
-@import views.html.components.{SubmitButton, Heading, InputRadio, ErrorSummary, RowFormGroupWithSubHeading}
+@import views.html.components.{SubmitButton, Heading, InputRadio, ErrorSummary, RowFormGroupWithSubHeading, CompletedNonEeaCompaniesWithSubHeading}
 
 @this(
     main_template: MainTemplate,
@@ -27,7 +27,8 @@
     headingComp: Heading,
     inputRadio: InputRadio,
     errorSummary: ErrorSummary,
-    rowFormGroupWithSubHeading: RowFormGroupWithSubHeading
+    rowFormGroupWithSubHeading: RowFormGroupWithSubHeading,
+    completedNonEeaCompaniesWithSubHeading: CompletedNonEeaCompaniesWithSubHeading
 )
 
 @(
@@ -53,21 +54,13 @@
 
         @rowFormGroupWithSubHeading(inProgressAssets, "inprogress")
 
-
-        @* display number of in progress and complete companies in sub-heading if greater than one, else show 'complete' *@
         @{
-            if(prefix == "addAssets.nonTaxable" && completeAssets.size > 1) {
-                rowFormGroupWithSubHeading(
-                    data = completeAssets,
-                    id = "complete",
-                    alternateSubheading = Some(messages("addAssets.nonTaxable.count.subHeading", completeAssets.size.toString))
-                )
+            if(prefix == "addAssets.nonTaxable") {
+                completedNonEeaCompaniesWithSubHeading(completeAssets)
             } else {
                 rowFormGroupWithSubHeading(completeAssets, "complete")
             }
         }
-
-
 
         @if(maxedOut.size == 1) {
             <div class="govuk-inset-text">
