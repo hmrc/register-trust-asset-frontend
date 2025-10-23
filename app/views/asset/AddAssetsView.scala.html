@@ -24,7 +24,7 @@
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
     submitButton: SubmitButton,
-    headingComp: Heading,
+    headingComponent: Heading,
     inputRadio: InputRadio,
     errorSummary: ErrorSummary,
     rowFormGroupWithSubHeading: RowFormGroupWithSubHeading,
@@ -50,7 +50,7 @@
 
         @errorSummary(form.errors, AddAssets.options(prefix))
 
-        @headingComp(heading)
+        @headingComponent(heading)
 
         @rowFormGroupWithSubHeading(inProgressAssets, "inprogress")
 

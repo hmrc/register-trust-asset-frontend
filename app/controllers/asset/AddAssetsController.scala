@@ -67,11 +67,13 @@ class AddAssetsController @Inject() (
 
   private def determinePrefix(isTaxable: Boolean): String = "addAssets" + (if (!isTaxable) ".nonTaxable" else "")
 
-  private def headingMessageKey(count: Int, prefix: String)(implicit mp: MessagesProvider): String =
-    count match {
-      case c if c > 1 => Messages(s"$prefix.count.heading", c)
-      case _          => Messages(s"$prefix.heading")
+  private def headingMessageKey(count: Int, prefix: String)(implicit mp: MessagesProvider): String = {
+    (prefix, count) match {
+      case (prefix, _) if prefix == "addAssets.nonTaxable" => Messages(s"$prefix.heading")
+      case (prefix, count) if count > 1 => Messages(s"$prefix.count.heading", count)
+      case _ => Messages(s"$prefix.heading")
     }
+  }
 
   private def setTaskStatus(draftId: String, userAnswers: UserAnswers, action: AddAssets)(implicit
     hc: HeaderCarrier

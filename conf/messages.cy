@@ -27,7 +27,6 @@ addAssets.maxedOut.just1.paragraph=Gwiriwch yr asedion yr ydych wedi’u hychwan
 addAssets.maxedOut.moreThan1=Rydych wedi nodi uchafswm yr asedion ar gyfer:
 addAssets.maxedOut.moreThan1.paragraph=Gwiriwch yr asedion yr ydych wedi’u hychwanegu. Os oes gennych ragor o asedion i’w hychwanegu o dan y mathau hyn, ysgrifennwch i CThEF gyda’r manylion.
 
-addAssets.nonTaxable.count.heading=Ychwanegu perchnogaeth neu gyfran reolaethol o gwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE
 addAssets.nonTaxable.maxedOut.p2=Gallwch ychwanegu cwmni arall drwy dynnu un presennol, neu drwy ysgrifennu at CThEF gyda manylion unrhyw gwmni arall sydd wedi’i leoli y tu allan i’r DU neu’r AEE.
 
 addAssets.nonTaxable.title=Ychwanegu perchnogaeth neu gyfran reolaethol o gwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE
