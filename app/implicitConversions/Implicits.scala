@@ -27,6 +27,11 @@ object Implicits {
         s"$acc $uncapitalizeWord"
       }
     }
+
+    def lowercaseFirstWord: String = str match {
+      case "" => ""
+      case s => s.head.toLower.toString + s.tail
+    }
   }
 
   implicit class ListImplicits[T](list: List[T]) {
