@@ -93,16 +93,17 @@ assetInterruptPage.subheading5=Partneriaethau
 assetInterruptPage.subheading6=Asedion eraill
 assetInterruptPage.subheading7=Cwmnïau sydd wedi’u cofrestru y tu allan i’r DU neu’r AEE (Ardal Economaidd Ewropeaidd)
 
+assetInterruptPage.nonTaxable.title=Gwybodaeth sydd ei hangen arnoch i ychwanegu cwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE (Ardal Economaidd Ewropeaidd)
+assetInterruptPage.nonTaxable.heading=Gwybodaeth sydd ei hangen arnoch i ychwanegu cwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE (Ardal Economaidd Ewropeaidd)
 assetInterruptPage.nonTaxable.bullet1=enw’r cwmni
 assetInterruptPage.nonTaxable.bullet2=cyfeiriad y cwmni
 assetInterruptPage.nonTaxable.bullet3=cyfreithiau pa wlad sy’n llywodraethu’r cwmni
 assetInterruptPage.nonTaxable.bullet4=y dyddiad y dechreuodd yr ymddiriedolaeth ei pherchnogaeth neu ei chyfran reolaethol yn y cwmni
 assetInterruptPage.nonTaxable.caption=Perchnogaeth neu gyfran reolaethol mewn cwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE
 assetInterruptPage.nonTaxable.caption.hidden=Teitl yr adran hon yw
-assetInterruptPage.nonTaxable.heading=Gwybodaeth sydd ei hangen arnoch i ychwanegu cwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE (Ardal Economaidd Ewropeaidd)
+
 assetInterruptPage.nonTaxable.leadin = Mae’r AEE yn cynnwys:
 assetInterruptPage.nonTaxable.paragraph1=Os oes gan yr ymddiriedolaeth berchnogaeth neu gyfran reolaethol mewn cwmni sydd wedi’i gofrestru y tu allan i’r DU neu’r AEE, mae angen i chi roi gwybod i CThEF am y canlynol:
-assetInterruptPage.nonTaxable.title=Gwybodaeth sydd ei hangen arnoch i ychwanegu cwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE (Ardal Economaidd Ewropeaidd)
 
 assets.defaultText=yr ased
 assets.removeYesNo.error.required=Dewiswch ‘Iawn’ os ydych am dynnu’r ased
@@ -487,7 +488,7 @@ trustOwnsNonEeaBusinessYesNo.title = Cwmnïau sydd wedi’u cofrestru y tu allan
 trustOwnsNonEeaBusinessYesNo.heading = Cwmnïau sydd wedi’u cofrestru y tu allan i’r DU neu’r AEE (Ardal Economaidd Ewropeaidd)
 trustOwnsNonEeaBusinessYesNo.paragraph1 = Mae angen i chi roi gwybod i CThEF a oes gan yr ymddiriedolaeth berchnogaeth neu gyfran reolaethol mewn cwmni sydd wedi’i leoli y tu allan i’r DU neu’r AEE.
 trustOwnsNonEeaBusinessYesNo.lead_in = Mae’r AEE yn cynnwys:
-trustOwnsNonEeaBusinessYesNo.bullet1 = yr holl wledydd yn yr Undeb Ewropeaidd (UE)
+trustOwnsNonEeaBusinessYesNo.bullet1 = yr holl wledydd o fewn yr Undeb Ewropeaidd (UE)
 trustOwnsNonEeaBusinessYesNo.bullet2 = Gwlad yr Iâ
 trustOwnsNonEeaBusinessYesNo.bullet3 = Liechtenstein
 trustOwnsNonEeaBusinessYesNo.bullet4 = Norwy
