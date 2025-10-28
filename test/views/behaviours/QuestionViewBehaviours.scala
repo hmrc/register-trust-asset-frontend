@@ -16,8 +16,12 @@
 
 package views.behaviours
 
+import org.jsoup.nodes.Element
 import play.api.data.{Form, FormError}
 import play.twirl.api.HtmlFormat
+
+import scala.collection.mutable
+import scala.jdk.CollectionConverters._
 
 trait QuestionViewBehaviours[A] extends ViewBehaviours {
 
@@ -110,6 +114,30 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
         }
       }
     }
+
+  private def expectedElements(actualElements: mutable.Buffer[Element], expectedText: List[String]): Unit = {
+    actualElements.size mustBe expectedText.size
+    actualElements.zip(expectedText).foreach {
+      case (element, expected) =>
+        assert(element.text ==  expected)
+    }
+  }
+
+  def pageWithSubHeadings(
+    form: Form[A],
+    createView: Form[A] => HtmlFormat.Appendable,
+    expectedSubHeadings: List[String]) : Unit = {
+
+    "behave like a page with sub headings" when {
+
+      "rendered" in {
+        val doc = asDocument(createView(form))
+        val elements = doc.getElementsByClass("govuk-heading-m").asScala
+        expectedElements(elements, expectedSubHeadings)
+
+      }
+    }
+  }
 
   def pageWithDateFields(
     form: Form[A],
