@@ -179,6 +179,26 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
 
   "Non-Taxable AddAssetsView" when {
 
+    "1 company in progress" must {
+
+      val inProgressAssets: Seq[AddRow] = Seq(
+        AddRow("Little Company", WhatKindOfAsset.NonEeaBusiness.toString, "#", "#")
+      )
+
+      val nonEeaView = applyView(form, inProgressAssets, Seq.empty[AddRow], 2, nonTaxableAddAssetsPrefix)
+
+      behave like pageWithInProgressTabularData(nonEeaView, inProgressAssets)
+
+      behave like pageWithTitle(nonEeaView, nonTaxableAddAssetsPrefix)
+
+      behave like pageWithBackLink(nonEeaView)
+
+      val taxableCreateViewFn = (f: Form[_]) => applyView(form, inProgressAssets, Seq.empty[AddRow], 2, nonTaxableAddAssetsPrefix)
+
+      behave like pageWithSubHeadings(form, taxableCreateViewFn, List("In Progress", "Do you want to add another company?"))
+    }
+
+
     "1 company added and 1 in progress" must {
 
       val completeAssets: Seq[AddRow] = Seq(
