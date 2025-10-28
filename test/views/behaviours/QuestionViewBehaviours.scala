@@ -115,18 +115,18 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
       }
     }
 
-  private def expectedElements(actualElements: mutable.Buffer[Element], expectedText: List[String]): Unit = {
-    actualElements.size mustBe expectedText.size
-    actualElements.zip(expectedText).foreach {
-      case (element, expected) =>
-        assert(element.text ==  expected)
-    }
-  }
-
   def pageWithSubHeadings(
     form: Form[A],
     createView: Form[A] => HtmlFormat.Appendable,
     expectedSubHeadings: List[String]) : Unit = {
+
+     def expectedElements(actualElements: mutable.Buffer[Element], expectedText: List[String]): Unit = {
+      actualElements.size mustBe expectedText.size
+      actualElements.zip(expectedText).foreach {
+        case (element, expected) =>
+          assert(element.text ==  expected)
+      }
+    }
 
     "behave like a page with sub headings" when {
 
@@ -134,7 +134,6 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
         val doc = asDocument(createView(form))
         val elements = doc.getElementsByClass("govuk-heading-m").asScala
         expectedElements(elements, expectedSubHeadings)
-
       }
     }
   }

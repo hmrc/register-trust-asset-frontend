@@ -26,20 +26,13 @@ import views.html.asset.AddAssetsView
 
 class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehaviours with QuestionViewBehaviours[AddAssets] {
 
-  private val completeAssets: Seq[AddRow] = Seq(
-    AddRow("4500", WhatKindOfAsset.Money.toString, "#", "#"),
-    AddRow("4500", WhatKindOfAsset.Money.toString, "#", "#")
-  )
 
-  private val inProgressAssets: Seq[AddRow] = Seq(
-    AddRow("Tesco", WhatKindOfAsset.Shares.toString, "#", "#")
-  )
+  private val view: AddAssetsView   = viewFor[AddAssetsView](Some(emptyUserAnswers))
 
   private val taxableAddAssetsPrefix: String    = "addAssets"
   private val nonTaxableAddAssetsPrefix: String = "addAssets.nonTaxable"
 
-  val form: Form[AddAssets] = new AddAssetsFormProvider().withPrefix(taxableAddAssetsPrefix)
-  private val view: AddAssetsView   = viewFor[AddAssetsView](Some(emptyUserAnswers))
+  val form: Form[AddAssets] = new AddAssetsFormProvider().withPrefix(nonTaxableAddAssetsPrefix)
 
   private def deriveTitleFromPrefix(count: Int, prefix: String): String =
     if (prefix == taxableAddAssetsPrefix) {
@@ -90,6 +83,15 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
   }
 
   "Taxable AddAssetsView" when {
+
+    val completeAssets: Seq[AddRow] = Seq(
+      AddRow("4500", WhatKindOfAsset.Money.toString, "#", "#"),
+      AddRow("4500", WhatKindOfAsset.Money.toString, "#", "#")
+    )
+
+    val inProgressAssets: Seq[AddRow] = Seq(
+      AddRow("Tesco", WhatKindOfAsset.Shares.toString, "#", "#")
+    )
 
     val taxableCreateViewFn = (f: Form[_]) => applyView(f, taxableAddAssetsPrefix)
 
