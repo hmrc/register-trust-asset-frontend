@@ -18,18 +18,20 @@ package controllers.asset.noneeabusiness
 
 import base.SpecBase
 import controllers.IndexValidation
+import navigation.NonEeaBusinessNavigator
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.html.asset.noneeabusiness.NonEeaInterruptView
 
 class NonEeaInterruptControllerSpec extends SpecBase with IndexValidation {
 
-  val nonEeaInterruptControllerRoute: String = routes.NonEeaInterruptController.onPageLoad(0, fakeDraftId).url
-  private val index                          = 0
+  private val index = 0
 
   "NonEeaInterruptController" must {
 
     "return OK and the correct view for a GET" in {
+
+      val nonEeaInterruptControllerRoute: String = routes.NonEeaInterruptController.onPageLoad(0, fakeDraftId).url
 
       val application = applicationBuilder(userAnswers = Some(emptyUserAnswers)).build()
 
@@ -47,7 +49,27 @@ class NonEeaInterruptControllerSpec extends SpecBase with IndexValidation {
       application.stop()
     }
 
-    // todo: more tests?
+    "redirect to the NameController when onSubmit called" in {
+
+      val nonEeaInterruptControllerRoute: String = routes.NonEeaInterruptController.onSubmit(0, fakeDraftId).url
+
+      val nameControllerRoute: String = routes.NameController.onPageLoad(0, fakeDraftId).url
+
+      val navigator = app.injector.instanceOf[NonEeaBusinessNavigator]
+
+      val application = applicationBuilder(userAnswers = Some(emptyUserAnswers), navigator = navigator).build()
+
+      val request =
+        FakeRequest(POST, nonEeaInterruptControllerRoute)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual nameControllerRoute
+
+      application.stop()
+    }
   }
 
 }
