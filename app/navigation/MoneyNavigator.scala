@@ -17,6 +17,7 @@
 package navigation
 
 import controllers.asset.routes._
+import controllers.asset.money.routes._
 import models.UserAnswers
 import pages.Page
 import pages.asset.money._
@@ -29,7 +30,9 @@ import javax.inject.Singleton
 class MoneyNavigator extends Navigator {
 
   override protected def route(draftId: String): PartialFunction[Page, AffinityGroup => UserAnswers => Call] = {
-    case AssetMoneyValuePage(_) => _ => _ => AddAssetsController.onPageLoad(draftId)
+    case AssetMoneyValuePage(index) => _ => _ => MoneyCheckAnswersController.onPageLoad(index,draftId)
+    case MoneyAnswersPage => _ => _ => AddAssetsController.onPageLoad(draftId)
   }
 
 }
+
