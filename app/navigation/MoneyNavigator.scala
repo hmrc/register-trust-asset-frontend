@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 package navigation
 
-import controllers.asset.routes._
 import controllers.asset.money.routes._
 import models.UserAnswers
 import pages.Page
@@ -30,9 +29,7 @@ import javax.inject.Singleton
 class MoneyNavigator extends Navigator {
 
   override protected def route(draftId: String): PartialFunction[Page, AffinityGroup => UserAnswers => Call] = {
-    case AssetMoneyValuePage(index) => _ => _ => MoneyCheckAnswersController.onPageLoad(index,draftId)
-    case MoneyAnswersPage => _ => _ => AddAssetsController.onPageLoad(draftId)
+    case AssetMoneyValuePage(index) => _ => _ => MoneyCheckAnswersController.onPageLoad(index, draftId)
   }
 
 }
-

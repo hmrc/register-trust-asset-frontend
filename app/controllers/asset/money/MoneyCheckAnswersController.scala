@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,11 @@
 
 package controllers.asset.money
 
-import config.annotations.Money
 import controllers.actions._
 import models.Status.Completed
 import models.requests.RegistrationDataRequest
-import navigation.Navigator
 import pages.AssetStatus
-import pages.asset.money.{AssetMoneyValuePage, MoneyAnswersPage}
+import pages.asset.money.AssetMoneyValuePage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, ActionBuilder, AnyContent, MessagesControllerComponents}
 import repositories.RegistrationsRepository
@@ -33,19 +31,18 @@ import views.html.asset.money.MoneyAnswersView
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class MoneyCheckAnswersController @Inject()(
-                                            override val messagesApi: MessagesApi,
-                                            repository: RegistrationsRepository,
-                                            @Money navigator: Navigator,
-                                            identify: RegistrationIdentifierAction,
-                                            getData: DraftIdRetrievalActionProvider,
-                                            requireData: RegistrationDataRequiredAction,
-                                            requiredAnswer: RequiredAnswerActionProvider,
-                                            val controllerComponents: MessagesControllerComponents,
-                                            view: MoneyAnswersView,
-                                            printHelper : MoneyPrintHelper
-                                          )(implicit ec: ExecutionContext)
-  extends FrontendBaseController
+class MoneyCheckAnswersController @Inject() (
+  override val messagesApi: MessagesApi,
+  repository: RegistrationsRepository,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  requiredAnswer: RequiredAnswerActionProvider,
+  val controllerComponents: MessagesControllerComponents,
+  view: MoneyAnswersView,
+  printHelper: MoneyPrintHelper
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
     with I18nSupport {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
@@ -72,7 +69,7 @@ class MoneyCheckAnswersController @Inject()(
     for {
       updatedAnswers <- Future.fromTry(answers)
       _              <- repository.set(updatedAnswers)
-    } yield Redirect(navigator.nextPage(MoneyAnswersPage, draftId)(request.userAnswers))
+    } yield Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId))
 
   }
 }
