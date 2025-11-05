@@ -28,7 +28,7 @@ object Implicits {
       }
     }
 
-    def lowercaseFirstWord: String = str match {
+    def lowercaseFirstLetterOfFirstWord: String = str match {
       case "" => ""
       case s => s.head.toLower.toString + s.tail
     }

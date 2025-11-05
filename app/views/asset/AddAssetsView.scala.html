@@ -68,7 +68,7 @@
                     @if(maxedOut.head._1 == "whatKindOfAsset.Other") {
                         <li><p>@messages(s"$prefix.maxedOut.other.just1", maxedOut.head._2.toString)</p></li>
                     } else if(maxedOut.head._1 == "whatKindOfAsset.NonEeaBusiness") {
-                        <li><p>@messages(s"$prefix.maxedOut.just1", messages(maxedOut.head._1).lowercaseFirstWord, maxedOut.head._2.toString)</p></li>
+                        <li><p>@messages(s"$prefix.maxedOut.just1", messages(maxedOut.head._1).lowercaseFirstLetterOfFirstWord, maxedOut.head._2.toString)</p></li>
                     } else {
                         <li><p>@messages(s"$prefix.maxedOut.just1", messages(maxedOut.head._1).uncapitalize, maxedOut.head._2.toString)</p></li>
                     }
