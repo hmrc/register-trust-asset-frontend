@@ -14,27 +14,23 @@
  * limitations under the License.
  */
 
-package implicitConversions
+package extensions
 
-object Implicits {
+object Extensions {
 
-  implicit class StringImplicits(str: String) {
-    def uncapitalize: String = str.split(' ').foldLeft("") { (acc, word) =>
-      def uncapitalizeWord = s"${word.head.toLower}${word.tail}"
-      if (acc.isEmpty) {
-        uncapitalizeWord
-      } else {
-        s"$acc $uncapitalizeWord"
-      }
-    }
+  implicit class StringExtensions(str: String) {
 
-    def lowercaseFirstLetterOfFirstWord: String = str match {
-      case "" => ""
-      case s => s.head.toLower.toString + s.tail
+    def uncapitalise: String = str.split(' ').map(_.lowercaseFirstLetterOfFirstWord).mkString(" ")
+
+    def lowercaseFirstLetterOfFirstWord: String = if (str.isEmpty) {
+      str
+    } else {
+      str.head.toLower.toString + str.tail
     }
   }
 
-  implicit class ListImplicits[T](list: List[T]) {
+
+  implicit class ListExtensions[T](list: List[T]) {
     def asSomeIf(condition: Boolean): Option[List[T]] = list match {
       case _ if !condition => None
       case _               => Some(list)
