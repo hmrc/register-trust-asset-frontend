@@ -42,9 +42,7 @@ class NonEeaInterruptController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: NonEeaInterruptView,
   val countryOptions: CountryOptionsNonUK
-)(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+) extends FrontendBaseController with I18nSupport {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen
