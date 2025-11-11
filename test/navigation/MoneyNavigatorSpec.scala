@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,15 +32,14 @@ class MoneyNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
 
   "Money Navigator" must {
 
-    "go to AddAssetsPage from AssetMoneyValue page when the amount submitted" in {
+    "go to Check Answers Page from AssetMoneyValue page when the amount submitted" in {
 
       forAll(arbitrary[UserAnswers]) { userAnswers =>
         val answers = userAnswers.set(WhatKindOfAssetPage(index), Money).success.value
 
         navigator
           .nextPage(AssetMoneyValuePage(index), fakeDraftId)(answers)
-          .mustBe(controllers.asset.routes.AddAssetsController.onPageLoad(fakeDraftId))
-
+          .mustBe(controllers.asset.money.routes.MoneyCheckAnswersController.onPageLoad(index, fakeDraftId))
       }
     }
   }

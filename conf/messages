@@ -269,6 +269,8 @@ money.value.error.wholeNumber = Total assets value must be a whole number
 money.value.error.zero = Total amount of money in the trust must be 1 or more
 money.value.link = Return to registration progress
 
+money.answers.heading = Check asset details
+money.answers.title = Check asset details
 
 propertyOrLand.addressYesNo.title = Does the property or land have an address?
 propertyOrLand.addressYesNo.heading = Does the property or land have an address?

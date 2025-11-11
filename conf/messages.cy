@@ -208,6 +208,9 @@ money.value.hint=Adiwch bob swm presennol at ei gilydd. Wedi’i dalgrynnu i law
 money.value.link=Yn ôl i gynnydd cofrestru
 money.value.title=Beth yw cyfanswm yr arian yn yr ymddiriedolaeth?
 
+money.answers.heading = Gwirio manylion yr ased
+money.answers.title = Gwirio manylion yr ased
+
 nonEeaBusiness.answers.heading=Gwirio manylion y cwmni
 nonEeaBusiness.answers.title=Gwirio manylion y cwmni
 
