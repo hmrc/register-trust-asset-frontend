@@ -17,13 +17,9 @@
 package controllers.asset.money
 
 import controllers.actions._
-import models.Status.Completed
 import models.requests.RegistrationDataRequest
-import pages.AssetStatus
-import pages.asset.money.AssetMoneyValuePage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, ActionBuilder, AnyContent, MessagesControllerComponents}
-import repositories.RegistrationsRepository
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import utils.print.MoneyPrintHelper
 import views.html.asset.money.MoneyAnswersView
@@ -33,11 +29,9 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class MoneyCheckAnswersController @Inject() (
   override val messagesApi: MessagesApi,
-  repository: RegistrationsRepository,
   identify: RegistrationIdentifierAction,
   getData: DraftIdRetrievalActionProvider,
   requireData: RegistrationDataRequiredAction,
-  requiredAnswer: RequiredAnswerActionProvider,
   val controllerComponents: MessagesControllerComponents,
   view: MoneyAnswersView,
   printHelper: MoneyPrintHelper
@@ -45,15 +39,12 @@ class MoneyCheckAnswersController @Inject() (
     extends FrontendBaseController
     with I18nSupport {
 
-  private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
+  private def actions(draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen
       getData(draftId) andThen
-      requireData andThen
-      requiredAnswer(
-        RequiredAnswer(AssetMoneyValuePage(index), routes.AssetMoneyValueController.onPageLoad(index, draftId))
-      )
+      requireData
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(draftId) { implicit request =>
     val sections = printHelper.checkDetailsSection(
       userAnswers = request.userAnswers,
       index = index,
@@ -63,13 +54,7 @@ class MoneyCheckAnswersController @Inject() (
     Ok(view(index, draftId, sections))
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
-    val answers = request.userAnswers.set(AssetStatus(index), Completed)
-
-    for {
-      updatedAnswers <- Future.fromTry(answers)
-      _              <- repository.set(updatedAnswers)
-    } yield Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId))
-
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(draftId).async { implicit request =>
+    Future.successful(Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId)))
   }
 }
