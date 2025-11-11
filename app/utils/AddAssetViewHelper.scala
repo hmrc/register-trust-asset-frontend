@@ -64,7 +64,7 @@ class AddAssetViewHelper @Inject() (userAnswers: UserAnswers, draftId: String)(i
     AddRow(
       name = mvm.label.getOrElse(defaultValue),
       typeLabel = mvm.`type`.label,
-      changeUrl = money.routes.AssetMoneyValueController.onPageLoad(index, draftId).url,
+      changeUrl = money.routes.MoneyCheckAnswersController.onPageLoad(index, draftId).url,
       removeUrl = routes.RemoveAssetYesNoController.onPageLoad(index, draftId).url
     )
 

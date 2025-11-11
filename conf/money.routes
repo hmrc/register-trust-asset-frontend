@@ -1,2 +1,4 @@
 GET        /:draftId/:index/value                          controllers.asset.money.AssetMoneyValueController.onPageLoad(index: Int, draftId: String)
 POST       /:draftId/:index/value                          controllers.asset.money.AssetMoneyValueController.onSubmit(index: Int, draftId: String)
+GET        /:draftId/:index/check-money-answers            controllers.asset.money.MoneyCheckAnswersController.onPageLoad(index : Int, draftId : String)
+POST       /:draftId/:index/check-money-answers            controllers.asset.money.MoneyCheckAnswersController.onSubmit(index : Int, draftId : String)
