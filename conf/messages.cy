@@ -27,28 +27,23 @@ addAssets.maxedOut.just1.paragraph=Gwiriwch yr asedion yr ydych wedi’u hychwan
 addAssets.maxedOut.moreThan1=Rydych wedi nodi uchafswm yr asedion ar gyfer:
 addAssets.maxedOut.moreThan1.paragraph=Gwiriwch yr asedion yr ydych wedi’u hychwanegu. Os oes gennych ragor o asedion i’w hychwanegu o dan y mathau hyn, ysgrifennwch i CThEF gyda’r manylion.
 
-addAssets.nonTaxable.count.title=Rydych wedi ychwanegu {0} o gwmnïau nad ydynt yn rhan o’r AEE
-addAssets.nonTaxable.count.heading=Rydych wedi ychwanegu {0} o gwmnïau nad ydynt yn rhan o’r AEE
-addAssets.nonTaxable.maxedOut.p1=Ni allwch ychwanegu cwmni arall nad yw’n rhan o’r AEE gan eich bod wedi nodi uchafswm o {0}.
-addAssets.nonTaxable.maxedOut.p2=Gallwch ychwanegu cwmni arall nad yw’n rhan o’r AEE drwy gael gwared ar un sy’n bodoli eisoes, neu ysgrifennu i CThEF gyda manylion unrhyw gwmnïau ychwanegol nad ydynt yn aelodau o’r AEE.
+addAssets.nonTaxable.maxedOut.p2=Gallwch ychwanegu cwmni arall drwy dynnu un presennol, neu drwy ysgrifennu at CThEF gyda manylion unrhyw gwmni arall sydd wedi’i leoli y tu allan i’r DU neu’r AEE.
 
-addAssets.nonTaxable.title=Ychwanegu cwmni nad yw’n rhan o’r AEE
-addAssets.nonTaxable.heading=Ychwanegu cwmni nad yw’n rhan o’r AEE
-addAssets.nonTaxable.additional-content=A ydych am ychwanegu cwmni arall nad yw’n rhan o’r AEE?
+addAssets.nonTaxable.title=Ychwanegu perchnogaeth neu gyfran reolaethol o gwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE
+addAssets.nonTaxable.heading=Ychwanegu perchnogaeth neu gyfran reolaethol o gwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE
+addAssets.nonTaxable.count.subHeading=Rydych wedi ychwanegu {0} o gwmnïau
+addAssets.nonTaxable.count.one.heading=Rydych wedi ychwanegu {0} o gwmnïau
+addAssets.nonTaxable.additional-content=A ydych chi am ychwanegu cwmni arall?
 addAssets.nonTaxable.add-them-now=Iawn, rwyf am ei ychwanegu nawr
 addAssets.nonTaxable.add-them-later=Iawn, rwyf am ei ychwanegu yn nes ymlaen
 addAssets.nonTaxable.no-complete=Nac ydw, rwyf wedi ychwanegu pob cwmni nad yw’n rhan o’r AEE
-addAssets.nonTaxable.error.required=Dewiswch ‘Iawn’ os ydych am ychwanegu cwmni arall nad yw’n rhan o’r AEE
+addAssets.nonTaxable.error.required=Dewiswch ‘Iawn’ os ydych am ychwanegu cwmni arall
 
-addAssets.nonTaxable.count.title=Rydych wedi ychwanegu {0} o gwmnïau nad ydynt yn rhan o’r AEE
-addAssets.nonTaxable.count.heading=Rydych wedi ychwanegu {0} o gwmnïau nad ydynt yn rhan o’r AEE
-addAssets.nonTaxable.maxedOut.p1=Ni allwch ychwanegu cwmni arall nad yw’n rhan o’r AEE gan eich bod wedi nodi uchafswm o {0}.
-addAssets.nonTaxable.maxedOut.p2=Gallwch ychwanegu cwmni arall nad yw’n rhan o’r AEE drwy gael gwared ar un sy’n bodoli eisoes, neu ysgrifennu at CThEF gyda manylion unrhyw gwmnïau ychwanegol nad ydynt yn aelodau o’r AEE.
-
-assets.nonTaxable.defaultText=y cwmni hwn nad yw’n rhan o’r AEE
-assets.nonTaxable.removeYesNo.title=A ydych yn siŵr eich bod am dynnu’r cwmni nad yw’n rhan o’r AEE?
+addAssets.nonTaxable.maxedOut.p1=Ni allwch ychwanegu cwmni arall sydd wedi’i leoli y tu allan i’r DU neu’r AEE gan eich bod wedi nodi uchafswm o {0}.
+assets.nonTaxable.defaultText=y cwmni hwn sydd wedi’i leoli y tu allan i’r DU neu’r AEE
+assets.nonTaxable.removeYesNo.title=A ydych yn siŵr eich bod chi am dynnu’r cwmni sydd wedi’i leoli y tu allan i’r DU neu’r AEE?
 assets.nonTaxable.removeYesNo.heading=A ydych yn siŵr eich bod am dynnu {0}?
-assets.nonTaxable.removeYesNo.error.required=Dewiswch ‘Iawn’ os ydych am dynnu’r cwmni nad yw’n rhan o’r AEE
+assets.nonTaxable.removeYesNo.error.required=Dewiswch ‘Iawn’ os ydych am dynnu’r cwmni sydd wedi’i leoli y tu allan i’r DU neu’r AEE
 
 address.country=Gwlad
 
@@ -56,7 +51,7 @@ answerPage.section.assets.heading=Asedion
 answerPage.section.companyOwnershipOrControllingInterest.heading=Perchnogaeth y cwmni neu gyfran reolaethol
 answerPage.section.businessAsset.subheading=Busnes {0}
 answerPage.section.moneyAsset.subheading=Arian
-answerPage.section.nonEeaBusinessAsset.subheading=Cwmni nad yw’n rhan o’r AEE {0}
+answerPage.section.nonEeaBusinessAsset.subheading=Cwmni sydd wedi’i leoli y tu allan i’r DU neu’r AEE {0}
 answerPage.section.otherAsset.subheading=Arall {0}
 answerPage.section.partnershipAsset.subheading=Partneriaeth {0}
 answerPage.section.propertyOrLandAsset.subheading=Eiddo neu dir {0}
@@ -70,8 +65,8 @@ assetInterruptPage.bullet1=disgrifiad o’r eiddo neu dir
 assetInterruptPage.bullet10=y gwerth amcangyfrifedig presennol
 assetInterruptPage.bullet11=enw’r cwmni
 assetInterruptPage.bullet12=cyfeiriad y cwmni
-assetInterruptPage.bullet13=cyfreithiau pa wlad sy’n llywodraethu’r wlad
-assetInterruptPage.bullet14=y dyddiad y dechreuodd yr ymddiriedolaeth ei pherchnogaeth neu gyfran reolaethol yn y cwmni
+assetInterruptPage.bullet13=cyfreithiau pa wlad sy’n llywodraethu’r cwmni
+assetInterruptPage.bullet14=y dyddiad y dechreuodd yr ymddiriedolaeth ei pherchnogaeth neu ei chyfran reolaethol yn y cwmni
 assetInterruptPage.bullet2=cyfanswm gwerth amcangyfrifedig yr eiddo neu dir
 assetInterruptPage.bullet3=gwerth amcangyfrifedig cyfran yr eiddo neu dir y mae’r ymddiriedolaeth yn berchen arni
 assetInterruptPage.bullet4=enw’r cwmni cyfranddaliadau neu enw’r portffolio o gyfranddaliadau
@@ -81,7 +76,7 @@ assetInterruptPage.bullet7=enw’r busnes
 assetInterruptPage.bullet8=disgrifiad o’r busnes
 assetInterruptPage.bullet9=cyfeiriad y busnes
 assetInterruptPage.paragraph1=Nodwch gyfanswm yr arian yn yr ymddiriedolaeth. Os yw mwy nag un swm wedi’i ychwanegu at yr ymddiriedolaeth
-assetInterruptPage.paragraph10=Os oes gan yr ymddiriedolaeth berchnogaeth neu gyfran reolaethol mewn cwmni nad yw’n rhan o’r AEE, mae angen i chi roi gwybod i CThEF:
+assetInterruptPage.paragraph10=Os oes gan yr ymddiriedolaeth berchnogaeth neu gyfran reolaethol mewn cwmni sydd y tu allan i’r DU neu’r AEE, mae angen i chi roi gwybod i CThEF am y canlynol:
 assetInterruptPage.paragraph2=Ar gyfer eiddo neu dir yn y weithred ymddiriedolaeth, mae angen i chi roi’r canlynol:
 assetInterruptPage.paragraph3=Mae’n rhaid i chi roi gwerth presennol yr eiddo neu dir, ac nid ei werth pan ddaeth yn rhan o’r ymddiriedolaeth am y tro cyntaf. Gall hwn fod yn amcangyfrif.
 assetInterruptPage.paragraph4=Rhowch y canlynol i ni:
@@ -96,17 +91,19 @@ assetInterruptPage.subheading3=Cyfranddaliadau
 assetInterruptPage.subheading4=Busnes
 assetInterruptPage.subheading5=Partneriaethau
 assetInterruptPage.subheading6=Asedion eraill
-assetInterruptPage.subheading7=Cwmni Ardal Economaidd nad yw’n Ewropeaidd (AEE)
+assetInterruptPage.subheading7=Cwmnïau sydd wedi’u cofrestru y tu allan i’r DU neu’r AEE (Ardal Economaidd Ewropeaidd)
 
+assetInterruptPage.nonTaxable.title=Gwybodaeth sydd ei hangen arnoch i ychwanegu cwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE (Ardal Economaidd Ewropeaidd)
+assetInterruptPage.nonTaxable.heading=Gwybodaeth sydd ei hangen arnoch i ychwanegu cwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE (Ardal Economaidd Ewropeaidd)
 assetInterruptPage.nonTaxable.bullet1=enw’r cwmni
 assetInterruptPage.nonTaxable.bullet2=cyfeiriad y cwmni
 assetInterruptPage.nonTaxable.bullet3=cyfreithiau pa wlad sy’n llywodraethu’r cwmni
-assetInterruptPage.nonTaxable.bullet4=y dyddiad y dechreuodd yr ymddiriedolaeth ei pherchnogaeth neu gyfran reolaethol yn y cwmni
-assetInterruptPage.nonTaxable.caption=Perchnogaeth y cwmni neu gyfran reolaethol
+assetInterruptPage.nonTaxable.bullet4=y dyddiad y dechreuodd yr ymddiriedolaeth ei pherchnogaeth neu ei chyfran reolaethol yn y cwmni
+assetInterruptPage.nonTaxable.caption=Perchnogaeth neu gyfran reolaethol mewn cwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE
 assetInterruptPage.nonTaxable.caption.hidden=Teitl yr adran hon yw
-assetInterruptPage.nonTaxable.heading=Cwmni Ardal Economaidd nad yw’n Ewropeaidd (AEE)
-assetInterruptPage.nonTaxable.paragraph1=Os oes gan yr ymddiriedolaeth berchnogaeth neu gyfran reolaethol mewn cwmni nad yw’n rhan o’r AEE, mae angen i chi roi gwybod i CThEF:
-assetInterruptPage.nonTaxable.title=Cwmni Ardal Economaidd nad yw’n Ewropeaidd (AEE)
+
+assetInterruptPage.nonTaxable.leadin = Mae’r AEE yn cynnwys:
+assetInterruptPage.nonTaxable.paragraph1=Os oes gan yr ymddiriedolaeth berchnogaeth neu gyfran reolaethol mewn cwmni sydd wedi’i gofrestru y tu allan i’r DU neu’r AEE, mae angen i chi roi gwybod i CThEF am y canlynol:
 
 assets.defaultText=yr ased
 assets.removeYesNo.error.required=Dewiswch ‘Iawn’ os ydych am dynnu’r ased
@@ -164,10 +161,10 @@ entities.no.addressOrDescription.added=Dim cyfeiriad na disgrifiad wedi’u hych
 entities.no.description.added=Dim disgrifiad wedi’i ychwanegu
 entities.no.name.added=Dim enw wedi’i ychwanegu
 entities.no.value.added=Dim gwerth wedi’i ychwanegu
-entities.nonTaxable=Nad yw’n rhan o’r AEE
+entities.nonTaxable=Cwmni sydd wedi’i leoli y tu allan i’r DU neu’r AEE
 
 entity.asset=Asedion
-entity.nonTaxable.asset=Cwmnïau nad ydynt yn rhan o’r AEE
+entity.nonTaxable.asset=Cwmnïau sydd wedi’u lleoli y tu allan i’r DU neu’r AEE
 
 error.boolean=Rhowch ateb
 error.browser.title.prefix=Gwall:
@@ -214,8 +211,8 @@ money.value.title=Beth yw cyfanswm yr arian yn yr ymddiriedolaeth?
 money.answers.heading = Gwirio manylion yr ased
 money.answers.title = Gwirio manylion yr ased
 
-nonEeaBusiness.answers.heading=Gwirio manylion yr ased
-nonEeaBusiness.answers.title=Gwirio manylion yr ased
+nonEeaBusiness.answers.heading=Gwirio manylion y cwmni
+nonEeaBusiness.answers.title=Gwirio manylion y cwmni
 
 nonEeaBusiness.governingCountry.checkYourAnswersLabel=Cyfreithiau pa wlad sy’n llywodraethu {0}?
 nonEeaBusiness.governingCountry.error.invalidCharacters=Mae’n rhaid i’r wlad gynnwys y llythrennau a i z yn unig
@@ -249,6 +246,21 @@ nonEeaBusiness.startDate.title=Pryd y gwnaeth yr ymddiriedolaeth ddechrau ei phe
 
 other.answers.heading=Gwirio manylion yr ased
 other.answers.title=Gwirio manylion yr ased
+
+nonEeaBusiness.interrupt.title = Cwmnïau sydd wedi’u cofrestru y tu allan i’r DU neu’r AEE (Ardal Economaidd Ewropeaidd)
+nonEeaBusiness.interrupt.heading = Cwmnïau sydd wedi’u cofrestru y tu allan i’r DU neu’r AEE (Ardal Economaidd Ewropeaidd)
+nonEeaBusiness.interrupt.para = Mae angen i chi roi gwybod i CThEF a oes gan yr ymddiriedolaeth berchnogaeth neu gyfran reolaethol mewn cwmni sydd wedi’i leoli y tu allan i’r DU neu’r AEE.
+nonEeaBusiness.interrupt.eea.lead_in = Mae’r AEE yn cynnwys:
+nonEeaBusiness.interrupt.eea.bullet1 = yr holl wledydd o fewn yr Undeb Ewropeaidd (UE)
+nonEeaBusiness.interrupt.eea.bullet2 = Gwlad yr Iâ
+nonEeaBusiness.interrupt.eea.bullet3 = Liechtenstein
+nonEeaBusiness.interrupt.eea.bullet4 = Norwy
+nonEeaBusiness.interrupt.h2 = Pryd sydd gan ymddiriedolaeth gyfran reolaethol
+nonEeaBusiness.interrupt.trust.lead_in = Bydd gan yr ymddiriedolaeth gyfran reolaethol mewn cwmni os bydd unrhyw un o’r canlynol yn berthnasol:
+nonEeaBusiness.interrupt.trust.bullet1 = mae gan yr ymddiriedolwyr fwy na 50 y cant o’r cyfranddaliadau yn y cwmni
+nonEeaBusiness.interrupt.trust.bullet2 = mae gan yr ymddiriedolwyr fwy na 50 y cant o’r hawliau pleidleisio yn y cwmni
+nonEeaBusiness.interrupt.trust.bullet3 = mae gan yr ymddiriedolwyr yr hawl i benodi neu dynnu mwyafrif bwrdd cyfarwyddwyr y cwmni
+nonEeaBusiness.interrupt.trust.bullet4 = gall yr ymddiriedolwyr arfer dylanwad neu reolaeth sylweddol dros y cwmni
 
 other.description.checkYourAnswersLabel=Beth yw’r disgrifiad o’r ased?
 other.description.error.invalid=Mae’n rhaid i’r disgrifiad o’r ased gynnwys y llythrennau a i z yn unig
@@ -475,6 +487,22 @@ trustOwnsNonEeaBusinessYesNo.error.required=Dewiswch ‘Iawn’ os yw’r ymddir
 trustOwnsNonEeaBusinessYesNo.heading=A yw’r ymddiriedolaeth yn berchen ar gwmni nad yw’n rhan o’r AEE neu a oes ganddi gyfran reolaethol ynddo?
 trustOwnsNonEeaBusinessYesNo.title=A yw’r ymddiriedolaeth yn berchen ar gwmni nad yw’n rhan o’r AEE neu a oes ganddi gyfran reolaethol ynddo?
 
+trustOwnsNonEeaBusinessYesNo.title = Cwmnïau sydd wedi’u cofrestru y tu allan i’r DU neu’r AEE (Ardal Economaidd Ewropeaidd)
+trustOwnsNonEeaBusinessYesNo.heading = Cwmnïau sydd wedi’u cofrestru y tu allan i’r DU neu’r AEE (Ardal Economaidd Ewropeaidd)
+trustOwnsNonEeaBusinessYesNo.paragraph1 = Mae angen i chi roi gwybod i CThEF a oes gan yr ymddiriedolaeth berchnogaeth neu gyfran reolaethol mewn cwmni sydd wedi’i leoli y tu allan i’r DU neu’r AEE.
+trustOwnsNonEeaBusinessYesNo.lead_in = Mae’r AEE yn cynnwys:
+trustOwnsNonEeaBusinessYesNo.bullet1 = yr holl wledydd o fewn yr Undeb Ewropeaidd (UE)
+trustOwnsNonEeaBusinessYesNo.bullet2 = Gwlad yr Iâ
+trustOwnsNonEeaBusinessYesNo.bullet3 = Liechtenstein
+trustOwnsNonEeaBusinessYesNo.bullet4 = Norwy
+trustOwnsNonEeaBusinessYesNo.heading2 = Pryd sydd gan ymddiriedolaeth gyfran reolaethol
+trustOwnsNonEeaBusinessYesNo.paragraph2 = Bydd gan yr ymddiriedolaeth gyfran reolaethol mewn cwmni os bydd unrhyw un o’r canlynol yn berthnasol:
+trustOwnsNonEeaBusinessYesNo.bullet5 = mae gan yr ymddiriedolwyr fwy na 50 y cant o’r cyfranddaliadau yn y cwmni
+trustOwnsNonEeaBusinessYesNo.bullet6 = mae gan yr ymddiriedolwyr fwy na 50 y cant o’r hawliau pleidleisio yn y cwmni
+trustOwnsNonEeaBusinessYesNo.bullet7 = mae gan yr ymddiriedolwyr yr hawl i benodi neu dynnu mwyafrif bwrdd cyfarwyddwyr y cwmni
+trustOwnsNonEeaBusinessYesNo.bullet8 = gall yr ymddiriedolwyr arfer dylanwad neu reolaeth sylweddol dros y cwmni
+trustOwnsNonEeaBusinessYesNo.question = A oes gan yr ymddiriedolaeth berchnogaeth neu gyfran reolaethol mewn cwmni sydd wedi’i leoli y tu allan i’r DU a’r AEE?
+
 ukAddress.error.line1.invalidCharacters=Mae’n rhaid i gyfeiriad – llinell 1 gynnwys y llythrennau a i z yn unig
 ukAddress.error.line1.length=Mae’n rhaid i gyfeiriad – llinell 1 fod yn 35 o gymeriadau neu lai
 ukAddress.error.line1.required=Nodwch gyfeiriad – llinell 1
@@ -506,7 +534,7 @@ whatKindOfAsset.Money=Arian
 whatKindOfAsset.next.checkYourAnswersLabel=Pa fath o ased y mae angen i chi ei ychwanegu nesaf?
 whatKindOfAsset.next.heading=Pa fath o ased y mae angen i chi ei ychwanegu nesaf?
 whatKindOfAsset.next.title=Pa fath o ased y mae angen i chi ei ychwanegu nesaf?
-whatKindOfAsset.NonEeaBusiness=Cwmni nad yw’n rhan o’r AEE
+whatKindOfAsset.NonEeaBusiness=Cwmnïau sydd y tu allan i’r DU neu’r AEE (Ardal Economaidd Ewropeaidd)
 whatKindOfAsset.Other=Arall
 whatKindOfAsset.Partnership=Partneriaeth
 whatKindOfAsset.PropertyOrLand=Eiddo neu dir

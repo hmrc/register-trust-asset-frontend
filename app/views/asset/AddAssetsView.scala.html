@@ -1,5 +1,5 @@
 @*
- * Copyright 2024 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,18 +16,19 @@
 
 @import controllers.asset.routes._
 @import models.AddAssets
-@import implicitConversions.Implicits._
+@import extensions.Extensions._
 @import viewmodels.AddRow
-@import views.html.components.{SubmitButton, Heading, InputRadio, ErrorSummary, AddToList}
+@import views.html.components.{SubmitButton, Heading, InputRadio, ErrorSummary, RowFormGroupWithSubHeading, CompletedNonEeaCompaniesWithSubHeading}
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
     submitButton: SubmitButton,
-    headingComp: Heading,
+    headingComponent: Heading,
     inputRadio: InputRadio,
     errorSummary: ErrorSummary,
-    addToList: AddToList
+    rowFormGroupWithSubHeading: RowFormGroupWithSubHeading,
+    completedNonEeaCompaniesWithSubHeading: CompletedNonEeaCompaniesWithSubHeading
 )
 
 @(
@@ -49,19 +50,27 @@
 
         @errorSummary(form.errors, AddAssets.options(prefix))
 
-        @headingComp(heading)
+        @headingComponent(heading)
 
-        @addToList(inProgressAssets, "inprogress", "asset")
+        @rowFormGroupWithSubHeading(inProgressAssets, "inprogress")
 
-        @addToList(completeAssets, "complete", "asset")
+        @{
+            if(prefix == "addAssets.nonTaxable") {
+                completedNonEeaCompaniesWithSubHeading(completeAssets)
+            } else {
+                rowFormGroupWithSubHeading(completeAssets, "complete")
+            }
+        }
 
         @if(maxedOut.size == 1) {
             <div class="govuk-inset-text">
                 <ul class="govuk-list">
                     @if(maxedOut.head._1 == "whatKindOfAsset.Other") {
                         <li><p>@messages(s"$prefix.maxedOut.other.just1", maxedOut.head._2.toString)</p></li>
+                    } else if(maxedOut.head._1 == "whatKindOfAsset.NonEeaBusiness") {
+                        <li><p>@messages(s"$prefix.maxedOut.just1", messages(maxedOut.head._1).lowercaseFirstLetterOfFirstWord, maxedOut.head._2.toString)</p></li>
                     } else {
-                        <li><p>@messages(s"$prefix.maxedOut.just1", messages(maxedOut.head._1).uncapitalize, maxedOut.head._2.toString)</p></li>
+                        <li><p>@messages(s"$prefix.maxedOut.just1", messages(maxedOut.head._1).uncapitalise, maxedOut.head._2.toString)</p></li>
                     }
                     <li><p>@messages(s"$prefix.maxedOut.just1.paragraph")</p></li>
                 </ul>

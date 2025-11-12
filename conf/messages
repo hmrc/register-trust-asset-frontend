@@ -27,9 +27,9 @@ entities.no.description.added = No description added
 entities.no.addressOrDescription.added = No address or description added
 
 entities.assets = Assets
-entities.nonTaxable = Non-EEA
+entities.nonTaxable = Company outside the UK or EEA
 entity.asset = Assets
-entity.nonTaxable.asset = Non-EEA Companies
+entity.nonTaxable.asset = Companies outside the UK or EEA
 
 session_expired.title = For your security, we signed you out
 session_expired.heading = For your security, we signed you out
@@ -126,7 +126,7 @@ answerPage.section.propertyOrLandAsset.subheading = Property or land {0}
 answerPage.section.partnershipAsset.subheading = Partnership {0}
 answerPage.section.businessAsset.subheading = Business {0}
 answerPage.section.otherAsset.subheading = Other {0}
-answerPage.section.nonEeaBusinessAsset.subheading = Non-EEA Company {0}
+answerPage.section.nonEeaBusinessAsset.subheading = Company outside the UK or EEA {0}
 
 addAnAssetYesNo.title = Do you want to add an asset?
 addAnAssetYesNo.heading = Do you want to add an asset?
@@ -149,32 +149,45 @@ addAssets.maxedOut.moreThan1.paragraph = Check the assets you have added. If you
 addAssets.maxedOut.p1 = You cannot add another asset as you have entered a maximum of {0}.
 addAssets.maxedOut.p2 = You can add another asset by removing an existing one, or write to HMRC with details of any additional assets.
 
-addAssets.nonTaxable.title = Add a non-EEA company
-addAssets.nonTaxable.heading = Add a non-EEA company
-addAssets.nonTaxable.additional-content = Do you want to add another non-EEA company?
+addAssets.nonTaxable.title = Add ownership or controlling interest of a company registered outside UK and EEA
+addAssets.nonTaxable.heading = Add ownership or controlling interest of a company registered outside UK and EEA
+addAssets.nonTaxable.additional-content = Do you want to add another company?
 addAssets.nonTaxable.add-them-now = Yes, I want to add them now
 addAssets.nonTaxable.add-them-later = Yes, I want to add them later
-addAssets.nonTaxable.no-complete = No, I have added all non-EEA companies
-addAssets.nonTaxable.error.required = Select yes if you want to add another non-EEA company
-addAssets.nonTaxable.count.title = You have added {0} non-EEA companies
-addAssets.nonTaxable.count.heading = You have added {0} non-EEA companies
-addAssets.nonTaxable.maxedOut.p1 = You cannot add another non-EEA company as you have entered a maximum of {0}.
-addAssets.nonTaxable.maxedOut.p2 = You can add another non-EEA company by removing an existing one, or write to HMRC with details of any additional non-EEA companies.
+addAssets.nonTaxable.no-complete = No, I have added all companies
+addAssets.nonTaxable.error.required = Select yes if you want to add another company
+addAssets.nonTaxable.count.subHeading = You have added {0} companies
+addAssets.nonTaxable.count.one.heading = You have added {0} company
+addAssets.nonTaxable.maxedOut.p1 = You cannot add another company outside the UK or EEA as you have entered a maximum of {0}.
+addAssets.nonTaxable.maxedOut.p2 = You can add another company by removing an existing one, or write to HMRC with details of any additional companies outside the UK or EEA.
 
 assets.defaultText = the asset
-assets.nonTaxable.defaultText = this non-EEA company
+assets.nonTaxable.defaultText = this company outside the UK or EEA
 
 assets.removeYesNo.title = Are you sure you want to remove the asset?
 assets.removeYesNo.heading = Are you sure you want to remove {0}?
 assets.removeYesNo.error.required = Select yes if you want to remove the asset
 
-assets.nonTaxable.removeYesNo.title = Are you sure you want to remove the non-EEA company?
+assets.nonTaxable.removeYesNo.title = Are you sure you want to remove the company outside the UK or EEA?
 assets.nonTaxable.removeYesNo.heading = Are you sure you want to remove {0}?
-assets.nonTaxable.removeYesNo.error.required = Select yes if you want to remove the non-EEA company
+assets.nonTaxable.removeYesNo.error.required = Select yes if you want to remove the company outside the UK or EEA
 
-trustOwnsNonEeaBusinessYesNo.title = Does the trust own or have a controlling interest in a non-EEA company?
-trustOwnsNonEeaBusinessYesNo.heading = Does the trust own or have a controlling interest in a non-EEA company?
-trustOwnsNonEeaBusinessYesNo.error.required = Select yes if the trust owns or has a controlling interest in a non-EEA company
+trustOwnsNonEeaBusinessYesNo.error.required = Select yes if the trust owns or has a controlling interest in a company outside the UK and EEA
+trustOwnsNonEeaBusinessYesNo.title = Companies registered outside the UK and EEA (European Economic Area)
+trustOwnsNonEeaBusinessYesNo.heading = Companies registered outside the UK and EEA (European Economic Area)
+trustOwnsNonEeaBusinessYesNo.paragraph1 = You need to tell HMRC if the trust has ownership of or a controlling interest in a company outside the UK or EEA.
+trustOwnsNonEeaBusinessYesNo.lead_in = The EEA includes:
+trustOwnsNonEeaBusinessYesNo.bullet1 = all countries within the European Union (EU)
+trustOwnsNonEeaBusinessYesNo.bullet2 = Iceland
+trustOwnsNonEeaBusinessYesNo.bullet3 = Liechtenstein
+trustOwnsNonEeaBusinessYesNo.bullet4 = Norway
+trustOwnsNonEeaBusinessYesNo.heading2 = When does a trust have controlling interest
+trustOwnsNonEeaBusinessYesNo.paragraph2 = The trust will have a controlling interest in a company if any of the following apply:
+trustOwnsNonEeaBusinessYesNo.bullet5 = the trustees hold more than 50 percent of the shares in the company
+trustOwnsNonEeaBusinessYesNo.bullet6 = the trustees hold more than 50 percent of the voting rights in the company
+trustOwnsNonEeaBusinessYesNo.bullet7 = the trustees hold the right to appoint or remove a majority of the board of directors of the company
+trustOwnsNonEeaBusinessYesNo.bullet8 = the trustees can exercise significant influence or control over the company
+trustOwnsNonEeaBusinessYesNo.question = Does the trust own or have a controlling interest in a company outside the UK and EEA?
 
 assetInterruptPage.title = Information you need to know to add assets
 assetInterruptPage.heading = Information you need to know to add assets
@@ -212,18 +225,19 @@ assetInterruptPage.paragraph8 = Tell us the name of the partnership, a descripti
 assetInterruptPage.subheading6 = Other assets
 assetInterruptPage.paragraph9 = You need to give a description of the asset and an estimate of its current value.
 
-assetInterruptPage.subheading7 = Non-European Economic Area (EEA) company
-assetInterruptPage.paragraph10 = If the trust has ownership or a controlling interest in a non-EEA company, you need to tell HMRC:
+assetInterruptPage.subheading7 = Company outside UK and EEA (European Economic Area)
+assetInterruptPage.paragraph10 = If the trust has ownership or a controlling interest in a company outside the UK or EEA, you need to tell HMRC:
 assetInterruptPage.bullet11 = the name of the company
 assetInterruptPage.bullet12 = the address of the company
 assetInterruptPage.bullet13 = which country’s laws govern the company
 assetInterruptPage.bullet14 = the start date of the trust’s ownership or controlling interest in the company
 
-assetInterruptPage.nonTaxable.title = Non-European Economic Area (EEA) company
-assetInterruptPage.nonTaxable.heading = Non-European Economic Area (EEA) company
-assetInterruptPage.nonTaxable.caption = Company ownership or controlling interest
+assetInterruptPage.nonTaxable.title = Information you need to add a company registered outside the UK and the EEA (European Economic Area)
+assetInterruptPage.nonTaxable.heading = Information you need to add a company registered outside the UK and the EEA (European Economic Area)
+assetInterruptPage.nonTaxable.caption = Ownership or controlling interest of a company registered outside UK and EEA
 assetInterruptPage.nonTaxable.caption.hidden = This section is
-assetInterruptPage.nonTaxable.paragraph1 = If the trust has ownership or a controlling interest in a non-EEA company, you need to tell HMRC:
+assetInterruptPage.nonTaxable.paragraph1 = If the trust owns or has a controlling interest in a company registered outside the UK and EEA, you need to tell HMRC:
+assetInterruptPage.nonTaxable.leadin = The EEA includes:
 assetInterruptPage.nonTaxable.bullet1 = the name of the company
 assetInterruptPage.nonTaxable.bullet2 = the address of the company
 assetInterruptPage.nonTaxable.bullet3 = which country’s laws govern the company
@@ -239,7 +253,7 @@ whatKindOfAsset.Shares = Shares
 whatKindOfAsset.Business = Business
 whatKindOfAsset.Partnership = Partnership
 whatKindOfAsset.Other = Other
-whatKindOfAsset.NonEeaBusiness = Non-EEA Company
+whatKindOfAsset.NonEeaBusiness = Company outside UK and EEA (European Economic Area)
 whatKindOfAsset.first.checkYourAnswersLabel = What kind of asset do you need to add first?
 whatKindOfAsset.next.checkYourAnswersLabel = What kind of asset do you need to add next?
 whatKindOfAsset.error.required = Select the kind of asset you need to add
@@ -483,6 +497,20 @@ other.value.error.wholeNumber = Current value of the asset must be a whole numbe
 other.answers.title = Check asset details
 other.answers.heading = Check asset details
 
+nonEeaBusiness.interrupt.title = Companies registered outside the UK and EEA (European Economic Area)
+nonEeaBusiness.interrupt.heading = Companies registered outside the UK and EEA (European Economic Area)
+nonEeaBusiness.interrupt.para = You need to tell HMRC if the trust has ownership of or a controlling interest in a company outside the UK or EEA.
+nonEeaBusiness.interrupt.eea.lead_in = The EEA includes:
+nonEeaBusiness.interrupt.eea.bullet1 = all countries within the European Union (EU)
+nonEeaBusiness.interrupt.eea.bullet2 = Iceland
+nonEeaBusiness.interrupt.eea.bullet3 = Liechtenstein
+nonEeaBusiness.interrupt.eea.bullet4 = Norway
+nonEeaBusiness.interrupt.h2 = When does a trust have controlling interest
+nonEeaBusiness.interrupt.trust.lead_in = The trust will have a controlling interest in a company if any of the following apply:
+nonEeaBusiness.interrupt.trust.bullet1 = the trustees hold more than 50 percent of the shares in the company
+nonEeaBusiness.interrupt.trust.bullet2 = the trustees hold more than 50 percent of the voting rights in the company
+nonEeaBusiness.interrupt.trust.bullet3 = the trustees hold the right to appoint or remove a majority of the board of directors of the company
+nonEeaBusiness.interrupt.trust.bullet4 = the trustees can exercise significant influence or control over the company
 
 nonEeaBusiness.name.title = What is the company’s name?
 nonEeaBusiness.name.heading = What is the company’s name?
@@ -514,8 +542,8 @@ nonEeaBusiness.startDate.error.future = The date that the trust started their ow
 nonEeaBusiness.startDate.error.past = The date that the trust started their ownership or controlling interest in the company must be after 31 December 1499
 nonEeaBusiness.startDate.error.beforeTrustSetup = The date that the trust started their ownership or controlling interest in the company cannot be before the start date of the trust
 
-nonEeaBusiness.answers.title = Check non-EEA company details
-nonEeaBusiness.answers.heading = Check non-EEA company details
+nonEeaBusiness.answers.title = Check company details
+nonEeaBusiness.answers.heading = Check company details
 
 pageNotFound.title = Page not found
 pageNotFound.heading = Page not found

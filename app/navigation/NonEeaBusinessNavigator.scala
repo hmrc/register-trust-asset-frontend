@@ -19,6 +19,7 @@ package navigation
 import controllers.asset.noneeabusiness.routes._
 import models.UserAnswers
 import pages.Page
+import pages.asset.NonEeaInterruptPage
 import pages.asset.noneeabusiness._
 import play.api.mvc.Call
 import uk.gov.hmrc.auth.core.AffinityGroup
@@ -33,6 +34,7 @@ class NonEeaBusinessNavigator extends Navigator {
     case InternationalAddressPage(index) => _ => _ => GoverningCountryController.onPageLoad(index, draftId)
     case GoverningCountryPage(index)     => _ => _ => StartDateController.onPageLoad(index, draftId)
     case StartDatePage(index)            => _ => _ => AnswersController.onPageLoad(index, draftId)
+    case NonEeaInterruptPage(index)      => _ => _ => NameController.onPageLoad(index, draftId)
   }
 
 }

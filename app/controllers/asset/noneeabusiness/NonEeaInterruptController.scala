@@ -14,45 +14,51 @@
  * limitations under the License.
  */
 
-package controllers.asset.money
+package controllers.asset.noneeabusiness
 
+import config.annotations.NonEeaBusiness
 import controllers.actions._
+import controllers.filters.IndexActionFilterProvider
 import models.requests.RegistrationDataRequest
+import navigation.Navigator
+import pages.asset.NonEeaInterruptPage
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, ActionBuilder, AnyContent, MessagesControllerComponents}
+import sections.Assets
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import utils.print.MoneyPrintHelper
-import views.html.asset.money.MoneyAnswersView
+import utils.countryOptions.CountryOptionsNonUK
+import views.html.asset.noneeabusiness.NonEeaInterruptView
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class MoneyCheckAnswersController @Inject() (
+class NonEeaInterruptController @Inject() (
   override val messagesApi: MessagesApi,
+  @NonEeaBusiness navigator: Navigator,
+  validateIndex: IndexActionFilterProvider,
   identify: RegistrationIdentifierAction,
   getData: DraftIdRetrievalActionProvider,
   requireData: RegistrationDataRequiredAction,
   val controllerComponents: MessagesControllerComponents,
-  view: MoneyAnswersView,
-  printHelper: MoneyPrintHelper
+  view: NonEeaInterruptView,
+  val countryOptions: CountryOptionsNonUK
 ) extends FrontendBaseController with I18nSupport {
 
-  private def actions(draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
+  private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen
       getData(draftId) andThen
-      requireData
+      requireData andThen
+      validateIndex(index, Assets)
 
-  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(draftId) { implicit request =>
-    val sections = printHelper.checkDetailsSection(
-      userAnswers = request.userAnswers,
-      index = index,
-      draftId = draftId
-    )
-
-    Ok(view(index, draftId, sections))
+  def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
+    Ok(view(index, draftId))
   }
 
-  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(draftId).async { implicit request =>
-    Future.successful(Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId)))
+  def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
+    Future.successful(
+      Redirect(
+        navigator.nextPage(NonEeaInterruptPage(index), draftId)(request.userAnswers)
+      )
+    )
   }
 }

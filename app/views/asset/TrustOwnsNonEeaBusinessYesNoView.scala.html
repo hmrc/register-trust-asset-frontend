@@ -15,17 +15,46 @@
  *@
 
 @import controllers.asset.routes._
-@import views.html.components.{SubmitButton, ErrorSummary, InputYesNo}
+@import views.html.components.{SubmitButton, ErrorSummary, InputYesNo, BulletList, Heading}
 
 @this(
         main_template: MainTemplate,
+        headingComp: Heading,
         formHelper: FormWithCSRF,
         submitButton: SubmitButton,
         inputYesNo: InputYesNo,
+        bulletList: BulletList,
         errorSummary: ErrorSummary
 )
 
 @(form: Form[_], draftId: String)(implicit request: RequestHeader, messages: Messages)
+
+@content = {
+    <p>@messages("trustOwnsNonEeaBusinessYesNo.paragraph1")</p>
+
+    <P>@messages("trustOwnsNonEeaBusinessYesNo.lead_in")</P>
+
+        @bulletList("trustOwnsNonEeaBusinessYesNo", Seq(
+            "bullet1",
+            "bullet2",
+            "bullet3",
+            "bullet4",
+        )
+    )
+
+    <h2>@messages("trustOwnsNonEeaBusinessYesNo.heading2")</h2>
+
+    <p>@messages("trustOwnsNonEeaBusinessYesNo.paragraph2")</p>
+
+        @bulletList("nonEeaBusiness.interrupt.trust", Seq(
+            "bullet1",
+            "bullet2",
+            "bullet3",
+            "bullet4",
+        )
+    )
+}
+
 
 @main_template(
     title = s"${errorPrefix(form)} ${messages("trustOwnsNonEeaBusinessYesNo.title")}",
@@ -36,11 +65,15 @@
 
     @errorSummary(form.errors)
 
+    @headingComp("trustOwnsNonEeaBusinessYesNo.heading")
+
+    @content
+
     @inputYesNo(
         field = form("value"),
-        label = messages("trustOwnsNonEeaBusinessYesNo.heading"),
-        legendClass = Some("govuk-heading-l"),
-        legendAsHeading = true
+        label = messages("trustOwnsNonEeaBusinessYesNo.question"),
+        legendClass = Some("govuk-heading-m"),
+        legendAsHeading = false
     )
 
     @submitButton()

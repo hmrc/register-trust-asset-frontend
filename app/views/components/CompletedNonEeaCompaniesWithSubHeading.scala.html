@@ -1,5 +1,5 @@
 @*
- * Copyright 2024 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,25 @@
  * limitations under the License.
  *@
 
+@import views.html.components.RowFormGroupWithSubHeading
 @import viewmodels.AddRow
-@import views.html.components.AddToRow
 
 @this(
- addToRow: AddToRow
+    rowFormGroupWithSubHeading: RowFormGroupWithSubHeading
 )
 
-@(data: Seq[AddRow], id: String, entity : String)(implicit messages: Messages)
+@(completeAssets: Seq[AddRow])(implicit messages: Messages)
+@{
+    val subHeadingKey = if (completeAssets.size > 1) {
+        "addAssets.nonTaxable.count.subHeading"
+    } else {
+        "addAssets.nonTaxable.count.one.heading"
+    }
 
-@if(data.nonEmpty){
-<h2 class="govuk-heading-m" id="data-list-heading--@id">@messages(s"site.$id")</h2>
-
-<div class="govuk-form-group">
- <dl id="data-list--@id" class="hmrc-add-to-a-list hmrc-add-to-a-list--short">
-  @for(item <- data) {
-   @addToRow(item)
-  }
- </dl>
-</div>
+    rowFormGroupWithSubHeading(
+        data = completeAssets,
+        id = "complete",
+        alternateSubheading = Some(messages(subHeadingKey, completeAssets.size.toString))
+    )
 }
+

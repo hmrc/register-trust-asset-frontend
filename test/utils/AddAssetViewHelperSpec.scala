@@ -150,7 +150,12 @@ class AddAssetViewHelperSpec extends SpecBase {
             changePartnershipAssetRoute(6),
             removeAssetYesNoRoute(6)
           ),
-          AddRow("Name", typeLabel = "Non-EEA Company", changeNonEeaBusinessAssetRoute(7), removeAssetYesNoRoute(7))
+          AddRow(
+            "Name",
+            typeLabel = "Company outside UK and EEA (European Economic Area)",
+            changeNonEeaBusinessAssetRoute(7),
+            removeAssetYesNoRoute(7)
+          )
         )
         rows.complete mustBe Nil
       }
@@ -333,7 +338,7 @@ class AddAssetViewHelperSpec extends SpecBase {
           AddRow("Test", typeLabel = "Business", changeBusinessAssetRoute(6), removeAssetYesNoRoute(6)),
           AddRow(
             "Non-EEA Business Name",
-            typeLabel = "Non-EEA Company",
+            typeLabel = "Company outside UK and EEA (European Economic Area)",
             changeNonEeaBusinessAssetRoute(7),
             removeAssetYesNoRoute(7)
           )

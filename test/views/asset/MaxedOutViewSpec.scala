@@ -38,38 +38,7 @@ class MaxedOutViewSpec extends OptionsViewBehaviours with TabularDataViewBehavio
       val view: MaxedOutView = viewFor[MaxedOutView](Some(emptyUserAnswers.copy(isTaxable = true)))
 
       def applyView(): HtmlFormat.Appendable =
-        view.apply(fakeDraftId, Nil, completeRows(max), "Add assets", max, messageKeyPrefix)(fakeRequest, messages)
-
-      behave like normalPage(applyView(), messageKeyPrefix)
-
-      behave like pageWithBackLink(applyView())
-
-      behave like pageWithCompleteTabularData(applyView(), completeRows(max))
-
-      behave like pageWithASubmitButton(applyView())
-
-      "show maxed out assets content" in {
-        val doc = asDocument(applyView())
-
-        assertContainsText(doc, s"You cannot add another asset as you have entered a maximum of $max.")
-        assertContainsText(
-          doc,
-          "You can add another asset by removing an existing one, or write to HMRC with details of any additional assets."
-        )
-      }
-
-    }
-
-    "non-taxable" must {
-
-      val messageKeyPrefix: String = "addAssets.nonTaxable"
-
-      val max: Int = 25
-
-      val view: MaxedOutView = viewFor[MaxedOutView](Some(emptyUserAnswers.copy(isTaxable = false)))
-
-      def applyView(): HtmlFormat.Appendable =
-        view.apply(fakeDraftId, Nil, completeRows(max), "Add a non-EEA company", max, messageKeyPrefix)(
+        view.apply(fakeDraftId, Nil, completeRows(max), messages("addAssets.heading"), max, messageKeyPrefix)(
           fakeRequest,
           messages
         )
@@ -85,10 +54,44 @@ class MaxedOutViewSpec extends OptionsViewBehaviours with TabularDataViewBehavio
       "show maxed out assets content" in {
         val doc = asDocument(applyView())
 
-        assertContainsText(doc, s"You cannot add another non-EEA company as you have entered a maximum of $max.")
+        assertContainsText(doc, messages("addAssets.maxedOut.p1", max))
         assertContainsText(
           doc,
-          "You can add another non-EEA company by removing an existing one, or write to HMRC with details of any additional non-EEA companies."
+          messages("addAssets.maxedOut.p2")
+        )
+      }
+
+    }
+
+    "non-taxable" must {
+
+      val messageKeyPrefix: String = "addAssets.nonTaxable"
+
+      val max: Int = 25
+
+      val view: MaxedOutView = viewFor[MaxedOutView](Some(emptyUserAnswers.copy(isTaxable = false)))
+
+      def applyView(): HtmlFormat.Appendable =
+        view.apply(fakeDraftId, Nil, completeRows(max), messages("addAssets.nonTaxable.title"), max, messageKeyPrefix)(
+          fakeRequest,
+          messages
+        )
+
+      behave like normalPage(applyView(), messageKeyPrefix)
+
+      behave like pageWithBackLink(applyView())
+
+      behave like pageWithCompleteTabularData(applyView(), completeRows(max))
+
+      behave like pageWithASubmitButton(applyView())
+
+      "show maxed out assets content" in {
+        val doc = asDocument(applyView())
+
+        assertContainsText(doc, messages("addAssets.nonTaxable.maxedOut.p1", max))
+        assertContainsText(
+          doc,
+          messages("addAssets.nonTaxable.maxedOut.p2")
         )
       }
     }

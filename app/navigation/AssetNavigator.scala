@@ -18,6 +18,7 @@ package navigation
 
 import config.FrontendAppConfig
 import controllers.asset.routes.AssetInterruptPageController
+import controllers.asset.noneeabusiness.routes.NameController
 import controllers.routes.SessionExpiredController
 import models.Constants._
 import models.WhatKindOfAsset._
@@ -71,17 +72,29 @@ class AssetNavigator @Inject() (config: FrontendAppConfig) extends Navigator {
   private def assetsCompletedRoute(draftId: String): Call =
     Call(GET, config.registrationProgressUrl(draftId))
 
-  private def addAssetsRoute(draftId: String)(answers: UserAnswers): Call =
+  private def addAssetsRoute(draftId: String)(answers: UserAnswers): Call = {
     answers.get(AddAssetsPage) match {
+      case Some(AddAssets.YesNow) if !answers.isTaxable && answers.assets.nonEEABusiness.exists(_.nonEmpty) =>
+        nonTaxableNonEeaBusinessRoute(draftId, answers)
       case Some(AddAssets.YesNow) => AssetNavigator.addAssetRoute(answers, draftId)
-      case Some(_)                => assetsCompletedRoute(draftId)
-      case _                      => SessionExpiredController.onPageLoad
+      case Some(_) => assetsCompletedRoute(draftId)
+      case _ => SessionExpiredController.onPageLoad
     }
+  }
+
+  private def nonTaxableNonEeaBusinessRoute(draftId: String, answers: UserAnswers): Call = {
+    val numNonEeaAssets = answers.assets.nonEEABusiness.get.size
+    val index = numNonEeaAssets - 1
+    NameController.onPageLoad(index, draftId)
+  }
 
   private def whatKindOfAssetRoute(answers: UserAnswers, index: Int, draftId: String): Call =
     answers.get(WhatKindOfAssetPage(index)) match {
-      case Some(kindOfAsset) => AssetNavigator.addAssetNowRoute(kindOfAsset, answers, draftId, Some(index))
-      case _                 => SessionExpiredController.onPageLoad
+      case Some(kindOfAsset) if kindOfAsset == NonEeaBusiness =>
+        controllers.asset.noneeabusiness.routes.NonEeaInterruptController.onPageLoad(index, draftId)
+      case Some(kindOfAsset: WhatKindOfAsset)                 =>
+        AssetNavigator.addAssetNowRoute(kindOfAsset, answers, draftId, Some(index))
+      case _                                                  => SessionExpiredController.onPageLoad
     }
 
 }

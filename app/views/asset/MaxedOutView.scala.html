@@ -16,14 +16,15 @@
 
 @import controllers.asset.routes._
 @import viewmodels.AddRow
-@import views.html.components.{SubmitButton, Heading, AddToList}
+@import views.html.components.{SubmitButton, Heading, RowFormGroupWithSubHeading, CompletedNonEeaCompaniesWithSubHeading}
 
 @this(
     main_template: MainTemplate,
     formHelper: FormWithCSRF,
     submitButton: SubmitButton,
     headingComp: Heading,
-    addToList: AddToList
+    rowFormGroupWithSubHeading: RowFormGroupWithSubHeading,
+    completedNonEeaCompaniesWithSubHeading: CompletedNonEeaCompaniesWithSubHeading
 )
 
 @(
@@ -44,9 +45,15 @@
 
         @headingComp(heading)
 
-        @addToList(inProgressAssets, "inprogress", "asset")
+        @rowFormGroupWithSubHeading(inProgressAssets, "inprogress")
 
-        @addToList(completeAssets, "complete", "asset")
+        @{
+            if(prefix == "addAssets.nonTaxable") {
+                completedNonEeaCompaniesWithSubHeading(completeAssets)
+            } else {
+                rowFormGroupWithSubHeading(completeAssets, "complete")
+            }
+        }
 
         <div class="govuk-inset-text">
             <ul class="govuk-list">

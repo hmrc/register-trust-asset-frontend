@@ -569,14 +569,14 @@ class AssetNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
         }
       }
 
-      "go to non-EEA business asset name when NonEeaBusiness is selected" in {
+      "go to non-EEA business interupt page when NonEeaBusiness is selected" in {
 
         forAll(arbitrary[UserAnswers]) { userAnswers =>
           val answers = userAnswers.set(WhatKindOfAssetPage(index), NonEeaBusiness).success.value
 
           navigator
             .nextPage(WhatKindOfAssetPage(index), fakeDraftId)(answers)
-            .mustBe(noneeabusiness.routes.NameController.onPageLoad(index, fakeDraftId))
+            .mustBe(noneeabusiness.routes.NonEeaInterruptController.onPageLoad(index, fakeDraftId))
         }
       }
     }
