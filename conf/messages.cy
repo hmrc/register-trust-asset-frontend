@@ -483,7 +483,7 @@ timeout.keep-alive-button=Yn eich blaen â’r cais
 timeout.message=Byddwn yn eich allgofnodi os na fyddwch yn ymateb ymhen
 timeout.title=Bydd eich cais yn dod i ben cyn hir
 
-trustOwnsNonEeaBusinessYesNo.error.required=Dewiswch ‘Iawn’ os yw’r ymddiriedolaeth yn berchen ar gwmni nad yw’n rhan o’r AEE neu a oes ganddi gyfran reolaethol ynddo
+trustOwnsNonEeaBusinessYesNo.error.required=TODO need Welsh clarification
 trustOwnsNonEeaBusinessYesNo.heading=A yw’r ymddiriedolaeth yn berchen ar gwmni nad yw’n rhan o’r AEE neu a oes ganddi gyfran reolaethol ynddo?
 trustOwnsNonEeaBusinessYesNo.title=A yw’r ymddiriedolaeth yn berchen ar gwmni nad yw’n rhan o’r AEE neu a oes ganddi gyfran reolaethol ynddo?
 
