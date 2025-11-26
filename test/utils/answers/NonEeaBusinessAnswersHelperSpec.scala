@@ -132,11 +132,11 @@ class NonEeaBusinessAnswersHelperSpec extends SpecBase {
         result.size mustBe 2
 
         result.head.headingKey mustBe Some("answerPage.section.nonEeaBusinessAsset.subheading")
-        result.head.rows.map(_.answer).contains(Html("Company outside UK and EEA (European Economic Area)")) mustBe true
+        result.head.rows.map(_.answer).contains(Html("Company registered outside UK and EEA (European Economic Area)")) mustBe true
         result.head.rows.map(_.labelArg).contains(name) mustBe true
         result.head.headingArgs mustBe Seq(1)
         result(1).headingKey mustBe Some("answerPage.section.nonEeaBusinessAsset.subheading")
-        result(1).rows.map(_.answer).contains(Html("Company outside UK and EEA (European Economic Area)")) mustBe true
+        result(1).rows.map(_.answer).contains(Html("Company registered outside UK and EEA (European Economic Area)")) mustBe true
         result(1).rows.map(_.labelArg).contains(name) mustBe true
         result(1).headingArgs mustBe Seq(2)
       }
