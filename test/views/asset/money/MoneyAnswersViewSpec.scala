@@ -14,22 +14,24 @@
  * limitations under the License.
  */
 
-package navigation
+package views.asset.money
 
-import controllers.asset.money.routes._
-import models.UserAnswers
-import pages.Page
-import pages.asset.money._
-import play.api.mvc.Call
-import uk.gov.hmrc.auth.core.AffinityGroup
+import views.behaviours.ViewBehaviours
+import views.html.asset.money.MoneyAnswersView
 
-import javax.inject.Singleton
+class MoneyAnswersViewSpec extends ViewBehaviours {
 
-@Singleton
-class MoneyNavigator extends Navigator {
+  private val prefix: String = "money.answers"
+  private val index: Int     = 0
 
-  override protected def route(draftId: String): PartialFunction[Page, AffinityGroup => UserAnswers => Call] = {
-    case AssetMoneyValuePage(index) => _ => _ => MoneyCheckAnswersController.onPageLoad(index, draftId)
+  "MoneyAnswers view" must {
+
+    val view = viewFor[MoneyAnswersView](Some(emptyUserAnswers))
+
+    val applyView = view.apply(index, fakeDraftId, Nil)(fakeRequest, messages)
+
+    behave like normalPage(applyView, prefix)
+
+    behave like pageWithBackLink(applyView)
   }
-
 }

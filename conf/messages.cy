@@ -208,6 +208,9 @@ money.value.hint=Adiwch bob swm presennol at ei gilydd. Wedi’i dalgrynnu i law
 money.value.link=Yn ôl i gynnydd cofrestru
 money.value.title=Beth yw cyfanswm yr arian yn yr ymddiriedolaeth?
 
+money.answers.heading = Gwirio manylion yr ased
+money.answers.title = Gwirio manylion yr ased
+
 nonEeaBusiness.answers.heading=Gwirio manylion y cwmni
 nonEeaBusiness.answers.title=Gwirio manylion y cwmni
 
@@ -480,7 +483,7 @@ timeout.keep-alive-button=Yn eich blaen â’r cais
 timeout.message=Byddwn yn eich allgofnodi os na fyddwch yn ymateb ymhen
 timeout.title=Bydd eich cais yn dod i ben cyn hir
 
-trustOwnsNonEeaBusinessYesNo.error.required=Dewiswch ‘Iawn’ os yw’r ymddiriedolaeth yn berchen ar gwmni nad yw’n rhan o’r AEE neu a oes ganddi gyfran reolaethol ynddo
+trustOwnsNonEeaBusinessYesNo.error.required=TODO need Welsh clarification
 trustOwnsNonEeaBusinessYesNo.heading=A yw’r ymddiriedolaeth yn berchen ar gwmni nad yw’n rhan o’r AEE neu a oes ganddi gyfran reolaethol ynddo?
 trustOwnsNonEeaBusinessYesNo.title=A yw’r ymddiriedolaeth yn berchen ar gwmni nad yw’n rhan o’r AEE neu a oes ganddi gyfran reolaethol ynddo?
 

@@ -67,11 +67,11 @@ class AddAssetsController @Inject() (
 
   private def determinePrefix(isTaxable: Boolean): String = "addAssets" + (if (!isTaxable) ".nonTaxable" else "")
 
-  private def headingMessageKey(count: Int, prefix: String)(implicit mp: MessagesProvider): String = {
-    (prefix, count) match {
-      case (prefix, _) if prefix == "addAssets.nonTaxable" => Messages(s"$prefix.heading")
-      case (prefix, count) if count > 1 => Messages(s"$prefix.count.heading", count)
-      case _ => Messages(s"$prefix.heading")
+  private def heading(count: Int, prefix: String)(implicit mp: MessagesProvider): String = {
+    if (count > 1 && prefix != "addAssets.nonTaxable") {
+      Messages(s"$prefix.count.heading", count)
+    } else {
+      Messages(s"$prefix.heading")
     }
   }
 
@@ -103,7 +103,7 @@ class AddAssetsController @Inject() (
         MAX_NON_TAXABLE_ASSETS
       }
 
-      Ok(maxedOutView(draftId, rows.inProgress, rows.complete, headingMessageKey(rows.count, prefix), maxLimit, prefix))
+      Ok(maxedOutView(draftId, rows.inProgress, rows.complete, heading(rows.count, prefix), maxLimit, prefix))
     } else {
       if (rows.nonEmpty) {
         Ok(
@@ -112,7 +112,7 @@ class AddAssetsController @Inject() (
             draftId,
             rows.inProgress,
             rows.complete,
-            headingMessageKey(rows.count, prefix),
+            heading(rows.count, prefix),
             prefix,
             userAnswers.assets.maxedOutOptions
           )
@@ -169,7 +169,7 @@ class AddAssetsController @Inject() (
                 draftId,
                 rows.inProgress,
                 rows.complete,
-                headingMessageKey(rows.count, prefix),
+                heading(rows.count, prefix),
                 prefix,
                 userAnswers.assets.maxedOutOptions
               )

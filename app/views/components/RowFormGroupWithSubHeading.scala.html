@@ -25,11 +25,7 @@
 
 @if(data.nonEmpty) {
   <h2 class="govuk-heading-m" id="data-list-heading--@id">
-    @if(alternateSubheading.isDefined){
-        @alternateSubheading.get
-    } else {
-        @messages(s"site.$id")
-    }
+      @alternateSubheading.getOrElse(messages(s"site.$id"))
   </h2>
 
   <div class="govuk-form-group">

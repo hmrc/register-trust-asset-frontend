@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ class AddAssetViewHelperSpec extends SpecBase {
   private val date: LocalDate                    = LocalDate.parse("1996-02-03")
 
   def changeMoneyAssetRoute(index: Int): String =
-    money.routes.AssetMoneyValueController.onPageLoad(index, fakeDraftId).url
+    money.routes.MoneyCheckAnswersController.onPageLoad(index, fakeDraftId).url
 
   def removeAssetYesNoRoute(index: Int): String =
     routes.RemoveAssetYesNoController.onPageLoad(index, fakeDraftId).url
@@ -152,7 +152,7 @@ class AddAssetViewHelperSpec extends SpecBase {
           ),
           AddRow(
             "Name",
-            typeLabel = "Company outside UK and EEA (European Economic Area)",
+            typeLabel = "Company registered outside UK and EEA (European Economic Area)",
             changeNonEeaBusinessAssetRoute(7),
             removeAssetYesNoRoute(7)
           )
@@ -338,7 +338,7 @@ class AddAssetViewHelperSpec extends SpecBase {
           AddRow("Test", typeLabel = "Business", changeBusinessAssetRoute(6), removeAssetYesNoRoute(6)),
           AddRow(
             "Non-EEA Business Name",
-            typeLabel = "Company outside UK and EEA (European Economic Area)",
+            typeLabel = "Company registered outside UK and EEA (European Economic Area)",
             changeNonEeaBusinessAssetRoute(7),
             removeAssetYesNoRoute(7)
           )
