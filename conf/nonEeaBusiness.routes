@@ -10,8 +10,8 @@ POST       /:draftId/:index/governing-country                                   
 GET        /:draftId/:index/start-date                                                controllers.asset.noneeabusiness.StartDateController.onPageLoad(index: Int, draftId: String)
 POST       /:draftId/:index/start-date                                                controllers.asset.noneeabusiness.StartDateController.onSubmit(index: Int, draftId: String)
 
-GET        /:draftId/:index/check-company-outside-UK-EEA                              controllers.asset.noneeabusiness.AnswersController.onPageLoad(index: Int, draftId: String)
-POST       /:draftId/:index/check-company-outside-UK-EEA                              controllers.asset.noneeabusiness.AnswersController.onSubmit(index: Int, draftId: String)
+GET        /:draftId/:index/check-answers                                             controllers.asset.noneeabusiness.AnswersController.onPageLoad(index: Int, draftId: String)
+POST       /:draftId/:index/check-answers                                             controllers.asset.noneeabusiness.AnswersController.onSubmit(index: Int, draftId: String)
 
 GET        /:draftId/:index/eea-interrupt                                             controllers.asset.noneeabusiness.NonEeaInterruptController.onPageLoad(index: Int, draftId: String)
 POST       /:draftId/:index/eea-interrupt                                             controllers.asset.noneeabusiness.NonEeaInterruptController.onSubmit(index: Int, draftId: String)
