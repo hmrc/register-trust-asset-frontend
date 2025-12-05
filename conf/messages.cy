@@ -40,9 +40,9 @@ addAssets.nonTaxable.no-complete=Nac ydw, rwyf wedi ychwanegu pob cwmni nad yw�
 addAssets.nonTaxable.error.required=Dewiswch ‘Iawn’ os ydych am ychwanegu cwmni arall
 
 addAssets.nonTaxable.maxedOut.p1 = Ni allwch ychwanegu cwmni arall sydd wedi’i gofrestru y tu allan i’r DU neu’r AEE gan eich bod wedi nodi uchafswm o {0}.
-assets.nonTaxable.defaultText = y cwmni hwn sydd wedi’i gofrestru y tu allan i’r DU neu’r AEE
+assets.nonTaxable.defaultText = cwmni hwn sydd wedi’i gofrestru y tu allan i’r DU neu’r AEE?
 assets.nonTaxable.removeYesNo.title = A ydych yn siŵr eich bod am dynnu’r cwmni sydd wedi’i gofrestru y tu allan i’r DU neu’r AEE?
-assets.nonTaxable.removeYesNo.heading=A ydych yn siŵr eich bod am dynnu {0}?
+assets.nonTaxable.removeYesNo.heading=A ydych yn siŵr eich bod am dynnu’r {0}?
 assets.nonTaxable.removeYesNo.error.required = Dewiswch ‘Iawn’ os ydych am dynnu’r cwmni sydd wedi’i gofrestru y tu allan i’r DU neu’r AEE
 
 address.country=Gwlad
