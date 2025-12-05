@@ -62,7 +62,7 @@ class NonEeaBusinessPrintHelperSpec extends SpecBase {
   private val taxableRows: Seq[AnswerRow] = Seq(
     AnswerRow(
       "whatKindOfAsset.first.checkYourAnswersLabel",
-      Html("Company outside UK and EEA (European Economic Area)"),
+      Html("Company registered outside UK and EEA (European Economic Area)"),
       Some(WhatKindOfAssetController.onPageLoad(index, fakeDraftId).url)
     ),
     AnswerRow(
