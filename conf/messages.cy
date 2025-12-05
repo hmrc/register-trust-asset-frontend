@@ -29,8 +29,8 @@ addAssets.maxedOut.moreThan1.paragraph=Gwiriwch yr asedion yr ydych wedi’u hyc
 
 addAssets.nonTaxable.maxedOut.p2=Gallwch ychwanegu cwmni arall drwy dynnu un presennol, neu drwy ysgrifennu at CThEF gyda manylion unrhyw gwmni arall sydd wedi’i leoli y tu allan i’r DU neu’r AEE.
 
-addAssets.nonTaxable.title = Ychwanegu perchnogaeth neu gyfran reolaethol o gwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE
-addAssets.nonTaxable.heading = Ychwanegu perchnogaeth neu gyfran reolaethol o gwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE
+addAssets.nonTaxable.title=Ychwanegu perchnogaeth neu gyfran reolaethol o gwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE
+addAssets.nonTaxable.heading=Ychwanegu perchnogaeth neu gyfran reolaethol o gwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE
 addAssets.nonTaxable.count.subHeading=Rydych wedi ychwanegu {0} o gwmnïau
 addAssets.nonTaxable.count.one.heading=Rydych wedi ychwanegu {0} o gwmnïau
 addAssets.nonTaxable.additional-content=A ydych chi am ychwanegu cwmni arall?
@@ -93,8 +93,8 @@ assetInterruptPage.subheading5=Partneriaethau
 assetInterruptPage.subheading6=Asedion eraill
 assetInterruptPage.subheading7=Cwmnïau sydd wedi’u cofrestru y tu allan i’r DU neu’r AEE (Ardal Economaidd Ewropeaidd)
 
-assetInterruptPage.nonTaxable.title = Gwybodaeth sydd ei hangen arnoch i ychwanegu cwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE (Ardal Economaidd Ewropeaidd)
-assetInterruptPage.nonTaxable.heading = Gwybodaeth sydd ei hangen arnoch i ychwanegu cwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE (Ardal Economaidd Ewropeaidd)
+assetInterruptPage.nonTaxable.title=Gwybodaeth sydd ei hangen arnoch i ychwanegu cwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE (Ardal Economaidd Ewropeaidd)
+assetInterruptPage.nonTaxable.heading=Gwybodaeth sydd ei hangen arnoch i ychwanegu cwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE (Ardal Economaidd Ewropeaidd)
 assetInterruptPage.nonTaxable.bullet1=enw’r cwmni
 assetInterruptPage.nonTaxable.bullet2=cyfeiriad y cwmni
 assetInterruptPage.nonTaxable.bullet3=cyfreithiau pa wlad sy’n llywodraethu’r cwmni
