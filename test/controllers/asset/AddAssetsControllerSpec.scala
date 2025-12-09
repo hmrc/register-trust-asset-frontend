@@ -65,7 +65,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
   private lazy val oneAsset: List[AddRow] = List(
     AddRow(
       "Name",
-      typeLabel = "Company outside UK and EEA (European Economic Area)",
+      typeLabel = "Company registered outside UK and EEA (European Economic Area)",
       changeNonEeaAssetRoute(0),
       removeAssetYesNoRoute(0)
     )
@@ -74,7 +74,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
   private lazy val multipleAssets: List[AddRow] =
     oneAsset :+ AddRow(
       "Name",
-      typeLabel = "Company outside UK and EEA (European Economic Area)",
+      typeLabel = "Company registered outside UK and EEA (European Economic Area)",
       changeNonEeaAssetRoute(1),
       removeAssetYesNoRoute(1)
     )
@@ -1057,7 +1057,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
             )(request, messages).toString
 
           content must include(
-            "You cannot add another company outside the UK or EEA as you have entered a maximum of 25."
+            "You cannot add another company registered outside the UK or EEA as you have entered a maximum of 25."
           )
           content must include(
             "You can add another company by removing an existing one, or write to HMRC " +
