@@ -23,67 +23,67 @@ import models.WhatKindOfAsset.prefix
 
 class ExtensionsSpec extends SpecBase {
 
-    "StringExtensions" when {
+  "StringExtensions" when {
 
-      "uncapitalise" must {
+    "uncapitalise" must {
 
-        "uncapitalise first letter of each asset type" when {
+      "uncapitalise first letter of each asset type" when {
 
-          "Money" in {
-            val messageKey = WhatKindOfAsset.Money.toString
-            val string = messages(s"$prefix.$messageKey")
-            string.uncapitalise mustEqual "money"
-          }
-
-          "Property or land" in {
-            val messageKey = WhatKindOfAsset.PropertyOrLand.toString
-            val string = messages(s"$prefix.$messageKey")
-            string.uncapitalise mustEqual "property or land"
-          }
-
-          "Shares" in {
-            val messageKey = WhatKindOfAsset.Shares.toString
-            val string = messages(s"$prefix.$messageKey")
-            string.uncapitalise mustEqual "shares"
-          }
-
-          "Business" in {
-            val messageKey = WhatKindOfAsset.Business.toString
-            val string = messages(s"$prefix.$messageKey")
-            string.uncapitalise mustEqual "business"
-          }
-
-          "Partnership" in {
-            val messageKey = WhatKindOfAsset.Partnership.toString
-            val string = messages(s"$prefix.$messageKey")
-            string.uncapitalise mustEqual "partnership"
-          }
-
-          "Other" in {
-            val messageKey = WhatKindOfAsset.Other.toString
-            val string = messages(s"$prefix.$messageKey")
-            string.uncapitalise mustEqual "other"
-          }
-
+        "Money" in {
+          val messageKey = WhatKindOfAsset.Money.toString
+          val string     = messages(s"$prefix.$messageKey")
+          string.uncapitalise mustEqual "money"
         }
+
+        "Property or land" in {
+          val messageKey = WhatKindOfAsset.PropertyOrLand.toString
+          val string     = messages(s"$prefix.$messageKey")
+          string.uncapitalise mustEqual "property or land"
+        }
+
+        "Shares" in {
+          val messageKey = WhatKindOfAsset.Shares.toString
+          val string     = messages(s"$prefix.$messageKey")
+          string.uncapitalise mustEqual "shares"
+        }
+
+        "Business" in {
+          val messageKey = WhatKindOfAsset.Business.toString
+          val string     = messages(s"$prefix.$messageKey")
+          string.uncapitalise mustEqual "business"
+        }
+
+        "Partnership" in {
+          val messageKey = WhatKindOfAsset.Partnership.toString
+          val string     = messages(s"$prefix.$messageKey")
+          string.uncapitalise mustEqual "partnership"
+        }
+
+        "Other" in {
+          val messageKey = WhatKindOfAsset.Other.toString
+          val string     = messages(s"$prefix.$messageKey")
+          string.uncapitalise mustEqual "other"
+        }
+
       }
+    }
 
-      "lowercaseFirstLetterOfFirstWord" must {
-        "lowercase the first letter of the first word" when {
-          "passed Non-EEA Company text" in {
-            val messageKey = WhatKindOfAsset.NonEeaBusiness.toString
-            val string = messages(s"$prefix.$messageKey")
-            string.lowercaseFirstLetterOfFirstWord mustEqual "company outside UK and EEA (European Economic Area)"
-          }
+    "lowercaseFirstLetterOfFirstWord" must {
+      "lowercase the first letter of the first word" when {
+        "passed Non-EEA Company text" in {
+          val messageKey = WhatKindOfAsset.NonEeaBusiness.toString
+          val string     = messages(s"$prefix.$messageKey")
+          string.lowercaseFirstLetterOfFirstWord mustEqual "company outside UK and EEA (European Economic Area)"
+        }
 
-          "return an empty string" when {
-            "passed an empty string" in {
-              "".lowercaseFirstLetterOfFirstWord  mustEqual ""
-            }
+        "return an empty string" when {
+          "passed an empty string" in {
+            "".lowercaseFirstLetterOfFirstWord mustEqual ""
           }
         }
       }
     }
+  }
 
   "ListExtensions" when {
     "asSomeIf" must {

@@ -505,7 +505,10 @@ class RemoveAssetYesNoControllerSpec extends SpecBase {
             status(result) mustEqual OK
 
             contentAsString(result) mustEqual
-              view(form, fakeDraftId, index, nonTaxablePrefix, "this company outside the UK or EEA")(request, messages).toString
+              view(form, fakeDraftId, index, nonTaxablePrefix, "this company outside the UK or EEA")(
+                request,
+                messages
+              ).toString
 
             application.stop()
           }

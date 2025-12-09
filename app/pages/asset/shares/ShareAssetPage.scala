@@ -14,24 +14,21 @@
  * limitations under the License.
  */
 
-package mapping.reads
+package pages.asset.shares
 
-import play.api.libs.json.Reads
+import mapping.reads.ShareAsset
+import pages.QuestionPage
+import play.api.libs.json.{JsPath, Reads}
+import sections.Assets
 
-trait ShareAsset extends Asset {
-  val listedOnTheStockExchange: Boolean
-  val name: String
-  val quantityInTheTrust: Long
+final case class ShareAssetPage(index: Int) extends QuestionPage[ShareAsset] {
 
-  def quoted: String = if (listedOnTheStockExchange) "Quoted" else "Unquoted"
+  override def path: JsPath = JsPath \ Assets \ index
 
-  override val arg: String = name
-
-  val quantity: String = quantityInTheTrust.toString
 }
 
-object ShareAsset {
-  implicit val reads: Reads[ShareAsset] =
-    ShareNonPortfolioAsset.reads.map(identity[ShareAsset]) orElse
-      SharePortfolioAsset.reads.map(identity[ShareAsset])
+object ShareAssetPage {
+
+  implicit val reads: Reads[ShareAsset] = ShareAsset.reads
+
 }

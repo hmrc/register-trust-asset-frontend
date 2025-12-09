@@ -25,7 +25,7 @@ import utils.print.MoneyPrintHelper
 import views.html.asset.money.MoneyAnswersView
 
 import javax.inject.Inject
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 
 class MoneyCheckAnswersController @Inject() (
   override val messagesApi: MessagesApi,
@@ -35,7 +35,8 @@ class MoneyCheckAnswersController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: MoneyAnswersView,
   printHelper: MoneyPrintHelper
-) extends FrontendBaseController with I18nSupport {
+) extends FrontendBaseController
+    with I18nSupport {
 
   private def actions(draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen

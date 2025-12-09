@@ -118,20 +118,20 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
   def pageWithSubHeadings(
     form: Form[A],
     createView: Form[A] => HtmlFormat.Appendable,
-    expectedSubHeadings: List[String]) : Unit = {
+    expectedSubHeadings: List[String]
+  ): Unit = {
 
-     def expectedElements(actualElements: mutable.Buffer[Element], expectedText: List[String]): Unit = {
+    def expectedElements(actualElements: mutable.Buffer[Element], expectedText: List[String]): Unit = {
       actualElements.size mustBe expectedText.size
-      actualElements.zip(expectedText).foreach {
-        case (element, expected) =>
-          assert(element.text ==  expected)
+      actualElements.zip(expectedText).foreach { case (element, expected) =>
+        assert(element.text == expected)
       }
     }
 
     "behave like a page with sub headings" when {
 
       "rendered" in {
-        val doc = asDocument(createView(form))
+        val doc      = asDocument(createView(form))
         val elements = doc.getElementsByClass("govuk-heading-m").asScala
         expectedElements(elements, expectedSubHeadings)
       }
