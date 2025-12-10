@@ -152,7 +152,7 @@ class AddAssetViewHelperSpec extends SpecBase {
           ),
           AddRow(
             "Name",
-            typeLabel = "Company outside UK and EEA (European Economic Area)",
+            typeLabel = "Company registered outside UK and EEA (European Economic Area)",
             changeNonEeaBusinessAssetRoute(7),
             removeAssetYesNoRoute(7)
           )
@@ -338,7 +338,7 @@ class AddAssetViewHelperSpec extends SpecBase {
           AddRow("Test", typeLabel = "Business", changeBusinessAssetRoute(6), removeAssetYesNoRoute(6)),
           AddRow(
             "Non-EEA Business Name",
-            typeLabel = "Company outside UK and EEA (European Economic Area)",
+            typeLabel = "Company registered outside UK and EEA (European Economic Area)",
             changeNonEeaBusinessAssetRoute(7),
             removeAssetYesNoRoute(7)
           )

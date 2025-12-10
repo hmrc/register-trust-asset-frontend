@@ -30,7 +30,7 @@ import utils.countryOptions.CountryOptionsNonUK
 import views.html.asset.noneeabusiness.NonEeaInterruptView
 
 import javax.inject.Inject
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 
 class NonEeaInterruptController @Inject() (
   override val messagesApi: MessagesApi,
