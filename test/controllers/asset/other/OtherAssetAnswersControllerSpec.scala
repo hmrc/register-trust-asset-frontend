@@ -17,10 +17,12 @@
 package controllers.asset.other
 
 import base.SpecBase
+import models.Status.Completed
 import models.UserAnswers
 import models.WhatKindOfAsset.Other
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
+import pages.AssetStatus
 import pages.asset._
 import pages.asset.other._
 import play.api.Application
@@ -35,24 +37,36 @@ import scala.concurrent.Future
 
 class OtherAssetAnswersControllerSpec extends SpecBase {
 
-  "OtherAssetAnswersController" must {
+  private val index       = 0
+  private val description = "Description"
+  private val otherValue  = 4000L
 
-    val index: Int          = 0
-    val description: String = "Description"
-    val totalValue: Long    = 4000L
-
-    lazy val answersRoute = routes.OtherAssetAnswersController.onPageLoad(index, fakeDraftId).url
-
-    val baseAnswers: UserAnswers = emptyUserAnswers
+  private def otherAsset(
+    userAnswers: UserAnswers,
+    index: Int,
+    description: String = description,
+    otherValue: Long = otherValue,
+    completed: Boolean = false
+  ): UserAnswers = {
+    val base = userAnswers
       .set(WhatKindOfAssetPage(index), Other)
       .success
       .value
       .set(OtherAssetDescriptionPage(index), description)
       .success
       .value
-      .set(OtherAssetValuePage(index), totalValue)
+      .set(OtherAssetValuePage(index), otherValue)
       .success
       .value
+
+    if (completed) base.set(AssetStatus(index), Completed).success.value else base
+  }
+
+  private val baseAnswers: UserAnswers = otherAsset(emptyUserAnswers, index)
+
+  lazy val answersRoute: String = routes.OtherAssetAnswersController.onPageLoad(index, fakeDraftId).url
+
+  "OtherAssetAnswersController" must {
 
     "return OK and the correct view for a GET" in {
 
@@ -167,6 +181,68 @@ class OtherAssetAnswersControllerSpec extends SpecBase {
 
       redirectLocation(result).value mustEqual
         controllers.routes.SessionExpiredController.onPageLoad.url
+
+      application.stop()
+    }
+
+    "not add a duplicate asset and redirect to AddAssets page" in {
+
+      val answersWithDuplicate = otherAsset(
+        otherAsset(emptyUserAnswers, index = 0, completed = true),
+        index = 1
+      )
+
+      val application = applicationBuilder(userAnswers = Some(answersWithDuplicate)).build()
+
+      val request = FakeRequest(POST, routes.OtherAssetAnswersController.onSubmit(1, fakeDraftId).url)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual controllers.asset.routes.AddAssetsController.onPageLoad(fakeDraftId).url
+
+      application.stop()
+    }
+
+    "add asset when not a duplicate (different description)" in {
+
+      val answersWithDifferentAsset = otherAsset(
+        otherAsset(emptyUserAnswers, index = 0, completed = true),
+        index = 1,
+        description = "Different Description"
+      )
+
+      val application = applicationBuilder(userAnswers = Some(answersWithDifferentAsset)).build()
+
+      val request = FakeRequest(POST, routes.OtherAssetAnswersController.onSubmit(1, fakeDraftId).url)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual controllers.asset.routes.AddAssetsController.onPageLoad(fakeDraftId).url
+
+      application.stop()
+    }
+
+    "detect duplicate regardless of case (for description)" in {
+
+      val answersWithDuplicate = otherAsset(
+        otherAsset(emptyUserAnswers, index = 0, description = "description", completed = true),
+        index = 1,
+        description = "DESCRIPTION"
+      )
+
+      val application = applicationBuilder(userAnswers = Some(answersWithDuplicate)).build()
+
+      val request = FakeRequest(POST, routes.OtherAssetAnswersController.onSubmit(1, fakeDraftId).url)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual controllers.asset.routes.AddAssetsController.onPageLoad(fakeDraftId).url
 
       application.stop()
     }

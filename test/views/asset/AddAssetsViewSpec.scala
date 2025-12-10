@@ -24,10 +24,12 @@ import viewmodels.AddRow
 import views.behaviours.{OptionsViewBehaviours, QuestionViewBehaviours, TabularDataViewBehaviours}
 import views.html.asset.AddAssetsView
 
-class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehaviours with QuestionViewBehaviours[AddAssets] {
+class AddAssetsViewSpec
+    extends OptionsViewBehaviours
+    with TabularDataViewBehaviours
+    with QuestionViewBehaviours[AddAssets] {
 
-
-  private val view: AddAssetsView   = viewFor[AddAssetsView](Some(emptyUserAnswers))
+  private val view: AddAssetsView = viewFor[AddAssetsView](Some(emptyUserAnswers))
 
   private val taxableAddAssetsPrefix: String    = "addAssets"
   private val nonTaxableAddAssetsPrefix: String = "addAssets.nonTaxable"
@@ -44,7 +46,7 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
     } else {
       messages(s"$prefix.title")
     }
-  
+
   private def applyView(form: Form[_], prefix: String): HtmlFormat.Appendable = {
     val title = if (prefix == taxableAddAssetsPrefix) {
       "Add assets"
@@ -156,7 +158,8 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
 
     "there is more than one maxed out asset type" must {
 
-      val viewWithData = applyView(form, completeAssets, 11, List(("Money", 1), ("Partnership", 10)), taxableAddAssetsPrefix)
+      val viewWithData =
+        applyView(form, completeAssets, 11, List(("Money", 1), ("Partnership", 10)), taxableAddAssetsPrefix)
 
       behave like dynamicTitlePage(viewWithData, s"$taxableAddAssetsPrefix.count", "11")
 
@@ -195,11 +198,15 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
 
       behave like pageWithBackLink(nonEeaView)
 
-      val taxableCreateViewFn = (f: Form[_]) => applyView(form, inProgressAssets, Seq.empty[AddRow], 2, nonTaxableAddAssetsPrefix)
+      val taxableCreateViewFn =
+        (f: Form[_]) => applyView(form, inProgressAssets, Seq.empty[AddRow], 2, nonTaxableAddAssetsPrefix)
 
-      behave like pageWithSubHeadings(form, taxableCreateViewFn, List("In Progress", "Do you want to add another company?"))
+      behave like pageWithSubHeadings(
+        form,
+        taxableCreateViewFn,
+        List("In Progress", "Do you want to add another company?")
+      )
     }
-
 
     "1 company added and 1 in progress" must {
 
@@ -219,9 +226,14 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
 
       behave like pageWithBackLink(nonEeaView)
 
-      val taxableCreateViewFn = (f: Form[_]) => applyView(form, inProgressAssets, completeAssets, 2, nonTaxableAddAssetsPrefix)
+      val taxableCreateViewFn =
+        (f: Form[_]) => applyView(form, inProgressAssets, completeAssets, 2, nonTaxableAddAssetsPrefix)
 
-      behave like pageWithSubHeadings(form, taxableCreateViewFn, List("In Progress", "You have added 1 company", "Do you want to add another company?"))
+      behave like pageWithSubHeadings(
+        form,
+        taxableCreateViewFn,
+        List("In Progress", "You have added 1 company", "Do you want to add another company?")
+      )
     }
 
     "2 companies added and 1 in progress" must {
@@ -243,9 +255,14 @@ class AddAssetsViewSpec extends OptionsViewBehaviours with TabularDataViewBehavi
 
       behave like pageWithBackLink(nonEeaView)
 
-      val taxableCreateViewFn = (f: Form[_]) => applyView(form, inProgressAssets, completeAssets, 2, nonTaxableAddAssetsPrefix)
+      val taxableCreateViewFn =
+        (f: Form[_]) => applyView(form, inProgressAssets, completeAssets, 2, nonTaxableAddAssetsPrefix)
 
-      behave like pageWithSubHeadings(form, taxableCreateViewFn, List("In Progress", "You have added 2 companies", "Do you want to add another company?"))
+      behave like pageWithSubHeadings(
+        form,
+        taxableCreateViewFn,
+        List("In Progress", "You have added 2 companies", "Do you want to add another company?")
+      )
     }
 
   }

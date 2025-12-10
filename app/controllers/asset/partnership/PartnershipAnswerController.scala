@@ -18,20 +18,26 @@ package controllers.asset.partnership
 
 import config.annotations.Partnership
 import controllers.actions._
+import mapping.reads.PartnershipAsset
 import models.Status.Completed
+import models.UserAnswers
 import models.requests.RegistrationDataRequest
 import navigation.Navigator
 import pages.AssetStatus
 import pages.asset.partnership._
+import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.libs.json.JsPath
 import play.api.mvc.{Action, ActionBuilder, AnyContent, MessagesControllerComponents}
 import repositories.RegistrationsRepository
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import utils.print.PartnershipPrintHelper
+import viewmodels.{AssetViewModel, PartnershipAssetViewModel}
 import views.html.asset.partnership.PartnershipAnswersView
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.{Failure, Success}
 
 class PartnershipAnswerController @Inject() (
   override val messagesApi: MessagesApi,
@@ -46,7 +52,8 @@ class PartnershipAnswerController @Inject() (
   printHelper: PartnershipPrintHelper
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen
@@ -65,6 +72,20 @@ class PartnershipAnswerController @Inject() (
         )
       )
 
+  private def getExistingPartnershipAssets(excludeIndex: Int, userAnswers: UserAnswers): Seq[PartnershipAsset] = {
+    val allAssets: List[AssetViewModel] = userAnswers.get(sections.Assets).getOrElse(Nil)
+    allAssets.zipWithIndex.collect {
+      case (_: PartnershipAssetViewModel, i) if i != excludeIndex =>
+        userAnswers.get(PartnershipAssetPage(i))
+    }.flatten
+  }
+
+  private def isDuplicate(current: PartnershipAsset, existingAssets: Seq[PartnershipAsset]): Boolean =
+    existingAssets.exists { existing =>
+      existing.description.equalsIgnoreCase(current.description) &&
+      existing.startDate == current.startDate
+    }
+
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
     val sections = printHelper.checkDetailsSection(
       userAnswers = request.userAnswers,
@@ -76,12 +97,28 @@ class PartnershipAnswerController @Inject() (
   }
 
   def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
-    val answers = request.userAnswers.set(AssetStatus(index), Completed)
+    val maybeCurrentAsset: Option[PartnershipAsset] = request.userAnswers.get(PartnershipAssetPage(index))
+    val existingAssets: Seq[PartnershipAsset]       = getExistingPartnershipAssets(excludeIndex = index, request.userAnswers)
 
-    for {
-      updatedAnswers <- Future.fromTry(answers)
-      _              <- repository.set(updatedAnswers)
-    } yield Redirect(navigator.nextPage(PartnershipAnswerPage, draftId)(request.userAnswers))
-
+    maybeCurrentAsset match {
+      case Some(current) if isDuplicate(current, existingAssets) =>
+        logger.info("duplicate partnership asset not added")
+        val removePath = JsPath \ "assets" \ index
+        request.userAnswers.deleteAtPath(removePath) match {
+          case Success(cleanedUA) =>
+            repository
+              .set(cleanedUA)
+              .map(_ => Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId)))
+          case Failure(_)         =>
+            Future.successful(Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId)))
+        }
+      case Some(_)                                               =>
+        for {
+          updatedAnswers <- Future.fromTry(request.userAnswers.set(AssetStatus(index), Completed))
+          _              <- repository.set(updatedAnswers)
+        } yield Redirect(navigator.nextPage(PartnershipAnswerPage, draftId)(request.userAnswers))
+      case None                                                  =>
+        Future.successful(Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId)))
+    }
   }
 }
