@@ -233,7 +233,7 @@ class ShareAnswerControllerSpec extends SpecBase {
       application.stop()
     }
 
-    "not add a duplicate non-portfolio share asset and redirect to AddAssets page" in {
+    "not add a duplicate non-portfolio share asset and redirect to duplicate asset view" in {
 
       val answersWithDuplicate = nonPortfolioShareAsset(
         nonPortfolioShareAsset(emptyUserAnswers, index = 0, completed = true),
@@ -248,7 +248,9 @@ class ShareAnswerControllerSpec extends SpecBase {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual controllers.asset.routes.AddAssetsController.onPageLoad(fakeDraftId).url
+      redirectLocation(result).value mustEqual controllers.asset.routes.DuplicateAssetController
+        .onPageLoad(fakeDraftId)
+        .url
 
       application.stop()
     }
@@ -269,7 +271,9 @@ class ShareAnswerControllerSpec extends SpecBase {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual controllers.asset.routes.AddAssetsController.onPageLoad(fakeDraftId).url
+      redirectLocation(result).value mustEqual controllers.asset.routes.DuplicateAssetController
+        .onPageLoad(fakeDraftId)
+        .url
 
       application.stop()
     }

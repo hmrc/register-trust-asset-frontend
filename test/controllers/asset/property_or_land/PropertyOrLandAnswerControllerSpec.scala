@@ -195,7 +195,7 @@ class PropertyOrLandAnswerControllerSpec extends SpecBase {
       application.stop()
     }
 
-    "not add a duplicate asset with description and redirect to AddAssets page" in {
+    "not add a duplicate asset with description and redirect to duplicate asset view" in {
 
       val answersWithDuplicate = propertyOrLandAssetWithDescription(
         propertyOrLandAssetWithDescription(emptyUserAnswers, index = 0, completed = true),
@@ -210,12 +210,14 @@ class PropertyOrLandAnswerControllerSpec extends SpecBase {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual controllers.asset.routes.AddAssetsController.onPageLoad(fakeDraftId).url
+      redirectLocation(result).value mustEqual controllers.asset.routes.DuplicateAssetController
+        .onPageLoad(fakeDraftId)
+        .url
 
       application.stop()
     }
 
-    "not add a duplicate asset with address and redirect to AddAssets page" in {
+    "not add a duplicate asset with address and redirect to duplicate asset view" in {
 
       val answersWithDuplicate = propertyOrLandAssetWithAddress(
         propertyOrLandAssetWithAddress(emptyUserAnswers, index = 0, completed = true),
@@ -230,7 +232,9 @@ class PropertyOrLandAnswerControllerSpec extends SpecBase {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual controllers.asset.routes.AddAssetsController.onPageLoad(fakeDraftId).url
+      redirectLocation(result).value mustEqual controllers.asset.routes.DuplicateAssetController
+        .onPageLoad(fakeDraftId)
+        .url
 
       application.stop()
     }

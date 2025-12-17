@@ -161,7 +161,7 @@ class AnswersControllerSpec extends SpecBase {
       application.stop()
     }
 
-    "not add a duplicate asset and redirect to AddAssets page" in {
+    "not add a duplicate asset and redirect to duplicate asset view" in {
 
       val answersWithDuplicate = nonEeaBusinessAsset(
         nonEeaBusinessAsset(emptyUserAnswers, index = 0, completed = true),
@@ -176,7 +176,9 @@ class AnswersControllerSpec extends SpecBase {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual controllers.asset.routes.AddAssetsController.onPageLoad(fakeDraftId).url
+      redirectLocation(result).value mustEqual controllers.asset.routes.DuplicateAssetController
+        .onPageLoad(fakeDraftId)
+        .url
 
       application.stop()
     }
@@ -218,7 +220,9 @@ class AnswersControllerSpec extends SpecBase {
 
       status(result) mustEqual SEE_OTHER
 
-      redirectLocation(result).value mustEqual controllers.asset.routes.AddAssetsController.onPageLoad(fakeDraftId).url
+      redirectLocation(result).value mustEqual controllers.asset.routes.DuplicateAssetController
+        .onPageLoad(fakeDraftId)
+        .url
 
       application.stop()
     }

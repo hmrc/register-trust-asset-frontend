@@ -91,7 +91,7 @@ class PropertyOrLandAnswerController @Inject() (
             case Success(cleanedUA) =>
               repository
                 .set(cleanedUA)
-                .map(_ => Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId)))
+                .map(_ => Redirect(controllers.asset.routes.DuplicateAssetController.onPageLoad(draftId)))
             case Failure(_)         =>
               Future.successful(Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId)))
           }
