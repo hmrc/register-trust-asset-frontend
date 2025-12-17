@@ -91,7 +91,7 @@ assetInterruptPage.subheading3=Cyfranddaliadau
 assetInterruptPage.subheading4=Busnes
 assetInterruptPage.subheading5=Partneriaethau
 assetInterruptPage.subheading6=Asedion eraill
-assetInterruptPage.subheading7=Cwmnïau sydd wedi’u cofrestru y tu allan i’r DU neu’r AEE (Ardal Economaidd Ewropeaidd)
+assetInterruptPage.subheading7=Cwmni sydd wedi’i gofrestru y tu allan i’r DU neu’r AEE (Ardal Economaidd Ewropeaidd)
 
 assetInterruptPage.nonTaxable.title=Gwybodaeth sydd ei hangen arnoch i ychwanegu cwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE (Ardal Economaidd Ewropeaidd)
 assetInterruptPage.nonTaxable.heading=Gwybodaeth sydd ei hangen arnoch i ychwanegu cwmni sydd wedi’i gofrestru y tu allan i’r DU a’r AEE (Ardal Economaidd Ewropeaidd)
