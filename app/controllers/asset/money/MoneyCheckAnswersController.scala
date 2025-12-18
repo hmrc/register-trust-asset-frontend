@@ -25,7 +25,7 @@ import utils.print.MoneyPrintHelper
 import views.html.asset.money.MoneyAnswersView
 
 import javax.inject.Inject
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 
 class MoneyCheckAnswersController @Inject() (
   override val messagesApi: MessagesApi,
