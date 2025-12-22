@@ -18,13 +18,16 @@ package controllers.asset.partnership
 
 import base.SpecBase
 import models.Status.Completed
+import models.UserAnswers
 import models.WhatKindOfAsset.Partnership
+import navigation.FakeNavigator
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.partnership._
 import play.api.inject.bind
+import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import utils.print.PartnershipPrintHelper
@@ -34,8 +37,32 @@ import java.time.{LocalDate, ZoneOffset}
 
 class PartnershipAnswerControllerSpec extends SpecBase {
 
-  private val index: Int           = 0
+  private val index                = 0
+  private val description          = "Partnership Description"
   private val validDate: LocalDate = LocalDate.now(ZoneOffset.UTC)
+
+  private def partnershipAsset(
+    userAnswers: UserAnswers,
+    index: Int,
+    description: String = description,
+    startDate: LocalDate = validDate,
+    completed: Boolean = false
+  ): UserAnswers = {
+    val base = userAnswers
+      .set(WhatKindOfAssetPage(index), Partnership)
+      .success
+      .value
+      .set(PartnershipDescriptionPage(index), description)
+      .success
+      .value
+      .set(PartnershipStartDatePage(index), startDate)
+      .success
+      .value
+
+    if (completed) base.set(AssetStatus(index), Completed).success.value else base
+  }
+
+  private val baseAnswers: UserAnswers = partnershipAsset(emptyUserAnswers, index)
 
   private lazy val partnershipAnswerRoute: String =
     routes.PartnershipAnswerController.onPageLoad(index, fakeDraftId).url
@@ -44,26 +71,11 @@ class PartnershipAnswerControllerSpec extends SpecBase {
 
     "return OK and the correct view for a GET" in {
 
-      val userAnswers =
-        emptyUserAnswers
-          .set(WhatKindOfAssetPage(index), Partnership)
-          .success
-          .value
-          .set(PartnershipDescriptionPage(index), "Partnership Description")
-          .success
-          .value
-          .set(PartnershipStartDatePage(index), validDate)
-          .success
-          .value
-          .set(AssetStatus(index), Completed)
-          .success
-          .value
-
       val expectedSections                        = Nil
       val mockPrintHelper: PartnershipPrintHelper = mock[PartnershipPrintHelper]()
       when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(any())).thenReturn(Nil)
 
-      val application = applicationBuilder(userAnswers = Some(userAnswers))
+      val application = applicationBuilder(userAnswers = Some(baseAnswers))
         .overrides(bind[PartnershipPrintHelper].toInstance(mockPrintHelper))
         .build()
 
@@ -83,14 +95,13 @@ class PartnershipAnswerControllerSpec extends SpecBase {
 
     "redirect to PartnershipDescription page on a GET if no answer for 'What is the description for the partnership?' at index" in {
 
-      val answers =
-        emptyUserAnswers
-          .set(WhatKindOfAssetPage(index), Partnership)
-          .success
-          .value
-          .set(PartnershipStartDatePage(index), validDate)
-          .success
-          .value
+      val answers = emptyUserAnswers
+        .set(WhatKindOfAssetPage(index), Partnership)
+        .success
+        .value
+        .set(PartnershipStartDatePage(index), validDate)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(answers)).build()
 
@@ -105,19 +116,17 @@ class PartnershipAnswerControllerSpec extends SpecBase {
         .url
 
       application.stop()
-
     }
 
     "redirect to PartnershipStartDate page on a GET if no answer for 'When did the partnership start?' at index" in {
 
-      val answers =
-        emptyUserAnswers
-          .set(WhatKindOfAssetPage(index), Partnership)
-          .success
-          .value
-          .set(PartnershipDescriptionPage(index), "Partnership Description")
-          .success
-          .value
+      val answers = emptyUserAnswers
+        .set(WhatKindOfAssetPage(index), Partnership)
+        .success
+        .value
+        .set(PartnershipDescriptionPage(index), description)
+        .success
+        .value
 
       val application = applicationBuilder(userAnswers = Some(answers)).build()
 
@@ -143,6 +152,76 @@ class PartnershipAnswerControllerSpec extends SpecBase {
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual controllers.routes.SessionExpiredController.onPageLoad.url
+
+      application.stop()
+    }
+
+    "not add a duplicate asset and redirect to duplicate asset view" in {
+
+      val answersWithDuplicate = partnershipAsset(
+        partnershipAsset(emptyUserAnswers, index = 0, completed = true),
+        index = 1
+      )
+
+      val application = applicationBuilder(userAnswers = Some(answersWithDuplicate)).build()
+
+      val request = FakeRequest(POST, routes.PartnershipAnswerController.onSubmit(1, fakeDraftId).url)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual controllers.asset.routes.DuplicateAssetController
+        .onPageLoad(fakeDraftId)
+        .url
+
+      application.stop()
+    }
+
+    "add asset when not a duplicate (different description)" in {
+
+      val answersWithDifferentAsset = partnershipAsset(
+        partnershipAsset(emptyUserAnswers, index = 0, completed = true),
+        index = 1,
+        description = "Different Description"
+      )
+
+      val application = applicationBuilder(
+        userAnswers = Some(answersWithDifferentAsset),
+        navigator =
+          new FakeNavigator(Call("GET", controllers.asset.routes.AddAssetsController.onPageLoad(fakeDraftId).url))
+      ).build()
+
+      val request = FakeRequest(POST, routes.PartnershipAnswerController.onSubmit(1, fakeDraftId).url)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual controllers.asset.routes.AddAssetsController.onPageLoad(fakeDraftId).url
+
+      application.stop()
+    }
+
+    "detect duplicate regardless of case (for description)" in {
+
+      val answersWithDuplicate = partnershipAsset(
+        partnershipAsset(emptyUserAnswers, index = 0, description = "partnership description", completed = true),
+        index = 1,
+        description = "PARTNERSHIP DESCRIPTION"
+      )
+
+      val application = applicationBuilder(userAnswers = Some(answersWithDuplicate)).build()
+
+      val request = FakeRequest(POST, routes.PartnershipAnswerController.onSubmit(1, fakeDraftId).url)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual controllers.asset.routes.DuplicateAssetController
+        .onPageLoad(fakeDraftId)
+        .url
 
       application.stop()
     }

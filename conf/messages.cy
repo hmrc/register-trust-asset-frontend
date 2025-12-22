@@ -540,6 +540,11 @@ whatKindOfAsset.Partnership=Partneriaeth
 whatKindOfAsset.PropertyOrLand=Eiddo neu dir
 whatKindOfAsset.Shares=Cyfranddaliadau
 
+duplicateAsset.title = Rydych eisoes wedi ychwanegu’r ased hwn
+duplicateAsset.heading = Rydych eisoes wedi ychwanegu’r ased hwn
+duplicateAsset.p1 = Bydd yr ased hwn yn cael ei ddileu
+duplicateAsset.link = Gweld asedion
+
 pageNotFound.title = Heb ddod o hyd i’r dudalen
 pageNotFound.heading = Heb ddod o hyd i’r dudalen
 pageNotFound.p1 = Os gwnaethoch deipio’r cyfeiriad gwe, gwiriwch ei fod yn gywir.

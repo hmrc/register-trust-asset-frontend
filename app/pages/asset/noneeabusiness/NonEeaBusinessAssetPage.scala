@@ -14,24 +14,15 @@
  * limitations under the License.
  */
 
-package mapping.reads
+package pages.asset.noneeabusiness
 
-import play.api.libs.json.Reads
+import mapping.reads.NonEeaBusinessAsset
+import pages.QuestionPage
+import play.api.libs.json.JsPath
+import sections.Assets
 
-trait ShareAsset extends Asset {
-  val listedOnTheStockExchange: Boolean
-  val name: String
-  val quantityInTheTrust: Long
+final case class NonEeaBusinessAssetPage(index: Int) extends QuestionPage[NonEeaBusinessAsset] {
 
-  def quoted: String = if (listedOnTheStockExchange) "Quoted" else "Unquoted"
+  override def path: JsPath = JsPath \ Assets \ index
 
-  override val arg: String = name
-
-  val quantity: String = quantityInTheTrust.toString
-}
-
-object ShareAsset {
-  implicit val reads: Reads[ShareAsset] =
-    ShareNonPortfolioAsset.reads.map(identity[ShareAsset]) orElse
-      SharePortfolioAsset.reads.map(identity[ShareAsset])
 }

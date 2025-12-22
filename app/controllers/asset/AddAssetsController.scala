@@ -67,13 +67,12 @@ class AddAssetsController @Inject() (
 
   private def determinePrefix(isTaxable: Boolean): String = "addAssets" + (if (!isTaxable) ".nonTaxable" else "")
 
-  private def heading(count: Int, prefix: String)(implicit mp: MessagesProvider): String = {
+  private def heading(count: Int, prefix: String)(implicit mp: MessagesProvider): String =
     if (count > 1 && prefix != "addAssets.nonTaxable") {
       Messages(s"$prefix.count.heading", count)
     } else {
       Messages(s"$prefix.heading")
     }
-  }
 
   private def setTaskStatus(draftId: String, userAnswers: UserAnswers, action: AddAssets)(implicit
     hc: HeaderCarrier

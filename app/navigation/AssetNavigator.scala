@@ -72,19 +72,18 @@ class AssetNavigator @Inject() (config: FrontendAppConfig) extends Navigator {
   private def assetsCompletedRoute(draftId: String): Call =
     Call(GET, config.registrationProgressUrl(draftId))
 
-  private def addAssetsRoute(draftId: String)(answers: UserAnswers): Call = {
+  private def addAssetsRoute(draftId: String)(answers: UserAnswers): Call =
     answers.get(AddAssetsPage) match {
       case Some(AddAssets.YesNow) if !answers.isTaxable && answers.assets.nonEEABusiness.exists(_.nonEmpty) =>
         nonTaxableNonEeaBusinessRoute(draftId, answers)
-      case Some(AddAssets.YesNow) => AssetNavigator.addAssetRoute(answers, draftId)
-      case Some(_) => assetsCompletedRoute(draftId)
-      case _ => SessionExpiredController.onPageLoad
+      case Some(AddAssets.YesNow)                                                                           => AssetNavigator.addAssetRoute(answers, draftId)
+      case Some(_)                                                                                          => assetsCompletedRoute(draftId)
+      case _                                                                                                => SessionExpiredController.onPageLoad
     }
-  }
 
   private def nonTaxableNonEeaBusinessRoute(draftId: String, answers: UserAnswers): Call = {
     val numNonEeaAssets = answers.assets.nonEEABusiness.get.size
-    val index = numNonEeaAssets - 1
+    val index           = numNonEeaAssets - 1
     NameController.onPageLoad(index, draftId)
   }
 

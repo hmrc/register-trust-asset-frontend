@@ -18,9 +18,13 @@ package controllers.asset.noneeabusiness
 
 import base.SpecBase
 import controllers.routes._
+import models.Status.Completed
+import models.WhatKindOfAsset.NonEeaBusiness
 import models.{InternationalAddress, UserAnswers}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
+import pages.AssetStatus
+import pages.asset.WhatKindOfAssetPage
 import pages.asset.noneeabusiness._
 import play.api.inject.bind
 import play.api.test.FakeRequest
@@ -34,21 +38,44 @@ class AnswersControllerSpec extends SpecBase {
 
   private val index = 0
 
-  private val answers: UserAnswers = emptyUserAnswers
-    .set(NamePage(index), "Name")
-    .success
-    .value
-    .set(InternationalAddressPage(index), InternationalAddress("Line 1", "Line 2", Some("Line 3"), "FR"))
-    .success
-    .value
-    .set(GoverningCountryPage(index), "FR")
-    .success
-    .value
-    .set(StartDatePage(index), LocalDate.parse("1996-02-03"))
-    .success
-    .value
+  private val name             = "Name"
+  private val address          = InternationalAddress("Line 1", "Line 2", Some("Line 3"), "FR")
+  private val governingCountry = "FR"
+  private val startDate        = LocalDate.parse("1996-02-03")
+
+  private def nonEeaBusinessAsset(
+    userAnswers: UserAnswers,
+    index: Int,
+    name: String = name,
+    address: InternationalAddress = address,
+    governingCountry: String = governingCountry,
+    startDate: LocalDate = startDate,
+    completed: Boolean = false
+  ): UserAnswers = {
+    val base = userAnswers
+      .set(WhatKindOfAssetPage(index), NonEeaBusiness)
+      .success
+      .value
+      .set(NamePage(index), name)
+      .success
+      .value
+      .set(InternationalAddressPage(index), address)
+      .success
+      .value
+      .set(GoverningCountryPage(index), governingCountry)
+      .success
+      .value
+      .set(StartDatePage(index), startDate)
+      .success
+      .value
+
+    if (completed) base.set(AssetStatus(index), Completed).success.value else base
+  }
+
+  private val answers: UserAnswers = nonEeaBusinessAsset(emptyUserAnswers, index)
 
   private lazy val onPageLoadRoute: String = routes.AnswersController.onSubmit(index, fakeDraftId).url
+  private lazy val onSubmitRoute: String   = routes.AnswersController.onSubmit(index, fakeDraftId).url
 
   "AnswersController" must {
 
@@ -80,7 +107,7 @@ class AnswersControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = Some(answers)).build()
 
-      val request = FakeRequest(POST, routes.AnswersController.onSubmit(index, fakeDraftId).url)
+      val request = FakeRequest(POST, onSubmitRoute)
 
       val result = route(application, request).value
 
@@ -124,12 +151,78 @@ class AnswersControllerSpec extends SpecBase {
 
       val application = applicationBuilder(userAnswers = None).build()
 
-      val request = FakeRequest(POST, routes.AnswersController.onSubmit(index, fakeDraftId).url)
+      val request = FakeRequest(POST, onSubmitRoute)
 
       val result = route(application, request).value
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad.url
+
+      application.stop()
+    }
+
+    "not add a duplicate asset and redirect to duplicate asset view" in {
+
+      val answersWithDuplicate = nonEeaBusinessAsset(
+        nonEeaBusinessAsset(emptyUserAnswers, index = 0, completed = true),
+        index = 1
+      )
+
+      val application = applicationBuilder(userAnswers = Some(answersWithDuplicate)).build()
+
+      val request = FakeRequest(POST, routes.AnswersController.onSubmit(1, fakeDraftId).url)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual controllers.asset.routes.DuplicateAssetController
+        .onPageLoad(fakeDraftId)
+        .url
+
+      application.stop()
+    }
+
+    "add asset when not a duplicate (different name)" in {
+
+      val answersWithDifferentAsset = nonEeaBusinessAsset(
+        nonEeaBusinessAsset(emptyUserAnswers, index = 0, completed = true),
+        index = 1,
+        name = "Different Name"
+      )
+
+      val application = applicationBuilder(userAnswers = Some(answersWithDifferentAsset)).build()
+
+      val request = FakeRequest(POST, routes.AnswersController.onSubmit(1, fakeDraftId).url)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual controllers.asset.routes.AddAssetsController.onPageLoad(fakeDraftId).url
+
+      application.stop()
+    }
+
+    "detect duplicate regardless of case (for name)" in {
+
+      val answersWithDuplicate = nonEeaBusinessAsset(
+        nonEeaBusinessAsset(emptyUserAnswers, index = 0, name = "name", completed = true),
+        index = 1,
+        name = "NAME"
+      )
+
+      val application = applicationBuilder(userAnswers = Some(answersWithDuplicate)).build()
+
+      val request = FakeRequest(POST, routes.AnswersController.onSubmit(1, fakeDraftId).url)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual controllers.asset.routes.DuplicateAssetController
+        .onPageLoad(fakeDraftId)
+        .url
 
       application.stop()
     }

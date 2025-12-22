@@ -35,7 +35,8 @@ class MoneyCheckAnswersController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: MoneyAnswersView,
   printHelper: MoneyPrintHelper
-) extends FrontendBaseController with I18nSupport {
+) extends FrontendBaseController
+    with I18nSupport {
 
   private def actions(draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen

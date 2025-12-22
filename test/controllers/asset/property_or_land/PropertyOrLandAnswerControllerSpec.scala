@@ -19,13 +19,16 @@ package controllers.asset.property_or_land
 import base.SpecBase
 import controllers.routes._
 import models.Status.Completed
+import models.{UKAddress, UserAnswers}
 import models.WhatKindOfAsset.PropertyOrLand
+import navigation.FakeNavigator
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.property_or_land._
 import play.api.inject.bind
+import play.api.mvc.Call
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import utils.print.PropertyOrLandPrintHelper
@@ -35,7 +38,82 @@ class PropertyOrLandAnswerControllerSpec extends SpecBase {
 
   private val index: Int = 0
 
-  private val totalValue: Long = 10000L
+  private val description = "Property Land Description"
+  private val totalValue  = 10000L
+  private val ukAddress   = UKAddress("Line 1", "Line 2", Some("Line 3"), Some("Line 4"), "AB1 1AB")
+
+  private def propertyOrLandAssetWithDescription(
+    userAnswers: UserAnswers,
+    index: Int,
+    description: String = description,
+    totalValue: Long = totalValue,
+    trustOwnAll: Boolean = true,
+    trustValue: Option[Long] = None,
+    completed: Boolean = false
+  ): UserAnswers = {
+    val base = userAnswers
+      .set(WhatKindOfAssetPage(index), PropertyOrLand)
+      .success
+      .value
+      .set(PropertyOrLandAddressYesNoPage(index), false)
+      .success
+      .value
+      .set(PropertyOrLandDescriptionPage(index), description)
+      .success
+      .value
+      .set(PropertyOrLandTotalValuePage(index), totalValue)
+      .success
+      .value
+      .set(TrustOwnAllThePropertyOrLandPage(index), trustOwnAll)
+      .success
+      .value
+
+    val withTrustValue = trustValue match {
+      case Some(v) => base.set(PropertyLandValueTrustPage(index), v).success.value
+      case None    => base
+    }
+
+    if (completed) withTrustValue.set(AssetStatus(index), Completed).success.value else withTrustValue
+  }
+
+  private def propertyOrLandAssetWithAddress(
+    userAnswers: UserAnswers,
+    index: Int,
+    address: UKAddress = ukAddress,
+    totalValue: Long = totalValue,
+    trustOwnAll: Boolean = true,
+    trustValue: Option[Long] = None,
+    completed: Boolean = false
+  ): UserAnswers = {
+    val base = userAnswers
+      .set(WhatKindOfAssetPage(index), PropertyOrLand)
+      .success
+      .value
+      .set(PropertyOrLandAddressYesNoPage(index), true)
+      .success
+      .value
+      .set(PropertyOrLandAddressUkYesNoPage(index), true)
+      .success
+      .value
+      .set(PropertyOrLandUKAddressPage(index), address)
+      .success
+      .value
+      .set(PropertyOrLandTotalValuePage(index), totalValue)
+      .success
+      .value
+      .set(TrustOwnAllThePropertyOrLandPage(index), trustOwnAll)
+      .success
+      .value
+
+    val withTrustValue = trustValue match {
+      case Some(v) => base.set(PropertyLandValueTrustPage(index), v).success.value
+      case None    => base
+    }
+
+    if (completed) withTrustValue.set(AssetStatus(index), Completed).success.value else withTrustValue
+  }
+
+  private val baseAnswers: UserAnswers = propertyOrLandAssetWithDescription(emptyUserAnswers, index)
 
   private lazy val propertyOrLandAnswerRoute: String =
     routes.PropertyOrLandAnswerController.onPageLoad(index, fakeDraftId).url
@@ -46,32 +124,11 @@ class PropertyOrLandAnswerControllerSpec extends SpecBase {
 
       "return OK and the correct view for a GET" in {
 
-        val userAnswers =
-          emptyUserAnswers
-            .set(WhatKindOfAssetPage(index), PropertyOrLand)
-            .success
-            .value
-            .set(PropertyOrLandAddressYesNoPage(index), false)
-            .success
-            .value
-            .set(PropertyOrLandDescriptionPage(index), "Property Land Description")
-            .success
-            .value
-            .set(PropertyOrLandTotalValuePage(index), totalValue)
-            .success
-            .value
-            .set(TrustOwnAllThePropertyOrLandPage(index), true)
-            .success
-            .value
-            .set(AssetStatus(index), Completed)
-            .success
-            .value
-
         val expectedSections                           = Nil
-        val mockPrintHelper: PropertyOrLandPrintHelper = mock[PropertyOrLandPrintHelper]()
+        val mockPrintHelper: PropertyOrLandPrintHelper = mock[PropertyOrLandPrintHelper]
         when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(any())).thenReturn(Nil)
 
-        val application = applicationBuilder(userAnswers = Some(userAnswers))
+        val application = applicationBuilder(userAnswers = Some(baseAnswers))
           .overrides(bind[PropertyOrLandPrintHelper].toInstance(mockPrintHelper))
           .build()
 
@@ -91,6 +148,25 @@ class PropertyOrLandAnswerControllerSpec extends SpecBase {
 
     }
 
+    "redirect to the next page when valid data is submitted" in {
+
+      val application = applicationBuilder(
+        userAnswers = Some(baseAnswers),
+        navigator =
+          new FakeNavigator(Call("GET", controllers.asset.routes.AddAssetsController.onPageLoad(fakeDraftId).url))
+      ).build()
+
+      val request = FakeRequest(POST, propertyOrLandAnswerRoute)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual controllers.asset.routes.AddAssetsController.onPageLoad(fakeDraftId).url
+
+      application.stop()
+    }
+
     "redirect to Session Expired for a GET if no existing data is found" in {
 
       val application = applicationBuilder(userAnswers = None).build()
@@ -101,6 +177,64 @@ class PropertyOrLandAnswerControllerSpec extends SpecBase {
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad.url
+
+      application.stop()
+    }
+
+    "redirect to Session Expired for a POST if no existing data is found" in {
+
+      val application = applicationBuilder(userAnswers = None).build()
+
+      val request = FakeRequest(POST, propertyOrLandAnswerRoute)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+      redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad.url
+
+      application.stop()
+    }
+
+    "not add a duplicate asset with description and redirect to duplicate asset view" in {
+
+      val answersWithDuplicate = propertyOrLandAssetWithDescription(
+        propertyOrLandAssetWithDescription(emptyUserAnswers, index = 0, completed = true),
+        index = 1
+      )
+
+      val application = applicationBuilder(userAnswers = Some(answersWithDuplicate)).build()
+
+      val request = FakeRequest(POST, routes.PropertyOrLandAnswerController.onSubmit(1, fakeDraftId).url)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual controllers.asset.routes.DuplicateAssetController
+        .onPageLoad(fakeDraftId)
+        .url
+
+      application.stop()
+    }
+
+    "not add a duplicate asset with address and redirect to duplicate asset view" in {
+
+      val answersWithDuplicate = propertyOrLandAssetWithAddress(
+        propertyOrLandAssetWithAddress(emptyUserAnswers, index = 0, completed = true),
+        index = 1
+      )
+
+      val application = applicationBuilder(userAnswers = Some(answersWithDuplicate)).build()
+
+      val request = FakeRequest(POST, routes.PropertyOrLandAnswerController.onSubmit(1, fakeDraftId).url)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual controllers.asset.routes.DuplicateAssetController
+        .onPageLoad(fakeDraftId)
+        .url
 
       application.stop()
     }

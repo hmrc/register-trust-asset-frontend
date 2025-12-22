@@ -38,6 +38,8 @@ POST       /:draftId/add-another                  controllers.asset.AddAssetsCon
 GET        /:draftId/complete                     controllers.asset.AddAssetsController.onPageLoad(draftId: String)
 POST       /:draftId/complete                     controllers.asset.AddAssetsController.submitComplete(draftId: String)
 
+GET        /:draftId/already-added                controllers.asset.DuplicateAssetController.onPageLoad(draftId: String)
+
 GET        /:draftId/:index/remove                controllers.asset.RemoveAssetYesNoController.onPageLoad(index: Int, draftId: String)
 POST       /:draftId/:index/remove                controllers.asset.RemoveAssetYesNoController.onSubmit(index: Int, draftId: String)
 
