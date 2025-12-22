@@ -543,7 +543,6 @@ whatKindOfAsset.Shares=Cyfranddaliadau
 duplicateAsset.title = Rydych eisoes wedi ychwanegu’r ased hwn
 duplicateAsset.heading = Rydych eisoes wedi ychwanegu’r ased hwn
 duplicateAsset.p1 = Bydd yr ased hwn yn cael ei ddileu
-duplicateAsset.p2 = Er mwyn ychwanegu ased sy’n debyg i’r un rydych eisoes wedi’i ychwanegu, mae’n rhaid i chi wneud yn siŵr bod yr enwau a’r disgrifiadau’n wahanol.
 duplicateAsset.link = Gweld asedion
 
 pageNotFound.title = Heb ddod o hyd i’r dudalen

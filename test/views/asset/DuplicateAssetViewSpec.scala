@@ -30,11 +30,11 @@ class DuplicateAssetViewSpec extends ViewBehaviours {
 
     behave like normalPage(applyView, "duplicateAsset")
 
-    behave like pageWithGuidance(applyView, "duplicateAsset", "p1", "p2")
+    behave like pageWithGuidance(applyView, "duplicateAsset", "p1")
 
     "contain a link to the add assets page" in {
 
-      val doc = asDocument(applyView)
+      val doc  = asDocument(applyView)
       val link = doc.select("a[href*=add]").first()
 
       link must not be null

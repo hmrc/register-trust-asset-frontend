@@ -68,13 +68,13 @@ class ExtensionsSpec extends SpecBase {
       }
     }
 
-      "lowercaseFirstLetterOfFirstWord" must {
-        "lowercase the first letter of the first word" when {
-          "passed Non-EEA Company text" in {
-            val messageKey = WhatKindOfAsset.NonEeaBusiness.toString
-            val string = messages(s"$prefix.$messageKey")
-            string.lowercaseFirstLetterOfFirstWord mustEqual "company registered outside UK and EEA (European Economic Area)"
-          }
+    "lowercaseFirstLetterOfFirstWord" must {
+      "lowercase the first letter of the first word" when {
+        "passed Non-EEA Company text" in {
+          val messageKey = WhatKindOfAsset.NonEeaBusiness.toString
+          val string     = messages(s"$prefix.$messageKey")
+          string.lowercaseFirstLetterOfFirstWord mustEqual "company registered outside UK and EEA (European Economic Area)"
+        }
 
         "return an empty string" when {
           "passed an empty string" in {

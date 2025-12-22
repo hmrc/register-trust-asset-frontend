@@ -26,14 +26,14 @@ import javax.inject.Inject
 import scala.concurrent.ExecutionContext
 
 class DuplicateAssetController @Inject() (
-                                           override val messagesApi: MessagesApi,
-                                           identify: RegistrationIdentifierAction,
-                                           getData: DraftIdRetrievalActionProvider,
-                                           requireData: RegistrationDataRequiredAction,
-                                           val controllerComponents: MessagesControllerComponents,
-                                           view: DuplicateAssetView
-                                         )(implicit ec: ExecutionContext)
-  extends FrontendBaseController
+  override val messagesApi: MessagesApi,
+  identify: RegistrationIdentifierAction,
+  getData: DraftIdRetrievalActionProvider,
+  requireData: RegistrationDataRequiredAction,
+  val controllerComponents: MessagesControllerComponents,
+  view: DuplicateAssetView
+)(implicit ec: ExecutionContext)
+    extends FrontendBaseController
     with I18nSupport {
 
   def onPageLoad(draftId: String): Action[AnyContent] =

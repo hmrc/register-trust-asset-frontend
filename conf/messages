@@ -261,7 +261,6 @@ whatKindOfAsset.error.required = Select the kind of asset you need to add
 duplicateAsset.title = You have already added this asset
 duplicateAsset.heading = You have already added this asset
 duplicateAsset.p1 = This asset will be deleted
-duplicateAsset.p2 = To add an asset that is similar to one you have already added, you must make sure that the names or descriptions are different.
 duplicateAsset.link = View assets
 
 money.value.title = What is the total amount of money in the trust?
