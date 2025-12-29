@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,26 +12,27 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package mapping.reads
+@import controllers.asset.routes
+@import views.html.components.Heading
 
-import play.api.libs.json.Reads
+@this(
+    mainTemplate: MainTemplate,
+    heading: Heading
+)
 
-trait ShareAsset extends Asset {
-  val listedOnTheStockExchange: Boolean
-  val name: String
-  val quantityInTheTrust: Long
+@(draftId: String)(implicit request: RequestHeader, messages: Messages)
 
-  def quoted: String = if (listedOnTheStockExchange) "Quoted" else "Unquoted"
+@mainTemplate(
+    title = messages("duplicateAsset.title"),
+    showBackLink = false
+) {
 
-  override val arg: String = name
+    @heading("duplicateAsset.heading")
 
-  val quantity: String = quantityInTheTrust.toString
-}
+    <p>@messages("duplicateAsset.p1")</p>
 
-object ShareAsset {
-  implicit val reads: Reads[ShareAsset] =
-    ShareNonPortfolioAsset.reads.map(identity[ShareAsset]) orElse
-      SharePortfolioAsset.reads.map(identity[ShareAsset])
+    <p><a href="@routes.AddAssetsController.onPageLoad(draftId)">@messages("duplicateAsset.link")</a></p>
+
 }

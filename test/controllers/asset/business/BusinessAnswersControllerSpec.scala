@@ -18,9 +18,13 @@ package controllers.asset.business
 
 import base.SpecBase
 import controllers.routes._
+import models.Status.Completed
+import models.WhatKindOfAsset.Business
 import models.{UKAddress, UserAnswers}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
+import pages.AssetStatus
+import pages.asset.WhatKindOfAssetPage
 import pages.asset.business._
 import play.api.inject.bind
 import play.api.test.FakeRequest
@@ -30,25 +34,45 @@ import views.html.asset.business.BusinessAnswersView
 
 class BusinessAnswersControllerSpec extends SpecBase {
 
-  private val index            = 0
-  private val totalValue: Long = 12L
+  private val index       = 0
+  private val name        = "Business Name"
+  private val description = "Business Description"
+  private val ukAddress   = UKAddress("Line 1", "Line 2", Some("Line 3"), Some("Line 4"), "AB1 1AB")
+  private val totalValue  = 12L
 
-  private val answers: UserAnswers = emptyUserAnswers
-    .set(BusinessNamePage(index), "test")
-    .success
-    .value
-    .set(BusinessDescriptionPage(index), "test test test")
-    .success
-    .value
-    .set(BusinessAddressUkYesNoPage(index), true)
-    .success
-    .value
-    .set(BusinessUkAddressPage(index), UKAddress("test", "test", None, None, "NE11NE"))
-    .success
-    .value
-    .set(BusinessValuePage(index), totalValue)
-    .success
-    .value
+  private def businessAsset(
+    userAnswers: UserAnswers,
+    index: Int,
+    name: String = name,
+    description: String = description,
+    address: UKAddress = ukAddress,
+    value: Long = totalValue,
+    completed: Boolean = false
+  ): UserAnswers = {
+    val base = userAnswers
+      .set(WhatKindOfAssetPage(index), Business)
+      .success
+      .value
+      .set(BusinessNamePage(index), name)
+      .success
+      .value
+      .set(BusinessDescriptionPage(index), description)
+      .success
+      .value
+      .set(BusinessAddressUkYesNoPage(index), true)
+      .success
+      .value
+      .set(BusinessUkAddressPage(index), address)
+      .success
+      .value
+      .set(BusinessValuePage(index), value)
+      .success
+      .value
+
+    if (completed) base.set(AssetStatus(index), Completed).success.value else base
+  }
+
+  private val answers: UserAnswers = businessAsset(emptyUserAnswers, index)
 
   "AssetAnswerPage Controller" must {
 
@@ -130,6 +154,72 @@ class BusinessAnswersControllerSpec extends SpecBase {
 
       status(result) mustEqual SEE_OTHER
       redirectLocation(result).value mustEqual SessionExpiredController.onPageLoad.url
+
+      application.stop()
+    }
+
+    "not add a duplicate asset and redirect to duplicate asset view" in {
+
+      val answersWithDuplicate = businessAsset(
+        businessAsset(emptyUserAnswers, index = 0, completed = true),
+        index = 1
+      )
+
+      val application = applicationBuilder(userAnswers = Some(answersWithDuplicate)).build()
+
+      val request = FakeRequest(POST, routes.BusinessAnswersController.onSubmit(1, fakeDraftId).url)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual controllers.asset.routes.DuplicateAssetController
+        .onPageLoad(fakeDraftId)
+        .url
+
+      application.stop()
+    }
+
+    "add asset when not a duplicate (different name)" in {
+
+      val answersWithDifferentAsset = businessAsset(
+        businessAsset(emptyUserAnswers, index = 0, completed = true),
+        index = 1,
+        name = "Different Name"
+      )
+
+      val application = applicationBuilder(userAnswers = Some(answersWithDifferentAsset)).build()
+
+      val request = FakeRequest(POST, routes.BusinessAnswersController.onSubmit(1, fakeDraftId).url)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual controllers.asset.routes.AddAssetsController.onPageLoad(fakeDraftId).url
+
+      application.stop()
+    }
+
+    "detect duplicate regardless of case (for name)" in {
+
+      val answersWithDuplicate = businessAsset(
+        businessAsset(emptyUserAnswers, index = 0, name = "business name", completed = true),
+        index = 1,
+        name = "BUSINESS NAME"
+      )
+
+      val application = applicationBuilder(userAnswers = Some(answersWithDuplicate)).build()
+
+      val request = FakeRequest(POST, routes.BusinessAnswersController.onSubmit(1, fakeDraftId).url)
+
+      val result = route(application, request).value
+
+      status(result) mustEqual SEE_OTHER
+
+      redirectLocation(result).value mustEqual controllers.asset.routes.DuplicateAssetController
+        .onPageLoad(fakeDraftId)
+        .url
 
       application.stop()
     }

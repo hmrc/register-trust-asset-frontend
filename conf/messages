@@ -258,6 +258,11 @@ whatKindOfAsset.first.checkYourAnswersLabel = What kind of asset do you need to 
 whatKindOfAsset.next.checkYourAnswersLabel = What kind of asset do you need to add next?
 whatKindOfAsset.error.required = Select the kind of asset you need to add
 
+duplicateAsset.title = You have already added this asset
+duplicateAsset.heading = You have already added this asset
+duplicateAsset.p1 = This asset will be deleted
+duplicateAsset.link = View assets
+
 money.value.title = What is the total amount of money in the trust?
 money.value.heading = What is the total amount of money in the trust?
 money.value.checkYourAnswersLabel = What is the total amount of money in the trust?

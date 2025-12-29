@@ -17,19 +17,25 @@
 package controllers.asset.business
 
 import controllers.actions._
+import mapping.reads.BusinessAsset
 import models.Status.Completed
+import models.UserAnswers
 import models.requests.RegistrationDataRequest
 import pages.AssetStatus
-import pages.asset.business.BusinessNamePage
+import pages.asset.business.{BusinessAssetPage, BusinessNamePage}
 import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.libs.json.JsPath
 import play.api.mvc.{Action, ActionBuilder, AnyContent, MessagesControllerComponents}
 import repositories.RegistrationsRepository
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import utils.print.BusinessPrintHelper
+import viewmodels.{AssetViewModel, BusinessAssetViewModel}
 import views.html.asset.business.BusinessAnswersView
+import play.api.Logging
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.{Failure, Success}
 
 class BusinessAnswersController @Inject() (
   override val messagesApi: MessagesApi,
@@ -43,13 +49,30 @@ class BusinessAnswersController @Inject() (
   printHelper: BusinessPrintHelper
 )(implicit ec: ExecutionContext)
     extends FrontendBaseController
-    with I18nSupport {
+    with I18nSupport
+    with Logging {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen
       getData(draftId) andThen
       requireData andThen
       requiredAnswer(RequiredAnswer(BusinessNamePage(index), routes.BusinessNameController.onPageLoad(index, draftId)))
+
+  private def getExistingBusinessAssets(excludeIndex: Int, userAnswers: UserAnswers): Seq[BusinessAsset] = {
+    val allAssets: List[AssetViewModel] = userAnswers.get(sections.Assets).getOrElse(Nil)
+    allAssets.zipWithIndex.collect {
+      case (_: BusinessAssetViewModel, i) if i != excludeIndex =>
+        userAnswers.get(BusinessAssetPage(i))
+    }.flatten
+  }
+
+  private def isDuplicate(current: BusinessAsset, existingAssets: Seq[BusinessAsset]): Boolean =
+    existingAssets.exists { existing =>
+      existing.assetName.equalsIgnoreCase(current.assetName) &&
+      existing.assetDescription.equalsIgnoreCase(current.assetDescription) &&
+      existing.address == current.address &&
+      existing.currentValue == current.currentValue
+    }
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
     val name = request.userAnswers.get(BusinessNamePage(index)).get
@@ -65,12 +88,28 @@ class BusinessAnswersController @Inject() (
   }
 
   def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId).async { implicit request =>
-    val answers = request.userAnswers.set(AssetStatus(index), Completed)
+    val maybeCurrentAsset: Option[BusinessAsset] = request.userAnswers.get(BusinessAssetPage(index))
+    val existingAssets: Seq[BusinessAsset]       = getExistingBusinessAssets(excludeIndex = index, request.userAnswers)
 
-    for {
-      updatedAnswers <- Future.fromTry(answers)
-      _              <- registrationsRepository.set(updatedAnswers)
-    } yield Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId))
-
+    maybeCurrentAsset match {
+      case Some(current) if isDuplicate(current, existingAssets) =>
+        logger.info("duplicate business asset not added")
+        val removePath = JsPath \ "assets" \ index
+        request.userAnswers.deleteAtPath(removePath) match {
+          case Success(cleanedUA) =>
+            registrationsRepository
+              .set(cleanedUA)
+              .map(_ => Redirect(controllers.asset.routes.DuplicateAssetController.onPageLoad(draftId)))
+          case Failure(_)         =>
+            Future.successful(Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId)))
+        }
+      case Some(_)                                               =>
+        for {
+          updatedAnswers <- Future.fromTry(request.userAnswers.set(AssetStatus(index), Completed))
+          _              <- registrationsRepository.set(updatedAnswers)
+        } yield Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId))
+      case None                                                  =>
+        Future.successful(Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId)))
+    }
   }
 }

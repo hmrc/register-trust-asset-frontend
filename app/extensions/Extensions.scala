@@ -29,7 +29,6 @@ object Extensions {
     }
   }
 
-
   implicit class ListExtensions[T](list: List[T]) {
     def asSomeIf(condition: Boolean): Option[List[T]] = list match {
       case _ if !condition => None
