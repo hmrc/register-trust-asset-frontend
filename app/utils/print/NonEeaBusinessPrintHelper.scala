@@ -55,4 +55,5 @@ class NonEeaBusinessPrintHelper @Inject() (checkAnswersFormatters: CheckAnswersF
       )
     ).flatten
   }
+
 }

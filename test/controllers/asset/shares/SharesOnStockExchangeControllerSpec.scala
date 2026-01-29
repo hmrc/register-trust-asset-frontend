@@ -208,4 +208,5 @@ class SharesOnStockExchangeControllerSpec extends SpecBase with ModelGenerators 
       postForIndex
     )
   }
+
 }

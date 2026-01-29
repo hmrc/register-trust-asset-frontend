@@ -28,4 +28,5 @@ class SharePortfolioOnStockExchangePageSpec extends PageBehaviours {
 
     beRemovable[Boolean](SharePortfolioOnStockExchangePage(0))
   }
+
 }

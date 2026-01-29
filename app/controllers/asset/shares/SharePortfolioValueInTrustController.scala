@@ -17,7 +17,9 @@
 package controllers.asset.shares
 
 import config.annotations.Shares
-import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
+import controllers.actions.{
+  DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction
+}
 import controllers.filters.IndexActionFilterProvider
 import forms.ValueFormProvider
 import models.requests.RegistrationDataRequest
@@ -45,13 +47,12 @@ class SharePortfolioValueInTrustController @Inject() (
   view: SharePortfolioValueInTrustView,
   validateIndex: IndexActionFilterProvider
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   private val form = formProvider.withConfig(prefix = "shares.portfolioValueInTrust")
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
-    identify andThen getData(draftId) andThen
+    identify      andThen getData(draftId) andThen
       requireData andThen
       validateIndex(index, sections.Assets)
 
@@ -76,4 +77,5 @@ class SharePortfolioValueInTrustController @Inject() (
           } yield Redirect(navigator.nextPage(SharePortfolioValueInTrustPage(index), draftId)(updatedAnswers))
       )
   }
+
 }

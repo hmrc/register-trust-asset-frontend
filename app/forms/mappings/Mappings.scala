@@ -76,4 +76,5 @@ trait Mappings extends Formatters with Constraints {
         maxValueKey
       )
     )
+
 }

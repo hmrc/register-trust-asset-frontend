@@ -179,4 +179,5 @@ class ShareCompanyNameControllerSpec extends SpecBase with ModelGenerators with 
       postForIndex
     )
   }
+
 }

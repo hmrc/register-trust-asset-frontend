@@ -25,8 +25,7 @@ import java.time.format.DateTimeFormatter
 class DateBehaviours extends FieldBehaviours {
 
   def dateField(form: Form[_], key: String, validData: Gen[LocalDate]): Unit =
-    "bind valid data" in {
-
+    "bind valid data" in
       forAll(validData -> "valid date") { date =>
         val data = Map(
           s"$key.day"   -> date.getDayOfMonth.toString,
@@ -38,7 +37,6 @@ class DateBehaviours extends FieldBehaviours {
 
         result.value.value shouldEqual date
       }
-    }
 
   def dateFieldWithMax(form: Form[_], key: String, max: LocalDate, formError: FormError): Unit =
     s"fail to bind a date greater than ${max.format(DateTimeFormatter.ISO_LOCAL_DATE)}" in {
@@ -83,4 +81,5 @@ class DateBehaviours extends FieldBehaviours {
 
       result.errors should contain only FormError(key, requiredAllKey, errorArgs)
     }
+
 }

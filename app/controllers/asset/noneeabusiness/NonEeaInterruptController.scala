@@ -42,13 +42,12 @@ class NonEeaInterruptController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: NonEeaInterruptView,
   val countryOptions: CountryOptionsNonUK
-) extends FrontendBaseController
-    with I18nSupport {
+) extends FrontendBaseController with I18nSupport {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
-    identify andThen
+    identify           andThen
       getData(draftId) andThen
-      requireData andThen
+      requireData      andThen
       validateIndex(index, Assets)
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
@@ -62,4 +61,5 @@ class NonEeaInterruptController @Inject() (
       )
     )
   }
+
 }

@@ -33,11 +33,11 @@ class DuplicateAssetController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: DuplicateAssetView
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   def onPageLoad(draftId: String): Action[AnyContent] =
     (identify andThen getData(draftId) andThen requireData) { implicit request =>
       Ok(view(draftId))
     }
+
 }

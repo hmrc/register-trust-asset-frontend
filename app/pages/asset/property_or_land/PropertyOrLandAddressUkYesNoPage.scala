@@ -37,4 +37,5 @@ final case class PropertyOrLandAddressUkYesNoPage(index: Int) extends QuestionPa
         userAnswers.remove(PropertyOrLandUKAddressPage(index))
       case _           => super.cleanup(value, userAnswers)
     }
+
 }

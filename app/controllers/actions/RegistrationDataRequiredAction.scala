@@ -47,6 +47,7 @@ class RegistrationDataRequiredActionImpl @Inject() (implicit val executionContex
           )
         )
     }
+
 }
 
 trait RegistrationDataRequiredAction extends ActionRefiner[OptionalRegistrationDataRequest, RegistrationDataRequest]

@@ -146,4 +146,5 @@ class AssetMoneyValueControllerSpec extends SpecBase {
       application.stop()
     }
   }
+
 }

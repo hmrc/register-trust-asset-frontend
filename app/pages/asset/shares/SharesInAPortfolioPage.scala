@@ -51,6 +51,7 @@ final case class SharesInAPortfolioPage(index: Int) extends QuestionPage[Boolean
 
       case _ => super.cleanup(value, userAnswers)
     }
+
 }
 
 object SharesInAPortfolioPage {

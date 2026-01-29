@@ -103,4 +103,5 @@ class OtherAssetMapperSpec extends SpecBase with Matchers with OptionValues with
       otherAssetMapper.build(userAnswers).value.length mustBe 2
     }
   }
+
 }

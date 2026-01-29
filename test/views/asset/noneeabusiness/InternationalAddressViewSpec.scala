@@ -49,4 +49,5 @@ class InternationalAddressViewSpec extends InternationalAddressViewBehaviours {
 
     behave like pageWithASubmitButton(applyView(form))
   }
+
 }

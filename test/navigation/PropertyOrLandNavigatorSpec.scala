@@ -35,23 +35,21 @@ class PropertyOrLandNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks
 
       val page = PropertyOrLandAddressYesNoPage(index)
 
-      "user answers yes to go to PropertyOrLandAddressUkYesNoPage" in {
+      "user answers yes to go to PropertyOrLandAddressUkYesNoPage" in
         forAll(arbitrary[UserAnswers]) { userAnswers =>
           val answers = userAnswers.set(page, value = true).success.value
           navigator
             .nextPage(page, fakeDraftId)(answers)
             .mustBe(PropertyOrLandAddressUkYesNoController.onPageLoad(index, fakeDraftId))
         }
-      }
 
-      "user answers no to go to PropertyOrLandDescriptionPage" in {
+      "user answers no to go to PropertyOrLandDescriptionPage" in
         forAll(arbitrary[UserAnswers]) { userAnswers =>
           val answers = userAnswers.set(page, value = false).success.value
           navigator
             .nextPage(page, fakeDraftId)(answers)
             .mustBe(PropertyOrLandDescriptionController.onPageLoad(index, fakeDraftId))
         }
-      }
 
     }
 
@@ -59,23 +57,21 @@ class PropertyOrLandNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks
 
       val page = PropertyOrLandAddressUkYesNoPage(index)
 
-      "user answers yes to go to PropertyOrLandUKAddressPage" in {
+      "user answers yes to go to PropertyOrLandUKAddressPage" in
         forAll(arbitrary[UserAnswers]) { userAnswers =>
           val answers = userAnswers.set(page, value = true).success.value
           navigator
             .nextPage(page, fakeDraftId)(answers)
             .mustBe(PropertyOrLandUKAddressController.onPageLoad(index, fakeDraftId))
         }
-      }
 
-      "user answers no to go to PropertyOrLandInternationalAddressPage" in {
+      "user answers no to go to PropertyOrLandInternationalAddressPage" in
         forAll(arbitrary[UserAnswers]) { userAnswers =>
           val answers = userAnswers.set(page, value = false).success.value
           navigator
             .nextPage(page, fakeDraftId)(answers)
             .mustBe(PropertyOrLandInternationalAddressController.onPageLoad(index, fakeDraftId))
         }
-      }
     }
 
     "navigate to PropertyOrLandTotalValuePage" when {
@@ -130,14 +126,13 @@ class PropertyOrLandNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks
 
       val page = TrustOwnAllThePropertyOrLandPage(index)
 
-      "user answers yes to go to PropertyLandValueTrustPage" in {
+      "user answers yes to go to PropertyLandValueTrustPage" in
         forAll(arbitrary[UserAnswers]) { userAnswers =>
           val answers = userAnswers.set(page, value = false).success.value
           navigator
             .nextPage(page, fakeDraftId)(answers)
             .mustBe(PropertyLandValueTrustController.onPageLoad(index, fakeDraftId))
         }
-      }
 
     }
 

@@ -104,4 +104,5 @@ class PartnershipAssetMapperSpec extends SpecBase with Matchers with OptionValue
       partnershipAssetMapper.build(userAnswers).value.length mustBe 2
     }
   }
+
 }

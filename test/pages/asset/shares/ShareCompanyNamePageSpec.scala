@@ -28,4 +28,5 @@ class ShareCompanyNamePageSpec extends PageBehaviours {
 
     beRemovable[String](ShareCompanyNamePage(0))
   }
+
 }

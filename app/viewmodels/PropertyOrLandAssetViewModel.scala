@@ -52,4 +52,5 @@ object PropertyOrLandAssetViewModel extends AssetViewModelReads {
       (__ \ AssetStatus.key).readWithDefault[Status](InProgress))(PropertyOrLandAssetViewModel.apply _)
 
   }
+
 }

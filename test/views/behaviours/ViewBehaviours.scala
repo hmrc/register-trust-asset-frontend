@@ -128,4 +128,5 @@ trait ViewBehaviours extends ViewSpecBase {
       val doc = asDocument(view)
       assertRenderedById(doc, "submit")
     }
+
 }

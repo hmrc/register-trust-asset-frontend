@@ -175,4 +175,5 @@ class OtherAssetDescriptionControllerSpec extends SpecBase {
       application.stop()
     }
   }
+
 }

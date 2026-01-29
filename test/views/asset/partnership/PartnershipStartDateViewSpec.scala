@@ -45,4 +45,5 @@ class PartnershipStartDateViewSpec extends QuestionViewBehaviours[LocalDate] {
 
     behave like pageWithBackLink(applyView(form))
   }
+
 }

@@ -284,7 +284,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
             redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
             verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
-            uaCaptor.getValue.get(AddAnAssetYesNoPage).get mustBe true
+            uaCaptor.getValue.get(AddAnAssetYesNoPage).get                  mustBe true
             uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)).get mustBe NonEeaBusiness
 
             verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
@@ -316,7 +316,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
             redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
             verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
-            uaCaptor.getValue.get(AddAnAssetYesNoPage).get mustBe false
+            uaCaptor.getValue.get(AddAnAssetYesNoPage).get                  mustBe false
             uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)).get mustBe NonEeaBusiness
 
             verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(any(), any())
@@ -527,7 +527,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
             redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
             verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
-            uaCaptor.getValue.get(AddAssetsPage).get mustBe YesNow
+            uaCaptor.getValue.get(AddAssetsPage).get                        mustBe YesNow
             uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)).get mustBe NonEeaBusiness
 
             verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
@@ -1101,4 +1101,5 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
     }
   }
+
 }

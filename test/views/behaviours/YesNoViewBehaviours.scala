@@ -122,4 +122,5 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
       assertNotRenderedById(doc, "error-summary_header")
     }
   }
+
 }

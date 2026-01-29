@@ -28,4 +28,5 @@ class AssetMoneyValuePageSpec extends PageBehaviours {
 
     beRemovable[Long](AssetMoneyValuePage(0))
   }
+
 }

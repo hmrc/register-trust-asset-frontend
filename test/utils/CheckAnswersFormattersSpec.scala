@@ -130,4 +130,5 @@ class CheckAnswersFormattersSpec extends SpecBase {
       }
     }
   }
+
 }

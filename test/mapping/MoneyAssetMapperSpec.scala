@@ -88,4 +88,5 @@ class MoneyAssetMapperSpec extends SpecBase with Matchers with OptionValues with
       moneyAssetMapper.build(userAnswers).value.length mustBe 2
     }
   }
+
 }

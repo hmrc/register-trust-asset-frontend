@@ -64,4 +64,5 @@ class TaxableInfoViewSpec extends ViewBehaviours {
     behave like pageWithBackLink(applyView)
 
   }
+
 }

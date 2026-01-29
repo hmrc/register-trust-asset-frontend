@@ -225,4 +225,5 @@ class InternationalAddressControllerSpec extends SpecBase with IndexValidation {
     }
 
   }
+
 }

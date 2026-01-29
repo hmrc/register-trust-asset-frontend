@@ -251,4 +251,5 @@ class OtherAssetAnswersControllerSpec extends SpecBase {
       application.stop()
     }
   }
+
 }

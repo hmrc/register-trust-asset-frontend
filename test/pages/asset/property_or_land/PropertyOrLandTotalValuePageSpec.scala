@@ -28,4 +28,5 @@ class PropertyOrLandTotalValuePageSpec extends PageBehaviours {
 
     beRemovable[Long](PropertyOrLandTotalValuePage(0))
   }
+
 }

@@ -227,4 +227,5 @@ class BusinessInternationalAddressControllerSpec extends SpecBase with IndexVali
       )
     }
   }
+
 }

@@ -172,7 +172,7 @@ trait Formatters {
   ): Formatter[Long] =
     new Formatter[Long] {
 
-      private val baseFormatter                                          =
+      private val baseFormatter =
         longFormatter(s"$prefix.error.required", s"$prefix.error.wholeNumber", s"$prefix.error.invalid")
 
       override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Long] = {
@@ -183,6 +183,7 @@ trait Formatters {
           case _                                 => baseValue
         }
       }
-      override def unbind(key: String, value: Long): Map[String, String] = baseFormatter.unbind(key, value)
+      override def unbind(key: String, value: Long): Map[String, String]                      = baseFormatter.unbind(key, value)
     }
+
 }

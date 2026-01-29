@@ -47,4 +47,5 @@ class BusinessInternationalAddressViewSpec extends InternationalAddressViewBehav
 
     behave like pageWithASubmitButton(applyView(form))
   }
+
 }

@@ -48,15 +48,14 @@ class StartDateController @Inject() (
   view: StartDateView,
   submissionDraftConnector: SubmissionDraftConnector
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   private def messageKeyPrefix: String = "nonEeaBusiness.startDate"
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
-    identify andThen
-      getData(draftId) andThen
-      requireData andThen
+    identify                                andThen
+      getData(draftId)                      andThen
+      requireData                           andThen
       validateIndex(index, sections.Assets) andThen
       requiredAnswer(RequiredAnswer(NamePage(index), routes.NameController.onPageLoad(index, draftId)))
 
@@ -93,4 +92,5 @@ class StartDateController @Inject() (
         )
     }
   }
+
 }

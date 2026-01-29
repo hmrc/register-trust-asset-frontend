@@ -51,20 +51,18 @@ class PartnershipAnswerController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   printHelper: PartnershipPrintHelper
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport
-    with Logging {
+    extends FrontendBaseController with I18nSupport with Logging {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
-    identify andThen
+    identify           andThen
       getData(draftId) andThen
-      requireData andThen
+      requireData      andThen
       requiredAnswer(
         RequiredAnswer(
           PartnershipDescriptionPage(index),
           routes.PartnershipDescriptionController.onPageLoad(index, draftId)
         )
-      ) andThen
+      )                andThen
       requiredAnswer(
         RequiredAnswer(
           PartnershipStartDatePage(index),
@@ -121,4 +119,5 @@ class PartnershipAnswerController @Inject() (
         Future.successful(Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId)))
     }
   }
+
 }

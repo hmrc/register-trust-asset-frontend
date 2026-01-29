@@ -48,15 +48,14 @@ class BusinessUkAddressController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: BusinessUkAddressView
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   val form: Form[UKAddress] = formProvider()
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
-    identify andThen
-      getData(draftId) andThen
-      requireData andThen
+    identify                       andThen
+      getData(draftId)             andThen
+      requireData                  andThen
       validateIndex(index, Assets) andThen
       requiredAnswer(RequiredAnswer(BusinessNamePage(index), routes.BusinessNameController.onPageLoad(index, draftId)))
 
@@ -85,4 +84,5 @@ class BusinessUkAddressController @Inject() (
           } yield Redirect(navigator.nextPage(BusinessUkAddressPage(index), draftId)(updatedAnswers))
       )
   }
+
 }

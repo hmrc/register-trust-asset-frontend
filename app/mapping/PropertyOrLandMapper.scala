@@ -35,4 +35,5 @@ class PropertyOrLandMapper @Inject() (addressMapper: AddressMapper)
         x.propertyLandValueTrust.getOrElse(totalValue)
       )
     }
+
 }

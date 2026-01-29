@@ -82,4 +82,5 @@ object ViewUtils {
     pluralForms.getOrElse(Map.empty).map { case (k, v) =>
       Html(s"""data-i18n.$translationKey.${HtmlFormat.escape(k)}="${HtmlFormat.escape(v)}" """)
     }
+
 }

@@ -192,4 +192,5 @@ class PropertyOrLandUKAddressControllerSpec extends SpecBase with ModelGenerator
       postForIndex
     )
   }
+
 }

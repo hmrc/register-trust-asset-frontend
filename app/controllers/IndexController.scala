@@ -39,8 +39,7 @@ class IndexController @Inject() (
   submissionDraftConnector: SubmissionDraftConnector,
   trustsStoreService: TrustsStoreService
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   private def updateTaskStatus(draftId: String, userAnswers: UserAnswers)(implicit
     hc: HeaderCarrier,
@@ -76,4 +75,5 @@ class IndexController @Inject() (
                      }
     } yield result
   }
+
 }

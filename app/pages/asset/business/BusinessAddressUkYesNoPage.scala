@@ -39,4 +39,5 @@ final case class BusinessAddressUkYesNoPage(index: Int) extends QuestionPage[Boo
 
       case _ => super.cleanup(value, userAnswers)
     }
+
 }

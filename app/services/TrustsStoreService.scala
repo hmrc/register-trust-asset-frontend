@@ -30,4 +30,5 @@ class TrustsStoreService @Inject() (trustsStoreConnector: TrustsStoreConnector) 
     ec: ExecutionContext
   ): Future[HttpResponse] =
     trustsStoreConnector.updateTaskStatus(draftId, taskStatus)
+
 }

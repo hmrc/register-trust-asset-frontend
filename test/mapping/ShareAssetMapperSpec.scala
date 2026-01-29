@@ -235,4 +235,5 @@ class ShareAssetMapperSpec extends SpecBase with Matchers with OptionValues with
       }
     }
   }
+
 }

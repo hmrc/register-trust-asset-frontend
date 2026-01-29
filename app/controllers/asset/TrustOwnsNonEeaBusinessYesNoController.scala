@@ -17,7 +17,9 @@
 package controllers.asset
 
 import config.annotations.Asset
-import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
+import controllers.actions.{
+  DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction
+}
 import forms.YesNoFormProvider
 import models.TaskStatus
 import models.requests.RegistrationDataRequest
@@ -46,13 +48,12 @@ class TrustOwnsNonEeaBusinessYesNoController @Inject() (
   view: TrustOwnsNonEeaBusinessYesNoView,
   trustsStoreService: TrustsStoreService
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   val form: Form[Boolean] = yesNoFormProvider.withPrefix("trustOwnsNonEeaBusinessYesNo")
 
   private def actions(draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
-    identify andThen
+    identify           andThen
       getData(draftId) andThen
       requireData
 
@@ -79,4 +80,5 @@ class TrustOwnsNonEeaBusinessYesNoController @Inject() (
           } yield Redirect(navigator.nextPage(TrustOwnsNonEeaBusinessYesNoPage, draftId)(updatedAnswers))
       )
   }
+
 }

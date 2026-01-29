@@ -44,4 +44,5 @@ object ShareAssetViewModel extends AssetViewModelReads {
       (__ \ AssetStatus.key).readWithDefault[Status](InProgress))(ShareAssetViewModel.apply _)
 
   }
+
 }

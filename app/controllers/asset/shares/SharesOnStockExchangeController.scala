@@ -46,14 +46,13 @@ class SharesOnStockExchangeController @Inject() (
   requiredAnswer: RequiredAnswerActionProvider,
   validateIndex: IndexActionFilterProvider
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   val form: Form[Boolean] = formProvider.withPrefix("shares.onStockExchangeYesNo")
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
-    identify andThen getData(draftId) andThen
-      requireData andThen
+    identify                                andThen getData(draftId) andThen
+      requireData                           andThen
       validateIndex(index, sections.Assets) andThen
       requiredAnswer(
         RequiredAnswer(ShareCompanyNamePage(index), routes.ShareCompanyNameController.onPageLoad(index, draftId))
@@ -84,4 +83,5 @@ class SharesOnStockExchangeController @Inject() (
           } yield Redirect(navigator.nextPage(SharesOnStockExchangePage(index), draftId)(updatedAnswers))
       )
   }
+
 }

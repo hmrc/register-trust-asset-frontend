@@ -21,9 +21,11 @@ import play.api.i18n.Messages
 import viewmodels._
 
 sealed trait WhatKindOfAsset {
+
   implicit class AssetLabel(asset: WhatKindOfAsset) {
     def label(implicit messages: Messages): String = messages(s"$prefix.$asset")
   }
+
 }
 
 object WhatKindOfAsset extends Enumerable.Implicits {
@@ -62,4 +64,5 @@ object WhatKindOfAsset extends Enumerable.Implicits {
 
     options(assets.assetSizes.filter(meetsLimitConditions).map(_.kindOfAsset))
   }
+
 }

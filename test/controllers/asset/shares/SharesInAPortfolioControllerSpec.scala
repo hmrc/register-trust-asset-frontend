@@ -178,4 +178,5 @@ class SharesInAPortfolioControllerSpec extends SpecBase with ModelGenerators wit
       postForIndex
     )
   }
+
 }

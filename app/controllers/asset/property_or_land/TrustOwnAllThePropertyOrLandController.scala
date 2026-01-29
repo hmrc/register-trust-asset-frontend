@@ -17,7 +17,9 @@
 package controllers.asset.property_or_land
 
 import config.annotations.PropertyOrLand
-import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
+import controllers.actions.{
+  DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction
+}
 import controllers.filters.IndexActionFilterProvider
 import forms.YesNoFormProvider
 import navigation.Navigator
@@ -44,15 +46,14 @@ class TrustOwnAllThePropertyOrLandController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: TrustOwnAllThePropertyOrLandView
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   val form: Form[Boolean] = yesNoFormProvider.withPrefix("propertyOrLand.trustOwnAllYesNo")
 
   private def actions(index: Int, draftId: String) =
-    identify andThen
+    identify           andThen
       getData(draftId) andThen
-      requireData andThen
+      requireData      andThen
       validateIndex(index, sections.Assets)
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
@@ -76,4 +77,5 @@ class TrustOwnAllThePropertyOrLandController @Inject() (
           } yield Redirect(navigator.nextPage(TrustOwnAllThePropertyOrLandPage(index), draftId)(updatedAnswers))
       )
   }
+
 }

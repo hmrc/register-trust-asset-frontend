@@ -33,4 +33,5 @@ class NonEeaBusinessAssetMapper @Inject() (addressMapper: AddressMapper)
         startDate = x.startDate
       )
     )
+
 }

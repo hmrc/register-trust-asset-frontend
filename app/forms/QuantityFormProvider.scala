@@ -34,4 +34,5 @@ class QuantityFormProvider @Inject() (config: FrontendAppConfig) extends Mapping
         maxValueKey = s"$prefix.error.length"
       )
     )
+
 }

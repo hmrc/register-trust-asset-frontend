@@ -17,7 +17,9 @@
 package controllers.asset.business
 
 import config.annotations.Business
-import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
+import controllers.actions.{
+  DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction
+}
 import controllers.filters.IndexActionFilterProvider
 import forms.NameFormProvider
 import models.requests.RegistrationDataRequest
@@ -46,14 +48,13 @@ class BusinessNameController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: BusinessNameView
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   private val maxLength          = 105
   private val form: Form[String] = formProvider.withConfig(maxLength, "business.name")
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
-    identify andThen getData(draftId) andThen
+    identify      andThen getData(draftId) andThen
       requireData andThen
       validateIndex(index, Assets)
 
@@ -79,4 +80,5 @@ class BusinessNameController @Inject() (
           } yield Redirect(navigator.nextPage(BusinessNamePage(index), draftId)(updatedAnswers))
       )
   }
+
 }

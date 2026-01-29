@@ -87,4 +87,5 @@ class NonEeaBusinessNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks
       }
     }
   }
+
 }

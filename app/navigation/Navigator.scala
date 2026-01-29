@@ -37,4 +37,5 @@ trait Navigator {
     ua.get(fromPage)
       .map(if (_) yesCall else noCall)
       .getOrElse(controllers.routes.SessionExpiredController.onPageLoad)
+
 }

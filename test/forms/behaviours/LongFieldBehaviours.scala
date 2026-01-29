@@ -35,35 +35,29 @@ trait LongFieldBehaviours extends FieldBehaviours with FakeTrustsApp {
     val max: Long = maxValue.getOrElse(frontendAppConfig.assetValueUpperLimitExclusive)
     val min: Long = minValue.getOrElse(frontendAppConfig.assetValueLowerLimitExclusive)
 
-    "not bind non-numeric numbers" in {
-
+    "not bind non-numeric numbers" in
       forAll(nonNumerics -> "nonNumeric") { nonNumeric =>
         val result = form.bind(Map(fieldName -> nonNumeric)).apply(fieldName)
         result.errors shouldEqual Seq(nonNumericError)
       }
-    }
 
-    "not bind decimals" in {
+    "not bind decimals" in
       forAll(decimals -> "decimal") { decimal =>
         val result = form.bind(Map(fieldName -> decimal)).apply(fieldName)
         result.errors shouldEqual Seq(wholeNumberError)
       }
-    }
 
-    s"not bind numbers larger than or equal to $max" in {
-
+    s"not bind numbers larger than or equal to $max" in
       forAll(longsLargerThanOrEqualToMaxValue(max) -> "longsLargerThanOrEqualToMax") { num: Long =>
         val result = form.bind(Map(fieldName -> num.toString)).apply(fieldName)
         result.errors shouldEqual Seq(maxNumberError)
       }
-    }
 
-    s"not bind numbers less than or equal to $min" in {
-
+    s"not bind numbers less than or equal to $min" in
       forAll(longsLessThan1 -> "longsLessThan1") { number: Long =>
         val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
         result.errors shouldEqual Seq(minNumberError)
       }
-    }
   }
+
 }

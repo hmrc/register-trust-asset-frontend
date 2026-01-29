@@ -263,4 +263,5 @@ class WhatKindOfAssetControllerSpec extends SpecBase with IndexValidation {
       )
     }
   }
+
 }

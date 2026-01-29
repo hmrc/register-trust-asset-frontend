@@ -34,7 +34,7 @@ class BusinessAddressUkYesNoPageSpec extends PageBehaviours {
 
     "remove relevant data" when {
 
-      "set to true" in {
+      "set to true" in
         forAll(arbitrary[UserAnswers]) { initial =>
           val answers: UserAnswers = initial
             .set(page, false)
@@ -48,9 +48,8 @@ class BusinessAddressUkYesNoPageSpec extends PageBehaviours {
 
           result.get(BusinessInternationalAddressPage(0)) must not be defined
         }
-      }
 
-      "set to false" in {
+      "set to false" in
         forAll(arbitrary[UserAnswers]) { initial =>
           val answers: UserAnswers = initial
             .set(page, true)
@@ -64,12 +63,11 @@ class BusinessAddressUkYesNoPageSpec extends PageBehaviours {
 
           result.get(BusinessUkAddressPage(0)) must not be defined
         }
-      }
     }
 
     "keep relevant data" when {
 
-      "set to true and UK address already defined" in {
+      "set to true and UK address already defined" in
         forAll(arbitrary[UserAnswers]) { initial =>
           val answers: UserAnswers = initial
             .set(BusinessUkAddressPage(0), UKAddress("line 1", "line 2", None, None, "NE1 1NE"))
@@ -80,9 +78,8 @@ class BusinessAddressUkYesNoPageSpec extends PageBehaviours {
 
           result.get(BusinessUkAddressPage(0)) must be(defined)
         }
-      }
 
-      "set to false and international address already defined" in {
+      "set to false and international address already defined" in
         forAll(arbitrary[UserAnswers]) { initial =>
           val answers: UserAnswers = initial
             .set(BusinessInternationalAddressPage(0), InternationalAddress("line 1", "line 2", None, "France"))
@@ -93,7 +90,7 @@ class BusinessAddressUkYesNoPageSpec extends PageBehaviours {
 
           result.get(BusinessInternationalAddressPage(0)) must be(defined)
         }
-      }
     }
   }
+
 }

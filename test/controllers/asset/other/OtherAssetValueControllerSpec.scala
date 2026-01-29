@@ -181,4 +181,5 @@ class OtherAssetValueControllerSpec extends SpecBase {
       application.stop()
     }
   }
+
 }

@@ -34,4 +34,5 @@ class BusinessAnswersViewSpec extends ViewBehaviours {
 
     behave like pageWithBackLink(applyView)
   }
+
 }

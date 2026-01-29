@@ -50,15 +50,14 @@ class InternationalAddressController @Inject() (
   view: InternationalAddressView,
   val countryOptions: CountryOptionsNonUK
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   private val form: Form[InternationalAddress] = formProvider()
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
-    identify andThen
-      getData(draftId) andThen
-      requireData andThen
+    identify                       andThen
+      getData(draftId)             andThen
+      requireData                  andThen
       validateIndex(index, Assets) andThen
       requiredAnswer(RequiredAnswer(NamePage(index), routes.NameController.onPageLoad(index, draftId)))
 
@@ -88,4 +87,5 @@ class InternationalAddressController @Inject() (
           } yield Redirect(navigator.nextPage(InternationalAddressPage(index), draftId)(updatedAnswers))
       )
   }
+
 }

@@ -49,4 +49,5 @@ class OtherPrintHelper @Inject() (checkAnswersFormatters: CheckAnswersFormatters
       )
     ).flatten
   }
+
 }

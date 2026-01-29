@@ -34,7 +34,7 @@ class TrustOwnAllThePropertyOrLandPageSpec extends PageBehaviours {
 
       val page = TrustOwnAllThePropertyOrLandPage(0)
 
-      "set to true" in {
+      "set to true" in
         forAll(arbitrary[UserAnswers]) { initial =>
           val answers: UserAnswers = initial
             .set(page, false)
@@ -48,8 +48,8 @@ class TrustOwnAllThePropertyOrLandPageSpec extends PageBehaviours {
 
           result.get(PropertyLandValueTrustPage(0)) must not be defined
         }
-      }
 
     }
   }
+
 }

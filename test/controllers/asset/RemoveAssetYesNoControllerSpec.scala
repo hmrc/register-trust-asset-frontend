@@ -617,4 +617,5 @@ class RemoveAssetYesNoControllerSpec extends SpecBase {
       application.stop()
     }
   }
+
 }

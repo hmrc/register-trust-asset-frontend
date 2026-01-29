@@ -43,6 +43,7 @@ class LanguageSwitchControllerSpec extends SpecBase {
     new FrontendAppConfig(config, contactConfig, servicesConfig) {
       override lazy val languageTranslationEnabled: Boolean = languageToggleEnabled
     }
+
   "LanguageSwitch Controller" when {
 
     "language toggle enabled" when {
@@ -142,4 +143,5 @@ class LanguageSwitchControllerSpec extends SpecBase {
       }
     }
   }
+
 }

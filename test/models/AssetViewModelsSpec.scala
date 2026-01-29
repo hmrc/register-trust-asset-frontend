@@ -25,8 +25,10 @@ import viewmodels._
 class AssetViewModelsSpec extends SpecBase {
 
   val money: MoneyAssetViewModel                   = MoneyAssetViewModel(Money, None, InProgress)
+
   val propertyOrLand: PropertyOrLandAssetViewModel =
     PropertyOrLandAssetViewModel(PropertyOrLand, None, None, None, InProgress)
+
   val share: ShareAssetViewModel                   = ShareAssetViewModel(PropertyOrLand, None, InProgress)
   val business: BusinessAssetViewModel             = BusinessAssetViewModel(PropertyOrLand, None, InProgress)
   val partnership: PartnershipAssetViewModel       = PartnershipAssetViewModel(PropertyOrLand, None, InProgress)
@@ -108,4 +110,5 @@ class AssetViewModelsSpec extends SpecBase {
       }
     }
   }
+
 }

@@ -49,15 +49,14 @@ class BusinessValueController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: BusinessValueView
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   private val form: Form[Long] = formProvider.withConfig(prefix = "business.currentValue")
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
-    identify andThen
-      getData(draftId) andThen
-      requireData andThen
+    identify                       andThen
+      getData(draftId)             andThen
+      requireData                  andThen
       validateIndex(index, Assets) andThen
       requiredAnswer(RequiredAnswer(BusinessNamePage(index), routes.BusinessNameController.onPageLoad(index, draftId)))
 
@@ -92,4 +91,5 @@ class BusinessValueController @Inject() (
         }
       )
   }
+
 }

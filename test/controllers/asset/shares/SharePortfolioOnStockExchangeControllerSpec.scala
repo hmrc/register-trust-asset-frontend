@@ -181,4 +181,5 @@ class SharePortfolioOnStockExchangeControllerSpec extends SpecBase with ModelGen
       postForIndex
     )
   }
+
 }

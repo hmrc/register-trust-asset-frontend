@@ -51,4 +51,5 @@ class SessionTimeoutControllerSpec extends SpecBase {
       }
     }
   }
+
 }

@@ -24,8 +24,7 @@ import play.api.mvc.Results.Redirect
 import uk.gov.hmrc.auth.core.{AuthConnector, AuthorisationException, AuthorisedFunctions, NoActiveSession}
 
 class TrustsAuthorisedFunctions @Inject() (override val authConnector: AuthConnector, val config: FrontendAppConfig)
-    extends AuthorisedFunctions
-    with Logging {
+    extends AuthorisedFunctions with Logging {
 
   def recoverFromAuthorisation: PartialFunction[Throwable, Result] = {
     case _: NoActiveSession        => redirectToLogin
@@ -36,4 +35,5 @@ class TrustsAuthorisedFunctions @Inject() (override val authConnector: AuthConne
     logger.debug("Redirecting to Login")
     Redirect(config.loginUrl, Map("continue" -> Seq(config.loginContinueUrl), "origin" -> Seq(config.appName)))
   }
+
 }

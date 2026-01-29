@@ -43,4 +43,5 @@ class NonTaxableInfoViewSpec extends ViewBehaviours {
 
     behave like pageWithBackLink(applyView)
   }
+
 }

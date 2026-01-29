@@ -91,4 +91,5 @@ trait SpecBase
         bind[ViewUtils].toInstance(mockViewUtils)
       )
       .configure(defaultAppConfigurations)
+
 }

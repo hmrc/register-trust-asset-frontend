@@ -17,7 +17,9 @@
 package controllers.asset.partnership
 
 import config.annotations.Partnership
-import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
+import controllers.actions.{
+  DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction
+}
 import controllers.filters.IndexActionFilterProvider
 import forms.StartDateFormProvider
 import navigation.Navigator
@@ -44,15 +46,14 @@ class PartnershipStartDateController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: PartnershipStartDateView
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   private def form = formProvider.withConfig("partnership.startDate")
 
   private def actions(index: Int, draftId: String) =
-    identify andThen
+    identify           andThen
       getData(draftId) andThen
-      requireData andThen
+      requireData      andThen
       validateIndex(index, sections.Assets)
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
@@ -76,4 +77,5 @@ class PartnershipStartDateController @Inject() (
           } yield Redirect(navigator.nextPage(PartnershipStartDatePage(index), draftId)(updatedAnswers))
       )
   }
+
 }

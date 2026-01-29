@@ -47,9 +47,7 @@ class PropertyOrLandAnswerController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   printHelper: PropertyOrLandPrintHelper
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport
-    with Logging {
+    extends FrontendBaseController with I18nSupport with Logging {
 
   private def getExistingPropertyOrLandAssets(excludeIndex: Int, userAnswers: UserAnswers): Seq[PropertyOrLandAsset] = {
     val allAssets: List[AssetViewModel] = userAnswers.get(sections.Assets).getOrElse(Nil)
@@ -105,4 +103,5 @@ class PropertyOrLandAnswerController @Inject() (
       }
 
     }
+
 }

@@ -44,4 +44,5 @@ class MoneyPrintHelper @Inject() (checkAnswersFormatters: CheckAnswersFormatters
       )
     ).flatten
   }
+
 }

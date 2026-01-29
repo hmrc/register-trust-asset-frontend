@@ -38,4 +38,5 @@ class Module extends AbstractModule {
     bind(classOf[Navigator]).annotatedWith(classOf[Other]).to(classOf[OtherNavigator])
     bind(classOf[Navigator]).annotatedWith(classOf[NonEeaBusiness]).to(classOf[NonEeaBusinessNavigator])
   }
+
 }

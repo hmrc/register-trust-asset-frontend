@@ -96,4 +96,5 @@ class RegistrationRepositorySpec extends SpecBase with Matchers {
       }
     }
   }
+
 }

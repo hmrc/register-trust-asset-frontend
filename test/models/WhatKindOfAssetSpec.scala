@@ -226,4 +226,5 @@ class WhatKindOfAssetSpec extends SpecBase with ScalaCheckPropertyChecks {
       }
     }
   }
+
 }

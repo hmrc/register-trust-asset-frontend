@@ -17,7 +17,9 @@
 package controllers.asset
 
 import config.annotations.Asset
-import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
+import controllers.actions.{
+  DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction
+}
 import forms.{AddAssetsFormProvider, YesNoFormProvider}
 import models.AddAssets.NoComplete
 import models.Constants._
@@ -60,6 +62,7 @@ class AddAssetsController @Inject() (
 
   private def addAnotherForm(isTaxable: Boolean): Form[AddAssets] =
     addAnotherFormProvider.withPrefix(determinePrefix(isTaxable))
+
   private val yesNoForm: Form[Boolean]                            = yesNoFormProvider.withPrefix("addAnAssetYesNo")
 
   private def actions(draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
@@ -191,4 +194,5 @@ class AddAssetsController @Inject() (
       _              <- setTaskStatus(draftId, updatedAnswers, NoComplete)
     } yield Redirect(navigator.nextPage(AddAssetsPage, draftId)(updatedAnswers))
   }
+
 }

@@ -43,4 +43,5 @@ class BusinessDescriptionViewSpec extends StringViewBehaviours {
 
     behave like pageWithASubmitButton(applyView(form))
   }
+
 }

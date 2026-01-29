@@ -44,4 +44,5 @@ class PropertyLandValueTrustViewSpec extends LongViewBehaviours {
 
     behave like pageWithASubmitButton(applyView(form))
   }
+
 }

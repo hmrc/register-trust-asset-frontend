@@ -38,4 +38,5 @@ abstract class Mapping[T <: AssetType, A <: Asset: ClassTag] {
       case x: A if runtimeClass.isInstance(x) => x
     }
   }
+
 }

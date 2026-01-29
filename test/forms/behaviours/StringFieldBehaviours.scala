@@ -33,13 +33,11 @@ trait StringFieldBehaviours extends FieldBehaviours with OptionalFieldBehaviours
     }
 
   def fieldWithMaxLength(form: Form[_], fieldName: String, maxLength: Int, lengthError: FormError): Unit =
-    s"not bind strings longer than $maxLength characters" in {
-
+    s"not bind strings longer than $maxLength characters" in
       forAll(stringsLongerThan(maxLength) -> "longString") { string =>
         val result = form.bind(Map(fieldName -> string)).apply(fieldName)
         result.errors shouldEqual Seq(lengthError)
       }
-    }
 
   def fieldWithRegexpWithGenerator(
     form: Form[_],
@@ -48,14 +46,13 @@ trait StringFieldBehaviours extends FieldBehaviours with OptionalFieldBehaviours
     generator: Gen[String],
     error: FormError
   ): Unit =
-    s"not bind strings which do not match $regexp" in {
+    s"not bind strings which do not match $regexp" in
       forAll(generator) { string =>
         whenever(!string.matches(regexp) && string.nonEmpty) {
           val result = form.bind(Map(fieldName -> string)).apply(fieldName)
           result.errors shouldEqual Seq(error)
         }
       }
-    }
 
   def nonEmptyField(form: Form[_], fieldName: String, requiredError: FormError): Unit =
     "not bind spaces" in {
@@ -71,8 +68,7 @@ trait StringFieldBehaviours extends FieldBehaviours with OptionalFieldBehaviours
     lengthError: FormError,
     invalidError: FormError
   ): Unit =
-    s"check for max length and invalid for generated $maxLength chars" in {
-
+    s"check for max length and invalid for generated $maxLength chars" in
       forAll(stringsLongerThan(maxLength) -> "longString") { string =>
         val result = form.bind(Map(fieldName -> string)).apply(fieldName)
         if (result.errors.size > 1) {
@@ -81,6 +77,5 @@ trait StringFieldBehaviours extends FieldBehaviours with OptionalFieldBehaviours
           result.errors should contain oneOf (lengthError, invalidError)
         }
       }
-    }
 
 }

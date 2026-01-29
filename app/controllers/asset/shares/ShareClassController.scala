@@ -47,15 +47,13 @@ class ShareClassController @Inject() (
   validateIndex: IndexActionFilterProvider,
   requiredAnswer: RequiredAnswerActionProvider
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport
-    with Enumerable.Implicits {
+    extends FrontendBaseController with I18nSupport with Enumerable.Implicits {
 
   private val form = formProvider()
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
-    identify andThen getData(draftId) andThen
-      requireData andThen
+    identify                                andThen getData(draftId) andThen
+      requireData                           andThen
       validateIndex(index, sections.Assets) andThen
       requiredAnswer(
         RequiredAnswer(
@@ -89,4 +87,5 @@ class ShareClassController @Inject() (
           } yield Redirect(navigator.nextPage(ShareClassPage(index), draftId)(updatedAnswers))
       )
   }
+
 }

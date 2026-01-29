@@ -108,15 +108,16 @@ class OtherAnswersHelperSpec extends SpecBase {
 
         result.size mustBe 2
 
-        result.head.headingKey mustBe Some("answerPage.section.otherAsset.subheading")
+        result.head.headingKey                                 mustBe Some("answerPage.section.otherAsset.subheading")
         result.head.rows.map(_.answer).contains(Html("Other")) mustBe true
         result.head.rows.map(_.labelArg).contains(description) mustBe true
-        result.head.headingArgs mustBe Seq(1)
-        result(1).headingKey mustBe Some("answerPage.section.otherAsset.subheading")
-        result(1).rows.map(_.answer).contains(Html("Other")) mustBe true
-        result(1).rows.map(_.labelArg).contains(description) mustBe true
-        result(1).headingArgs mustBe Seq(2)
+        result.head.headingArgs                                mustBe Seq(1)
+        result(1).headingKey                                   mustBe Some("answerPage.section.otherAsset.subheading")
+        result(1).rows.map(_.answer).contains(Html("Other"))   mustBe true
+        result(1).rows.map(_.labelArg).contains(description)   mustBe true
+        result(1).headingArgs                                  mustBe Seq(2)
       }
     }
   }
+
 }

@@ -24,7 +24,9 @@ import models.UserAnswers
 import models.requests.RegistrationDataRequest
 import navigation.Navigator
 import pages.AssetStatus
-import pages.asset.shares.{ShareAnswerPage, ShareAssetPage, ShareCompanyNamePage, SharePortfolioNamePage, SharesInAPortfolioPage}
+import pages.asset.shares.{
+  ShareAnswerPage, ShareAssetPage, ShareCompanyNamePage, SharePortfolioNamePage, SharesInAPortfolioPage
+}
 import play.api.Logging
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.json.JsPath
@@ -52,14 +54,12 @@ class ShareAnswerController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   printHelper: SharesPrintHelper
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport
-    with Logging {
+    extends FrontendBaseController with I18nSupport with Logging {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
-    identify andThen
+    identify           andThen
       getData(draftId) andThen
-      requireData andThen
+      requireData      andThen
       requiredAnswer(
         RequiredAnswer(SharesInAPortfolioPage(index), routes.SharesInAPortfolioController.onPageLoad(index, draftId))
       )
@@ -135,4 +135,5 @@ class ShareAnswerController @Inject() (
         Future.successful(Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId)))
     }
   }
+
 }

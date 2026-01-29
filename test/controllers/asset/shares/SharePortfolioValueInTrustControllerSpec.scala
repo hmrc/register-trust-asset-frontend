@@ -183,4 +183,5 @@ class SharePortfolioValueInTrustControllerSpec extends SpecBase with ModelGenera
       postForIndex
     )
   }
+
 }

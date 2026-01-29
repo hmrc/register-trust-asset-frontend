@@ -176,4 +176,5 @@ class BusinessValueControllerSpec extends SpecBase {
       application.stop()
     }
   }
+
 }

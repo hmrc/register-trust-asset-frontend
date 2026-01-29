@@ -93,4 +93,5 @@ class SubmissionSetFactory @Inject() (
 
   private def convertForSubmission(row: AnswerRow): RegistrationSubmission.AnswerRow =
     RegistrationSubmission.AnswerRow(row.label, row.answer.toString, row.labelArg)
+
 }

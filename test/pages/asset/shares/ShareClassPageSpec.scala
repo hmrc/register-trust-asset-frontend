@@ -29,4 +29,5 @@ class ShareClassPageSpec extends PageBehaviours {
 
     beRemovable[ShareClass](ShareClassPage(0))
   }
+
 }

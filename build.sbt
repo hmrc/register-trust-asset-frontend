@@ -8,7 +8,7 @@ ThisBuild / majorVersion := 0
 
 lazy val root = (project in file("."))
   .enablePlugins(PlayScala, SbtDistributablesPlugin, SbtSassify)
-  .disablePlugins(JUnitXmlReportPlugin) //Required to prevent https://github.com/scalatest/scalatest/issues/1427
+  .disablePlugins(JUnitXmlReportPlugin) // Required to prevent https://github.com/scalatest/scalatest/issues/1427
   .settings(CodeCoverageSettings())
   .settings(
     name := "register-trust-asset-frontend",

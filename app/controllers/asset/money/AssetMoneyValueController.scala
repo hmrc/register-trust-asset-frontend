@@ -17,7 +17,9 @@
 package controllers.asset.money
 
 import config.annotations.Money
-import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
+import controllers.actions.{
+  DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction
+}
 import forms.ValueFormProvider
 import models.Status.Completed
 import models.requests.RegistrationDataRequest
@@ -45,8 +47,7 @@ class AssetMoneyValueController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: AssetMoneyValueView
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   private def actions(draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen getData(draftId) andThen requireData
@@ -80,4 +81,5 @@ class AssetMoneyValueController @Inject() (
         }
       )
   }
+
 }

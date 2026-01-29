@@ -34,4 +34,5 @@ final case class TrustOwnAllThePropertyOrLandPage(index: Int) extends QuestionPa
       case Some(true) => userAnswers.remove(PropertyLandValueTrustPage(index))
       case _          => super.cleanup(value, userAnswers)
     }
+
 }
