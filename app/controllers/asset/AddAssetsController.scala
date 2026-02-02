@@ -63,7 +63,7 @@ class AddAssetsController @Inject() (
   private def addAnotherForm(isTaxable: Boolean): Form[AddAssets] =
     addAnotherFormProvider.withPrefix(determinePrefix(isTaxable))
 
-  private val yesNoForm: Form[Boolean]                            = yesNoFormProvider.withPrefix("addAnAssetYesNo")
+  private val yesNoForm: Form[Boolean] = yesNoFormProvider.withPrefix("addAnAssetYesNo")
 
   private def actions(draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen getData(draftId) andThen requireData
