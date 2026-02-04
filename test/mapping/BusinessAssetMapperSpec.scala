@@ -194,4 +194,5 @@ class BusinessAssetMapperSpec extends SpecBase with Matchers with OptionValues w
       businessAssetMapper.build(userAnswers).value.length mustBe 2
     }
   }
+
 }

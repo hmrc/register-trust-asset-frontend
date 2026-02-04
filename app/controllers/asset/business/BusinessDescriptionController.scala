@@ -47,15 +47,14 @@ class BusinessDescriptionController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: BusinessDescriptionView
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   private val maxLength          = 56
   private val form: Form[String] = formProvider.withConfig(length = maxLength, prefix = "business.description")
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
-    identify andThen getData(draftId) andThen
-      requireData andThen
+    identify                       andThen getData(draftId) andThen
+      requireData                  andThen
       validateIndex(index, Assets) andThen
       requiredAnswer(RequiredAnswer(BusinessNamePage(index), routes.BusinessNameController.onPageLoad(index, draftId)))
 
@@ -86,4 +85,5 @@ class BusinessDescriptionController @Inject() (
           } yield Redirect(navigator.nextPage(BusinessDescriptionPage(index), draftId)(updatedAnswers))
       )
   }
+
 }

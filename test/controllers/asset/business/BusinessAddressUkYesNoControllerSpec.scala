@@ -206,4 +206,5 @@ class BusinessAddressUkYesNoControllerSpec extends SpecBase with IndexValidation
       )
     }
   }
+
 }

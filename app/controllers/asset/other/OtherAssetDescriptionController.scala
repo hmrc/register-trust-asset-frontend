@@ -45,8 +45,7 @@ class OtherAssetDescriptionController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: OtherAssetDescriptionView
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen getData(draftId) andThen requireData andThen
@@ -85,4 +84,5 @@ class OtherAssetDescriptionController @Inject() (
         }
       )
   }
+
 }

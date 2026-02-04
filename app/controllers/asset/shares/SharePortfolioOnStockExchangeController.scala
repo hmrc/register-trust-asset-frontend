@@ -17,7 +17,9 @@
 package controllers.asset.shares
 
 import config.annotations.Shares
-import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
+import controllers.actions.{
+  DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction
+}
 import controllers.filters.IndexActionFilterProvider
 import forms.YesNoFormProvider
 import navigation.Navigator
@@ -44,13 +46,12 @@ class SharePortfolioOnStockExchangeController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: SharePortfolioOnStockExchangeView
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   val form: Form[Boolean] = yesNoFormProvider.withPrefix("shares.portfolioOnStockExchangeYesNo")
 
   private def actions(index: Int, draftId: String) =
-    identify andThen getData(draftId) andThen
+    identify      andThen getData(draftId) andThen
       requireData andThen
       validateIndex(index, sections.Assets)
 
@@ -75,4 +76,5 @@ class SharePortfolioOnStockExchangeController @Inject() (
           } yield Redirect(navigator.nextPage(SharePortfolioOnStockExchangePage(index), draftId)(updatedAnswers))
       )
   }
+
 }

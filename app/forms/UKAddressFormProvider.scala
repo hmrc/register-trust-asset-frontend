@@ -78,4 +78,5 @@ class UKAddressFormProvider @Inject() extends Mappings {
           )
     )(UKAddress.apply)(UKAddress.unapply)
   )
+
 }

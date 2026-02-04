@@ -17,7 +17,9 @@
 package controllers.asset.shares
 
 import config.annotations.Shares
-import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
+import controllers.actions.{
+  DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction
+}
 import controllers.filters.IndexActionFilterProvider
 import forms.NameFormProvider
 import navigation.Navigator
@@ -44,14 +46,13 @@ class SharePortfolioNameController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: SharePortfolioNameView
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   private val maxLength = 53
   private val form      = formProvider.withConfig(maxLength, "shares.portfolioName")
 
   private def actions(index: Int, draftId: String) =
-    identify andThen getData(draftId) andThen
+    identify      andThen getData(draftId) andThen
       requireData andThen
       validateIndex(index, sections.Assets)
 
@@ -76,4 +77,5 @@ class SharePortfolioNameController @Inject() (
           } yield Redirect(navigator.nextPage(SharePortfolioNamePage(index), draftId)(updatedAnswers))
       )
   }
+
 }

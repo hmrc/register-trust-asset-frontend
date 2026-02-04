@@ -362,4 +362,5 @@ class AssetReadsSpec extends AnyFreeSpec with Matchers {
       }
     }
   }
+
 }

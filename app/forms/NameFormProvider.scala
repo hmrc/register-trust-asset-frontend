@@ -31,4 +31,5 @@ class NameFormProvider @Inject() extends Mappings {
           regexp(Validation.nameRegex, s"$prefix.error.invalid")
         )
     )
+
 }

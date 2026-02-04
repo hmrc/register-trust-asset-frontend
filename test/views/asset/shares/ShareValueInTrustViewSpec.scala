@@ -50,4 +50,5 @@ class ShareValueInTrustViewSpec extends LongViewBehaviours {
     behave like pageWithASubmitButton(applyView(form))
 
   }
+
 }

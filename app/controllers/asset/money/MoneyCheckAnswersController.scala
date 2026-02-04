@@ -35,11 +35,10 @@ class MoneyCheckAnswersController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: MoneyAnswersView,
   printHelper: MoneyPrintHelper
-) extends FrontendBaseController
-    with I18nSupport {
+) extends FrontendBaseController with I18nSupport {
 
   private def actions(draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
-    identify andThen
+    identify           andThen
       getData(draftId) andThen
       requireData
 
@@ -56,4 +55,5 @@ class MoneyCheckAnswersController @Inject() (
   def onSubmit(index: Int, draftId: String): Action[AnyContent] = actions(draftId).async { implicit request =>
     Future.successful(Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId)))
   }
+
 }

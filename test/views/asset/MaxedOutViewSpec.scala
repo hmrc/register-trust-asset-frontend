@@ -96,4 +96,5 @@ class MaxedOutViewSpec extends OptionsViewBehaviours with TabularDataViewBehavio
       }
     }
   }
+
 }

@@ -23,4 +23,5 @@ class OtherAssetMapper extends Mapping[OtherAssetType, OtherAsset] {
 
   override def mapAssets(assets: List[OtherAsset]): List[OtherAssetType] =
     assets.map(x => OtherAssetType(x.description, x.value))
+
 }

@@ -17,7 +17,9 @@
 package controllers.asset.property_or_land
 
 import config.annotations.PropertyOrLand
-import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
+import controllers.actions.{
+  DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction
+}
 import controllers.filters.IndexActionFilterProvider
 import forms.ValueFormProvider
 import models.requests.RegistrationDataRequest
@@ -45,13 +47,12 @@ class PropertyOrLandTotalValueController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: PropertyOrLandTotalValueView
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
-    identify andThen
+    identify           andThen
       getData(draftId) andThen
-      requireData andThen
+      requireData      andThen
       validateIndex(index, sections.Assets)
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
@@ -85,4 +86,5 @@ class PropertyOrLandTotalValueController @Inject() (
       prefix = "propertyOrLand.totalValue",
       minValue = request.userAnswers.get(PropertyLandValueTrustPage(index))
     )
+
 }

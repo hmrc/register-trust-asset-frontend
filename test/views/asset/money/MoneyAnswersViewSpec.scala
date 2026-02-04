@@ -34,4 +34,5 @@ class MoneyAnswersViewSpec extends ViewBehaviours {
 
     behave like pageWithBackLink(applyView)
   }
+
 }

@@ -32,7 +32,7 @@ class TrustsStoreServiceSpec extends SpecBase {
 
   private val trustsStoreService = new TrustsStoreService(mockConnector)
 
-  private implicit val hc: HeaderCarrier = HeaderCarrier()
+  implicit private val hc: HeaderCarrier = HeaderCarrier()
 
   ".updateTaskStatus" must {
     "call trusts store connector" in {
@@ -48,4 +48,5 @@ class TrustsStoreServiceSpec extends SpecBase {
       }
     }
   }
+
 }

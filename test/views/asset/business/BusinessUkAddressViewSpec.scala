@@ -46,4 +46,5 @@ class BusinessUkAddressViewSpec extends UkAddressViewBehaviours {
     behave like pageWithASubmitButton(applyView(form))
 
   }
+
 }

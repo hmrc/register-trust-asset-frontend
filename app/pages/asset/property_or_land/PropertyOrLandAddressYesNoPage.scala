@@ -41,6 +41,7 @@ final case class PropertyOrLandAddressYesNoPage(index: Int) extends QuestionPage
         userAnswers.remove(PropertyOrLandDescriptionPage(index))
       case _           => super.cleanup(value, userAnswers)
     }
+
 }
 
 object PropertyOrLandAddressYesNoPage {

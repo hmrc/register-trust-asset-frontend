@@ -17,7 +17,9 @@
 package controllers.asset.noneeabusiness
 
 import config.annotations.NonEeaBusiness
-import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
+import controllers.actions.{
+  DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction
+}
 import controllers.filters.IndexActionFilterProvider
 import forms.NameFormProvider
 import models.requests.RegistrationDataRequest
@@ -46,14 +48,13 @@ class NameController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: NameView
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   private val maxLength          = 105
   private val form: Form[String] = formProvider.withConfig(maxLength, "nonEeaBusiness.name")
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
-    identify andThen getData(draftId) andThen
+    identify      andThen getData(draftId) andThen
       requireData andThen
       validateIndex(index, Assets)
 
@@ -78,4 +79,5 @@ class NameController @Inject() (
           } yield Redirect(navigator.nextPage(NamePage(index), draftId)(updatedAnswers))
       )
   }
+
 }

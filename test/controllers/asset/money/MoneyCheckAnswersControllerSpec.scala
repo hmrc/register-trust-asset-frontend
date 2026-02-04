@@ -101,4 +101,5 @@ class MoneyCheckAnswersControllerSpec extends SpecBase {
     }
 
   }
+
 }

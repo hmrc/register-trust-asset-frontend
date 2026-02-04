@@ -30,4 +30,5 @@ class ShareAssetMapper extends Mapping[SharesType, ShareAsset] {
       case _                         =>
         None
     }
+
 }

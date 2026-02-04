@@ -48,7 +48,7 @@ trait ViewSpecBase extends SpecBase {
 
     if (elements.isEmpty) throw new IllegalArgumentException(s"CSS Selector $cssSelector wasn't rendered.")
 
-    //<p> HTML elements are rendered out with a carriage return on some pages, so discount for comparison
+    // <p> HTML elements are rendered out with a carriage return on some pages, so discount for comparison
     assert(elements.first().html().replace("\n", "") == expectedValue)
   }
 
@@ -112,7 +112,7 @@ trait ViewSpecBase extends SpecBase {
   def assertContainsMessages(doc: Document, expectedMessageKeys: String*): Unit =
     for (key <- expectedMessageKeys) assertContainsText(doc, messages(key))
 
-  def assertRenderedById(doc: Document, id: String): Assertion                  =
+  def assertRenderedById(doc: Document, id: String): Assertion =
     assert(doc.getElementById(id) != null, "\n\nElement " + id + " was not rendered on the page.\n")
 
   def assertNotRenderedById(doc: Document, id: String): Assertion =
@@ -174,4 +174,5 @@ trait ViewSpecBase extends SpecBase {
       case _    => assert(!radio.hasAttr("checked"), s"\n\nElement $id is checked")
     }
   }
+
 }

@@ -25,9 +25,7 @@ import views.behaviours.{OptionsViewBehaviours, QuestionViewBehaviours, TabularD
 import views.html.asset.AddAssetsView
 
 class AddAssetsViewSpec
-    extends OptionsViewBehaviours
-    with TabularDataViewBehaviours
-    with QuestionViewBehaviours[AddAssets] {
+    extends OptionsViewBehaviours with TabularDataViewBehaviours with QuestionViewBehaviours[AddAssets] {
 
   private val view: AddAssetsView = viewFor[AddAssetsView](Some(emptyUserAnswers))
 
@@ -266,4 +264,5 @@ class AddAssetsViewSpec
     }
 
   }
+
 }

@@ -26,7 +26,9 @@ import models.{AddAssets, UserAnswers}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import pages.AssetStatus
-import pages.asset.{AddAnAssetYesNoPage, AddAssetsPage, AssetInterruptPage, TrustOwnsNonEeaBusinessYesNoPage, WhatKindOfAssetPage}
+import pages.asset.{
+  AddAnAssetYesNoPage, AddAssetsPage, AssetInterruptPage, TrustOwnsNonEeaBusinessYesNoPage, WhatKindOfAssetPage
+}
 import play.api.mvc.Call
 import uk.gov.hmrc.http.HttpVerbs.GET
 
@@ -71,12 +73,10 @@ class AssetNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
 
         val baseAnswers = emptyUserAnswers.copy(isTaxable = true)
 
-        "redirect to WhatKindOfAssetPage" in {
-
+        "redirect to WhatKindOfAssetPage" in
           navigator
             .nextPage(AssetInterruptPage, fakeDraftId)(baseAnswers)
             .mustBe(controllers.asset.routes.WhatKindOfAssetController.onPageLoad(index, fakeDraftId))
-        }
       }
 
       "non-taxable" must {
@@ -503,8 +503,7 @@ class AssetNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
 
     "what kind of asset page" when {
 
-      "go to AssetMoneyValuePage when money is selected" in {
-
+      "go to AssetMoneyValuePage when money is selected" in
         forAll(arbitrary[UserAnswers]) { userAnswers =>
           val answers = userAnswers.set(WhatKindOfAssetPage(index), Money).success.value
 
@@ -512,10 +511,8 @@ class AssetNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
             .nextPage(WhatKindOfAssetPage(index), fakeDraftId)(answers)
             .mustBe(money.routes.AssetMoneyValueController.onPageLoad(index, fakeDraftId))
         }
-      }
 
-      "go to PropertyOrLandAddressYesNoController when PropertyOrLand is selected" in {
-
+      "go to PropertyOrLandAddressYesNoController when PropertyOrLand is selected" in
         forAll(arbitrary[UserAnswers]) { userAnswers =>
           val answers = userAnswers.set(WhatKindOfAssetPage(index), PropertyOrLand).success.value
 
@@ -523,10 +520,8 @@ class AssetNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
             .nextPage(WhatKindOfAssetPage(index), fakeDraftId)(answers)
             .mustBe(property_or_land.routes.PropertyOrLandAddressYesNoController.onPageLoad(index, fakeDraftId))
         }
-      }
 
-      "go to SharesInAPortfolio from WhatKindOfAsset when Shares is selected" in {
-
+      "go to SharesInAPortfolio from WhatKindOfAsset when Shares is selected" in
         forAll(arbitrary[UserAnswers]) { userAnswers =>
           val answers = userAnswers.set(WhatKindOfAssetPage(index), Shares).success.value
 
@@ -534,10 +529,8 @@ class AssetNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
             .nextPage(WhatKindOfAssetPage(index), fakeDraftId)(answers)
             .mustBe(shares.routes.SharesInAPortfolioController.onPageLoad(index, fakeDraftId))
         }
-      }
 
-      "go to business asset name from WhatKindOfAsset when Business is selected" in {
-
+      "go to business asset name from WhatKindOfAsset when Business is selected" in
         forAll(arbitrary[UserAnswers]) { userAnswers =>
           val answers = userAnswers.set(WhatKindOfAssetPage(index), Business).success.value
 
@@ -545,10 +538,8 @@ class AssetNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
             .nextPage(WhatKindOfAssetPage(index), fakeDraftId)(answers)
             .mustBe(business.routes.BusinessNameController.onPageLoad(index, fakeDraftId))
         }
-      }
 
-      "go to partnership asset description from WhatKindOfAsset when Partnership is selected" in {
-
+      "go to partnership asset description from WhatKindOfAsset when Partnership is selected" in
         forAll(arbitrary[UserAnswers]) { userAnswers =>
           val answers = userAnswers.set(WhatKindOfAssetPage(index), Partnership).success.value
 
@@ -556,10 +547,8 @@ class AssetNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
             .nextPage(WhatKindOfAssetPage(index), fakeDraftId)(answers)
             .mustBe(partnership.routes.PartnershipDescriptionController.onPageLoad(index, fakeDraftId))
         }
-      }
 
-      "go to other asset description when Other is selected" in {
-
+      "go to other asset description when Other is selected" in
         forAll(arbitrary[UserAnswers]) { userAnswers =>
           val answers = userAnswers.set(WhatKindOfAssetPage(index), Other).success.value
 
@@ -567,10 +556,8 @@ class AssetNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
             .nextPage(WhatKindOfAssetPage(index), fakeDraftId)(answers)
             .mustBe(other.routes.OtherAssetDescriptionController.onPageLoad(index, fakeDraftId))
         }
-      }
 
-      "go to non-EEA business interupt page when NonEeaBusiness is selected" in {
-
+      "go to non-EEA business interupt page when NonEeaBusiness is selected" in
         forAll(arbitrary[UserAnswers]) { userAnswers =>
           val answers = userAnswers.set(WhatKindOfAssetPage(index), NonEeaBusiness).success.value
 
@@ -578,7 +565,7 @@ class AssetNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
             .nextPage(WhatKindOfAssetPage(index), fakeDraftId)(answers)
             .mustBe(noneeabusiness.routes.NonEeaInterruptController.onPageLoad(index, fakeDraftId))
         }
-      }
     }
   }
+
 }

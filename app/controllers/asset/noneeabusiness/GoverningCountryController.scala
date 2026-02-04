@@ -49,15 +49,14 @@ class GoverningCountryController @Inject() (
   view: GoverningCountryView,
   countryOptions: CountryOptions
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   private val form: Form[String] = countryFormProvider.withPrefix("nonEeaBusiness.governingCountry")
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
-    identify andThen
-      getData(draftId) andThen
-      requireData andThen
+    identify                       andThen
+      getData(draftId)             andThen
+      requireData                  andThen
       validateIndex(index, Assets) andThen
       requiredAnswer(RequiredAnswer(NamePage(index), routes.NameController.onPageLoad(index, draftId)))
 
@@ -87,4 +86,5 @@ class GoverningCountryController @Inject() (
           } yield Redirect(navigator.nextPage(GoverningCountryPage(index), draftId)(updatedAnswers))
       )
   }
+
 }

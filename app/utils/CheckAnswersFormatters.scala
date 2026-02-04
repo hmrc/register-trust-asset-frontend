@@ -69,6 +69,7 @@ class CheckAnswersFormatters @Inject() (languageUtils: LanguageUtils, countryOpt
 
   private def breakLines(lines: Seq[Html]): Html =
     Html(lines.mkString("<br />"))
+
 }
 
 object CheckAnswersFormatters {
@@ -86,4 +87,5 @@ object CheckAnswersFormatters {
 
   def formatEnum[T](key: String, answer: T)(implicit messages: Messages): Html =
     escape(messages(s"$key.$answer"))
+
 }

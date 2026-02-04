@@ -48,4 +48,5 @@ class QuantityFormProviderSpec extends LongFieldBehaviours {
       requiredError = FormError(fieldName, requiredKey)
     )
   }
+
 }

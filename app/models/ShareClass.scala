@@ -52,7 +52,7 @@ object ShareClass extends Enumerable.Implicits {
   implicit val enumerable: Enumerable[ShareClass] =
     Enumerable(allValues.map(v => v.toString -> v): _*)
 
-  def toDES(value: ShareClass): String            = value match {
+  def toDES(value: ShareClass): String = value match {
     case Ordinary     => "Ordinary shares"
     case NonVoting    => "Non-voting shares"
     case Redeemable   => "Redeemable shares"
@@ -66,4 +66,5 @@ object ShareClass extends Enumerable.Implicits {
     case Growth       => "Other"
     case Other        => "Other"
   }
+
 }

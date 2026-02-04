@@ -62,4 +62,5 @@ class CountryFormProviderSpec extends StringFieldBehaviours {
       error = FormError(fieldName, invalidKey, Seq(regexp))
     )
   }
+
 }

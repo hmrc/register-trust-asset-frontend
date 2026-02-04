@@ -25,10 +25,10 @@ import views.html.UnauthorisedView
 class UnauthorisedController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: UnauthorisedView
-) extends FrontendBaseController
-    with I18nSupport {
+) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = Action { implicit request =>
     Ok(view()).withNewSession
   }
+
 }

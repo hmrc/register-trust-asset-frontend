@@ -70,4 +70,5 @@ object Address {
     case address: UKAddress            => Json.toJson(address)(UKAddress.formats)
     case address: InternationalAddress => Json.toJson(address)(InternationalAddress.formats)
   }
+
 }

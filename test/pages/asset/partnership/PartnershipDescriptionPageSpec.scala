@@ -28,4 +28,5 @@ class PartnershipDescriptionPageSpec extends PageBehaviours {
 
     beRemovable[String](PartnershipDescriptionPage(0))
   }
+
 }

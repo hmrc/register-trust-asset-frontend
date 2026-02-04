@@ -78,8 +78,8 @@ trait StringViewBehaviours extends QuestionViewBehaviours[String] {
             doc,
             "title",
             mockViewUtils.breadcrumbTitle(s"""${messages("error.browser.title.prefix")} ${messages(
-              s"$messageKeyPrefix.title"
-            )}""")(fakeRequest, messages)
+                s"$messageKeyPrefix.title"
+              )}""")(fakeRequest, messages)
           )
         }
       }
@@ -147,4 +147,5 @@ trait StringViewBehaviours extends QuestionViewBehaviours[String] {
         }
       }
     }
+
 }

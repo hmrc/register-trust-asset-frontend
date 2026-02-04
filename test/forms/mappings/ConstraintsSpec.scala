@@ -179,4 +179,5 @@ class ConstraintsSpec extends AnyWordSpec with Matchers with ScalaCheckPropertyC
       }
     }
   }
+
 }

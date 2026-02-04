@@ -93,6 +93,7 @@ final case class UserAnswers(
       Some(allAssets.collect { case x: NonEeaBusinessAssetViewModel => x })
     )
   }
+
 }
 
 object UserAnswers {
@@ -110,4 +111,5 @@ object UserAnswers {
       (__ \ "internalId").write[String] and
       (__ \ "isTaxable").write[Boolean]
   )(unlift(UserAnswers.unapply))
+
 }

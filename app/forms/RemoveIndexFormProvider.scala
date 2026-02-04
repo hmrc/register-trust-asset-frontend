@@ -32,4 +32,5 @@ class RemoveIndexFormProvider @Inject() extends Mappings with RemoveForm {
     Form(
       "value" -> boolean(s"$prefix.error.required")
     )
+
 }

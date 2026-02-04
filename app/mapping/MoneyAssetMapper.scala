@@ -23,4 +23,5 @@ class MoneyAssetMapper extends Mapping[AssetMonetaryAmount, MoneyAsset] {
 
   override def mapAssets(assets: List[MoneyAsset]): List[AssetMonetaryAmount] =
     assets.map(x => AssetMonetaryAmount(x.value))
+
 }

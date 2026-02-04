@@ -208,4 +208,5 @@ class ShareClassControllerSpec extends SpecBase with ModelGenerators with IndexV
       postForIndex
     )
   }
+
 }

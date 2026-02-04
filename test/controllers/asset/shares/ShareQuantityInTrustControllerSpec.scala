@@ -210,4 +210,5 @@ class ShareQuantityInTrustControllerSpec extends SpecBase with ModelGenerators w
       postForIndex
     )
   }
+
 }

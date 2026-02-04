@@ -33,4 +33,5 @@ class ValueFormProvider @Inject() (config: FrontendAppConfig) extends Mappings {
         maxValueKey = if (maxValue.isEmpty) s"$prefix.error.length" else s"$prefix.error.moreThanTotal"
       )
     )
+
 }

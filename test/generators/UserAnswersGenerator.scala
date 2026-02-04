@@ -49,4 +49,5 @@ trait UserAnswersGenerator extends TryValues {
       )
     }
   }
+
 }

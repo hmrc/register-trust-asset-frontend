@@ -34,4 +34,5 @@ class OtherAssetAnswersViewSpec extends ViewBehaviours {
 
     behave like pageWithBackLink(applyView)
   }
+
 }

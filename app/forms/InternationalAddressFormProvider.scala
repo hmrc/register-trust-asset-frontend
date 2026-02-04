@@ -68,4 +68,5 @@ class InternationalAddressFormProvider @Inject() extends Mappings {
           )
     )(InternationalAddress.apply)(InternationalAddress.unapply)
   )
+
 }

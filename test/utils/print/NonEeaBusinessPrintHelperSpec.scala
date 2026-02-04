@@ -168,4 +168,5 @@ class NonEeaBusinessPrintHelperSpec extends SpecBase {
       }
     }
   }
+
 }

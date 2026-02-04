@@ -32,8 +32,7 @@ class MoneyNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
 
   "Money Navigator" must {
 
-    "go to Check Answers Page from AssetMoneyValue page when the amount submitted" in {
-
+    "go to Check Answers Page from AssetMoneyValue page when the amount submitted" in
       forAll(arbitrary[UserAnswers]) { userAnswers =>
         val answers = userAnswers.set(WhatKindOfAssetPage(index), Money).success.value
 
@@ -41,7 +40,6 @@ class MoneyNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Gen
           .nextPage(AssetMoneyValuePage(index), fakeDraftId)(answers)
           .mustBe(controllers.asset.money.routes.MoneyCheckAnswersController.onPageLoad(index, fakeDraftId))
       }
-    }
   }
 
 }

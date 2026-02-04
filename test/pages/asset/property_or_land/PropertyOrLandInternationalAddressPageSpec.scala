@@ -29,4 +29,5 @@ class PropertyOrLandInternationalAddressPageSpec extends PageBehaviours {
 
     beRemovable[InternationalAddress](PropertyOrLandInternationalAddressPage(0))
   }
+
 }

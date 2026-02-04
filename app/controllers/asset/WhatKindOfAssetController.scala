@@ -17,7 +17,9 @@
 package controllers.asset
 
 import config.annotations.Asset
-import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
+import controllers.actions.{
+  DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction
+}
 import controllers.filters.IndexActionFilterProvider
 import forms.WhatKindOfAssetFormProvider
 import models.requests.RegistrationDataRequest
@@ -47,9 +49,7 @@ class WhatKindOfAssetController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: WhatKindOfAssetView
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport
-    with Enumerable.Implicits {
+    extends FrontendBaseController with I18nSupport with Enumerable.Implicits {
 
   private val form: Form[WhatKindOfAsset] = formProvider()
 
@@ -83,4 +83,5 @@ class WhatKindOfAssetController @Inject() (
           } yield Redirect(navigator.nextPage(WhatKindOfAssetPage(index), draftId)(updatedAnswers))
       )
   }
+
 }

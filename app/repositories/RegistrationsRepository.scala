@@ -54,6 +54,7 @@ class DefaultRegistrationsRepository @Inject() (
         case _                         => None
       }
     }
+
 }
 
 trait RegistrationsRepository {

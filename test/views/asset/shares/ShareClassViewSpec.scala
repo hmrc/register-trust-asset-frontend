@@ -91,4 +91,5 @@ class ShareClassViewSpec extends ViewBehaviours {
         }
       }
   }
+
 }

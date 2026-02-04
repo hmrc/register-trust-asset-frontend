@@ -26,7 +26,7 @@ import utils.WireMockHelper
 
 class TrustsStoreConnectorSpec extends SpecBase with WireMockHelper {
 
-  private implicit val hc: HeaderCarrier = HeaderCarrier()
+  implicit private val hc: HeaderCarrier = HeaderCarrier()
 
   override lazy val app: Application = new GuiceApplicationBuilder()
     .configure(defaultAppConfigurations ++ Map("microservice.services.trusts-store.port" -> server.port()))
@@ -86,4 +86,5 @@ class TrustsStoreConnectorSpec extends SpecBase with WireMockHelper {
       application.stop()
     }
   }
+
 }

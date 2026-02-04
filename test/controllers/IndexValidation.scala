@@ -70,4 +70,5 @@ trait IndexValidation extends SpecBase with ScalaCheckPropertyChecks with Genera
         application.stop()
       }
     }
+
 }

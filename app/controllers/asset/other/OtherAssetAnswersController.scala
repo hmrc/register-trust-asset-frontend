@@ -49,9 +49,7 @@ class OtherAssetAnswersController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   printHelper: OtherPrintHelper
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport
-    with Logging {
+    extends FrontendBaseController with I18nSupport with Logging {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
     identify andThen getData(draftId) andThen requireData andThen
@@ -60,13 +58,13 @@ class OtherAssetAnswersController @Inject() (
           WhatKindOfAssetPage(index),
           controllers.asset.routes.WhatKindOfAssetController.onPageLoad(index, draftId)
         )
-      ) andThen
+      )      andThen
       requiredAnswer(
         RequiredAnswer(
           OtherAssetDescriptionPage(index),
           routes.OtherAssetDescriptionController.onPageLoad(index, draftId)
         )
-      ) andThen
+      )      andThen
       requiredAnswer(
         RequiredAnswer(OtherAssetValuePage(index), routes.OtherAssetValueController.onPageLoad(index, draftId))
       )
@@ -123,4 +121,5 @@ class OtherAssetAnswersController @Inject() (
         Future.successful(Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId)))
     }
   }
+
 }

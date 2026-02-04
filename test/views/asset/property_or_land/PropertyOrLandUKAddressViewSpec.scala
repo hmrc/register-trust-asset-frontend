@@ -45,4 +45,5 @@ class PropertyOrLandUKAddressViewSpec extends UkAddressViewBehaviours {
 
     behave like pageWithASubmitButton(applyView(form))
   }
+
 }

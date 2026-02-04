@@ -34,7 +34,7 @@ class PropertyOrLandAddressYesNoPageSpec extends PageBehaviours {
 
       val page = PropertyOrLandAddressYesNoPage(0)
 
-      "set to false" in {
+      "set to false" in
         forAll(arbitrary[UserAnswers]) { initial =>
           val answers: UserAnswers = initial
             .set(page, true)
@@ -56,9 +56,8 @@ class PropertyOrLandAddressYesNoPageSpec extends PageBehaviours {
           result.get(PropertyOrLandInternationalAddressPage(0)) must not be defined
           result.get(PropertyOrLandUKAddressPage(0))            must not be defined
         }
-      }
 
-      "set to true" in {
+      "set to true" in
         forAll(arbitrary[UserAnswers]) { initial =>
           val answers: UserAnswers = initial
             .set(page, false)
@@ -72,8 +71,8 @@ class PropertyOrLandAddressYesNoPageSpec extends PageBehaviours {
 
           result.get(PropertyOrLandDescriptionPage(0)) must not be defined
         }
-      }
     }
 
   }
+
 }

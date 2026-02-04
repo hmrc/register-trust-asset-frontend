@@ -57,25 +57,21 @@ class BusinessNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with 
 
       val page = BusinessAddressUkYesNoPage(index)
 
-      "yes selected" in {
-
+      "yes selected" in
         forAll(arbitrary[UserAnswers]) { userAnswers =>
           val answers = userAnswers.set(page, true).success.value
           navigator
             .nextPage(page, fakeDraftId)(answers)
             .mustBe(BusinessUkAddressController.onPageLoad(index, fakeDraftId))
         }
-      }
 
-      "no selected" in {
-
+      "no selected" in
         forAll(arbitrary[UserAnswers]) { userAnswers =>
           val answers = userAnswers.set(page, false).success.value
           navigator
             .nextPage(page, fakeDraftId)(answers)
             .mustBe(BusinessInternationalAddressController.onPageLoad(index, fakeDraftId))
         }
-      }
     }
 
     "navigate from BusinessUkAddressPage to BusinessValuePage" in {
@@ -100,4 +96,5 @@ class BusinessNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with 
       }
     }
   }
+
 }

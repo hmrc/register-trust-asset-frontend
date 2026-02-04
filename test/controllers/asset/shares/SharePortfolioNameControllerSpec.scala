@@ -147,6 +147,7 @@ class SharePortfolioNameControllerSpec extends SpecBase with ModelGenerators wit
     }
 
   }
+
   "for a GET" must {
 
     def getForIndex(index: Int): FakeRequest[AnyContentAsEmpty.type] = {
@@ -179,4 +180,5 @@ class SharePortfolioNameControllerSpec extends SpecBase with ModelGenerators wit
       postForIndex
     )
   }
+
 }

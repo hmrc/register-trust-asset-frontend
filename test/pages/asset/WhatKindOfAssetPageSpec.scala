@@ -299,4 +299,5 @@ class WhatKindOfAssetPageSpec extends PageBehaviours {
       result.get(AssetStatus(0)) mustNot be(defined)
     }
   }
+
 }

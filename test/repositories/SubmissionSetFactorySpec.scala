@@ -211,4 +211,5 @@ class SubmissionSetFactorySpec extends SpecBase {
       }
     }
   }
+
 }

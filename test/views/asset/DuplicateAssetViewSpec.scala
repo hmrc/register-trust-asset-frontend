@@ -37,9 +37,9 @@ class DuplicateAssetViewSpec extends ViewBehaviours {
       val doc  = asDocument(applyView)
       val link = doc.select("a[href*=add]").first()
 
-      link must not be null
+      link                must not be null
       link.attr("href") mustBe controllers.asset.routes.AddAssetsController.onPageLoad(draftId).url
-      link.text() mustBe messages("duplicateAsset.link")
+      link.text()       mustBe messages("duplicateAsset.link")
     }
 
     "not display a back link" in {
@@ -49,4 +49,5 @@ class DuplicateAssetViewSpec extends ViewBehaviours {
     }
 
   }
+
 }

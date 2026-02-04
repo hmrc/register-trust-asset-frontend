@@ -87,4 +87,5 @@ class StartDateFormProviderSpec extends DateBehaviours with FakeTrustsApp {
       )
     }
   }
+
 }

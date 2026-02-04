@@ -17,7 +17,9 @@
 package controllers.asset
 
 import config.annotations.Asset
-import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
+import controllers.actions.{
+  DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction
+}
 import navigation.Navigator
 import pages.asset.AssetInterruptPage
 import play.api.i18n.MessagesApi

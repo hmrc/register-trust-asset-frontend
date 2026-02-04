@@ -34,4 +34,5 @@ class PropertyOrLandAnswerViewSpec extends ViewBehaviours {
 
     behave like pageWithBackLink(applyView)
   }
+
 }

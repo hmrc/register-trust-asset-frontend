@@ -34,7 +34,7 @@ class SharesInAPortfolioPageSpec extends PageBehaviours {
     beRemovable[Boolean](SharesInAPortfolioPage(0))
   }
 
-  "remove relevant data when ShareInAPortfolio is set to false" in {
+  "remove relevant data when ShareInAPortfolio is set to false" in
     forAll(arbitrary[UserAnswers]) { initial =>
       val answers: UserAnswers = initial
         .set(SharesInAPortfolioPage(0), false)
@@ -68,9 +68,8 @@ class SharesInAPortfolioPageSpec extends PageBehaviours {
       result.get(ShareValueInTrustPage(0)) mustNot be(defined)
       result.get(AssetStatus(0)) mustNot be(defined)
     }
-  }
 
-  "remove relevant data when ShareInAPortfolio is set to true" in {
+  "remove relevant data when ShareInAPortfolio is set to true" in
     forAll(arbitrary[UserAnswers]) { initial =>
       val answers: UserAnswers = initial
         .set(SharesInAPortfolioPage(0), true)
@@ -100,5 +99,5 @@ class SharesInAPortfolioPageSpec extends PageBehaviours {
       result.get(SharePortfolioValueInTrustPage(0)) mustNot be(defined)
       result.get(AssetStatus(0)) mustNot be(defined)
     }
-  }
+
 }

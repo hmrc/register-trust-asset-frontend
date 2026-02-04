@@ -17,7 +17,9 @@
 package controllers.asset.partnership
 
 import config.annotations.Partnership
-import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
+import controllers.actions.{
+  DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction
+}
 import controllers.filters.IndexActionFilterProvider
 import forms.DescriptionFormProvider
 import navigation.Navigator
@@ -44,16 +46,15 @@ class PartnershipDescriptionController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: PartnershipDescriptionView
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   private val maxLength = 56
   private val form      = formProvider.withConfig(maxLength, "partnership.description")
 
   private def actions(index: Int, draftId: String) =
-    identify andThen
+    identify           andThen
       getData(draftId) andThen
-      requireData andThen
+      requireData      andThen
       validateIndex(index, sections.Assets)
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
@@ -77,4 +78,5 @@ class PartnershipDescriptionController @Inject() (
           } yield Redirect(navigator.nextPage(PartnershipDescriptionPage(index), draftId)(updatedAnswers))
       )
   }
+
 }

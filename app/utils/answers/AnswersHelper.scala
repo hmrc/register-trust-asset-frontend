@@ -44,4 +44,5 @@ class AnswersHelper[A <: Asset: ClassTag](printHelper: PrintHelper) {
       )
     }
   }
+
 }

@@ -183,4 +183,5 @@ class PropertyOrLandTotalValueControllerSpec extends SpecBase with IndexValidati
     }
 
   }
+
 }

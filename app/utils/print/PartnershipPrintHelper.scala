@@ -49,4 +49,5 @@ class PartnershipPrintHelper @Inject() (checkAnswersFormatters: CheckAnswersForm
       )
     ).flatten
   }
+
 }

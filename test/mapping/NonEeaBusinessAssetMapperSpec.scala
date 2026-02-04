@@ -143,4 +143,5 @@ class NonEeaBusinessAssetMapperSpec extends SpecBase {
       }
     }
   }
+
 }

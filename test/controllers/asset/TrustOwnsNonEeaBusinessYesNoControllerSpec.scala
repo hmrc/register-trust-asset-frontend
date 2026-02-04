@@ -188,4 +188,5 @@ class TrustOwnsNonEeaBusinessYesNoControllerSpec extends SpecBase with BeforeAnd
       application.stop()
     }
   }
+
 }

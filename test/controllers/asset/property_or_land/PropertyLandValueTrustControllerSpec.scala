@@ -183,4 +183,5 @@ class PropertyLandValueTrustControllerSpec extends SpecBase with IndexValidation
       )
     }
   }
+
 }

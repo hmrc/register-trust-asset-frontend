@@ -31,4 +31,5 @@ class InternationalAddressPageSpec extends PageBehaviours {
 
     beRemovable[InternationalAddress](page)
   }
+
 }

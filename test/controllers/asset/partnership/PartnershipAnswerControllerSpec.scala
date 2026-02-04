@@ -227,4 +227,5 @@ class PartnershipAnswerControllerSpec extends SpecBase {
     }
 
   }
+
 }

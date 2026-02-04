@@ -73,4 +73,5 @@ trait ModelGenerators {
                  )
       } yield LocalDate.of(year, month, day)
     }
+
 }

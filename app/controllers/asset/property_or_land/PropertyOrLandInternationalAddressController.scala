@@ -17,7 +17,9 @@
 package controllers.asset.property_or_land
 
 import config.annotations.PropertyOrLand
-import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
+import controllers.actions.{
+  DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction
+}
 import controllers.filters.IndexActionFilterProvider
 import forms.InternationalAddressFormProvider
 import navigation.Navigator
@@ -46,15 +48,14 @@ class PropertyOrLandInternationalAddressController @Inject() (
   view: PropertyOrLandInternationalAddressView,
   val countryOptions: CountryOptionsNonUK
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   private val form = formProvider()
 
   private def actions(index: Int, draftId: String) =
-    identify andThen
+    identify           andThen
       getData(draftId) andThen
-      requireData andThen
+      requireData      andThen
       validateIndex(index, sections.Assets)
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(index, draftId) { implicit request =>
@@ -80,4 +81,5 @@ class PropertyOrLandInternationalAddressController @Inject() (
           } yield Redirect(navigator.nextPage(PropertyOrLandInternationalAddressPage(index), draftId)(updatedAnswers))
       )
   }
+
 }

@@ -79,4 +79,5 @@ class PropertyOrLandPrintHelper @Inject() (checkAnswersFormatters: CheckAnswersF
       )
     ).flatten
   }
+
 }

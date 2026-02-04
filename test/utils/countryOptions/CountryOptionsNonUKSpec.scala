@@ -77,4 +77,5 @@ class CountryOptionsNonUKSpec extends SpecBase {
       application.stop()
     }
   }
+
 }

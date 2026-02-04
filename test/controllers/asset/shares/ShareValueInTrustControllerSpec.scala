@@ -209,4 +209,5 @@ class ShareValueInTrustControllerSpec extends SpecBase with ModelGenerators with
       postForIndex
     )
   }
+
 }

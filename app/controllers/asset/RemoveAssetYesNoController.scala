@@ -16,7 +16,9 @@
 
 package controllers.asset
 
-import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
+import controllers.actions.{
+  DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction
+}
 import controllers.filters.IndexActionFilterProvider
 import forms.YesNoFormProvider
 import models.UserAnswers
@@ -45,8 +47,7 @@ class RemoveAssetYesNoController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: RemoveAssetYesNoView
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   private def form(prefix: String): Form[Boolean] = yesNoFormProvider.withPrefix(s"$prefix.removeYesNo")
 

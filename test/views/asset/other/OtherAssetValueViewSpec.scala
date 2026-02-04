@@ -47,4 +47,5 @@ class OtherAssetValueViewSpec extends LongViewBehaviours {
     behave like pageWithASubmitButton(applyView(form))
 
   }
+
 }

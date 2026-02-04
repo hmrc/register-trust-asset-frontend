@@ -47,4 +47,5 @@ class FrontendAppConfigSpec extends SpecBase {
       }
     }
   }
+
 }

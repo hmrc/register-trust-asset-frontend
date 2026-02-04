@@ -189,4 +189,5 @@ class BusinessNameControllerSpec extends SpecBase with IndexValidation {
     }
 
   }
+
 }

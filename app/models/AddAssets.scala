@@ -38,4 +38,5 @@ object AddAssets extends Enumerable.Implicits {
 
   implicit val enumerable: Enumerable[AddAssets] =
     Enumerable(values.map(v => v.toString -> v): _*)
+
 }

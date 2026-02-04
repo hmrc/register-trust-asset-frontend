@@ -48,14 +48,12 @@ class BusinessAnswersController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   printHelper: BusinessPrintHelper
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport
-    with Logging {
+    extends FrontendBaseController with I18nSupport with Logging {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
-    identify andThen
+    identify           andThen
       getData(draftId) andThen
-      requireData andThen
+      requireData      andThen
       requiredAnswer(RequiredAnswer(BusinessNamePage(index), routes.BusinessNameController.onPageLoad(index, draftId)))
 
   private def getExistingBusinessAssets(excludeIndex: Int, userAnswers: UserAnswers): Seq[BusinessAsset] = {
@@ -112,4 +110,5 @@ class BusinessAnswersController @Inject() (
         Future.successful(Redirect(controllers.asset.routes.AddAssetsController.onPageLoad(draftId)))
     }
   }
+
 }

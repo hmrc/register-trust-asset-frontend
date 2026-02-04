@@ -17,7 +17,9 @@
 package controllers.asset.shares
 
 import config.annotations.Shares
-import controllers.actions.{DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction}
+import controllers.actions.{
+  DraftIdRetrievalActionProvider, RegistrationDataRequiredAction, RegistrationIdentifierAction
+}
 import controllers.filters.IndexActionFilterProvider
 import forms.NameFormProvider
 import navigation.Navigator
@@ -44,11 +46,10 @@ class ShareCompanyNameController @Inject() (
   view: ShareCompanyNameView,
   validateIndex: IndexActionFilterProvider
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   private def actions(index: Int, draftId: String) =
-    identify andThen getData(draftId) andThen
+    identify      andThen getData(draftId) andThen
       requireData andThen
       validateIndex(index, sections.Assets)
 
@@ -76,4 +77,5 @@ class ShareCompanyNameController @Inject() (
           } yield Redirect(navigator.nextPage(ShareCompanyNamePage(index), draftId)(updatedAnswers))
       )
   }
+
 }

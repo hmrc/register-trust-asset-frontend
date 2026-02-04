@@ -38,10 +38,9 @@ object BusinessAsset {
 
   implicit lazy val reads: Reads[BusinessAsset] = {
 
-    val addressReads: Reads[Address] = {
+    val addressReads: Reads[Address] =
       (__ \ BusinessUkAddressPage.key).read[Address] orElse
         (__ \ BusinessInternationalAddressPage.key).read[Address]
-    }
 
     ((__ \ WhatKindOfAssetPage.key).read[WhatKindOfAsset].filter(_ == Business) and
       (__ \ BusinessNamePage.key).read[String] and
@@ -50,4 +49,5 @@ object BusinessAsset {
       (__ \ BusinessValuePage.key).read[Long])(BusinessAsset.apply _)
 
   }
+
 }

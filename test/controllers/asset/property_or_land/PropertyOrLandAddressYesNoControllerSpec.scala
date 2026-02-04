@@ -181,4 +181,5 @@ class PropertyOrLandAddressYesNoControllerSpec extends SpecBase with IndexValida
       postForIndex
     )
   }
+
 }

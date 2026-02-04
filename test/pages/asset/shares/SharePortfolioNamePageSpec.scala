@@ -28,4 +28,5 @@ class SharePortfolioNamePageSpec extends PageBehaviours {
 
     beRemovable[String](SharePortfolioNamePage(0))
   }
+
 }

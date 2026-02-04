@@ -35,4 +35,5 @@ class TrustsDateFormatter extends DateFormatter {
     val dateFormatter = DateTimeFormatter.ofPattern(format)
     dateTime.format(dateFormatter)
   }
+
 }

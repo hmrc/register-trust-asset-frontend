@@ -79,4 +79,5 @@ class WhatKindOfAssetViewSpec extends ViewBehaviours {
 
     behave like pageWithASubmitButton(applyView(form, 0))
   }
+
 }

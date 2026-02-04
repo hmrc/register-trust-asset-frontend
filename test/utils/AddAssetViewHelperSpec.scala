@@ -54,7 +54,7 @@ class AddAssetViewHelperSpec extends SpecBase {
       "generate Nil for no user answers" in {
         val rows = new AddAssetViewHelper(emptyUserAnswers, fakeDraftId).rows
         rows.inProgress mustBe Nil
-        rows.complete mustBe Nil
+        rows.complete   mustBe Nil
       }
 
       "generate rows from user answers for assets in progress" in {
@@ -157,7 +157,7 @@ class AddAssetViewHelperSpec extends SpecBase {
             removeAssetYesNoRoute(7)
           )
         )
-        rows.complete mustBe Nil
+        rows.complete   mustBe Nil
       }
 
       "generate rows from user answers for complete assets" in {
@@ -318,7 +318,7 @@ class AddAssetViewHelperSpec extends SpecBase {
           .value
 
         val rows = new AddAssetViewHelper(userAnswers, fakeDraftId).rows
-        rows.complete mustBe List(
+        rows.complete   mustBe List(
           AddRow("Share Company Name", typeLabel = "Shares", changeSharesAssetRoute(0), removeAssetYesNoRoute(0)),
           AddRow("£4000", typeLabel = "Money", changeMoneyAssetRoute(1), removeAssetYesNoRoute(1)),
           AddRow("line 1", typeLabel = "Property or land", changePropertyOrLandAssetRoute(2), removeAssetYesNoRoute(2)),
@@ -348,4 +348,5 @@ class AddAssetViewHelperSpec extends SpecBase {
 
     }
   }
+
 }

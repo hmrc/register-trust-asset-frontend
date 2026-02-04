@@ -25,11 +25,7 @@ import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.libs.json.{JsSuccess, Json}
 
 class AssetViewModelSpec
-    extends AnyFreeSpec
-    with Matchers
-    with ScalaCheckPropertyChecks
-    with Generators
-    with ModelGenerators {
+    extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with Generators with ModelGenerators {
 
   "Asset" - {
 
@@ -522,4 +518,5 @@ class AssetViewModelSpec
       }
     }
   }
+
 }

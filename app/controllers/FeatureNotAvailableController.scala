@@ -26,10 +26,10 @@ import views.html.FeatureNotAvailableView
 class FeatureNotAvailableController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: FeatureNotAvailableView
-) extends FrontendBaseController
-    with I18nSupport {
+) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad: Action[AnyContent] = Action { implicit request =>
     Ok(view())
   }
+
 }

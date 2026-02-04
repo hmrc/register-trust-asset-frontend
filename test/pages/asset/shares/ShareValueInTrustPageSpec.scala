@@ -28,4 +28,5 @@ class ShareValueInTrustPageSpec extends PageBehaviours {
 
     beRemovable[Long](ShareValueInTrustPage(0))
   }
+
 }

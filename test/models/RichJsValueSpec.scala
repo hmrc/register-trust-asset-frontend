@@ -25,13 +25,9 @@ import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.libs.json._
 
 class RichJsValueSpec
-    extends AnyFreeSpec
-    with Matchers
-    with ScalaCheckPropertyChecks
-    with OptionValues
-    with ModelGenerators {
+    extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues with ModelGenerators {
 
-  private implicit def dontShrink[A]: Shrink[A] = Shrink.shrinkAny
+  implicit private def dontShrink[A]: Shrink[A] = Shrink.shrinkAny
 
   private val nonEmptyAlphaStr: Gen[String] = Gen.alphaStr.suchThat(_.nonEmpty)
 
@@ -84,8 +80,7 @@ class RichJsValueSpec
       )
     }
 
-    "must add a value to an empty JsArray" in {
-
+    "must add a value to an empty JsArray" in
       forAll(nonEmptyAlphaStr) { newValue =>
         val value = Json.arr()
 
@@ -93,10 +88,8 @@ class RichJsValueSpec
 
         value.set(path, JsString(newValue)) mustEqual JsSuccess(Json.arr(newValue))
       }
-    }
 
-    "must add a value to the end of a JsArray" in {
-
+    "must add a value to the end of a JsArray" in
       forAll(nonEmptyAlphaStr, nonEmptyAlphaStr) { (oldValue, newValue) =>
         val value = Json.arr(oldValue)
 
@@ -104,10 +97,8 @@ class RichJsValueSpec
 
         value.set(path, JsString(newValue)) mustEqual JsSuccess(Json.arr(oldValue, newValue))
       }
-    }
 
-    "must change a value in an existing JsArray" in {
-
+    "must change a value in an existing JsArray" in
       forAll(nonEmptyAlphaStr, nonEmptyAlphaStr, nonEmptyAlphaStr) { (firstValue, secondValue, newValue) =>
         val value = Json.arr(firstValue, secondValue)
 
@@ -115,7 +106,6 @@ class RichJsValueSpec
 
         value.set(path, JsString(newValue)) mustEqual JsSuccess(Json.arr(newValue, secondValue))
       }
-    }
 
     "must set a nested value on a JsArray" in {
 
@@ -350,4 +340,5 @@ class RichJsValueSpec
       )
     )
   }
+
 }

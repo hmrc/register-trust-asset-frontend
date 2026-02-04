@@ -43,4 +43,5 @@ class BusinessValueViewSpec extends LongViewBehaviours {
 
     behave like longPageWithDynamicTitle(form, applyView, messageKeyPrefix, businessName)
   }
+
 }

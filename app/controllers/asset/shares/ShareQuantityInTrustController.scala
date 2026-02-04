@@ -46,14 +46,13 @@ class ShareQuantityInTrustController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: ShareQuantityInTrustView
 )(implicit ec: ExecutionContext)
-    extends FrontendBaseController
-    with I18nSupport {
+    extends FrontendBaseController with I18nSupport {
 
   private val form: Form[Long] = formProvider.withPrefix("shares.quantityInTrust")
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
-    identify andThen getData(draftId) andThen
-      requireData andThen
+    identify                                andThen getData(draftId) andThen
+      requireData                           andThen
       validateIndex(index, sections.Assets) andThen
       requiredAnswer(
         RequiredAnswer(ShareCompanyNamePage(index), routes.ShareCompanyNameController.onPageLoad(index, draftId))
@@ -84,4 +83,5 @@ class ShareQuantityInTrustController @Inject() (
           } yield Redirect(navigator.nextPage(ShareQuantityInTrustPage(index), draftId)(updatedAnswers))
       )
   }
+
 }

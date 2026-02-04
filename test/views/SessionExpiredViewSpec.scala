@@ -38,4 +38,5 @@ class SessionExpiredViewSpec extends ViewBehaviours {
       "guidance.2"
     )
   }
+
 }

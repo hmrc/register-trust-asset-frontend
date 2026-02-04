@@ -35,11 +35,10 @@ object PropertyOrLandAsset {
 
   implicit lazy val reads: Reads[PropertyOrLandAsset] = {
 
-    val optionalAddressReads: Reads[Option[Address]] = {
+    val optionalAddressReads: Reads[Option[Address]] =
       (__ \ PropertyOrLandUKAddressPage.key).read[Address].map(Some(_): Option[Address]) orElse
         (__ \ PropertyOrLandInternationalAddressPage.key).read[Address].map(Some(_): Option[Address]) orElse
         Reads(_ => JsSuccess(None: Option[Address]))
-    }
 
     ((__ \ WhatKindOfAssetPage.key).read[WhatKindOfAsset].filter(_ == PropertyOrLand) and
       (__ \ PropertyOrLandDescriptionPage.key).readNullable[String] and
@@ -48,4 +47,5 @@ object PropertyOrLandAsset {
       (__ \ PropertyOrLandTotalValuePage.key).read[Long])(PropertyOrLandAsset.apply _)
 
   }
+
 }

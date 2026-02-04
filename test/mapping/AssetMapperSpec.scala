@@ -254,4 +254,5 @@ class AssetMapperSpec extends SpecBase with Matchers with OptionValues with Gene
       }
     }
   }
+
 }
