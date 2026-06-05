@@ -33,9 +33,7 @@ lazy val root = (project in file("."))
           Seq(
             "javascripts/iebacklink.js",
             "javascripts/registertrustassetfrontend.js",
-            "javascripts/autocomplete.js",
-            "javascripts/print.js",
-            "javascripts/libraries/location-autocomplete.min.js"
+            "javascripts/print.js"
           )
         )
     ),
