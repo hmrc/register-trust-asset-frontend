@@ -17,11 +17,8 @@
 package config
 
 import com.google.inject.{Inject, Singleton}
-import controllers.routes
 import play.api.Configuration
 import play.api.i18n.{Lang, Messages}
-import play.api.mvc.Call
-import uk.gov.hmrc.hmrcfrontend.config.ContactFrontendConfig
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import java.time.LocalDate
@@ -29,7 +26,6 @@ import java.time.LocalDate
 @Singleton
 class FrontendAppConfig @Inject() (
   val configuration: Configuration,
-  contactFrontendConfig: ContactFrontendConfig,
   servicesConfig: ServicesConfig
 ) {
 
@@ -38,22 +34,17 @@ class FrontendAppConfig @Inject() (
 
   val repositoryKey: String = "assets"
 
-  val appName: String        = configuration.get[String]("appName")
-  val analyticsToken: String = configuration.get[String](s"google-analytics.token")
-
-  val betaFeedbackUrl =
-    s"${contactFrontendConfig.baseUrl.get}/contact/beta-feedback?service=${contactFrontendConfig.serviceId.get}"
+  val appName: String = configuration.get[String]("appName")
 
   lazy val countdownLength: Int = configuration.get[Int]("timeout.countdown")
   lazy val timeoutLength: Int   = configuration.get[Int]("timeout.length")
 
-  lazy val authUrl: String                             = servicesConfig.baseUrl("auth")
   lazy val loginUrl: String                            = configuration.get[String]("urls.login")
   lazy val loginContinueUrl: String                    = configuration.get[String]("urls.loginContinue")
   lazy val registrationProgressUrlTemplate: String     = configuration.get[String]("urls.registrationProgress")
   def registrationProgressUrl(draftId: String): String = registrationProgressUrlTemplate.replace(":draftId", draftId)
 
-  lazy val logoutUrl: String = configuration.get[String]("urls.logout")
+  lazy val logoutUrl: String = s"${configuration.get[String]("urls.logout")}?useServiceNavigation"
 
   lazy val logoutAudit: Boolean =
     configuration.get[Boolean]("microservice.services.features.auditing.logout")
@@ -61,8 +52,6 @@ class FrontendAppConfig @Inject() (
   lazy val trustsUrl: String = servicesConfig.baseUrl("trusts")
 
   lazy val trustsStoreUrl: String = servicesConfig.baseUrl("trusts-store")
-
-  lazy val registrationStartUrl: String = configuration.get[String]("urls.registrationStart")
 
   lazy val maintainATrustFrontendUrl: String     = configuration.get[String]("urls.maintainATrust")
   lazy val createAgentServicesAccountUrl: String = configuration.get[String]("urls.createAgentServicesAccount")
@@ -85,9 +74,6 @@ class FrontendAppConfig @Inject() (
     "english" -> Lang(ENGLISH),
     "cymraeg" -> Lang(WELSH)
   )
-
-  def routeToSwitchLanguage: String => Call =
-    (lang: String) => routes.LanguageSwitchController.switchToLanguage(lang)
 
   def helplineUrl(implicit messages: Messages): String = {
     val path = messages.lang.code match {
