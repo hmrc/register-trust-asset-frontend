@@ -21,7 +21,7 @@ import connectors.SubmissionDraftConnector
 import models.UserAnswers
 import play.api.http
 import play.api.i18n.Messages
-import play.api.libs.json._
+import play.api.libs.json.*
 import uk.gov.hmrc.http.HeaderCarrier
 
 import javax.inject.Inject
@@ -31,12 +31,12 @@ class DefaultRegistrationsRepository @Inject() (
   submissionDraftConnector: SubmissionDraftConnector,
   config: FrontendAppConfig,
   submissionSetFactory: SubmissionSetFactory
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends RegistrationsRepository {
 
   private val userAnswersSection = config.repositoryKey
 
-  override def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, messages: Messages): Future[Boolean] =
+  override def set(userAnswers: UserAnswers)(using hc: HeaderCarrier, messages: Messages): Future[Boolean] =
     submissionDraftConnector
       .setDraftSectionSet(
         userAnswers.draftId,
@@ -47,7 +47,7 @@ class DefaultRegistrationsRepository @Inject() (
         response.status == http.Status.OK
       }
 
-  override def get(draftId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]] =
+  override def get(draftId: String)(using hc: HeaderCarrier): Future[Option[UserAnswers]] =
     submissionDraftConnector.getDraftSection(draftId, userAnswersSection).map { response =>
       response.data.validate[UserAnswers] match {
         case JsSuccess(userAnswers, _) => Some(userAnswers)
@@ -59,7 +59,7 @@ class DefaultRegistrationsRepository @Inject() (
 
 trait RegistrationsRepository {
 
-  def set(userAnswers: UserAnswers)(implicit hc: HeaderCarrier, messages: Messages): Future[Boolean]
+  def set(userAnswers: UserAnswers)(using hc: HeaderCarrier, messages: Messages): Future[Boolean]
 
-  def get(draftId: String)(implicit hc: HeaderCarrier): Future[Option[UserAnswers]]
+  def get(draftId: String)(using hc: HeaderCarrier): Future[Option[UserAnswers]]
 }

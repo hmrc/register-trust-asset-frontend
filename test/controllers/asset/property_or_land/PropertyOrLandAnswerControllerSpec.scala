@@ -17,7 +17,7 @@
 package controllers.asset.property_or_land
 
 import base.SpecBase
-import controllers.routes._
+import controllers.routes.*
 import models.Status.Completed
 import models.{UKAddress, UserAnswers}
 import models.WhatKindOfAsset.PropertyOrLand
@@ -26,11 +26,11 @@ import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.property_or_land._
+import pages.asset.property_or_land.*
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import utils.print.PropertyOrLandPrintHelper
 import views.html.asset.property_or_land.PropertyOrLandAnswersView
 
@@ -125,8 +125,8 @@ class PropertyOrLandAnswerControllerSpec extends SpecBase {
       "return OK and the correct view for a GET" in {
 
         val expectedSections                           = Nil
-        val mockPrintHelper: PropertyOrLandPrintHelper = mock[PropertyOrLandPrintHelper]
-        when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(any())).thenReturn(Nil)
+        val mockPrintHelper: PropertyOrLandPrintHelper = mock[PropertyOrLandPrintHelper]()
+        when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(using any())).thenReturn(Nil)
 
         val application = applicationBuilder(userAnswers = Some(baseAnswers))
           .overrides(bind[PropertyOrLandPrintHelper].toInstance(mockPrintHelper))
@@ -141,7 +141,7 @@ class PropertyOrLandAnswerControllerSpec extends SpecBase {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(index, fakeDraftId, expectedSections)(request, messages).toString
+          view(index, fakeDraftId, expectedSections)(using request, messages).toString
 
         application.stop()
       }

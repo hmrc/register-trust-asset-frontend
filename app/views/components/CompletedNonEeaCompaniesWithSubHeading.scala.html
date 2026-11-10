@@ -21,7 +21,7 @@
     rowFormGroupWithSubHeading: RowFormGroupWithSubHeading
 )
 
-@(completeAssets: Seq[AddRow])(implicit messages: Messages)
+@(completeAssets: Seq[AddRow])(using messages: Messages)
 @{
     val subHeadingKey = if (completeAssets.size > 1) {
         "addAssets.nonTaxable.count.subHeading"

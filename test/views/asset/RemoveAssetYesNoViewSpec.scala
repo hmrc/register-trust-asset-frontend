@@ -39,8 +39,8 @@ class RemoveAssetYesNoViewSpec extends YesNoViewBehaviours {
 
       val view = viewFor[RemoveAssetYesNoView](Some(emptyUserAnswers.copy(isTaxable = true)))
 
-      def applyView(form: Form[_]): HtmlFormat.Appendable =
-        view.apply(form, fakeDraftId, index, prefix, assetLabel)(fakeRequest, messages)
+      def applyView(form: Form[?]): HtmlFormat.Appendable =
+        view.apply(form, fakeDraftId, index, prefix, assetLabel)(using fakeRequest, messages)
 
       behave like dynamicTitlePage(applyView(form), messageKeyPrefix, assetLabel)
 
@@ -58,8 +58,8 @@ class RemoveAssetYesNoViewSpec extends YesNoViewBehaviours {
 
       val view = viewFor[RemoveAssetYesNoView](Some(emptyUserAnswers.copy(isTaxable = false)))
 
-      def applyView(form: Form[_]): HtmlFormat.Appendable =
-        view.apply(form, fakeDraftId, index, prefix, assetLabel)(fakeRequest, messages)
+      def applyView(form: Form[?]): HtmlFormat.Appendable =
+        view.apply(form, fakeDraftId, index, prefix, assetLabel)(using fakeRequest, messages)
 
       behave like dynamicTitlePage(applyView(form), messageKeyPrefix, assetLabel)
 

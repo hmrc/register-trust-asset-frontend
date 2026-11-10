@@ -20,6 +20,7 @@ import pages.QuestionPage
 import pages.asset.business.BusinessNamePage.key
 import play.api.libs.json.JsPath
 import sections.Assets
+import scala.language.implicitConversions
 
 final case class BusinessNamePage(index: Int) extends QuestionPage[String] {
 

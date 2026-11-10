@@ -17,7 +17,7 @@
 package controllers.asset.business
 
 import config.annotations.Business
-import controllers.actions._
+import controllers.actions.*
 import controllers.filters.IndexActionFilterProvider
 import forms.InternationalAddressFormProvider
 import models.InternationalAddress
@@ -49,7 +49,7 @@ class BusinessInternationalAddressController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: BusinessInternationalAddressView,
   val countryOptions: CountryOptionsNonUK
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   val form: Form[InternationalAddress] = formProvider()
@@ -78,7 +78,7 @@ class BusinessInternationalAddressController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) =>
+        (formWithErrors: Form[?]) =>
           Future.successful(BadRequest(view(formWithErrors, countryOptions.options(), index, draftId, businessName))),
         value =>
           for {

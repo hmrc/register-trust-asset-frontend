@@ -26,12 +26,13 @@ import models.requests.RegistrationDataRequest
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.libs.json.JsPath
-import play.api.mvc._
+import play.api.mvc.*
 import repositories.RegistrationsRepository
 import sections.Assets
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
-import viewmodels._
+import viewmodels.*
 import views.html.asset.RemoveAssetYesNoView
+import scala.language.implicitConversions
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
@@ -46,7 +47,7 @@ class RemoveAssetYesNoController @Inject() (
   validateIndex: IndexActionFilterProvider,
   val controllerComponents: MessagesControllerComponents,
   view: RemoveAssetYesNoView
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   private def form(prefix: String): Form[Boolean] = yesNoFormProvider.withPrefix(s"$prefix.removeYesNo")
@@ -70,7 +71,7 @@ class RemoveAssetYesNoController @Inject() (
     form(prefix)
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) =>
+        (formWithErrors: Form[?]) =>
           Future.successful(
             BadRequest(view(formWithErrors, draftId, index, prefix, assetLabel(request.userAnswers, index)))
           ),
@@ -88,11 +89,11 @@ class RemoveAssetYesNoController @Inject() (
       )
   }
 
-  private def assetLabel(userAnswers: UserAnswers, index: Int)(implicit
+  private def assetLabel(userAnswers: UserAnswers, index: Int)(using
     request: RegistrationDataRequest[AnyContent]
   ): String = {
 
-    def default(prefix: String = defaultPrefix): String = request.messages(messagesApi)(s"$prefix.defaultText")
+    def default(prefix: String = defaultPrefix): String = request.messages(using messagesApi)(s"$prefix.defaultText")
 
     val path: JsPath = JsPath \ Assets \ index
 

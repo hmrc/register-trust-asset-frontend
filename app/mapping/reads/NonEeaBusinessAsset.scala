@@ -19,9 +19,9 @@ package mapping.reads
 import models.WhatKindOfAsset.NonEeaBusiness
 import models.{Address, WhatKindOfAsset}
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.noneeabusiness._
-import play.api.libs.functional.syntax._
-import play.api.libs.json._
+import pages.asset.noneeabusiness.*
+import play.api.libs.functional.syntax.*
+import play.api.libs.json.*
 
 import java.time.LocalDate
 
@@ -38,12 +38,12 @@ final case class NonEeaBusinessAsset(
 
 object NonEeaBusinessAsset {
 
-  implicit lazy val reads: Reads[NonEeaBusinessAsset] = (
+  given reads: Reads[NonEeaBusinessAsset] = (
     (__ \ WhatKindOfAssetPage.key).read[WhatKindOfAsset].filter(_ == NonEeaBusiness) and
       (__ \ NamePage.key).read[String] and
       (__ \ InternationalAddressPage.key).read[Address] and
       (__ \ GoverningCountryPage.key).read[String] and
       (__ \ StartDatePage.key).read[LocalDate]
-  )(NonEeaBusinessAsset.apply _)
+  )(NonEeaBusinessAsset.apply)
 
 }

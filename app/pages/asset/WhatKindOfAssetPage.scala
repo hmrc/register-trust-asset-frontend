@@ -16,18 +16,19 @@
 
 package pages.asset
 
-import models.WhatKindOfAsset._
+import models.WhatKindOfAsset.*
 import models.{UserAnswers, WhatKindOfAsset}
 import pages.asset.WhatKindOfAssetPage.key
-import pages.asset.business._
-import pages.asset.money._
-import pages.asset.other._
-import pages.asset.partnership._
-import pages.asset.property_or_land._
-import pages.asset.shares._
+import pages.asset.business.*
+import pages.asset.money.*
+import pages.asset.other.*
+import pages.asset.partnership.*
+import pages.asset.property_or_land.*
+import pages.asset.shares.*
 import pages.{AssetStatus, QuestionPage}
 import play.api.libs.json.JsPath
 import sections.Assets
+import scala.language.implicitConversions
 
 import scala.util.{Success, Try}
 

@@ -20,7 +20,7 @@ import base.SpecBase
 import controllers.IndexValidation
 import navigation.NonEeaBusinessNavigator
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import views.html.asset.noneeabusiness.NonEeaInterruptView
 
 class NonEeaInterruptControllerSpec extends SpecBase with IndexValidation {
@@ -44,7 +44,7 @@ class NonEeaInterruptControllerSpec extends SpecBase with IndexValidation {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(index, fakeDraftId)(request, messages).toString
+        view(index, fakeDraftId)(using request, messages).toString
 
       application.stop()
     }

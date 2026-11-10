@@ -38,7 +38,7 @@ class MaxedOutViewSpec extends OptionsViewBehaviours with TabularDataViewBehavio
       val view: MaxedOutView = viewFor[MaxedOutView](Some(emptyUserAnswers.copy(isTaxable = true)))
 
       def applyView(): HtmlFormat.Appendable =
-        view.apply(fakeDraftId, Nil, completeRows(max), messages("addAssets.heading"), max, messageKeyPrefix)(
+        view.apply(fakeDraftId, Nil, completeRows(max), messages("addAssets.heading"), max, messageKeyPrefix)(using
           fakeRequest,
           messages
         )
@@ -73,6 +73,7 @@ class MaxedOutViewSpec extends OptionsViewBehaviours with TabularDataViewBehavio
 
       def applyView(): HtmlFormat.Appendable =
         view.apply(fakeDraftId, Nil, completeRows(max), messages("addAssets.nonTaxable.title"), max, messageKeyPrefix)(
+          using
           fakeRequest,
           messages
         )

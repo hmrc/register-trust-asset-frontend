@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@import controllers.asset.other.routes._
+@import controllers.asset.other.routes.*
 @import views.html.components.{ErrorSummary, InputText, SubmitButton}
 
 @this(
@@ -26,7 +26,7 @@
 
 )
 
-@(form: Form[_], draftId: String, index: Int, description: String)(implicit request: RequestHeader, messages: Messages)
+@(form: Form[?], draftId: String, index: Int, description: String)(using request: RequestHeader, messages: Messages)
 
 @main_template(
     title = s"${errorPrefix(form)} ${messages("other.value.title")}",

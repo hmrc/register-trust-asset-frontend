@@ -26,7 +26,7 @@ import play.api.Application
 import play.api.data.Form
 import play.api.mvc.Result
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import views.html.asset.other.OtherAssetValueView
 
 import scala.concurrent.Future
@@ -61,7 +61,7 @@ class OtherAssetValueControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, fakeDraftId, index, description)(request, messages).toString
+        view(form, fakeDraftId, index, description)(using request, messages).toString
 
       application.stop()
     }
@@ -84,7 +84,7 @@ class OtherAssetValueControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), fakeDraftId, index, description)(request, messages).toString
+        view(form.fill(validAnswer), fakeDraftId, index, description)(using request, messages).toString
 
       application.stop()
     }
@@ -144,7 +144,7 @@ class OtherAssetValueControllerSpec extends SpecBase {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, fakeDraftId, index, description)(request, messages).toString
+        view(boundForm, fakeDraftId, index, description)(using request, messages).toString
 
       application.stop()
     }

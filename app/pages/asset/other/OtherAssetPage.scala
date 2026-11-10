@@ -20,6 +20,7 @@ import mapping.reads.OtherAsset
 import pages.QuestionPage
 import play.api.libs.json.JsPath
 import sections.Assets
+import scala.language.implicitConversions
 
 final case class OtherAssetPage(index: Int) extends QuestionPage[OtherAsset] {
 

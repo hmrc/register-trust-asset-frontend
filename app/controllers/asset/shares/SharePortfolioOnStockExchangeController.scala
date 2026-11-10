@@ -45,7 +45,7 @@ class SharePortfolioOnStockExchangeController @Inject() (
   yesNoFormProvider: YesNoFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: SharePortfolioOnStockExchangeView
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   val form: Form[Boolean] = yesNoFormProvider.withPrefix("shares.portfolioOnStockExchangeYesNo")
@@ -68,7 +68,7 @@ class SharePortfolioOnStockExchangeController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(SharePortfolioOnStockExchangePage(index), value))

@@ -22,8 +22,8 @@ import models.{Status, WhatKindOfAsset}
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.business.BusinessNamePage
-import play.api.libs.functional.syntax._
-import play.api.libs.json._
+import play.api.libs.functional.syntax.*
+import play.api.libs.json.*
 
 final case class BusinessAssetViewModel(`type`: WhatKindOfAsset, name: Option[String], override val status: Status)
     extends AssetViewModel {
@@ -33,10 +33,10 @@ final case class BusinessAssetViewModel(`type`: WhatKindOfAsset, name: Option[St
 
 object BusinessAssetViewModel {
 
-  implicit lazy val reads: Reads[BusinessAssetViewModel] = (
+  given reads: Reads[BusinessAssetViewModel] = (
     (__ \ WhatKindOfAssetPage.key).read[WhatKindOfAsset].filter(_ == Business) and
       (__ \ BusinessNamePage.key).readNullable[String] and
       (__ \ AssetStatus.key).readWithDefault[Status](InProgress)
-  )(BusinessAssetViewModel.apply _)
+  )(BusinessAssetViewModel.apply)
 
 }

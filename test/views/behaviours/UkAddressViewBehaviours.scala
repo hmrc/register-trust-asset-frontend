@@ -70,8 +70,8 @@ trait UkAddressViewBehaviours extends ViewBehaviours {
             doc,
             "title",
             mockViewUtils.breadcrumbTitle(
-              s"""${messages("error.browser.title.prefix")} ${messages(s"$prefix.title", args: _*)}"""
-            )(fakeRequest, messages)
+              s"""${messages("error.browser.title.prefix")} ${messages(s"$prefix.title", args*)}"""
+            )(using fakeRequest, messages)
           )
         }
       }

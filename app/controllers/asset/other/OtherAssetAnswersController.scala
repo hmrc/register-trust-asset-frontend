@@ -16,7 +16,7 @@
 
 package controllers.asset.other
 
-import controllers.actions._
+import controllers.actions.*
 import mapping.reads.OtherAsset
 import models.Status.Completed
 import models.UserAnswers
@@ -48,7 +48,7 @@ class OtherAssetAnswersController @Inject() (
   view: OtherAssetAnswersView,
   val controllerComponents: MessagesControllerComponents,
   printHelper: OtherPrintHelper
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport with Logging {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =

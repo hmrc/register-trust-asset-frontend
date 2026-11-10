@@ -17,7 +17,7 @@
 package controllers.asset.business
 
 import config.annotations.Business
-import controllers.actions._
+import controllers.actions.*
 import controllers.filters.IndexActionFilterProvider
 import forms.UKAddressFormProvider
 import models.UKAddress
@@ -47,7 +47,7 @@ class BusinessUkAddressController @Inject() (
   formProvider: UKAddressFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: BusinessUkAddressView
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   val form: Form[UKAddress] = formProvider()
@@ -76,7 +76,7 @@ class BusinessUkAddressController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index, businessName))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, draftId, index, businessName))),
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(BusinessUkAddressPage(index), value))

@@ -17,14 +17,14 @@
 package models
 
 import base.SpecBase
-import models.Status._
-import models.WhatKindOfAsset._
+import models.Status.*
+import models.WhatKindOfAsset.*
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.i18n.{Lang, MessagesImpl}
 import play.api.libs.json.{JsError, JsString, Json}
-import viewmodels._
+import viewmodels.*
 
 class WhatKindOfAssetSpec extends SpecBase with ScalaCheckPropertyChecks {
 
@@ -211,7 +211,7 @@ class WhatKindOfAssetSpec extends SpecBase with ScalaCheckPropertyChecks {
       "English" in {
 
         val messages: MessagesImpl = MessagesImpl(Lang("en"), messagesApi)
-        val result                 = asset.label(messages)
+        val result                 = asset.label(using messages)
 
         result mustBe "Company registered outside UK and EEA (European Economic Area)"
 
@@ -220,7 +220,7 @@ class WhatKindOfAssetSpec extends SpecBase with ScalaCheckPropertyChecks {
       "Welsh" in {
 
         val messages: MessagesImpl = MessagesImpl(Lang("cy"), messagesApi)
-        val result                 = asset.label(messages)
+        val result                 = asset.label(using messages)
 
         result mustBe "Cwmni sydd wedi’i gofrestru y tu allan i’r DU neu’r AEE (Ardal Economaidd Ewropeaidd)"
       }

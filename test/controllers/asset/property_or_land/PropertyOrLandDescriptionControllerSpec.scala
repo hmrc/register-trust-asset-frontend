@@ -18,7 +18,7 @@ package controllers.asset.property_or_land
 
 import base.SpecBase
 import controllers.IndexValidation
-import controllers.routes._
+import controllers.routes.*
 import forms.DescriptionFormProvider
 import org.scalacheck.Arbitrary.arbitrary
 import pages.asset.property_or_land.PropertyOrLandDescriptionPage
@@ -51,7 +51,7 @@ class PropertyOrLandDescriptionControllerSpec extends SpecBase with IndexValidat
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, index, fakeDraftId)(request, messages).toString
+        view(form, index, fakeDraftId)(using request, messages).toString
 
       application.stop()
     }
@@ -71,7 +71,7 @@ class PropertyOrLandDescriptionControllerSpec extends SpecBase with IndexValidat
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill("answer"), index, fakeDraftId)(request, messages).toString
+        view(form.fill("answer"), index, fakeDraftId)(using request, messages).toString
 
       application.stop()
     }
@@ -110,7 +110,7 @@ class PropertyOrLandDescriptionControllerSpec extends SpecBase with IndexValidat
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, index, fakeDraftId)(request, messages).toString
+        view(boundForm, index, fakeDraftId)(using request, messages).toString
 
       application.stop()
     }

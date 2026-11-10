@@ -21,11 +21,11 @@ import models.Status.Completed
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import pages.AssetStatus
-import pages.asset.money._
+import pages.asset.money.*
 import play.api.inject.bind
 import play.api.mvc.Result
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import utils.print.MoneyPrintHelper
 import views.html.asset.money.MoneyAnswersView
 
@@ -51,7 +51,7 @@ class MoneyCheckAnswersControllerSpec extends SpecBase {
 
       val expectedSections                  = Nil
       val mockPrintHelper: MoneyPrintHelper = mock[MoneyPrintHelper]()
-      when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(any())).thenReturn(Nil)
+      when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(using any())).thenReturn(Nil)
 
       val application = applicationBuilder(userAnswers = Some(baseAnswers))
         .overrides(bind[MoneyPrintHelper].toInstance(mockPrintHelper))
@@ -66,7 +66,7 @@ class MoneyCheckAnswersControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(index, fakeDraftId, expectedSections)(request, messages).toString
+        view(index, fakeDraftId, expectedSections)(using request, messages).toString
 
       application.stop()
     }

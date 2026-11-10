@@ -46,7 +46,7 @@ class SharePortfolioValueInTrustController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: SharePortfolioValueInTrustView,
   validateIndex: IndexActionFilterProvider
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   private val form = formProvider.withConfig(prefix = "shares.portfolioValueInTrust")
@@ -69,7 +69,7 @@ class SharePortfolioValueInTrustController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(SharePortfolioValueInTrustPage(index), value))

@@ -22,8 +22,8 @@ import models.{Status, WhatKindOfAsset}
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.money.AssetMoneyValuePage
-import play.api.libs.functional.syntax._
-import play.api.libs.json._
+import play.api.libs.functional.syntax.*
+import play.api.libs.json.*
 import utils.CheckAnswersFormatters.currencyFormat
 
 final case class MoneyAssetViewModel(`type`: WhatKindOfAsset, value: Option[String], status: Status)
@@ -34,10 +34,10 @@ final case class MoneyAssetViewModel(`type`: WhatKindOfAsset, value: Option[Stri
 
 object MoneyAssetViewModel {
 
-  implicit lazy val reads: Reads[MoneyAssetViewModel] = (
+  given reads: Reads[MoneyAssetViewModel] = (
     (__ \ WhatKindOfAssetPage.key).read[WhatKindOfAsset].filter(_ == Money) and
       (__ \ AssetMoneyValuePage.key).readNullable[Long].map(_.map(_.toString)) and
       (__ \ AssetStatus.key).readWithDefault[Status](InProgress)
-  )(MoneyAssetViewModel.apply _)
+  )(MoneyAssetViewModel.apply)
 
 }

@@ -17,12 +17,12 @@
 package utils.print
 
 import base.SpecBase
-import controllers.asset.money.routes._
+import controllers.asset.money.routes.*
 import controllers.asset.routes.WhatKindOfAssetController
 import models.UserAnswers
 import models.WhatKindOfAsset.Money
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.money._
+import pages.asset.money.*
 import play.twirl.api.Html
 import viewmodels.{AnswerRow, AnswerSection}
 

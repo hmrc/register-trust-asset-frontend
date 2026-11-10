@@ -17,7 +17,7 @@
 package controllers.asset.shares
 
 import config.annotations.Shares
-import controllers.actions._
+import controllers.actions.*
 import controllers.filters.IndexActionFilterProvider
 import forms.QuantityFormProvider
 import models.requests.RegistrationDataRequest
@@ -45,7 +45,7 @@ class ShareQuantityInTrustController @Inject() (
   formProvider: QuantityFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: ShareQuantityInTrustView
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   private val form: Form[Long] = formProvider.withPrefix("shares.quantityInTrust")
@@ -75,7 +75,7 @@ class ShareQuantityInTrustController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index, companyName))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, draftId, index, companyName))),
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(ShareQuantityInTrustPage(index), value))

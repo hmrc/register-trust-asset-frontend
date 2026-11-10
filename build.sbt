@@ -1,10 +1,10 @@
 import play.sbt.routes.RoutesKeys
-import sbt.Def
-import scoverage.ScoverageKeys
 import uk.gov.hmrc.versioning.SbtGitVersioning.autoImport.majorVersion
+import uk.gov.hmrc.DefaultBuildSettings.targetJvm
 
-ThisBuild / scalaVersion := "2.13.18"
-ThisBuild / majorVersion := 0
+ThisBuild / scalaVersion := "3.9.0"
+ThisBuild / majorVersion := 1
+ThisBuild / targetJvm := "jvm-21"
 
 lazy val root = (project in file("."))
   .enablePlugins(PlayScala, SbtDistributablesPlugin)
@@ -12,19 +12,23 @@ lazy val root = (project in file("."))
   .settings(CodeCoverageSettings())
   .settings(
     name := "register-trust-asset-frontend",
-    RoutesKeys.routesImport += "models._",
+    RoutesKeys.routesImport += "models.*",
     TwirlKeys.templateImports ++= Seq(
       "play.twirl.api.HtmlFormat",
-      "play.twirl.api.HtmlFormat._",
-      "uk.gov.hmrc.govukfrontend.views.html.components._",
-      "uk.gov.hmrc.hmrcfrontend.views.html.components._",
-      "uk.gov.hmrc.hmrcfrontend.views.html.helpers._",
-      "views.ViewUtils._",
+      "play.twirl.api.HtmlFormat.*",
+      "uk.gov.hmrc.govukfrontend.views.html.components.*",
+      "uk.gov.hmrc.hmrcfrontend.views.html.components.*",
+      "uk.gov.hmrc.hmrcfrontend.views.html.helpers.*",
+      "views.ViewUtils.*",
       "models.Mode",
-      "controllers.routes._"
+      "controllers.routes.*"
     ),
     PlayKeys.playDefaultPort := 9853,
-    scalacOptions ++= Seq("-feature", "-Wconf:src=routes/.*:s", "-Wconf:cat=unused-imports&src=views/.*:s"),
+    scalacOptions ++= Seq(
+      "-feature",
+      "-Wconf:src=routes/.*:s",
+      "-Wconf:msg=unused import&src=html/.*:s"
+    ),
     libraryDependencies ++= AppDependencies()
   )
 

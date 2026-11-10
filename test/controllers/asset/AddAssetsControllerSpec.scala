@@ -21,7 +21,7 @@ import forms.{AddAssetsFormProvider, YesNoFormProvider}
 import generators.Generators
 import models.AddAssets.{NoComplete, YesNow}
 import models.Status.{Completed, InProgress}
-import models.WhatKindOfAsset._
+import models.WhatKindOfAsset.*
 import models.{AddAssets, Status, TaskStatus, UserAnswers}
 import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers.{any, eq => mEq}
@@ -33,7 +33,7 @@ import pages.{AssetStatus, RegistrationProgress}
 import play.api.data.Form
 import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import services.TrustsStoreService
 import uk.gov.hmrc.http.HttpResponse
 import utils.AddAssetViewHelper
@@ -104,7 +104,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
   override protected def beforeEach(): Unit = {
     reset(mockTrustsStoreService)
 
-    when(mockTrustsStoreService.updateTaskStatus(any(), any())(any(), any()))
+    when(mockTrustsStoreService.updateTaskStatus(any(), any())(using any(), any()))
       .thenReturn(Future.successful(HttpResponse(OK, "")))
   }
 
@@ -161,7 +161,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
           status(result) mustEqual OK
 
           contentAsString(result) mustEqual
-            view(addTaxableAssetsForm, fakeDraftId)(request, messages).toString
+            view(addTaxableAssetsForm, fakeDraftId)(using request, messages).toString
 
           application.stop()
         }
@@ -196,7 +196,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
           "set task to in progress when answer yes in AddAnAssetYesNoPage" in {
 
             reset(registrationsRepository)
-            when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+            when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
             val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
             val application =
@@ -215,12 +215,15 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
             redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
-            verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+            verify(registrationsRepository).set(uaCaptor.capture)(using any(), any())
 
             uaCaptor.getValue.get(AddAnAssetYesNoPage).get mustBe true
             uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)) mustNot be(defined)
 
-            verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+            verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using
+              any(),
+              any()
+            )
 
             application.stop()
           }
@@ -228,7 +231,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
           "set task to in progress when answer no in AddAnAssetYesNoPage" in {
 
             reset(registrationsRepository)
-            when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+            when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
             val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
             val application =
@@ -247,12 +250,15 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
             redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
-            verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+            verify(registrationsRepository).set(uaCaptor.capture)(using any(), any())
 
             uaCaptor.getValue.get(AddAnAssetYesNoPage).get mustBe false
             uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)) mustNot be(defined)
 
-            verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+            verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using
+              any(),
+              any()
+            )
 
             application.stop()
           }
@@ -263,7 +269,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
           "set task to in progress and values when answers yes" in {
 
             reset(registrationsRepository)
-            when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+            when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
 
             val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
@@ -283,11 +289,14 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
             redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
-            verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+            verify(registrationsRepository).set(uaCaptor.capture)(using any(), any())
             uaCaptor.getValue.get(AddAnAssetYesNoPage).get                  mustBe true
             uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)).get mustBe NonEeaBusiness
 
-            verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+            verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using
+              any(),
+              any()
+            )
 
             application.stop()
           }
@@ -295,7 +304,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
           "set task to complete and set values when answers no" in {
 
             reset(registrationsRepository)
-            when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+            when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
 
             val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
@@ -315,11 +324,11 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
             redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
-            verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+            verify(registrationsRepository).set(uaCaptor.capture)(using any(), any())
             uaCaptor.getValue.get(AddAnAssetYesNoPage).get                  mustBe false
             uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)).get mustBe NonEeaBusiness
 
-            verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(any(), any())
+            verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(using any(), any())
 
             application.stop()
           }
@@ -343,7 +352,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
         status(result) mustEqual BAD_REQUEST
 
         contentAsString(result) mustEqual
-          view(boundForm, fakeDraftId)(request, messages).toString
+          view(boundForm, fakeDraftId)(using request, messages).toString
 
         application.stop()
       }
@@ -367,7 +376,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
           status(result) mustEqual OK
 
           contentAsString(result) mustEqual
-            view(addTaxableAssetsForm, fakeDraftId, Nil, oneAsset, "Add assets", "addAssets", Nil)(
+            view(addTaxableAssetsForm, fakeDraftId, Nil, oneAsset, "Add assets", "addAssets", Nil)(using
               request,
               messages
             ).toString
@@ -397,7 +406,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
               "Add ownership or controlling interest of a company registered outside UK and EEA",
               "addAssets.nonTaxable",
               Nil
-            )(request, messages).toString
+            )(using request, messages).toString
 
           application.stop()
         }
@@ -423,6 +432,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
           contentAsString(result) mustEqual
             view(addTaxableAssetsForm, fakeDraftId, Nil, multipleAssets, "You have added 2 assets", "addAssets", Nil)(
+              using
               request,
               messages
             ).toString
@@ -452,7 +462,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
               "Add ownership or controlling interest of a company registered outside UK and EEA",
               "addAssets.nonTaxable",
               Nil
-            )(request, messages).toString
+            )(using request, messages).toString
 
           application.stop()
         }
@@ -467,7 +477,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
           "set value in AddAssetsPage and not set value in WhatKindOfAssetPage" in {
 
             reset(registrationsRepository)
-            when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+            when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
 
             val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
@@ -487,11 +497,14 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
             redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
-            verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+            verify(registrationsRepository).set(uaCaptor.capture)(using any(), any())
             uaCaptor.getValue.get(AddAssetsPage).get mustBe YesNow
             uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)) mustNot be(defined)
 
-            verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+            verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using
+              any(),
+              any()
+            )
 
             application.stop()
           }
@@ -502,7 +515,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
           "set values in AddAssetsPage and WhatKindOfAssetPage" in {
 
             reset(registrationsRepository)
-            when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+            when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
             val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
             val application =
@@ -526,11 +539,14 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
             redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
-            verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+            verify(registrationsRepository).set(uaCaptor.capture)(using any(), any())
             uaCaptor.getValue.get(AddAssetsPage).get                        mustBe YesNow
             uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)).get mustBe NonEeaBusiness
 
-            verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+            verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using
+              any(),
+              any()
+            )
 
             application.stop()
           }
@@ -538,7 +554,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
           "not set value in WhatKindOfAssetPage when last asset is in progress" in {
 
             reset(registrationsRepository)
-            when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+            when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
             val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
             val application =
@@ -557,11 +573,14 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
             redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
-            verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+            verify(registrationsRepository).set(uaCaptor.capture)(using any(), any())
             uaCaptor.getValue.get(AddAssetsPage).get mustBe YesNow
             uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)) mustNot be(defined)
 
-            verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+            verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using
+              any(),
+              any()
+            )
 
             application.stop()
           }
@@ -578,7 +597,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
             "set in progress and redirect" in {
               reset(registrationsRepository)
-              when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+              when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
               val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
               when(mockRegistrationProgress.assetsStatus(any())).thenReturn(Some(InProgress))
@@ -600,11 +619,14 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
               redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
-              verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+              verify(registrationsRepository).set(uaCaptor.capture)(using any(), any())
               uaCaptor.getValue.get(AddAssetsPage).get mustBe AddAssets.YesLater
               uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)) mustNot be(defined)
 
-              verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+              verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using
+                any(),
+                any()
+              )
 
               application.stop()
             }
@@ -615,7 +637,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
             "set in progress and not set value in WhatKindOfAssetPage" in {
               reset(registrationsRepository)
-              when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+              when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
               val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
               val application =
@@ -634,11 +656,14 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
               redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
-              verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+              verify(registrationsRepository).set(uaCaptor.capture)(using any(), any())
               uaCaptor.getValue.get(AddAssetsPage).get mustBe AddAssets.YesLater
               uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)) mustNot be(defined)
 
-              verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+              verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using
+                any(),
+                any()
+              )
 
               application.stop()
             }
@@ -648,7 +673,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
             "set in progress and not set value in WhatKindOfAssetPage" in {
 
               reset(registrationsRepository)
-              when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+              when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
               val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
               val application =
@@ -667,11 +692,14 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
               redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
-              verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+              verify(registrationsRepository).set(uaCaptor.capture)(using any(), any())
               uaCaptor.getValue.get(AddAssetsPage).get mustBe AddAssets.YesLater
               uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)) mustNot be(defined)
 
-              verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+              verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using
+                any(),
+                any()
+              )
 
               application.stop()
             }
@@ -689,7 +717,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
             "set in progress and redirect" in {
               reset(registrationsRepository)
-              when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+              when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
               val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
               when(mockRegistrationProgress.assetsStatus(any())).thenReturn(Some(InProgress))
@@ -711,11 +739,14 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
               redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
-              verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+              verify(registrationsRepository).set(uaCaptor.capture)(using any(), any())
               uaCaptor.getValue.get(AddAssetsPage).get mustBe AddAssets.NoComplete
               uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)) mustNot be(defined)
 
-              verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+              verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using
+                any(),
+                any()
+              )
 
               application.stop()
             }
@@ -726,7 +757,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
             "set task complete and not set value in WhatKindOfAssetPage" in {
               reset(registrationsRepository)
-              when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+              when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
               val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
               val application =
@@ -745,11 +776,14 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
               redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
-              verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+              verify(registrationsRepository).set(uaCaptor.capture)(using any(), any())
               uaCaptor.getValue.get(AddAssetsPage).get mustBe AddAssets.NoComplete
               uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)) mustNot be(defined)
 
-              verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(any(), any())
+              verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(using
+                any(),
+                any()
+              )
 
               application.stop()
             }
@@ -759,7 +793,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
             "set task complete and not set value in WhatKindOfAssetPage" in {
 
               reset(registrationsRepository)
-              when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+              when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
               val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
               val application =
@@ -778,11 +812,14 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
               redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
-              verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+              verify(registrationsRepository).set(uaCaptor.capture)(using any(), any())
               uaCaptor.getValue.get(AddAssetsPage).get mustBe AddAssets.NoComplete
               uaCaptor.getValue.get(WhatKindOfAssetPage(indexOfNewAsset)) mustNot be(defined)
 
-              verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(any(), any())
+              verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(using
+                any(),
+                any()
+              )
 
               application.stop()
             }
@@ -807,7 +844,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
         status(result) mustEqual BAD_REQUEST
 
         contentAsString(result) mustEqual
-          view(boundForm, fakeDraftId, Nil, multipleAssets, "You have added 2 assets", "addAssets", Nil)(
+          view(boundForm, fakeDraftId, Nil, multipleAssets, "You have added 2 assets", "addAssets", Nil)(using
             request,
             messages
           ).toString
@@ -851,7 +888,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
             "Add assets",
             "addAssets",
             List(("Money", 1))
-          )(request, messages).toString
+          )(using request, messages).toString
 
         content must include("You cannot add another money asset as you have entered a maximum of 1.")
         content must include(
@@ -906,7 +943,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
             "You have added 11 assets",
             "addAssets",
             List(("Money", 1), ("Property or land", 10))
-          )(request, messages).toString
+          )(using request, messages).toString
 
         content must include("You have entered the maximum number of assets for:")
         content must include(
@@ -966,7 +1003,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
           val content = contentAsString(result)
 
           content mustEqual
-            view(fakeDraftId, rows.inProgress, rows.complete, "You have added 76 assets", max, "addAssets")(
+            view(fakeDraftId, rows.inProgress, rows.complete, "You have added 76 assets", max, "addAssets")(using
               request,
               messages
             ).toString
@@ -982,7 +1019,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
         "redirect to next page and set AddAssetsPage to NoComplete for a POST" in {
 
           reset(registrationsRepository)
-          when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+          when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
           val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
           when(mockRegistrationProgress.assetsStatus(any())).thenReturn(Some(Completed))
@@ -1002,10 +1039,10 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
           redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
-          verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+          verify(registrationsRepository).set(uaCaptor.capture)(using any(), any())
           uaCaptor.getValue.get(AddAssetsPage).get mustBe NoComplete
 
-          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(any(), any())
+          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(using any(), any())
 
           application.stop()
         }
@@ -1054,7 +1091,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
               "Add ownership or controlling interest of a company registered outside UK and EEA",
               max,
               "addAssets.nonTaxable"
-            )(request, messages).toString
+            )(using request, messages).toString
 
           content must include(
             "You cannot add another company registered outside the UK or EEA as you have entered a maximum of 25."
@@ -1070,7 +1107,7 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
         "redirect to next page and set AddAssetsPage to NoComplete for a POST" in {
 
           reset(registrationsRepository)
-          when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+          when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
           val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
           when(mockRegistrationProgress.assetsStatus(any())).thenReturn(Some(Completed))
@@ -1090,10 +1127,10 @@ class AddAssetsControllerSpec extends SpecBase with Generators with BeforeAndAft
 
           redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
-          verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+          verify(registrationsRepository).set(uaCaptor.capture)(using any(), any())
           uaCaptor.getValue.get(AddAssetsPage).get mustBe NoComplete
 
-          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(any(), any())
+          verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(using any(), any())
 
           application.stop()
         }

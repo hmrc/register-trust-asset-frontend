@@ -45,14 +45,14 @@ class ViewUtilsSpec extends SpecBase {
           )
 
           "Request" in {
-            implicit val request: Request[_] = fakeRequest
-            val result                       = viewUtils.breadcrumbTitle(fakeTitle)(request, messages)
+            given request: Request[?] = fakeRequest
+            val result                = viewUtils.breadcrumbTitle(fakeTitle)(using request, messages)
             result mustBe s"$fakeTitle - Register a trust - GOV.UK"
           }
 
           "RegistrationDataRequest" in {
-            implicit val request: RegistrationDataRequest[_] = dataRequest
-            val result                                       = viewUtils.breadcrumbTitle(fakeTitle)(request, messages)
+            given request: RegistrationDataRequest[?] = dataRequest
+            val result                                = viewUtils.breadcrumbTitle(fakeTitle)(using request, messages)
             result mustBe s"$fakeTitle - Assets - Register a trust - GOV.UK"
           }
         }
@@ -71,14 +71,14 @@ class ViewUtilsSpec extends SpecBase {
           )
 
           "Request" in {
-            implicit val request: Request[_] = fakeRequest
-            val result                       = viewUtils.breadcrumbTitle(fakeTitle)(request, messages)
+            given request: Request[?] = fakeRequest
+            val result                = viewUtils.breadcrumbTitle(fakeTitle)(using request, messages)
             result mustBe s"$fakeTitle - Register a trust - GOV.UK"
           }
 
           "RegistrationDataRequest" in {
-            implicit val request: RegistrationDataRequest[_] = dataRequest
-            val result                                       = viewUtils.breadcrumbTitle(fakeTitle)(request, messages)
+            given request: RegistrationDataRequest[?] = dataRequest
+            val result                                = viewUtils.breadcrumbTitle(fakeTitle)(using request, messages)
             result mustBe s"$fakeTitle - Company registered outside the UK or EEA - Register a trust - GOV.UK"
           }
         }

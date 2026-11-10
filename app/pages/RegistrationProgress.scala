@@ -17,7 +17,7 @@
 package pages
 
 import models.AddAssets.NoComplete
-import models.Status._
+import models.Status.*
 import models.{Status, UserAnswers}
 import pages.asset.{AddAssetsPage, TrustOwnsNonEeaBusinessYesNoPage}
 

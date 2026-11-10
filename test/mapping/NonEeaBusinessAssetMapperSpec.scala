@@ -21,8 +21,8 @@ import models.Status.Completed
 import models.WhatKindOfAsset.NonEeaBusiness
 import models.{AddressType, InternationalAddress, NonEeaBusinessType}
 import pages.AssetStatus
-import pages.asset._
-import pages.asset.noneeabusiness._
+import pages.asset.*
+import pages.asset.noneeabusiness.*
 
 import java.time.LocalDate
 

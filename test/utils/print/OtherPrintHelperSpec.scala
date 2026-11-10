@@ -17,12 +17,12 @@
 package utils.print
 
 import base.SpecBase
-import controllers.asset.other.routes._
+import controllers.asset.other.routes.*
 import controllers.asset.routes.WhatKindOfAssetController
 import models.UserAnswers
 import models.WhatKindOfAsset.Other
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.other._
+import pages.asset.other.*
 import play.twirl.api.Html
 import viewmodels.{AnswerRow, AnswerSection}
 

@@ -18,7 +18,7 @@ package models
 
 import java.time.LocalDate
 
-import play.api.libs.json._
+import play.api.libs.json.*
 
 sealed trait AssetType
 
@@ -33,13 +33,13 @@ case class Assets(
 )
 
 object Assets {
-  implicit val assetsFormat: Format[Assets] = Json.format[Assets]
+  given assetsFormat: Format[Assets] = Json.format[Assets]
 }
 
 case class AssetMonetaryAmount(assetMonetaryAmount: Long) extends AssetType
 
 object AssetMonetaryAmount {
-  implicit val assetMonetaryAmountFormat: Format[AssetMonetaryAmount] = Json.format[AssetMonetaryAmount]
+  given assetMonetaryAmountFormat: Format[AssetMonetaryAmount] = Json.format[AssetMonetaryAmount]
 }
 
 case class PropertyLandType(
@@ -50,41 +50,41 @@ case class PropertyLandType(
 ) extends AssetType
 
 object PropertyLandType {
-  implicit val propertyLandTypeFormat: Format[PropertyLandType] = Json.format[PropertyLandType]
+  given propertyLandTypeFormat: Format[PropertyLandType] = Json.format[PropertyLandType]
 }
 
 case class BusinessAssetType(orgName: String, businessDescription: String, address: AddressType, businessValue: Long)
     extends AssetType
 
 object BusinessAssetType {
-  implicit val businessAssetTypeFormat: Format[BusinessAssetType] = Json.format[BusinessAssetType]
+  given businessAssetTypeFormat: Format[BusinessAssetType] = Json.format[BusinessAssetType]
 }
 
 case class OtherAssetType(description: String, value: Long) extends AssetType
 
 object OtherAssetType {
-  implicit val otherAssetTypeFormat: Format[OtherAssetType] = Json.format[OtherAssetType]
+  given otherAssetTypeFormat: Format[OtherAssetType] = Json.format[OtherAssetType]
 }
 
 case class PartnershipType(description: String, partnershipStart: LocalDate) extends AssetType
 
 object PartnershipType {
 
-  implicit val partnershipTypeFormat: Format[PartnershipType] = Json.format[PartnershipType]
+  given partnershipTypeFormat: Format[PartnershipType] = Json.format[PartnershipType]
 }
 
 case class SharesType(numberOfShares: String, orgName: String, shareClass: String, typeOfShare: String, value: Long)
     extends AssetType
 
 object SharesType {
-  implicit val sharesTypeFormat: Format[SharesType] = Json.format[SharesType]
+  given sharesTypeFormat: Format[SharesType] = Json.format[SharesType]
 }
 
 case class NonEeaBusinessType(orgName: String, address: AddressType, govLawCountry: String, startDate: LocalDate)
     extends AssetType
 
 object NonEeaBusinessType {
-  implicit val format: Format[NonEeaBusinessType] = Json.format[NonEeaBusinessType]
+  given format: Format[NonEeaBusinessType] = Json.format[NonEeaBusinessType]
 }
 
 case class AddressType(
@@ -97,5 +97,5 @@ case class AddressType(
 )
 
 object AddressType {
-  implicit val addressTypeFormat: Format[AddressType] = Json.format[AddressType]
+  given addressTypeFormat: Format[AddressType] = Json.format[AddressType]
 }

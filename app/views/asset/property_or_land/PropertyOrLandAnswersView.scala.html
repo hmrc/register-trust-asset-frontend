@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@import controllers.asset.property_or_land.routes._
+@import controllers.asset.property_or_land.routes.*
 @import viewmodels.Section
 @import views.html.components.{SubmitButton, Heading}
 @import utils.SectionFormatter.formatSections
@@ -27,7 +27,7 @@
     govukSummaryList: GovukSummaryList
 )
 
-@(index : Int, draftId: String, answerSections: Seq[Section])(implicit request: RequestHeader, messages: Messages)
+@(index : Int, draftId: String, answerSections: Seq[Section])(using request: RequestHeader, messages: Messages)
 
 @main_template(
     title = messages("propertyOrLand.answers.title"),

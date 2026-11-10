@@ -16,17 +16,16 @@
 
 package utils
 
-import controllers.asset._
+import controllers.asset.*
 import models.Status.Completed
 import models.UserAnswers
-import models.WhatKindOfAsset.Money.AssetLabel
 import play.api.i18n.Messages
 import sections.Assets
 import viewmodels.{AddRow, AddToRows, _}
 
 import javax.inject.Inject
 
-class AddAssetViewHelper @Inject() (userAnswers: UserAnswers, draftId: String)(implicit messages: Messages) {
+class AddAssetViewHelper @Inject() (userAnswers: UserAnswers, draftId: String)(using messages: Messages) {
 
   def rows: AddToRows = {
 

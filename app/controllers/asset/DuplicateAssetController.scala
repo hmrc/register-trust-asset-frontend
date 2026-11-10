@@ -18,12 +18,11 @@ package controllers.asset
 
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import controllers.actions._
+import controllers.actions.*
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.asset.DuplicateAssetView
 
 import javax.inject.Inject
-import scala.concurrent.ExecutionContext
 
 class DuplicateAssetController @Inject() (
   override val messagesApi: MessagesApi,
@@ -32,8 +31,7 @@ class DuplicateAssetController @Inject() (
   requireData: RegistrationDataRequiredAction,
   val controllerComponents: MessagesControllerComponents,
   view: DuplicateAssetView
-)(implicit ec: ExecutionContext)
-    extends FrontendBaseController with I18nSupport {
+) extends FrontendBaseController with I18nSupport {
 
   def onPageLoad(draftId: String): Action[AnyContent] =
     (identify andThen getData(draftId) andThen requireData) { implicit request =>

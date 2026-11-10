@@ -22,7 +22,7 @@ import controllers.actions.{
 }
 import forms.{AddAssetsFormProvider, YesNoFormProvider}
 import models.AddAssets.NoComplete
-import models.Constants._
+import models.Constants.*
 import models.Status.Completed
 import models.TaskStatus.TaskStatus
 import models.requests.RegistrationDataRequest
@@ -57,7 +57,7 @@ class AddAssetsController @Inject() (
   maxedOutView: MaxedOutView,
   trustsStoreService: TrustsStoreService,
   registrationProgress: RegistrationProgress
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends AddAssetController {
 
   private def addAnotherForm(isTaxable: Boolean): Form[AddAssets] =
@@ -70,14 +70,14 @@ class AddAssetsController @Inject() (
 
   private def determinePrefix(isTaxable: Boolean): String = "addAssets" + (if (!isTaxable) ".nonTaxable" else "")
 
-  private def heading(count: Int, prefix: String)(implicit mp: MessagesProvider): String =
+  private def heading(count: Int, prefix: String)(using mp: MessagesProvider): String =
     if (count > 1 && prefix != "addAssets.nonTaxable") {
       Messages(s"$prefix.count.heading", count)
     } else {
       Messages(s"$prefix.heading")
     }
 
-  private def setTaskStatus(draftId: String, userAnswers: UserAnswers, action: AddAssets)(implicit
+  private def setTaskStatus(draftId: String, userAnswers: UserAnswers, action: AddAssets)(using
     hc: HeaderCarrier
   ): Future[HttpResponse] = {
     val status = (action, registrationProgress.assetsStatus(userAnswers)) match {
@@ -87,7 +87,7 @@ class AddAssetsController @Inject() (
     setTaskStatus(draftId, status)
   }
 
-  private def setTaskStatus(draftId: String, taskStatus: TaskStatus)(implicit hc: HeaderCarrier): Future[HttpResponse] =
+  private def setTaskStatus(draftId: String, taskStatus: TaskStatus)(using hc: HeaderCarrier): Future[HttpResponse] =
     trustsStoreService.updateTaskStatus(draftId, taskStatus)
 
   def onPageLoad(draftId: String): Action[AnyContent] = actions(draftId) { implicit request =>
@@ -133,7 +133,7 @@ class AddAssetsController @Inject() (
     yesNoForm
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(yesNoView(formWithErrors, draftId))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(yesNoView(formWithErrors, draftId))),
         value =>
           for {
             answersWithAssetTypeIfNonTaxable <- Future.fromTry(setAssetType(request.userAnswers, 0))
@@ -163,7 +163,7 @@ class AddAssetsController @Inject() (
     addAnotherForm(isTaxable)
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) =>
+        (formWithErrors: Form[?]) =>
           Future.successful(
             BadRequest(
               addAssetsView(

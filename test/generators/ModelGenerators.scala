@@ -16,7 +16,7 @@
 
 package generators
 
-import models._
+import models.*
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.{Arbitrary, Gen}
 
@@ -24,12 +24,12 @@ import java.time.LocalDate
 
 trait ModelGenerators {
 
-  implicit lazy val arbitraryWhatKindOfAsset: Arbitrary[WhatKindOfAsset] =
+  given arbitraryWhatKindOfAsset: Arbitrary[WhatKindOfAsset] =
     Arbitrary {
       Gen.oneOf(WhatKindOfAsset.values)
     }
 
-  implicit lazy val arbitraryUkAddress: Arbitrary[UKAddress] =
+  given arbitraryUkAddress: Arbitrary[UKAddress] =
     Arbitrary {
       for {
         line1    <- arbitrary[String]
@@ -40,24 +40,24 @@ trait ModelGenerators {
       } yield UKAddress(line1, line2, Some(line3), Some(line4), postcode)
     }
 
-  implicit lazy val arbitraryInternationalAddress: Arbitrary[InternationalAddress] =
+  given arbitraryInternationalAddress: Arbitrary[InternationalAddress] =
     Arbitrary {
       for {
         str <- arbitrary[String]
       } yield InternationalAddress(str, str, Some(str), str)
     }
 
-  implicit lazy val arbitraryShareClass: Arbitrary[ShareClass] =
+  given arbitraryShareClass: Arbitrary[ShareClass] =
     Arbitrary {
       Gen.oneOf(ShareClass.allValues)
     }
 
-  implicit lazy val arbitraryAddAssets: Arbitrary[AddAssets] =
+  given arbitraryAddAssets: Arbitrary[AddAssets] =
     Arbitrary {
       Gen.oneOf(AddAssets.values)
     }
 
-  implicit lazy val arbitraryLocalDate: Arbitrary[LocalDate] =
+  given arbitraryLocalDate: Arbitrary[LocalDate] =
     Arbitrary {
       for {
         year  <- Gen.choose(min = 1500, max = 2099)

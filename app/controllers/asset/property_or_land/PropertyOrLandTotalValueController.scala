@@ -46,7 +46,7 @@ class PropertyOrLandTotalValueController @Inject() (
   formProvider: ValueFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: PropertyOrLandTotalValueView
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
@@ -72,7 +72,7 @@ class PropertyOrLandTotalValueController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, index, draftId))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, index, draftId))),
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(PropertyOrLandTotalValuePage(index), value))
@@ -81,7 +81,7 @@ class PropertyOrLandTotalValueController @Inject() (
       )
   }
 
-  private def configuredForm(index: Int)(implicit request: RegistrationDataRequest[AnyContent]): Form[Long] =
+  private def configuredForm(index: Int)(using request: RegistrationDataRequest[AnyContent]): Form[Long] =
     formProvider.withConfig(
       prefix = "propertyOrLand.totalValue",
       minValue = request.userAnswers.get(PropertyLandValueTrustPage(index))

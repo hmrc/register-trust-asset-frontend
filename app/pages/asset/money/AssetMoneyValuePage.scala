@@ -20,6 +20,7 @@ import pages.QuestionPage
 import pages.asset.money.AssetMoneyValuePage.key
 import play.api.libs.json.JsPath
 import sections.Assets
+import scala.language.implicitConversions
 
 final case class AssetMoneyValuePage(index: Int) extends QuestionPage[Long] {
 

@@ -22,7 +22,7 @@
     heading: Heading
 )
 
-@(draftId: String)(implicit request: RequestHeader, messages: Messages)
+@(draftId: String)(using request: RequestHeader, messages: Messages)
 
 @mainTemplate(
     title = messages("duplicateAsset.title"),

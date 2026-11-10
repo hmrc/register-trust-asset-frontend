@@ -20,6 +20,7 @@ import mapping.reads.NonEeaBusinessAsset
 import pages.QuestionPage
 import play.api.libs.json.JsPath
 import sections.Assets
+import scala.language.implicitConversions
 
 final case class NonEeaBusinessAssetPage(index: Int) extends QuestionPage[NonEeaBusinessAsset] {
 

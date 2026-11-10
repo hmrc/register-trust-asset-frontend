@@ -18,7 +18,7 @@ package controllers.asset.property_or_land
 
 import base.SpecBase
 import controllers.IndexValidation
-import controllers.routes._
+import controllers.routes.*
 import forms.InternationalAddressFormProvider
 import models.InternationalAddress
 import org.scalacheck.Arbitrary.arbitrary
@@ -27,8 +27,8 @@ import play.api.Application
 import play.api.data.Form
 import play.api.mvc.{AnyContentAsEmpty, AnyContentAsFormUrlEncoded, Result}
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
-import utils._
+import play.api.test.Helpers.*
+import utils.*
 import utils.countryOptions.CountryOptionsNonUK
 import views.html.asset.property_or_land.PropertyOrLandInternationalAddressView
 
@@ -61,7 +61,7 @@ class PropertyOrLandInternationalAddressControllerSpec extends SpecBase with Ind
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, countryOptions, fakeDraftId, index)(request, messages).toString
+        view(form, countryOptions, fakeDraftId, index)(using request, messages).toString
 
       application.stop()
     }
@@ -94,7 +94,7 @@ class PropertyOrLandInternationalAddressControllerSpec extends SpecBase with Ind
           countryOptions,
           fakeDraftId,
           index
-        )(request, messages).toString
+        )(using request, messages).toString
 
       application.stop()
     }
@@ -136,7 +136,7 @@ class PropertyOrLandInternationalAddressControllerSpec extends SpecBase with Ind
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, countryOptions, fakeDraftId, index)(request, messages).toString
+        view(boundForm, countryOptions, fakeDraftId, index)(using request, messages).toString
 
       application.stop()
     }

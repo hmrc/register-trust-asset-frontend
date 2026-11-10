@@ -18,11 +18,11 @@ package utils.print
 
 import base.SpecBase
 import controllers.asset.routes.WhatKindOfAssetController
-import controllers.asset.shares.routes._
+import controllers.asset.shares.routes.*
 import models.WhatKindOfAsset.Shares
 import models.{ShareClass, UserAnswers}
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.shares._
+import pages.asset.shares.*
 import play.twirl.api.Html
 import viewmodels.{AnswerRow, AnswerSection}
 

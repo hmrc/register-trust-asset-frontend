@@ -28,12 +28,12 @@ import javax.inject.Inject
 
 class CheckAnswersFormatters @Inject() (languageUtils: LanguageUtils, countryOptions: CountryOptions) {
 
-  def formatDate(date: LocalDate)(implicit messages: Messages): Html = {
+  def formatDate(date: LocalDate)(using messages: Messages): Html = {
     val formattedDate: String = languageUtils.Dates.formatDate(date)
     escape(formattedDate)
   }
 
-  def addressFormatter(address: Address)(implicit messages: Messages): Html =
+  def addressFormatter(address: Address)(using messages: Messages): Html =
     address match {
       case a: UKAddress            => ukAddress(a)
       case a: InternationalAddress => internationalAddress(a)
@@ -52,7 +52,7 @@ class CheckAnswersFormatters @Inject() (languageUtils: LanguageUtils, countryOpt
     breakLines(lines)
   }
 
-  private def internationalAddress(address: InternationalAddress)(implicit messages: Messages): Html = {
+  private def internationalAddress(address: InternationalAddress)(using messages: Messages): Html = {
 
     val lines: Seq[Html] = Seq(
       Some(escape(address.line1)),
@@ -64,7 +64,7 @@ class CheckAnswersFormatters @Inject() (languageUtils: LanguageUtils, countryOpt
     breakLines(lines)
   }
 
-  def country(code: String)(implicit messages: Messages): String =
+  def country(code: String)(using messages: Messages): String =
     countryOptions.options().find(_.value.equals(code)).map(_.label).getOrElse("")
 
   private def breakLines(lines: Seq[Html]): Html =
@@ -74,7 +74,7 @@ class CheckAnswersFormatters @Inject() (languageUtils: LanguageUtils, countryOpt
 
 object CheckAnswersFormatters {
 
-  def yesOrNo(answer: Boolean)(implicit messages: Messages): Html =
+  def yesOrNo(answer: Boolean)(using messages: Messages): Html =
     if (answer) {
       escape(messages("site.yes"))
     } else {
@@ -85,7 +85,7 @@ object CheckAnswersFormatters {
 
   def currencyFormat(value: String): String = s"£$value"
 
-  def formatEnum[T](key: String, answer: T)(implicit messages: Messages): Html =
+  def formatEnum[T](key: String, answer: T)(using messages: Messages): Html =
     escape(messages(s"$key.$answer"))
 
 }

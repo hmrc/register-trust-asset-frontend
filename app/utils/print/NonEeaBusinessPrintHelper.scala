@@ -16,9 +16,9 @@
 
 package utils.print
 
-import controllers.asset.noneeabusiness.routes._
+import controllers.asset.noneeabusiness.routes.*
 import models.UserAnswers
-import pages.asset.noneeabusiness._
+import pages.asset.noneeabusiness.*
 import play.api.i18n.Messages
 import utils.{AnswerRowConverter, CheckAnswersFormatters}
 import viewmodels.AnswerRow
@@ -29,7 +29,7 @@ class NonEeaBusinessPrintHelper @Inject() (checkAnswersFormatters: CheckAnswersF
 
   override val assetType: String = "nonEeaBusinessAsset"
 
-  override def answerRows(userAnswers: UserAnswers, arg: String, index: Int, draftId: String)(implicit
+  override def answerRows(userAnswers: UserAnswers, arg: String, index: Int, draftId: String)(using
     messages: Messages
   ): Seq[AnswerRow] = {
 

@@ -17,12 +17,12 @@
 package utils.print
 
 import base.SpecBase
-import controllers.asset.noneeabusiness.routes._
+import controllers.asset.noneeabusiness.routes.*
 import controllers.asset.routes.WhatKindOfAssetController
 import models.WhatKindOfAsset.NonEeaBusiness
 import models.{InternationalAddress, UserAnswers}
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.noneeabusiness._
+import pages.asset.noneeabusiness.*
 import play.twirl.api.Html
 import viewmodels.{AnswerRow, AnswerSection}
 

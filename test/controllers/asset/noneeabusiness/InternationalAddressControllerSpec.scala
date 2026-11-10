@@ -18,7 +18,7 @@ package controllers.asset.noneeabusiness
 
 import base.SpecBase
 import controllers.IndexValidation
-import controllers.routes._
+import controllers.routes.*
 import forms.InternationalAddressFormProvider
 import models.{InternationalAddress, UserAnswers}
 import org.scalacheck.Arbitrary.arbitrary
@@ -63,7 +63,7 @@ class InternationalAddressControllerSpec extends SpecBase with IndexValidation {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, countryOptions, index, fakeDraftId, name)(request, messages).toString
+        view(form, countryOptions, index, fakeDraftId, name)(using request, messages).toString
 
       application.stop()
     }
@@ -86,7 +86,7 @@ class InternationalAddressControllerSpec extends SpecBase with IndexValidation {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), countryOptions, index, fakeDraftId, name)(request, messages).toString
+        view(form.fill(validAnswer), countryOptions, index, fakeDraftId, name)(using request, messages).toString
 
       application.stop()
     }
@@ -145,7 +145,7 @@ class InternationalAddressControllerSpec extends SpecBase with IndexValidation {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, countryOptions, index, fakeDraftId, name)(request, messages).toString
+        view(boundForm, countryOptions, index, fakeDraftId, name)(using request, messages).toString
 
       application.stop()
     }

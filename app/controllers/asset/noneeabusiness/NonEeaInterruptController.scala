@@ -17,7 +17,7 @@
 package controllers.asset.noneeabusiness
 
 import config.annotations.NonEeaBusiness
-import controllers.actions._
+import controllers.actions.*
 import controllers.filters.IndexActionFilterProvider
 import models.requests.RegistrationDataRequest
 import navigation.Navigator

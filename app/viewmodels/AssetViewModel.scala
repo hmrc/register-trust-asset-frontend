@@ -30,9 +30,9 @@ trait AssetViewModel {
 
 object AssetViewModel {
 
-  import play.api.libs.json._
+  import play.api.libs.json.*
 
-  implicit class ReadsWithContravariantOr[A](a: Reads[A]) {
+  extension [A](a: Reads[A]) {
 
     def or[B >: A](b: Reads[B]): Reads[B] =
       a.map[B](identity).orElse(b)
@@ -42,13 +42,13 @@ object AssetViewModel {
   implicit def convertToSupertype[A, B >: A](a: Reads[A]): Reads[B] =
     a.map(identity)
 
-  implicit lazy val reads: Reads[AssetViewModel] =
-    MoneyAssetViewModel.reads or
-      PropertyOrLandAssetViewModel.reads or
-      ShareAssetViewModel.reads or
-      BusinessAssetViewModel.reads or
-      PartnershipAssetViewModel.reads or
-      OtherAssetViewModel.reads or
-      NonEeaBusinessAssetViewModel.reads
+  given reads: Reads[AssetViewModel] =
+    MoneyAssetViewModel.reads
+      .or(PropertyOrLandAssetViewModel.reads)
+      .or(ShareAssetViewModel.reads)
+      .or(BusinessAssetViewModel.reads)
+      .or(PartnershipAssetViewModel.reads)
+      .or(OtherAssetViewModel.reads)
+      .or(NonEeaBusinessAssetViewModel.reads)
 
 }

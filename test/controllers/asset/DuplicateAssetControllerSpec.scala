@@ -18,7 +18,7 @@ package controllers.asset
 
 import base.SpecBase
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import views.html.asset.DuplicateAssetView
 
 class DuplicateAssetControllerSpec extends SpecBase {
@@ -38,7 +38,7 @@ class DuplicateAssetControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(fakeDraftId)(request, messages).toString
+        view(fakeDraftId)(using request, messages).toString
 
       application.stop()
     }

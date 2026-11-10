@@ -26,7 +26,7 @@ import scala.reflect.ClassTag
 
 class AnswersHelper[A <: Asset: ClassTag](printHelper: PrintHelper) {
 
-  def apply(userAnswers: UserAnswers)(implicit messages: Messages): Seq[AnswerSection] = {
+  def apply(userAnswers: UserAnswers)(using messages: Messages): Seq[AnswerSection] = {
 
     val runtimeClass = implicitly[ClassTag[A]].runtimeClass
 

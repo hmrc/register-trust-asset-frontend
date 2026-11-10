@@ -50,7 +50,7 @@ class PartnershipDescriptionControllerSpec extends SpecBase with IndexValidation
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, index, fakeDraftId)(request, messages).toString
+        view(form, index, fakeDraftId)(using request, messages).toString
 
       application.stop()
     }
@@ -70,7 +70,7 @@ class PartnershipDescriptionControllerSpec extends SpecBase with IndexValidation
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill("answer"), index, fakeDraftId)(request, messages).toString
+        view(form.fill("answer"), index, fakeDraftId)(using request, messages).toString
 
       application.stop()
     }
@@ -109,7 +109,7 @@ class PartnershipDescriptionControllerSpec extends SpecBase with IndexValidation
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, index, fakeDraftId)(request, messages).toString
+        view(boundForm, index, fakeDraftId)(using request, messages).toString
 
       application.stop()
     }

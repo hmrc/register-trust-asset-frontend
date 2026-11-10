@@ -22,7 +22,7 @@ import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
-import play.api.libs.json._
+import play.api.libs.json.*
 
 class RichJsValueSpec
     extends AnyFreeSpec with Matchers with ScalaCheckPropertyChecks with OptionValues with ModelGenerators {
@@ -31,7 +31,7 @@ class RichJsValueSpec
 
   private val nonEmptyAlphaStr: Gen[String] = Gen.alphaStr.suchThat(_.nonEmpty)
 
-  def buildJsObj[B](keys: Seq[String], values: Seq[B])(implicit writes: Writes[B]): JsObject =
+  def buildJsObj[B](keys: Seq[String], values: Seq[B])(using writes: Writes[B]): JsObject =
     keys.zip(values).foldLeft(JsObject.empty) { case (acc, (key, value)) =>
       acc + (key -> Json.toJson[B](value))
     }

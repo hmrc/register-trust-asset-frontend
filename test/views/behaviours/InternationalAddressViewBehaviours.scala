@@ -65,7 +65,7 @@ trait InternationalAddressViewBehaviours extends ViewBehaviours {
             "title",
             mockViewUtils.breadcrumbTitle(
               s"""${messages("error.browser.title.prefix")} ${messages(s"$titlePrefix.title", args)}"""
-            )(fakeRequest, messages)
+            )(using fakeRequest, messages)
           )
         }
       }

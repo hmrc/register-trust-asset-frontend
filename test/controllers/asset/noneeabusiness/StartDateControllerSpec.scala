@@ -58,7 +58,7 @@ class StartDateControllerSpec extends SpecBase with IndexValidation with BeforeA
   override def beforeEach(): Unit = {
     reset(mockSubmissionDraftConnector)
 
-    when(mockSubmissionDraftConnector.getTrustSetupDate(any())(any(), any()))
+    when(mockSubmissionDraftConnector.getTrustSetupDate(any())(using any(), any()))
       .thenReturn(Future.successful(Some(trustSetupDate)))
   }
 
@@ -79,7 +79,7 @@ class StartDateControllerSpec extends SpecBase with IndexValidation with BeforeA
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, index, fakeDraftId, name)(request, messages).toString
+        view(form, index, fakeDraftId, name)(using request, messages).toString
 
       application.stop()
     }
@@ -104,7 +104,7 @@ class StartDateControllerSpec extends SpecBase with IndexValidation with BeforeA
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), index, fakeDraftId, name)(request, messages).toString
+        view(form.fill(validAnswer), index, fakeDraftId, name)(using request, messages).toString
 
       application.stop()
     }
@@ -166,7 +166,7 @@ class StartDateControllerSpec extends SpecBase with IndexValidation with BeforeA
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, index, fakeDraftId, name)(request, messages).toString
+        view(boundForm, index, fakeDraftId, name)(using request, messages).toString
 
       application.stop()
     }

@@ -21,8 +21,8 @@ import models.WhatKindOfAsset.NonEeaBusiness
 import models.{Status, WhatKindOfAsset}
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.noneeabusiness._
-import play.api.libs.functional.syntax._
+import pages.asset.noneeabusiness.*
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{Reads, __}
 
 final case class NonEeaBusinessAssetViewModel(`type`: WhatKindOfAsset, name: Option[String], status: Status)
@@ -33,10 +33,10 @@ final case class NonEeaBusinessAssetViewModel(`type`: WhatKindOfAsset, name: Opt
 
 object NonEeaBusinessAssetViewModel {
 
-  implicit lazy val reads: Reads[NonEeaBusinessAssetViewModel] = (
+  given reads: Reads[NonEeaBusinessAssetViewModel] = (
     (__ \ WhatKindOfAssetPage.key).read[WhatKindOfAsset].filter(_ == NonEeaBusiness) and
       (__ \ NamePage.key).readNullable[String] and
       (__ \ AssetStatus.key).readWithDefault[Status](InProgress)
-  )(NonEeaBusinessAssetViewModel.apply _)
+  )(NonEeaBusinessAssetViewModel.apply)
 
 }

@@ -18,12 +18,12 @@ package utils.answers
 
 import base.SpecBase
 import models.UserAnswers
-import models.WhatKindOfAsset._
+import models.WhatKindOfAsset.*
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{reset, verify, when}
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.money._
-import pages.asset.partnership._
+import pages.asset.money.*
+import pages.asset.partnership.*
 import play.twirl.api.Html
 import utils.print.PartnershipPrintHelper
 import viewmodels.AnswerSection
@@ -68,13 +68,13 @@ class PartnershipAnswersHelperSpec extends SpecBase {
 
         reset(mockPrintHelper)
 
-        when(mockPrintHelper.printSection(any(), any(), any(), any(), any())(any())).thenReturn(AnswerSection())
+        when(mockPrintHelper.printSection(any(), any(), any(), any(), any())(using any())).thenReturn(AnswerSection())
 
         val result: Seq[AnswerSection] = answersHelper(userAnswers)
 
         result mustBe Seq(AnswerSection())
 
-        verify(mockPrintHelper).printSection(any(), any(), any(), any(), any())(any())
+        verify(mockPrintHelper).printSection(any(), any(), any(), any(), any())(using any())
       }
 
       "index headings correctly" in {

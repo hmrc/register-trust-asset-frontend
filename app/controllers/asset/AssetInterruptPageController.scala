@@ -40,7 +40,7 @@ class AssetInterruptPageController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   taxableView: TaxableInfoView,
   nonTaxableView: NonTaxableInfoView
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends AddAssetController {
 
   def onPageLoad(draftId: String): Action[AnyContent] = (identify andThen getData(draftId) andThen requireData) {

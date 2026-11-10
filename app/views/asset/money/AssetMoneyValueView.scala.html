@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@import controllers.asset.money.routes._
+@import controllers.asset.money.routes.*
 @import views.html.components.{InputText, ErrorSummary, SubmitButton, Heading}
 
 @this(
@@ -22,11 +22,10 @@
     formHelper: FormWithCSRF,
     errorSummary: ErrorSummary,
     inputText: InputText,
-    submitButton: SubmitButton,
-    heading: Heading
+    submitButton: SubmitButton
 )
 
-@(form: Form[_], draftId: String, index: Int)(implicit request: RequestHeader, messages: Messages)
+@(form: Form[?], draftId: String, index: Int)(using request: RequestHeader, messages: Messages)
 
 @main_template(
     title = s"${errorPrefix(form)} ${messages("money.value.title")}",

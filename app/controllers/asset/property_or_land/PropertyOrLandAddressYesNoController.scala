@@ -45,7 +45,7 @@ class PropertyOrLandAddressYesNoController @Inject() (
   yesNoFormProvider: YesNoFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: PropertyOrLandAddressYesNoView
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   val form: Form[Boolean] = yesNoFormProvider.withPrefix("propertyOrLand.addressYesNo")
@@ -69,7 +69,7 @@ class PropertyOrLandAddressYesNoController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, index, draftId))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, index, draftId))),
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(PropertyOrLandAddressYesNoPage(index), value))

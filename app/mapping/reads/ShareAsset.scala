@@ -32,7 +32,7 @@ trait ShareAsset extends Asset {
 
 object ShareAsset {
 
-  implicit val reads: Reads[ShareAsset] =
+  given reads: Reads[ShareAsset] =
     ShareNonPortfolioAsset.reads.map(identity[ShareAsset]) orElse
       SharePortfolioAsset.reads.map(identity[ShareAsset])
 

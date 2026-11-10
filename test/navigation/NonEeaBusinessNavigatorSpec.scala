@@ -17,13 +17,13 @@
 package navigation
 
 import base.SpecBase
-import controllers.asset.noneeabusiness.routes._
+import controllers.asset.noneeabusiness.routes.*
 import generators.Generators
 import models.UserAnswers
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import pages.asset.NonEeaInterruptPage
-import pages.asset.noneeabusiness._
+import pages.asset.noneeabusiness.*
 
 class NonEeaBusinessNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
 

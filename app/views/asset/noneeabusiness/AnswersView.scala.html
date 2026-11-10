@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@import controllers.asset.noneeabusiness.routes._
+@import controllers.asset.noneeabusiness.routes.*
 @import viewmodels.Section
 @import views.html.components.{SubmitButton, Heading}
 @import utils.SectionFormatter.formatSections
@@ -27,7 +27,7 @@
     govukSummaryList: GovukSummaryList
 )
 
-@(index: Int, draftId: String, answerSections: Seq[Section])(implicit request: RequestHeader, messages: Messages)
+@(index: Int, draftId: String, answerSections: Seq[Section])(using request: RequestHeader, messages: Messages)
 
 @main_template(
     title = messages("nonEeaBusiness.answers.title"),

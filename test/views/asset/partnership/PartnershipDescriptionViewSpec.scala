@@ -32,8 +32,8 @@ class PartnershipDescriptionViewSpec extends StringViewBehaviours {
 
     val view = viewFor[PartnershipDescriptionView](Some(emptyUserAnswers))
 
-    def applyView(form: Form[_]): HtmlFormat.Appendable =
-      view.apply(form, 0, fakeDraftId)(fakeRequest, messages)
+    def applyView(form: Form[?]): HtmlFormat.Appendable =
+      view.apply(form, 0, fakeDraftId)(using fakeRequest, messages)
 
     behave like normalPage(applyView(form), messageKeyPrefix)
 

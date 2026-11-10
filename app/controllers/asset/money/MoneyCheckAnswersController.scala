@@ -16,7 +16,7 @@
 
 package controllers.asset.money
 
-import controllers.actions._
+import controllers.actions.*
 import models.requests.RegistrationDataRequest
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, ActionBuilder, AnyContent, MessagesControllerComponents}

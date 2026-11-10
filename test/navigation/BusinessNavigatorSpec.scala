@@ -17,12 +17,12 @@
 package navigation
 
 import base.SpecBase
-import controllers.asset.business.routes._
+import controllers.asset.business.routes.*
 import generators.Generators
 import models.UserAnswers
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
-import pages.asset.business._
+import pages.asset.business.*
 
 class BusinessNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
 

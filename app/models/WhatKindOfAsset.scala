@@ -18,13 +18,11 @@ package models
 
 import models.WhatKindOfAsset.prefix
 import play.api.i18n.Messages
-import viewmodels._
+import viewmodels.*
 
 sealed trait WhatKindOfAsset {
 
-  implicit class AssetLabel(asset: WhatKindOfAsset) {
-    def label(implicit messages: Messages): String = messages(s"$prefix.$asset")
-  }
+  def label(using messages: Messages): String = messages(s"$prefix.$this")
 
 }
 
@@ -54,8 +52,8 @@ object WhatKindOfAsset extends Enumerable.Implicits {
     RadioOption(prefix, value.toString)
   }
 
-  implicit val enumerable: Enumerable[WhatKindOfAsset] =
-    Enumerable(values.map(v => v.toString -> v): _*)
+  given enumerable: Enumerable[WhatKindOfAsset] =
+    Enumerable(values.map(v => v.toString -> v)*)
 
   def nonMaxedOutOptions(assets: AssetViewModels, assetTypeAtIndex: Option[WhatKindOfAsset]): List[RadioOption] = {
 

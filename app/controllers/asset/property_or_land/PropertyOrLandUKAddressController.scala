@@ -45,7 +45,7 @@ class PropertyOrLandUKAddressController @Inject() (
   formProvider: UKAddressFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: PropertyOrLandUKAddressView
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   private val form = formProvider()
@@ -68,7 +68,7 @@ class PropertyOrLandUKAddressController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(PropertyOrLandUKAddressPage(index), value))

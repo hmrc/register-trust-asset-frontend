@@ -17,7 +17,7 @@
 package controllers.asset.other
 
 import config.annotations.Other
-import controllers.actions._
+import controllers.actions.*
 import forms.DescriptionFormProvider
 import models.requests.RegistrationDataRequest
 import navigation.Navigator
@@ -44,7 +44,7 @@ class OtherAssetDescriptionController @Inject() (
   formProvider: DescriptionFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: OtherAssetDescriptionView
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
@@ -72,7 +72,7 @@ class OtherAssetDescriptionController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
         value => {
 
           val answers = request.userAnswers.set(OtherAssetDescriptionPage(index), value)

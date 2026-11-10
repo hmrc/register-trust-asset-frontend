@@ -45,7 +45,7 @@ class PropertyOrLandDescriptionController @Inject() (
   formProvider: DescriptionFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: PropertyOrLandDescriptionView
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   private val maxLength          = 56
@@ -70,7 +70,7 @@ class PropertyOrLandDescriptionController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, index, draftId))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, index, draftId))),
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(PropertyOrLandDescriptionPage(index), value))

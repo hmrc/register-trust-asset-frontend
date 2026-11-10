@@ -17,7 +17,7 @@
 package controllers.asset.noneeabusiness
 
 import config.annotations.NonEeaBusiness
-import controllers.actions._
+import controllers.actions.*
 import controllers.filters.IndexActionFilterProvider
 import forms.InternationalAddressFormProvider
 import models.InternationalAddress
@@ -49,7 +49,7 @@ class InternationalAddressController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: InternationalAddressView,
   val countryOptions: CountryOptionsNonUK
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   private val form: Form[InternationalAddress] = formProvider()
@@ -78,7 +78,7 @@ class InternationalAddressController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) =>
+        (formWithErrors: Form[?]) =>
           Future.successful(BadRequest(view(formWithErrors, countryOptions.options(), index, draftId, name))),
         value =>
           for {

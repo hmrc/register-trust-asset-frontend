@@ -21,7 +21,7 @@ import org.mockito.ArgumentMatchers.{eq => eqTo, _}
 import org.mockito.Mockito.{never, verify}
 import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import uk.gov.hmrc.play.audit.http.connector.AuditConnector
 
 import java.net.URLEncoder
@@ -53,7 +53,7 @@ class LogoutControllerSpec extends SpecBase {
     value must include("useServiceNavigation")
 
     verify(mockAuditConnector, never)
-      .sendExplicitAudit(eqTo("trusts"), any[Map[String, String]])(any(), any())
+      .sendExplicitAudit(eqTo("trusts"), any[Map[String, String]])(using any(), any())
 
     application.stop()
 

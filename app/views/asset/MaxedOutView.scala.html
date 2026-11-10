@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@import controllers.asset.routes._
+@import controllers.asset.routes.*
 @import viewmodels.AddRow
 @import views.html.components.{SubmitButton, Heading, RowFormGroupWithSubHeading, CompletedNonEeaCompaniesWithSubHeading}
 
@@ -34,7 +34,7 @@
     heading: String,
     maxLimit: Int,
     prefix: String
-)(implicit request: RequestHeader, messages: Messages)
+)(using request: RequestHeader, messages: Messages)
 
 @main_template(
     title = heading,

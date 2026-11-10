@@ -16,9 +16,9 @@
 
 package utils.print
 
-import controllers.asset.shares.routes._
+import controllers.asset.shares.routes.*
 import models.UserAnswers
-import pages.asset.shares._
+import pages.asset.shares.*
 import play.api.i18n.Messages
 import utils.{AnswerRowConverter, CheckAnswersFormatters}
 import viewmodels.AnswerRow
@@ -29,7 +29,7 @@ class SharesPrintHelper @Inject() (checkAnswersFormatters: CheckAnswersFormatter
 
   override val assetType: String = "shareAsset"
 
-  override def answerRows(userAnswers: UserAnswers, arg: String, index: Int, draftId: String)(implicit
+  override def answerRows(userAnswers: UserAnswers, arg: String, index: Int, draftId: String)(using
     messages: Messages
   ): Seq[AnswerRow] = {
 

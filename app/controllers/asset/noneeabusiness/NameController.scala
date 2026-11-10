@@ -47,7 +47,7 @@ class NameController @Inject() (
   formProvider: NameFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: NameView
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   private val maxLength          = 105
@@ -71,7 +71,7 @@ class NameController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(NamePage(index), value))

@@ -17,12 +17,12 @@
 package controllers.asset.money
 
 import base.SpecBase
-import controllers.routes._
+import controllers.routes.*
 import forms.ValueFormProvider
 import pages.asset.money.AssetMoneyValuePage
 import play.api.data.Form
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import views.html.asset.money.AssetMoneyValueView
 
 class AssetMoneyValueControllerSpec extends SpecBase {
@@ -50,7 +50,7 @@ class AssetMoneyValueControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, fakeDraftId, index)(request, messages).toString
+        view(form, fakeDraftId, index)(using request, messages).toString
 
       application.stop()
     }
@@ -70,7 +70,7 @@ class AssetMoneyValueControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), fakeDraftId, index)(request, messages).toString
+        view(form.fill(validAnswer), fakeDraftId, index)(using request, messages).toString
 
       application.stop()
     }
@@ -109,7 +109,7 @@ class AssetMoneyValueControllerSpec extends SpecBase {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, fakeDraftId, index)(request, messages).toString
+        view(boundForm, fakeDraftId, index)(using request, messages).toString
 
       application.stop()
     }

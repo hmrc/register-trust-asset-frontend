@@ -16,11 +16,11 @@
 
 package navigation
 
-import controllers.asset.property_or_land.routes._
-import controllers.asset.routes._
+import controllers.asset.property_or_land.routes.*
+import controllers.asset.routes.*
 import models.UserAnswers
 import pages.Page
-import pages.asset.property_or_land._
+import pages.asset.property_or_land.*
 import play.api.mvc.Call
 import uk.gov.hmrc.auth.core.AffinityGroup
 

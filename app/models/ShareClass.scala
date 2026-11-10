@@ -49,8 +49,8 @@ object ShareClass extends Enumerable.Implicits {
 
   val allOptions: List[RadioOption] = asRadioOptions(allValues)
 
-  implicit val enumerable: Enumerable[ShareClass] =
-    Enumerable(allValues.map(v => v.toString -> v): _*)
+  given enumerable: Enumerable[ShareClass] =
+    Enumerable(allValues.map(v => v.toString -> v)*)
 
   def toDES(value: ShareClass): String = value match {
     case Ordinary     => "Ordinary shares"

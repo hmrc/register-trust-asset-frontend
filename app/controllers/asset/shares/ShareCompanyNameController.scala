@@ -45,7 +45,7 @@ class ShareCompanyNameController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: ShareCompanyNameView,
   validateIndex: IndexActionFilterProvider
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   private def actions(index: Int, draftId: String) =
@@ -69,7 +69,7 @@ class ShareCompanyNameController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(ShareCompanyNamePage(index), value))

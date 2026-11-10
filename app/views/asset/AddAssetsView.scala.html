@@ -14,9 +14,9 @@
  * limitations under the License.
  *@
 
-@import controllers.asset.routes._
+@import controllers.asset.routes.*
 @import models.AddAssets
-@import extensions.Extensions._
+@import extensions.Extensions.*
 @import viewmodels.AddRow
 @import views.html.components.{SubmitButton, Heading, InputRadio, ErrorSummary, RowFormGroupWithSubHeading, CompletedNonEeaCompaniesWithSubHeading}
 
@@ -32,14 +32,14 @@
 )
 
 @(
-    form: Form[_],
+    form: Form[?],
     draftId: String,
     inProgressAssets: Seq[AddRow],
     completeAssets: Seq[AddRow],
     heading: String,
     prefix: String,
     maxedOut: List[(String, Int)]
-)(implicit request: RequestHeader, messages: Messages)
+)(using request: RequestHeader, messages: Messages)
 
 @main_template(
     title = s"${errorPrefix(form)} $heading",

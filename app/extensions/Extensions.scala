@@ -18,7 +18,7 @@ package extensions
 
 object Extensions {
 
-  implicit class StringExtensions(str: String) {
+  extension (str: String) {
 
     def uncapitalise: String = str.split(' ').map(_.lowercaseFirstLetterOfFirstWord).mkString(" ")
 
@@ -30,7 +30,7 @@ object Extensions {
 
   }
 
-  implicit class ListExtensions[T](list: List[T]) {
+  extension [T](list: List[T]) {
 
     def asSomeIf(condition: Boolean): Option[List[T]] = list match {
       case _ if !condition => None

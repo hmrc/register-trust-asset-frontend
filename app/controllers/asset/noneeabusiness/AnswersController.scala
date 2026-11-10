@@ -16,7 +16,7 @@
 
 package controllers.asset.noneeabusiness
 
-import controllers.actions._
+import controllers.actions.*
 import mapping.reads.NonEeaBusinessAsset
 import models.Status.Completed
 import models.UserAnswers
@@ -47,7 +47,7 @@ class AnswersController @Inject() (
   view: AnswersView,
   val controllerComponents: MessagesControllerComponents,
   printHelper: NonEeaBusinessPrintHelper
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport with Logging {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =

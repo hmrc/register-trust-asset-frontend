@@ -17,11 +17,11 @@
 package navigation
 
 import base.SpecBase
-import controllers.asset._
+import controllers.asset.*
 import generators.Generators
-import models.Constants._
+import models.Constants.*
 import models.Status.Completed
-import models.WhatKindOfAsset._
+import models.WhatKindOfAsset.*
 import models.{AddAssets, UserAnswers}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks

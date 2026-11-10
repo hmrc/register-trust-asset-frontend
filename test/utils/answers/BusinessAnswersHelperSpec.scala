@@ -17,13 +17,13 @@
 package utils.answers
 
 import base.SpecBase
-import models.WhatKindOfAsset._
+import models.WhatKindOfAsset.*
 import models.{UKAddress, UserAnswers}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{reset, verify, when}
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.business._
-import pages.asset.money._
+import pages.asset.business.*
+import pages.asset.money.*
 import play.twirl.api.Html
 import utils.print.BusinessPrintHelper
 import viewmodels.AnswerSection
@@ -54,7 +54,7 @@ class BusinessAnswersHelperSpec extends SpecBase {
 
         reset(mockPrintHelper)
 
-        when(mockPrintHelper.printSection(any(), any(), any(), any(), any())(any())).thenReturn(AnswerSection())
+        when(mockPrintHelper.printSection(any(), any(), any(), any(), any())(using any())).thenReturn(AnswerSection())
 
         val index: Int = 0
 
@@ -82,7 +82,7 @@ class BusinessAnswersHelperSpec extends SpecBase {
 
         result mustBe Seq(AnswerSection())
 
-        verify(mockPrintHelper).printSection(any(), any(), any(), any(), any())(any())
+        verify(mockPrintHelper).printSection(any(), any(), any(), any(), any())(using any())
       }
 
       "index headings correctly" in {

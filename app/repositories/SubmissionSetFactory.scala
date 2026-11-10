@@ -18,16 +18,14 @@ package repositories
 
 import mapping.AssetMapper
 import models.{RegistrationSubmission, UserAnswers}
-import pages.RegistrationProgress
 import play.api.i18n.Messages
 import play.api.libs.json.Json
-import utils.answers._
+import utils.answers.*
 import viewmodels.{AnswerRow, AnswerSection}
 
 import javax.inject.Inject
 
 class SubmissionSetFactory @Inject() (
-  registrationProgress: RegistrationProgress,
   assetMapper: AssetMapper,
   moneyAnswersHelper: MoneyAnswersHelper,
   propertyOrLandAnswersHelper: PropertyOrLandAnswersHelper,
@@ -38,7 +36,7 @@ class SubmissionSetFactory @Inject() (
   nonEeaBusinessAnswersHelper: NonEeaBusinessAnswersHelper
 ) {
 
-  def createFrom(userAnswers: UserAnswers)(implicit messages: Messages): RegistrationSubmission.DataSet =
+  def createFrom(userAnswers: UserAnswers)(using messages: Messages): RegistrationSubmission.DataSet =
     RegistrationSubmission.DataSet(
       data = Json.toJson(userAnswers),
       registrationPieces = mappedData(userAnswers),
@@ -55,7 +53,7 @@ class SubmissionSetFactory @Inject() (
 
   def answerSections(
     userAnswers: UserAnswers
-  )(implicit messages: Messages): List[RegistrationSubmission.AnswerSection] = {
+  )(using messages: Messages): List[RegistrationSubmission.AnswerSection] = {
 
     val entitySections: List[AnswerSection] = List(
       moneyAnswersHelper(userAnswers),

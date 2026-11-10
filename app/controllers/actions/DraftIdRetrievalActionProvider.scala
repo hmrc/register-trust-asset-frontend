@@ -49,7 +49,7 @@ class DraftIdDataRetrievalAction(
 ) extends ActionTransformer[IdentifierRequest, OptionalRegistrationDataRequest] {
 
   override protected def transform[A](request: IdentifierRequest[A]): Future[OptionalRegistrationDataRequest[A]] = {
-    implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
+    given hc: HeaderCarrier = HeaderCarrierConverter.fromRequestAndSession(request, request.session)
 
     repository.get(draftId).map { userAnswers =>
       OptionalRegistrationDataRequest(

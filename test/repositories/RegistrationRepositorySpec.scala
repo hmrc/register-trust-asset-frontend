@@ -18,7 +18,7 @@ package repositories
 
 import base.SpecBase
 import connectors.SubmissionDraftConnector
-import models._
+import models.*
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{verify, when}
 import org.scalatest.matchers.must.Matchers
@@ -46,7 +46,7 @@ class RegistrationRepositorySpec extends SpecBase with Matchers {
 
       "read answers from my section" in {
 
-        implicit lazy val hc: HeaderCarrier = HeaderCarrier()
+        given hc: HeaderCarrier = HeaderCarrier()
 
         val userAnswers = UserAnswers(draftId = fakeDraftId, internalAuthId = "internalId")
 
@@ -56,7 +56,7 @@ class RegistrationRepositorySpec extends SpecBase with Matchers {
 
         val response = SubmissionDraftResponse(LocalDateTime.now, Json.toJson(userAnswers), None)
 
-        when(mockConnector.getDraftSection(any(), any())(any(), any())).thenReturn(Future.successful(response))
+        when(mockConnector.getDraftSection(any(), any())(using any(), any())).thenReturn(Future.successful(response))
 
         val result = Await.result(repository.get(fakeDraftId), Duration.Inf)
 
@@ -69,7 +69,7 @@ class RegistrationRepositorySpec extends SpecBase with Matchers {
 
       "send all relevant information as a set" in {
 
-        implicit lazy val hc: HeaderCarrier = HeaderCarrier()
+        given hc: HeaderCarrier = HeaderCarrier()
 
         val submissionSet = RegistrationSubmission.DataSet(
           Json.obj(),
@@ -80,11 +80,11 @@ class RegistrationRepositorySpec extends SpecBase with Matchers {
         val mockConnector = mock[SubmissionDraftConnector]()
 
         val mockSubmissionSetFactory = mock[SubmissionSetFactory]()
-        when(mockSubmissionSetFactory.createFrom(any())(any())).thenReturn(submissionSet)
+        when(mockSubmissionSetFactory.createFrom(any())(using any())).thenReturn(submissionSet)
 
         val repository = createRepository(mockConnector, mockSubmissionSetFactory)
 
-        when(mockConnector.setDraftSectionSet(any(), any(), any())(any(), any()))
+        when(mockConnector.setDraftSectionSet(any(), any(), any())(using any(), any()))
           .thenReturn(Future.successful(HttpResponse(OK, "")))
 
         val userAnswers = UserAnswers(draftId = fakeDraftId, internalAuthId = "internalId")

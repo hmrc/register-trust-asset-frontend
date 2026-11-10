@@ -33,8 +33,8 @@ class SharesInAPortfolioViewSpec extends YesNoViewBehaviours {
 
     val view = viewFor[SharesInAPortfolioView](Some(emptyUserAnswers))
 
-    def applyView(form: Form[_]): HtmlFormat.Appendable =
-      view.apply(form, fakeDraftId, index)(fakeRequest, messages)
+    def applyView(form: Form[?]): HtmlFormat.Appendable =
+      view.apply(form, fakeDraftId, index)(using fakeRequest, messages)
 
     behave like normalPage(applyView(form), messageKeyPrefix)
 

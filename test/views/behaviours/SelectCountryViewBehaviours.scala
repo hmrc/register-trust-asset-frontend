@@ -80,7 +80,7 @@ trait SelectCountryViewBehaviours extends QuestionViewBehaviours[String] {
             "title",
             mockViewUtils.breadcrumbTitle(
               s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title", messageKeyParam)}"""
-            )(fakeRequest, messages)
+            )(using fakeRequest, messages)
           )
         }
       }

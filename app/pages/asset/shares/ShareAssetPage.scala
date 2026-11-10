@@ -20,6 +20,7 @@ import mapping.reads.ShareAsset
 import pages.QuestionPage
 import play.api.libs.json.{JsPath, Reads}
 import sections.Assets
+import scala.language.implicitConversions
 
 final case class ShareAssetPage(index: Int) extends QuestionPage[ShareAsset] {
 
@@ -29,6 +30,6 @@ final case class ShareAssetPage(index: Int) extends QuestionPage[ShareAsset] {
 
 object ShareAssetPage {
 
-  implicit val reads: Reads[ShareAsset] = ShareAsset.reads
+  given reads: Reads[ShareAsset] = ShareAsset.reads
 
 }

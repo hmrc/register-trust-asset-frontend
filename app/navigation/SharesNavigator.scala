@@ -16,11 +16,11 @@
 
 package navigation
 
-import controllers.asset.routes._
-import controllers.asset.shares.routes._
+import controllers.asset.routes.*
+import controllers.asset.shares.routes.*
 import models.UserAnswers
 import pages.Page
-import pages.asset.shares._
+import pages.asset.shares.*
 import play.api.mvc.Call
 import uk.gov.hmrc.auth.core.AffinityGroup
 
