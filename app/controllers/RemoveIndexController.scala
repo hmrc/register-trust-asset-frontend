@@ -39,9 +39,9 @@ trait RemoveIndexController extends FrontendBaseController with I18nSupport {
 
   lazy val form: Form[Boolean] = formProvider.apply(messagesPrefix)
 
-  implicit val ec: ExecutionContext
+  given ec: ExecutionContext
 
-  def page(index: Int): QuestionPage[_]
+  def page(index: Int): QuestionPage[?]
 
   def repository: RegistrationsRepository
 
@@ -51,14 +51,14 @@ trait RemoveIndexController extends FrontendBaseController with I18nSupport {
 
   def formRoute(draftId: String, index: Int): Call
 
-  def removeQuery(index: Int): Settable[_]
+  def removeQuery(index: Int): Settable[?]
 
-  def content(index: Int)(implicit request: RegistrationDataRequest[AnyContent]): String
+  def content(index: Int)(using request: RegistrationDataRequest[AnyContent]): String
 
-  def view(form: Form[_], index: Int, draftId: String)(implicit
+  def view(form: Form[?], index: Int, draftId: String)(using
     request: RegistrationDataRequest[AnyContent]
   ): HtmlFormat.Appendable =
-    removeView(messagesPrefix, form, index, draftId, content(index), formRoute(draftId, index))
+    removeView(messagesPrefix, form, content(index), formRoute(draftId, index))
 
   def onPageLoad(index: Int, draftId: String): Action[AnyContent] = actions(draftId, index) { implicit request =>
     Ok(view(form, index, draftId))
@@ -68,7 +68,7 @@ trait RemoveIndexController extends FrontendBaseController with I18nSupport {
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, index, draftId))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, index, draftId))),
         value =>
           if (value) {
             for {

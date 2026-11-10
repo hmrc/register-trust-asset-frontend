@@ -19,8 +19,8 @@ package mapping.reads
 import models.WhatKindOfAsset
 import models.WhatKindOfAsset.Other
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.other._
-import play.api.libs.functional.syntax._
+import pages.asset.other.*
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{Reads, __}
 
 final case class OtherAsset(override val whatKindOfAsset: WhatKindOfAsset, description: String, value: Long)
@@ -31,10 +31,10 @@ final case class OtherAsset(override val whatKindOfAsset: WhatKindOfAsset, descr
 
 object OtherAsset {
 
-  implicit lazy val reads: Reads[OtherAsset] = (
+  given reads: Reads[OtherAsset] = (
     (__ \ WhatKindOfAssetPage.key).read[WhatKindOfAsset].filter(_ == Other) and
       (__ \ OtherAssetDescriptionPage.key).read[String] and
       (__ \ OtherAssetValuePage.key).read[Long]
-  )(OtherAsset.apply _)
+  )(OtherAsset.apply)
 
 }

@@ -16,12 +16,12 @@
 
 package models
 
-import extensions.Extensions._
+import extensions.Extensions.*
 import play.api.Logging
-import play.api.libs.functional.syntax._
-import play.api.libs.json._
+import play.api.libs.functional.syntax.*
+import play.api.libs.json.*
 import queries.{Gettable, Settable}
-import viewmodels._
+import viewmodels.*
 
 import scala.util.{Failure, Success, Try}
 
@@ -32,7 +32,7 @@ final case class UserAnswers(
   isTaxable: Boolean = true
 ) extends Logging {
 
-  def get[A](page: Gettable[A])(implicit rds: Reads[A]): Option[A] =
+  def get[A](page: Gettable[A])(using rds: Reads[A]): Option[A] =
     Reads.at(page.path).reads(data) match {
       case JsSuccess(value, _) => Some(value)
       case JsError(errors)     =>
@@ -40,7 +40,7 @@ final case class UserAnswers(
         None
     }
 
-  def set[A](page: Settable[A], value: A)(implicit writes: Writes[A]): Try[UserAnswers] = {
+  def set[A](page: Settable[A], value: A)(using writes: Writes[A]): Try[UserAnswers] = {
 
     val updatedData = data.setObject(page.path, Json.toJson(value)) match {
       case JsSuccess(jsValue, _) =>
@@ -98,18 +98,25 @@ final case class UserAnswers(
 
 object UserAnswers {
 
-  implicit lazy val reads: Reads[UserAnswers] = (
+  given reads: Reads[UserAnswers] = (
     (__ \ "_id").read[String] and
       (__ \ "data").read[JsObject] and
       (__ \ "internalId").read[String] and
       (__ \ "isTaxable").readWithDefault[Boolean](true)
-  )(UserAnswers.apply _)
+  )(UserAnswers.apply)
 
-  implicit lazy val writes: Writes[UserAnswers] = (
+  given writes: Writes[UserAnswers] = (
     (__ \ "_id").write[String] and
       (__ \ "data").write[JsObject] and
       (__ \ "internalId").write[String] and
       (__ \ "isTaxable").write[Boolean]
-  )(unlift(UserAnswers.unapply))
+  )(userAnswers =>
+    (
+      userAnswers.draftId,
+      userAnswers.data,
+      userAnswers.internalAuthId,
+      userAnswers.isTaxable
+    )
+  )
 
 }

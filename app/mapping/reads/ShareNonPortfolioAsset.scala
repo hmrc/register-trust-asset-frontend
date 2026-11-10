@@ -19,9 +19,9 @@ package mapping.reads
 import models.WhatKindOfAsset.Shares
 import models.{ShareClass, WhatKindOfAsset}
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.shares._
-import play.api.libs.functional.syntax._
-import play.api.libs.json._
+import pages.asset.shares.*
+import play.api.libs.functional.syntax.*
+import play.api.libs.json.*
 
 final case class ShareNonPortfolioAsset(
   override val whatKindOfAsset: WhatKindOfAsset,
@@ -35,7 +35,7 @@ final case class ShareNonPortfolioAsset(
 
 object ShareNonPortfolioAsset {
 
-  implicit lazy val reads: Reads[ShareNonPortfolioAsset] = (
+  given reads: Reads[ShareNonPortfolioAsset] = (
     (__ \ WhatKindOfAssetPage.key).read[WhatKindOfAsset].filter(_ == Shares) and
       Reads(_ => JsSuccess(false)) and
       (__ \ ShareCompanyNamePage.key).read[String] and
@@ -43,6 +43,6 @@ object ShareNonPortfolioAsset {
       (__ \ ShareClassPage.key).read[ShareClass] and
       (__ \ ShareQuantityInTrustPage.key).read[Long] and
       (__ \ ShareValueInTrustPage.key).read[Long]
-  )(ShareNonPortfolioAsset.apply _)
+  )(ShareNonPortfolioAsset.apply)
 
 }

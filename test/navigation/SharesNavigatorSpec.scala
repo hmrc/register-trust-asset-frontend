@@ -18,12 +18,12 @@ package navigation
 
 import base.SpecBase
 import controllers.asset.routes
-import controllers.asset.shares.routes._
+import controllers.asset.shares.routes.*
 import generators.Generators
 import models.UserAnswers
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
-import pages.asset.shares._
+import pages.asset.shares.*
 
 class SharesNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
 

@@ -16,15 +16,15 @@
 
 package base
 
-import config.annotations._
-import controllers.actions._
+import config.annotations.*
+import controllers.actions.*
 import models.UserAnswers
 import navigation.{FakeNavigator, Navigator}
 import org.scalatest.{OptionValues, TryValues}
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.matchers.must.Matchers
 import org.scalatestplus.play.PlaySpec
-import org.scalatestplus.play.guice._
+import org.scalatestplus.play.guice.*
 import play.api.inject.bind
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.libs.json.Json

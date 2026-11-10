@@ -20,6 +20,7 @@ import models.UserAnswers
 import pages.QuestionPage
 import play.api.libs.json.JsPath
 import sections.Assets
+import scala.language.implicitConversions
 
 import scala.util.Try
 

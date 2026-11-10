@@ -18,7 +18,7 @@ package controllers
 
 import connectors.SubmissionDraftConnector
 import controllers.actions.RegistrationIdentifierAction
-import controllers.asset.routes._
+import controllers.asset.routes.*
 import models.{TaskStatus, UserAnswers}
 import play.api.i18n.{I18nSupport, Messages}
 import play.api.libs.json.Json
@@ -38,10 +38,10 @@ class IndexController @Inject() (
   identify: RegistrationIdentifierAction,
   submissionDraftConnector: SubmissionDraftConnector,
   trustsStoreService: TrustsStoreService
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
-  private def updateTaskStatus(draftId: String, userAnswers: UserAnswers)(implicit
+  private def updateTaskStatus(draftId: String, userAnswers: UserAnswers)(using
     hc: HeaderCarrier,
     messages: Messages
   ): Future[Result] = for {

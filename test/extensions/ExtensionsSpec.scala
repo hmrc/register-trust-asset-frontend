@@ -17,7 +17,7 @@
 package extensions
 
 import base.SpecBase
-import extensions.Extensions._
+import extensions.Extensions.*
 import models.WhatKindOfAsset
 import models.WhatKindOfAsset.prefix
 

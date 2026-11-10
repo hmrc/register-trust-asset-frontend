@@ -17,7 +17,7 @@
 package controllers.asset.business
 
 import config.annotations.Business
-import controllers.actions._
+import controllers.actions.*
 import controllers.filters.IndexActionFilterProvider
 import forms.YesNoFormProvider
 import models.requests.RegistrationDataRequest
@@ -46,7 +46,7 @@ class BusinessAddressUkYesNoController @Inject() (
   formProvider: YesNoFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: BusinessAddressUkYesNoView
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   private val form: Form[Boolean] = formProvider.withPrefix("business.addressUkYesNo")
@@ -75,7 +75,7 @@ class BusinessAddressUkYesNoController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index, businessName))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, draftId, index, businessName))),
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(BusinessAddressUkYesNoPage(index), value))

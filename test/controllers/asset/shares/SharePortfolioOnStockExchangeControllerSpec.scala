@@ -50,7 +50,7 @@ class SharePortfolioOnStockExchangeControllerSpec extends SpecBase with ModelGen
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, fakeDraftId, index)(request, messages).toString
+        view(form, fakeDraftId, index)(using request, messages).toString
 
       application.stop()
     }
@@ -70,7 +70,7 @@ class SharePortfolioOnStockExchangeControllerSpec extends SpecBase with ModelGen
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(true), fakeDraftId, index)(request, messages).toString
+        view(form.fill(true), fakeDraftId, index)(using request, messages).toString
 
       application.stop()
     }
@@ -110,7 +110,7 @@ class SharePortfolioOnStockExchangeControllerSpec extends SpecBase with ModelGen
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, fakeDraftId, index)(request, messages).toString
+        view(boundForm, fakeDraftId, index)(using request, messages).toString
 
       application.stop()
     }

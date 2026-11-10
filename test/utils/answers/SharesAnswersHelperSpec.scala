@@ -23,7 +23,7 @@ import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{reset, times, verify, when}
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.money.AssetMoneyValuePage
-import pages.asset.shares._
+import pages.asset.shares.*
 import play.twirl.api.Html
 import utils.print.SharesPrintHelper
 import viewmodels.AnswerSection
@@ -94,13 +94,13 @@ class SharesAnswersHelperSpec extends SpecBase {
 
         reset(mockPrintHelper)
 
-        when(mockPrintHelper.printSection(any(), any(), any(), any(), any())(any())).thenReturn(AnswerSection())
+        when(mockPrintHelper.printSection(any(), any(), any(), any(), any())(using any())).thenReturn(AnswerSection())
 
         val result: Seq[AnswerSection] = answersHelper(userAnswers)
 
         result mustBe Seq(AnswerSection(), AnswerSection())
 
-        verify(mockPrintHelper, times(2)).printSection(any(), any(), any(), any(), any())(any())
+        verify(mockPrintHelper, times(2)).printSection(any(), any(), any(), any(), any())(using any())
       }
 
       "index headings correctly" in {

@@ -16,9 +16,9 @@
 
 package utils.print
 
-import controllers.asset.partnership.routes._
+import controllers.asset.partnership.routes.*
 import models.UserAnswers
-import pages.asset.partnership._
+import pages.asset.partnership.*
 import play.api.i18n.Messages
 import utils.{AnswerRowConverter, CheckAnswersFormatters}
 import viewmodels.AnswerRow
@@ -29,7 +29,7 @@ class PartnershipPrintHelper @Inject() (checkAnswersFormatters: CheckAnswersForm
 
   override val assetType: String = "partnershipAsset"
 
-  override def answerRows(userAnswers: UserAnswers, arg: String, index: Int, draftId: String)(implicit
+  override def answerRows(userAnswers: UserAnswers, arg: String, index: Int, draftId: String)(using
     messages: Messages
   ): Seq[AnswerRow] = {
 

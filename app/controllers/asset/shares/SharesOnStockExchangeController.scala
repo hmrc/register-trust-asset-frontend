@@ -17,7 +17,7 @@
 package controllers.asset.shares
 
 import config.annotations.Shares
-import controllers.actions._
+import controllers.actions.*
 import controllers.filters.IndexActionFilterProvider
 import forms.YesNoFormProvider
 import models.requests.RegistrationDataRequest
@@ -45,7 +45,7 @@ class SharesOnStockExchangeController @Inject() (
   view: SharesOnStockExchangeView,
   requiredAnswer: RequiredAnswerActionProvider,
   validateIndex: IndexActionFilterProvider
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   val form: Form[Boolean] = formProvider.withPrefix("shares.onStockExchangeYesNo")
@@ -75,7 +75,7 @@ class SharesOnStockExchangeController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index, companyName))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, draftId, index, companyName))),
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(SharesOnStockExchangePage(index), value))

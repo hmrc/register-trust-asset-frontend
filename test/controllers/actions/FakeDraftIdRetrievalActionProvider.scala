@@ -18,7 +18,7 @@ package controllers.actions
 
 import base.Mocked
 import models.UserAnswers
-import org.mockito.ArgumentMatchers._
+import org.mockito.ArgumentMatchers.*
 import org.mockito.Mockito.when
 import repositories.RegistrationsRepository
 
@@ -27,12 +27,12 @@ import scala.concurrent.{ExecutionContext, Future}
 class FakeDraftIdRetrievalActionProvider(dataToReturn: Option[UserAnswers])
     extends DraftIdRetrievalActionProvider with Mocked {
 
-  implicit val executionContext: ExecutionContext =
+  given executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
   val mockedRepository: RegistrationsRepository = mock[RegistrationsRepository]()
 
-  when(mockedRepository.get(any())(any())).thenReturn(Future.successful(dataToReturn))
+  when(mockedRepository.get(any())(using any())).thenReturn(Future.successful(dataToReturn))
 
   override def apply(draftId: String) = new DraftIdDataRetrievalAction(draftId, mockedRepository, executionContext)
 

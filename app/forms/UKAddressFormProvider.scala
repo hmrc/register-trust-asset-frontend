@@ -16,11 +16,11 @@
 
 package forms
 
-import forms.helpers.WhitespaceHelper._
+import forms.helpers.WhitespaceHelper.*
 import forms.mappings.Mappings
 import models.UKAddress
 import play.api.data.Form
-import play.api.data.Forms._
+import play.api.data.Forms.*
 
 import javax.inject.Inject
 
@@ -76,7 +76,17 @@ class UKAddressFormProvider @Inject() extends Mappings {
               regexp(Validation.postcodeRegex, "ukAddress.error.postcode.invalidCharacters")
             )
           )
-    )(UKAddress.apply)(UKAddress.unapply)
+    )(UKAddress.apply) { ukAddress =>
+      Some(
+        (
+          ukAddress.line1,
+          ukAddress.line2,
+          ukAddress.line3,
+          ukAddress.line4,
+          ukAddress.postcode
+        )
+      )
+    }
   )
 
 }

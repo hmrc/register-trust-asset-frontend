@@ -25,11 +25,11 @@ import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.partnership._
+import pages.asset.partnership.*
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import utils.print.PartnershipPrintHelper
 import views.html.asset.partnership.PartnershipAnswersView
 
@@ -73,7 +73,7 @@ class PartnershipAnswerControllerSpec extends SpecBase {
 
       val expectedSections                        = Nil
       val mockPrintHelper: PartnershipPrintHelper = mock[PartnershipPrintHelper]()
-      when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(any())).thenReturn(Nil)
+      when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(using any())).thenReturn(Nil)
 
       val application = applicationBuilder(userAnswers = Some(baseAnswers))
         .overrides(bind[PartnershipPrintHelper].toInstance(mockPrintHelper))
@@ -88,7 +88,7 @@ class PartnershipAnswerControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(index, fakeDraftId, expectedSections)(request, messages).toString
+        view(index, fakeDraftId, expectedSections)(using request, messages).toString
 
       application.stop()
     }

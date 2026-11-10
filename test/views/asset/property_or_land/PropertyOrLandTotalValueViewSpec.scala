@@ -33,8 +33,8 @@ class PropertyOrLandTotalValueViewSpec extends LongViewBehaviours {
 
     val view = viewFor[PropertyOrLandTotalValueView](Some(emptyUserAnswers))
 
-    def applyView(form: Form[_]): HtmlFormat.Appendable =
-      view.apply(form, index, fakeDraftId)(fakeRequest, messages)
+    def applyView(form: Form[?]): HtmlFormat.Appendable =
+      view.apply(form, index, fakeDraftId)(using fakeRequest, messages)
 
     behave like normalPage(applyView(form), messageKeyPrefix)
 

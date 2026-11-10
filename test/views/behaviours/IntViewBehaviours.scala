@@ -26,8 +26,7 @@ trait IntViewBehaviours extends QuestionViewBehaviours[Int] {
   def intPage(
     form: Form[Int],
     createView: Form[Int] => HtmlFormat.Appendable,
-    messageKeyPrefix: String,
-    expectedFormAction: String
+    messageKeyPrefix: String
   ): Unit =
     "behave like a page with an integer value field" when {
 
@@ -78,7 +77,7 @@ trait IntViewBehaviours extends QuestionViewBehaviours[Int] {
             "title",
             mockViewUtils.breadcrumbTitle(s"""${messages("error.browser.title.prefix")} ${messages(
                 s"$messageKeyPrefix.title"
-              )}""")(fakeRequest, messages)
+              )}""")(using fakeRequest, messages)
           )
         }
       }

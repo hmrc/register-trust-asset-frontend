@@ -47,7 +47,7 @@ class PropertyOrLandInternationalAddressController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: PropertyOrLandInternationalAddressView,
   val countryOptions: CountryOptionsNonUK
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   private val form = formProvider()
@@ -71,7 +71,7 @@ class PropertyOrLandInternationalAddressController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) =>
+        (formWithErrors: Form[?]) =>
           Future.successful(BadRequest(view(formWithErrors, countryOptions.options(), draftId, index))),
         value =>
           for {

@@ -24,7 +24,7 @@ import play.api.i18n.Messages
 import play.api.libs.json.Reads
 import play.twirl.api.{Html, HtmlFormat}
 import queries.Gettable
-import utils.CheckAnswersFormatters._
+import utils.CheckAnswersFormatters.*
 import viewmodels.AnswerRow
 
 import java.time.LocalDate
@@ -32,14 +32,14 @@ import java.time.LocalDate
 class AnswerRowConverter @Inject() (checkAnswersFormatters: CheckAnswersFormatters)(
   userAnswers: UserAnswers,
   arg: String
-)(implicit messages: Messages) {
+)(using messages: Messages) {
 
   def stringQuestion(query: Gettable[String], labelKey: String, changeUrl: String): Option[AnswerRow] = {
     val format = (x: String) => HtmlFormat.escape(x)
     question(query, labelKey, format, changeUrl)
   }
 
-  def numberQuestion[T <: AnyVal](query: Gettable[T], labelKey: String, changeUrl: String)(implicit
+  def numberQuestion[T <: AnyVal](query: Gettable[T], labelKey: String, changeUrl: String)(using
     reads: Reads[T]
   ): Option[AnswerRow] = {
     val format = (x: T) => HtmlFormat.escape(x.toString)
@@ -51,7 +51,7 @@ class AnswerRowConverter @Inject() (checkAnswersFormatters: CheckAnswersFormatte
     question(query, labelKey, format, changeUrl)
   }
 
-  def addressQuestion[T <: Address](query: Gettable[T], labelKey: String, changeUrl: String)(implicit
+  def addressQuestion[T <: Address](query: Gettable[T], labelKey: String, changeUrl: String)(using
     reads: Reads[T]
   ): Option[AnswerRow] = {
     val format = (x: T) => checkAnswersFormatters.addressFormatter(x)
@@ -89,7 +89,7 @@ class AnswerRowConverter @Inject() (checkAnswersFormatters: CheckAnswersFormatte
     question(query, labelKey, format, changeUrl)
   }
 
-  private def question[T](query: Gettable[T], labelKey: String, format: T => Html, changeUrl: String)(implicit
+  private def question[T](query: Gettable[T], labelKey: String, format: T => Html, changeUrl: String)(using
     rds: Reads[T]
   ): Option[AnswerRow] =
     userAnswers.get(query) map { x =>

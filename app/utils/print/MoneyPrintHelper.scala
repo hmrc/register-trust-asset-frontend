@@ -16,9 +16,9 @@
 
 package utils.print
 
-import controllers.asset.money.routes._
+import controllers.asset.money.routes.*
 import models.UserAnswers
-import pages.asset.money._
+import pages.asset.money.*
 import play.api.i18n.Messages
 import utils.{AnswerRowConverter, CheckAnswersFormatters}
 import viewmodels.AnswerRow
@@ -29,7 +29,7 @@ class MoneyPrintHelper @Inject() (checkAnswersFormatters: CheckAnswersFormatters
 
   override val assetType: String = "moneyAsset"
 
-  override def answerRows(userAnswers: UserAnswers, arg: String, index: Int, draftId: String)(implicit
+  override def answerRows(userAnswers: UserAnswers, arg: String, index: Int, draftId: String)(using
     messages: Messages
   ): Seq[AnswerRow] = {
 

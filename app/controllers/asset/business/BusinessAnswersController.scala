@@ -16,7 +16,7 @@
 
 package controllers.asset.business
 
-import controllers.actions._
+import controllers.actions.*
 import mapping.reads.BusinessAsset
 import models.Status.Completed
 import models.UserAnswers
@@ -47,7 +47,7 @@ class BusinessAnswersController @Inject() (
   view: BusinessAnswersView,
   val controllerComponents: MessagesControllerComponents,
   printHelper: BusinessPrintHelper
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport with Logging {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =

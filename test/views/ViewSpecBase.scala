@@ -27,7 +27,7 @@ import scala.reflect.ClassTag
 
 trait ViewSpecBase extends SpecBase {
 
-  def viewFor[A](data: Option[UserAnswers] = None)(implicit tag: ClassTag[A]): A = {
+  def viewFor[A](data: Option[UserAnswers] = None)(using tag: ClassTag[A]): A = {
     val application = applicationBuilder(data).build()
     val view        = application.injector.instanceOf[A]
     application.stop()
@@ -40,7 +40,7 @@ trait ViewSpecBase extends SpecBase {
     assertEqualsValue(
       doc,
       cssSelector,
-      mockViewUtils.breadcrumbTitle(messages(expectedMessageKey, args: _*))(fakeRequest, messages)
+      mockViewUtils.breadcrumbTitle(messages(expectedMessageKey, args*))(using fakeRequest, messages)
     )
 
   def assertEqualsValue(doc: Document, cssSelector: String, expectedValue: String): Assertion = {
@@ -56,7 +56,7 @@ trait ViewSpecBase extends SpecBase {
     val headers = doc.getElementsByTag("h1")
     headers.size mustBe 1
 
-    val expected = messages(s"$expectedMessageKey.heading", args: _*)
+    val expected = messages(s"$expectedMessageKey.heading", args*)
       .replaceAll("&nbsp;", " ")
 
     val actual = headers.first.text
@@ -72,7 +72,7 @@ trait ViewSpecBase extends SpecBase {
     val expectedCaption =
       s"${messages(s"$expectedMessageKey.caption.hidden")} ${messages(s"$expectedMessageKey.caption")}"
 
-    val expectedHeading = messages(s"$expectedMessageKey.heading", args: _*)
+    val expectedHeading = messages(s"$expectedMessageKey.heading", args*)
 
     val expected = s"$expectedCaption $expectedHeading"
       .replaceAll("&nbsp;", " ")
@@ -95,7 +95,7 @@ trait ViewSpecBase extends SpecBase {
     val expectedCaption =
       s"${messages(s"$expectedMessageKey.caption.hidden")} ${messages(s"$expectedMessageKey.caption", captionParam)}"
 
-    val expectedHeading = messages(s"$expectedMessageKey.heading", args: _*)
+    val expectedHeading = messages(s"$expectedMessageKey.heading", args*)
 
     val expected = s"$expectedCaption $expectedHeading"
       .replaceAll("&nbsp;", " ")

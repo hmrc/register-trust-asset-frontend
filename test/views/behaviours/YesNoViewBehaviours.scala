@@ -40,9 +40,9 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
           legends.size mustBe 1
 
           if (legendAsHeading) {
-            legends.first.text mustBe messages(s"$messageKeyPrefix.heading", args: _*)
+            legends.first.text mustBe messages(s"$messageKeyPrefix.heading", args*)
           } else {
-            legends.first.text mustBe messages(s"$messageKeyPrefix.question", args: _*)
+            legends.first.text mustBe messages(s"$messageKeyPrefix.question", args*)
           }
         }
 
@@ -90,7 +90,7 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
           val doc       = asDocument(createView(form.withError(error)))
           val errorSpan = doc.getElementsByClass("govuk-error-message").first
           errorSpan.text mustBe (messages("error.browser.title.prefix") + " " + messages(errorMessage))
-          doc.getElementsByTag("fieldset").first.attr("aria-describedby") contains errorSpan.attr("id")
+          doc.getElementsByTag("fieldset").first.attr("aria-describedby").contains(errorSpan.attr("id"))
         }
 
         "show an error prefix in the browser title" in {
@@ -100,8 +100,8 @@ trait YesNoViewBehaviours extends QuestionViewBehaviours[Boolean] {
             doc,
             "title",
             mockViewUtils.breadcrumbTitle(
-              s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title", args: _*)}"""
-            )(fakeRequest, messages)
+              s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title", args*)}"""
+            )(using fakeRequest, messages)
           )
         }
       }

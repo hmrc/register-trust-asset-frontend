@@ -16,10 +16,10 @@
 
 package navigation
 
-import controllers.asset.other.routes._
+import controllers.asset.other.routes.*
 import models.UserAnswers
 import pages.Page
-import pages.asset.other._
+import pages.asset.other.*
 import play.api.mvc.Call
 import uk.gov.hmrc.auth.core.AffinityGroup
 

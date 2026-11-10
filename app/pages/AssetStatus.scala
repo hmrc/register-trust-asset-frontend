@@ -20,6 +20,7 @@ import models.Status
 import pages.AssetStatus.key
 import play.api.libs.json.JsPath
 import sections.Assets
+import scala.language.implicitConversions
 
 final case class AssetStatus(index: Int) extends QuestionPage[Status] {
 

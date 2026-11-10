@@ -17,7 +17,7 @@
 package controllers.asset.property_or_land
 
 import config.annotations.PropertyOrLand
-import controllers.actions._
+import controllers.actions.*
 import mapping.reads.PropertyOrLandAsset
 import models.Status.Completed
 import models.UserAnswers
@@ -46,7 +46,7 @@ class PropertyOrLandAnswerController @Inject() (
   view: PropertyOrLandAnswersView,
   val controllerComponents: MessagesControllerComponents,
   printHelper: PropertyOrLandPrintHelper
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport with Logging {
 
   private def getExistingPropertyOrLandAssets(excludeIndex: Int, userAnswers: UserAnswers): Seq[PropertyOrLandAsset] = {

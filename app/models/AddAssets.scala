@@ -36,7 +36,7 @@ object AddAssets extends Enumerable.Implicits {
     RadioOption(prefix, value.toString)
   }
 
-  implicit val enumerable: Enumerable[AddAssets] =
-    Enumerable(values.map(v => v.toString -> v): _*)
+  given enumerable: Enumerable[AddAssets] =
+    Enumerable(values.map(v => v.toString -> v)*)
 
 }

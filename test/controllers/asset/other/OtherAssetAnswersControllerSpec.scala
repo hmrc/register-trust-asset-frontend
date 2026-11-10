@@ -23,13 +23,13 @@ import models.WhatKindOfAsset.Other
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import pages.AssetStatus
-import pages.asset._
-import pages.asset.other._
+import pages.asset.*
+import pages.asset.other.*
 import play.api.Application
 import play.api.inject.bind
 import play.api.mvc.Result
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import utils.print.OtherPrintHelper
 import views.html.asset.other.OtherAssetAnswersView
 
@@ -72,7 +72,7 @@ class OtherAssetAnswersControllerSpec extends SpecBase {
 
       val expectedSections                  = Nil
       val mockPrintHelper: OtherPrintHelper = mock[OtherPrintHelper]()
-      when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(any())).thenReturn(Nil)
+      when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(using any())).thenReturn(Nil)
 
       val application = applicationBuilder(userAnswers = Some(baseAnswers))
         .overrides(bind[OtherPrintHelper].toInstance(mockPrintHelper))
@@ -87,7 +87,7 @@ class OtherAssetAnswersControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(index, fakeDraftId, expectedSections)(request, messages).toString
+        view(index, fakeDraftId, expectedSections)(using request, messages).toString
 
       application.stop()
     }

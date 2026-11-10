@@ -17,7 +17,7 @@
 package controllers.asset.business
 
 import config.annotations.Business
-import controllers.actions._
+import controllers.actions.*
 import controllers.filters.IndexActionFilterProvider
 import forms.DescriptionFormProvider
 import models.requests.RegistrationDataRequest
@@ -46,7 +46,7 @@ class BusinessDescriptionController @Inject() (
   requiredAnswer: RequiredAnswerActionProvider,
   val controllerComponents: MessagesControllerComponents,
   view: BusinessDescriptionView
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   private val maxLength          = 56
@@ -76,7 +76,7 @@ class BusinessDescriptionController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) =>
+        (formWithErrors: Form[?]) =>
           Future.successful(BadRequest(view(formWithErrors, draftId, index, assetDescription))),
         value =>
           for {

@@ -17,12 +17,12 @@
 package navigation
 
 import base.SpecBase
-import controllers.asset.partnership.routes._
+import controllers.asset.partnership.routes.*
 import generators.Generators
 import models.UserAnswers
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
-import pages.asset.partnership._
+import pages.asset.partnership.*
 
 import java.time.{LocalDate, ZoneOffset}
 

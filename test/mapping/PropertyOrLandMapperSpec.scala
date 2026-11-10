@@ -18,11 +18,11 @@ package mapping
 
 import base.SpecBase
 import generators.Generators
-import models._
+import models.*
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
-import pages.asset._
-import pages.asset.property_or_land._
+import pages.asset.*
+import pages.asset.property_or_land.*
 
 class PropertyOrLandMapperSpec extends SpecBase with Matchers with OptionValues with Generators {
 

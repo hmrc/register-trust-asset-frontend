@@ -17,13 +17,13 @@
 package controllers.asset.business
 
 import base.SpecBase
-import controllers.routes._
+import controllers.routes.*
 import forms.ValueFormProvider
 import models.UserAnswers
 import pages.asset.business.{BusinessNamePage, BusinessValuePage}
 import play.api.data.Form
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import views.html.asset.business.BusinessValueView
 
 class BusinessValueControllerSpec extends SpecBase {
@@ -57,7 +57,7 @@ class BusinessValueControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, fakeDraftId, index, businessName)(request, messages).toString
+        view(form, fakeDraftId, index, businessName)(using request, messages).toString
 
       application.stop()
     }
@@ -80,7 +80,7 @@ class BusinessValueControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), fakeDraftId, index, businessName)(request, messages).toString
+        view(form.fill(validAnswer), fakeDraftId, index, businessName)(using request, messages).toString
 
       application.stop()
     }
@@ -139,7 +139,7 @@ class BusinessValueControllerSpec extends SpecBase {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, fakeDraftId, index, businessName)(request, messages).toString
+        view(boundForm, fakeDraftId, index, businessName)(using request, messages).toString
 
       application.stop()
     }

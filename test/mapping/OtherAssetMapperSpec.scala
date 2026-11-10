@@ -24,7 +24,7 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.other._
+import pages.asset.other.*
 
 class OtherAssetMapperSpec extends SpecBase with Matchers with OptionValues with Generators {
 

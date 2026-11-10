@@ -17,19 +17,19 @@
 package utils
 
 import base.SpecBase
-import controllers.asset._
-import models.Status._
-import models.WhatKindOfAsset._
+import controllers.asset.*
+import models.Status.*
+import models.WhatKindOfAsset.*
 import models.{InternationalAddress, ShareClass, UKAddress}
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.business._
-import pages.asset.money._
-import pages.asset.noneeabusiness._
-import pages.asset.other._
-import pages.asset.partnership._
-import pages.asset.property_or_land._
-import pages.asset.shares._
+import pages.asset.business.*
+import pages.asset.money.*
+import pages.asset.noneeabusiness.*
+import pages.asset.other.*
+import pages.asset.partnership.*
+import pages.asset.property_or_land.*
+import pages.asset.shares.*
 import viewmodels.AddRow
 
 import java.time.LocalDate

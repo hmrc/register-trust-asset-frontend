@@ -16,11 +16,11 @@
 
 package forms
 
-import forms.helpers.WhitespaceHelper._
+import forms.helpers.WhitespaceHelper.*
 import forms.mappings.Mappings
 import models.InternationalAddress
 import play.api.data.Form
-import play.api.data.Forms._
+import play.api.data.Forms.*
 
 import javax.inject.Inject
 
@@ -66,7 +66,16 @@ class InternationalAddressFormProvider @Inject() extends Mappings {
               isNotEmpty("country", "internationalAddress.error.country.required")
             )
           )
-    )(InternationalAddress.apply)(InternationalAddress.unapply)
+    )(InternationalAddress.apply) { internationalAddress =>
+      Some(
+        (
+          internationalAddress.line1,
+          internationalAddress.line2,
+          internationalAddress.line3,
+          internationalAddress.country
+        )
+      )
+    }
   )
 
 }

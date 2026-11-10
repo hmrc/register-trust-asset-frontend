@@ -16,11 +16,11 @@
 
 package navigation
 
-import controllers.asset.noneeabusiness.routes._
+import controllers.asset.noneeabusiness.routes.*
 import models.UserAnswers
 import pages.Page
 import pages.asset.NonEeaInterruptPage
-import pages.asset.noneeabusiness._
+import pages.asset.noneeabusiness.*
 import play.api.mvc.Call
 import uk.gov.hmrc.auth.core.AffinityGroup
 

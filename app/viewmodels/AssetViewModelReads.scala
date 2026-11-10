@@ -20,11 +20,11 @@ import models.Address
 
 trait AssetViewModelReads {
 
-  implicit class OptionalString(s: String) {
+  extension (s: String) {
     def toOption: Option[String] = if (s.isEmpty) None else Some(s)
   }
 
-  implicit class OptionalAddress[T <: Address](a: T) {
+  extension [T <: Address](a: T) {
     def toLine1Option: Option[String] = if (a.line1.isEmpty) None else Some(a.line1)
   }
 

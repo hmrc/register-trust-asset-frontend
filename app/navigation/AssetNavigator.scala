@@ -20,15 +20,15 @@ import config.FrontendAppConfig
 import controllers.asset.routes.AssetInterruptPageController
 import controllers.asset.noneeabusiness.routes.NameController
 import controllers.routes.SessionExpiredController
-import models.Constants._
-import models.WhatKindOfAsset._
+import models.Constants.*
+import models.WhatKindOfAsset.*
 import models.{AddAssets, UserAnswers, WhatKindOfAsset}
 import pages.Page
-import pages.asset._
+import pages.asset.*
 import play.api.mvc.Call
 import uk.gov.hmrc.auth.core.AffinityGroup
 import uk.gov.hmrc.http.HttpVerbs.GET
-import viewmodels._
+import viewmodels.*
 
 import javax.inject.Inject
 

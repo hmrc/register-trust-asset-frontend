@@ -22,7 +22,7 @@ import play.api.data.{Form, FormError}
 trait LongFieldBehaviours extends FieldBehaviours with FakeTrustsApp {
 
   def longField(
-    form: Form[_],
+    form: Form[?],
     fieldName: String,
     nonNumericError: FormError,
     wholeNumberError: FormError,
@@ -48,13 +48,13 @@ trait LongFieldBehaviours extends FieldBehaviours with FakeTrustsApp {
       }
 
     s"not bind numbers larger than or equal to $max" in
-      forAll(longsLargerThanOrEqualToMaxValue(max) -> "longsLargerThanOrEqualToMax") { num: Long =>
+      forAll(longsLargerThanOrEqualToMaxValue(max) -> "longsLargerThanOrEqualToMax") { (num: Long) =>
         val result = form.bind(Map(fieldName -> num.toString)).apply(fieldName)
         result.errors shouldEqual Seq(maxNumberError)
       }
 
     s"not bind numbers less than or equal to $min" in
-      forAll(longsLessThan1 -> "longsLessThan1") { number: Long =>
+      forAll(longsLessThan1 -> "longsLessThan1") { (number: Long) =>
         val result = form.bind(Map(fieldName -> number.toString)).apply(fieldName)
         result.errors shouldEqual Seq(minNumberError)
       }

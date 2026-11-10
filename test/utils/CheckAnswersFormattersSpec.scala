@@ -20,7 +20,7 @@ import base.SpecBase
 import models.{InternationalAddress, UKAddress}
 import play.api.i18n.{Lang, MessagesImpl}
 import play.twirl.api.Html
-import utils.CheckAnswersFormatters._
+import utils.CheckAnswersFormatters.*
 
 import java.time.LocalDate
 
@@ -43,12 +43,12 @@ class CheckAnswersFormattersSpec extends SpecBase {
       "in English mode" must {
         "format date in English" when {
           "recent date" in {
-            val result: Html = checkAnswersFormatters.formatDate(recentDate)(messages("en"))
+            val result: Html = checkAnswersFormatters.formatDate(recentDate)(using messages("en"))
             result mustBe Html("25 January 2015")
           }
 
           "old date" in {
-            val result: Html = checkAnswersFormatters.formatDate(oldDate)(messages("en"))
+            val result: Html = checkAnswersFormatters.formatDate(oldDate)(using messages("en"))
             result mustBe Html("1 December 1840")
           }
         }
@@ -57,12 +57,12 @@ class CheckAnswersFormattersSpec extends SpecBase {
       "in Welsh mode" must {
         "format date in Welsh" when {
           "recent date" in {
-            val result: Html = checkAnswersFormatters.formatDate(recentDate)(messages("cy"))
+            val result: Html = checkAnswersFormatters.formatDate(recentDate)(using messages("cy"))
             result mustBe Html("25 Ionawr 2015")
           }
 
           "old date" in {
-            val result: Html = checkAnswersFormatters.formatDate(oldDate)(messages("cy"))
+            val result: Html = checkAnswersFormatters.formatDate(oldDate)(using messages("cy"))
             result mustBe Html("1 Rhagfyr 1840")
           }
         }

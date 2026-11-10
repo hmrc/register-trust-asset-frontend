@@ -22,7 +22,7 @@ import viewmodels.{AnswerRow, AnswerSection}
 
 trait PrintHelper {
 
-  def checkDetailsSection(userAnswers: UserAnswers, arg: String = "", index: Int, draftId: String)(implicit
+  def checkDetailsSection(userAnswers: UserAnswers, arg: String = "", index: Int, draftId: String)(using
     messages: Messages
   ): Seq[AnswerSection] =
     Seq(
@@ -37,7 +37,7 @@ trait PrintHelper {
 
   val assetType: String
 
-  def printSection(userAnswers: UserAnswers, arg: String = "", index: Int, specificIndex: Int, draftId: String)(implicit
+  def printSection(userAnswers: UserAnswers, arg: String = "", index: Int, specificIndex: Int, draftId: String)(using
     messages: Messages
   ): AnswerSection =
     section(
@@ -56,7 +56,7 @@ trait PrintHelper {
     draftId: String,
     headingKey: Option[String],
     headingArgs: Any*
-  )(implicit messages: Messages): AnswerSection =
+  )(using messages: Messages): AnswerSection =
     AnswerSection(
       headingKey = headingKey match {
         case Some(key) => Some(key)
@@ -66,7 +66,7 @@ trait PrintHelper {
       headingArgs = headingArgs.toSeq
     )
 
-  def answerRows(userAnswers: UserAnswers, arg: String, index: Int, draftId: String)(implicit
+  def answerRows(userAnswers: UserAnswers, arg: String, index: Int, draftId: String)(using
     messages: Messages
   ): Seq[AnswerRow]
 

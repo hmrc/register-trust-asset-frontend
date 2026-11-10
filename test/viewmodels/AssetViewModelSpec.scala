@@ -18,7 +18,7 @@ package viewmodels
 
 import generators.{Generators, ModelGenerators}
 import models.Status.{Completed, InProgress}
-import models.WhatKindOfAsset._
+import models.WhatKindOfAsset.*
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.must.Matchers
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks

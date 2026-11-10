@@ -16,9 +16,9 @@
 
 package models
 
-import models.Constants._
+import models.Constants.*
 import models.WhatKindOfAsset.{Business, Money, NonEeaBusiness, Other, Partnership, PropertyOrLand, Shares, prefix}
-import viewmodels._
+import viewmodels.*
 
 case class AssetViewModels(
   monetary: Option[List[MoneyAssetViewModel]],

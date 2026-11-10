@@ -27,7 +27,7 @@ import navigation.Navigator
 import pages.asset.property_or_land.{PropertyLandValueTrustPage, PropertyOrLandTotalValuePage}
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, MessagesApi}
-import play.api.mvc._
+import play.api.mvc.*
 import repositories.RegistrationsRepository
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 import views.html.asset.property_or_land.PropertyLandValueTrustView
@@ -46,7 +46,7 @@ class PropertyLandValueTrustController @Inject() (
   formProvider: ValueFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: PropertyLandValueTrustView
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
@@ -72,7 +72,7 @@ class PropertyLandValueTrustController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, index, draftId))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, index, draftId))),
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(PropertyLandValueTrustPage(index), value))
@@ -81,7 +81,7 @@ class PropertyLandValueTrustController @Inject() (
       )
   }
 
-  private def configuredForm(index: Int)(implicit request: RegistrationDataRequest[AnyContent]): Form[Long] =
+  private def configuredForm(index: Int)(using request: RegistrationDataRequest[AnyContent]): Form[Long] =
     formProvider.withConfig(
       prefix = "propertyOrLand.valueInTrust",
       maxValue = request.userAnswers.get(PropertyOrLandTotalValuePage(index))

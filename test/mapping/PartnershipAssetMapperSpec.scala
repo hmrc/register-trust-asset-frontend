@@ -24,7 +24,7 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.partnership._
+import pages.asset.partnership.*
 
 import java.time.LocalDate
 

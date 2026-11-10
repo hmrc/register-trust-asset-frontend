@@ -18,7 +18,7 @@ package controllers
 
 import base.SpecBase
 import connectors.SubmissionDraftConnector
-import controllers.asset.routes._
+import controllers.asset.routes.*
 import models.Status.Completed
 import models.{TaskStatus, UserAnswers, WhatKindOfAsset}
 import org.mockito.ArgumentCaptor
@@ -30,7 +30,7 @@ import pages.asset.WhatKindOfAssetPage
 import pages.asset.money.AssetMoneyValuePage
 import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import services.TrustsStoreService
 import uk.gov.hmrc.http.HttpResponse
 
@@ -46,7 +46,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
   override protected def beforeEach(): Unit = {
     reset(trustsStoreService)
 
-    when(trustsStoreService.updateTaskStatus(any(), any())(any(), any()))
+    when(trustsStoreService.updateTaskStatus(any(), any())(using any(), any()))
       .thenReturn(Future.successful(HttpResponse(OK, "")))
   }
 
@@ -78,9 +78,10 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
             )
             .build()
 
-          when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(Some(userAnswers)))
-          when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-          when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(false))
+          when(registrationsRepository.get(any())(using any())).thenReturn(Future.successful(Some(userAnswers)))
+          when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
+          when(submissionDraftConnector.getIsTrustTaxable(any())(using any(), any()))
+            .thenReturn(Future.successful(false))
 
           val request = FakeRequest(GET, onPageLoadRoute)
 
@@ -91,7 +92,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
           redirectLocation(result).value mustBe AddAssetsController.onPageLoad(fakeDraftId).url
 
           verify(trustsStoreService, atLeastOnce)
-            .updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+            .updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using any(), any())
 
           application.stop()
         }
@@ -112,9 +113,10 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
               )
               .build()
 
-            when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(Some(emptyUserAnswers)))
-            when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-            when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(true))
+            when(registrationsRepository.get(any())(using any())).thenReturn(Future.successful(Some(emptyUserAnswers)))
+            when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
+            when(submissionDraftConnector.getIsTrustTaxable(any())(using any(), any()))
+              .thenReturn(Future.successful(true))
 
             val request = FakeRequest(GET, onPageLoadRoute)
 
@@ -125,7 +127,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
             redirectLocation(result).value mustBe AssetInterruptPageController.onPageLoad(fakeDraftId).url
 
             verify(trustsStoreService, atLeastOnce)
-              .updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+              .updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using any(), any())
 
             application.stop()
           }
@@ -145,9 +147,10 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
               )
               .build()
 
-            when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(Some(emptyUserAnswers)))
-            when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-            when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(false))
+            when(registrationsRepository.get(any())(using any())).thenReturn(Future.successful(Some(emptyUserAnswers)))
+            when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
+            when(submissionDraftConnector.getIsTrustTaxable(any())(using any(), any()))
+              .thenReturn(Future.successful(false))
 
             val request = FakeRequest(GET, onPageLoadRoute)
 
@@ -158,7 +161,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
             redirectLocation(result).value mustBe TrustOwnsNonEeaBusinessYesNoController.onPageLoad(fakeDraftId).url
 
             verify(trustsStoreService, atLeastOnce)
-              .updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+              .updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using any(), any())
 
             application.stop()
           }
@@ -178,15 +181,15 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
           )
           .build()
 
-        when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(Some(userAnswers)))
-        when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-        when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(true))
+        when(registrationsRepository.get(any())(using any())).thenReturn(Future.successful(Some(userAnswers)))
+        when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
+        when(submissionDraftConnector.getIsTrustTaxable(any())(using any(), any())).thenReturn(Future.successful(true))
 
         val request = FakeRequest(GET, onPageLoadRoute)
 
         route(application, request).value.map { _ =>
           val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
-          verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+          verify(registrationsRepository).set(uaCaptor.capture)(using any(), any())
 
           uaCaptor.getValue.isTaxable mustBe true
 
@@ -209,9 +212,10 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
             )
             .build()
 
-          when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
-          when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-          when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(true))
+          when(registrationsRepository.get(any())(using any())).thenReturn(Future.successful(None))
+          when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
+          when(submissionDraftConnector.getIsTrustTaxable(any())(using any(), any()))
+            .thenReturn(Future.successful(true))
 
           val request = FakeRequest(GET, onPageLoadRoute)
 
@@ -222,7 +226,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
           redirectLocation(result).value mustBe AssetInterruptPageController.onPageLoad(fakeDraftId).url
 
           verify(trustsStoreService, atLeastOnce)
-            .updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+            .updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using any(), any())
 
           application.stop()
         }
@@ -240,9 +244,10 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
             )
             .build()
 
-          when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
-          when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-          when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(false))
+          when(registrationsRepository.get(any())(using any())).thenReturn(Future.successful(None))
+          when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
+          when(submissionDraftConnector.getIsTrustTaxable(any())(using any(), any()))
+            .thenReturn(Future.successful(false))
 
           val request = FakeRequest(GET, onPageLoadRoute)
 
@@ -253,7 +258,7 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
           redirectLocation(result).value mustBe TrustOwnsNonEeaBusinessYesNoController.onPageLoad(fakeDraftId).url
 
           verify(trustsStoreService, atLeastOnce)
-            .updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+            .updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using any(), any())
 
           application.stop()
         }
@@ -273,15 +278,16 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
               )
               .build()
 
-            when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
-            when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-            when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(true))
+            when(registrationsRepository.get(any())(using any())).thenReturn(Future.successful(None))
+            when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
+            when(submissionDraftConnector.getIsTrustTaxable(any())(using any(), any()))
+              .thenReturn(Future.successful(true))
 
             val request = FakeRequest(GET, onPageLoadRoute)
 
             route(application, request).value.map { _ =>
               val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
-              verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+              verify(registrationsRepository).set(uaCaptor.capture)(using any(), any())
 
               uaCaptor.getValue.isTaxable      mustBe true
               uaCaptor.getValue.draftId        mustBe fakeDraftId
@@ -304,15 +310,16 @@ class IndexControllerSpec extends SpecBase with BeforeAndAfterEach {
               )
               .build()
 
-            when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
-            when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
-            when(submissionDraftConnector.getIsTrustTaxable(any())(any(), any())).thenReturn(Future.successful(false))
+            when(registrationsRepository.get(any())(using any())).thenReturn(Future.successful(None))
+            when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
+            when(submissionDraftConnector.getIsTrustTaxable(any())(using any(), any()))
+              .thenReturn(Future.successful(false))
 
             val request = FakeRequest(GET, onPageLoadRoute)
 
             route(application, request).value.map { _ =>
               val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
-              verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+              verify(registrationsRepository).set(uaCaptor.capture)(using any(), any())
 
               uaCaptor.getValue.isTaxable      mustBe false
               uaCaptor.getValue.draftId        mustBe fakeDraftId

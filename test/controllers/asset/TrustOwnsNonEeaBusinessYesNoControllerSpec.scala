@@ -17,8 +17,8 @@
 package controllers.asset
 
 import base.SpecBase
-import controllers.asset.routes._
-import controllers.routes._
+import controllers.asset.routes.*
+import controllers.routes.*
 import forms.YesNoFormProvider
 import models.TaskStatus
 import org.mockito.ArgumentMatchers.{any, eq => mEq}
@@ -28,7 +28,7 @@ import pages.asset.TrustOwnsNonEeaBusinessYesNoPage
 import play.api.data.Form
 import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import services.TrustsStoreService
 import uk.gov.hmrc.http.HttpResponse
 import views.html.asset.TrustOwnsNonEeaBusinessYesNoView
@@ -48,7 +48,7 @@ class TrustOwnsNonEeaBusinessYesNoControllerSpec extends SpecBase with BeforeAnd
   override protected def beforeEach(): Unit = {
     reset(mockTrustsStoreService)
 
-    when(mockTrustsStoreService.updateTaskStatus(any(), any())(any(), any()))
+    when(mockTrustsStoreService.updateTaskStatus(any(), any())(using any(), any()))
       .thenReturn(Future.successful(HttpResponse(OK, "")))
   }
 
@@ -67,7 +67,7 @@ class TrustOwnsNonEeaBusinessYesNoControllerSpec extends SpecBase with BeforeAnd
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, fakeDraftId)(request, messages).toString
+        view(form, fakeDraftId)(using request, messages).toString
 
       application.stop()
     }
@@ -87,7 +87,7 @@ class TrustOwnsNonEeaBusinessYesNoControllerSpec extends SpecBase with BeforeAnd
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), fakeDraftId)(request, messages).toString
+        view(form.fill(validAnswer), fakeDraftId)(using request, messages).toString
 
       application.stop()
     }
@@ -109,7 +109,7 @@ class TrustOwnsNonEeaBusinessYesNoControllerSpec extends SpecBase with BeforeAnd
 
       redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
-      verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(any(), any())
+      verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.InProgress))(using any(), any())
 
       application.stop()
     }
@@ -131,7 +131,7 @@ class TrustOwnsNonEeaBusinessYesNoControllerSpec extends SpecBase with BeforeAnd
 
       redirectLocation(result).value mustEqual fakeNavigator.desiredRoute.url
 
-      verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(any(), any())
+      verify(mockTrustsStoreService).updateTaskStatus(mEq(draftId), mEq(TaskStatus.Completed))(using any(), any())
 
       application.stop()
     }
@@ -152,7 +152,7 @@ class TrustOwnsNonEeaBusinessYesNoControllerSpec extends SpecBase with BeforeAnd
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, fakeDraftId)(request, messages).toString
+        view(boundForm, fakeDraftId)(using request, messages).toString
 
       application.stop()
     }

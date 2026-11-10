@@ -20,6 +20,7 @@ import mapping.reads.BusinessAsset
 import pages.QuestionPage
 import play.api.libs.json.{JsPath, Reads}
 import sections.Assets
+import scala.language.implicitConversions
 
 final case class BusinessAssetPage(index: Int) extends QuestionPage[BusinessAsset] {
 
@@ -29,6 +30,6 @@ final case class BusinessAssetPage(index: Int) extends QuestionPage[BusinessAsse
 
 object BusinessAssetPage {
 
-  implicit val reads: Reads[BusinessAsset] = BusinessAsset.reads
+  given reads: Reads[BusinessAsset] = BusinessAsset.reads
 
 }

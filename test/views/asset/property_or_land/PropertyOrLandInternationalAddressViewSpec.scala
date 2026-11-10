@@ -37,8 +37,8 @@ class PropertyOrLandInternationalAddressViewSpec extends InternationalAddressVie
 
     val countryOptions: Seq[InputOption] = app.injector.instanceOf[CountryOptionsNonUK].options()
 
-    def applyView(form: Form[_]): HtmlFormat.Appendable =
-      view.apply(form, countryOptions, fakeDraftId, index)(fakeRequest, messages)
+    def applyView(form: Form[?]): HtmlFormat.Appendable =
+      view.apply(form, countryOptions, fakeDraftId, index)(using fakeRequest, messages)
 
     behave like pageWithBackLink(applyView(form))
 

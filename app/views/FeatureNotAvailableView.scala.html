@@ -23,7 +23,7 @@
     heading: Heading
 )
 
-@()(implicit request: RequestHeader, messages: Messages)
+@()(using request: RequestHeader, messages: Messages)
 
 @main_template(
     title = messages("featureNotAvailable.title"),

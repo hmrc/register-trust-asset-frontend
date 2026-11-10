@@ -18,14 +18,14 @@ package controllers.asset.property_or_land
 
 import base.SpecBase
 import controllers.IndexValidation
-import controllers.routes._
+import controllers.routes.*
 import forms.ValueFormProvider
 import org.scalacheck.Arbitrary.arbitrary
 import pages.asset.property_or_land.PropertyOrLandTotalValuePage
 import play.api.data.Form
 import play.api.mvc.{AnyContentAsEmpty, AnyContentAsFormUrlEncoded}
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import views.html.asset.property_or_land.PropertyOrLandTotalValueView
 
 class PropertyOrLandTotalValueControllerSpec extends SpecBase with IndexValidation {
@@ -53,7 +53,7 @@ class PropertyOrLandTotalValueControllerSpec extends SpecBase with IndexValidati
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, index, fakeDraftId)(request, messages).toString
+        view(form, index, fakeDraftId)(using request, messages).toString
 
       application.stop()
     }
@@ -73,7 +73,7 @@ class PropertyOrLandTotalValueControllerSpec extends SpecBase with IndexValidati
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), index, fakeDraftId)(request, messages).toString
+        view(form.fill(validAnswer), index, fakeDraftId)(using request, messages).toString
 
       application.stop()
     }
@@ -112,7 +112,7 @@ class PropertyOrLandTotalValueControllerSpec extends SpecBase with IndexValidati
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, index, fakeDraftId)(request, messages).toString
+        view(boundForm, index, fakeDraftId)(using request, messages).toString
 
       application.stop()
     }

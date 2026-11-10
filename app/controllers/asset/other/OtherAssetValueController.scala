@@ -17,7 +17,7 @@
 package controllers.asset.other
 
 import config.annotations.Other
-import controllers.actions._
+import controllers.actions.*
 import forms.ValueFormProvider
 import models.requests.RegistrationDataRequest
 import navigation.Navigator
@@ -43,7 +43,7 @@ class OtherAssetValueController @Inject() (
   formProvider: ValueFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: OtherAssetValueView
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
@@ -70,7 +70,7 @@ class OtherAssetValueController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) =>
+        (formWithErrors: Form[?]) =>
           Future.successful(BadRequest(view(formWithErrors, draftId, index, description(index)))),
         value => {
 
@@ -84,7 +84,7 @@ class OtherAssetValueController @Inject() (
       )
   }
 
-  private def description(index: Int)(implicit request: RegistrationDataRequest[AnyContent]) =
+  private def description(index: Int)(using request: RegistrationDataRequest[AnyContent]) =
     request.userAnswers.get(OtherAssetDescriptionPage(index)).get
 
 }

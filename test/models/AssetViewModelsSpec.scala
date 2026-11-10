@@ -17,10 +17,10 @@
 package models
 
 import base.SpecBase
-import models.Constants._
+import models.Constants.*
 import models.Status.InProgress
-import models.WhatKindOfAsset._
-import viewmodels._
+import models.WhatKindOfAsset.*
+import viewmodels.*
 
 class AssetViewModelsSpec extends SpecBase {
 

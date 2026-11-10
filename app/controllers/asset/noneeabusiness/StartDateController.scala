@@ -18,7 +18,7 @@ package controllers.asset.noneeabusiness
 
 import config.annotations.NonEeaBusiness
 import connectors.SubmissionDraftConnector
-import controllers.actions._
+import controllers.actions.*
 import controllers.filters.IndexActionFilterProvider
 import forms.StartDateFormProvider
 import models.requests.RegistrationDataRequest
@@ -47,7 +47,7 @@ class StartDateController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: StartDateView,
   submissionDraftConnector: SubmissionDraftConnector
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   private def messageKeyPrefix: String = "nonEeaBusiness.startDate"
@@ -83,7 +83,7 @@ class StartDateController @Inject() (
       form
         .bindFromRequest()
         .fold(
-          (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, index, draftId, name))),
+          (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, index, draftId, name))),
           value =>
             for {
               updatedAnswers <- Future.fromTry(request.userAnswers.set(StartDatePage(index), value))

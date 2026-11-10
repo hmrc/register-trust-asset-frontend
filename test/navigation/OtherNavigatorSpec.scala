@@ -17,12 +17,12 @@
 package navigation
 
 import base.SpecBase
-import controllers.asset.other.routes._
+import controllers.asset.other.routes.*
 import generators.Generators
 import models.UserAnswers
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
-import pages.asset.other._
+import pages.asset.other.*
 
 class OtherNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
 

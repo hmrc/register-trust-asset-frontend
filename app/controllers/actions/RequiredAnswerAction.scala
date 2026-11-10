@@ -30,15 +30,16 @@ final case class RequiredAnswer[T](
   redirect: Call = controllers.routes.SessionExpiredController.onPageLoad
 )
 
-class RequiredAnswerAction[T] @Inject() (required: RequiredAnswer[T])(implicit
-  val executionContext: ExecutionContext,
+class RequiredAnswerAction[T] @Inject() (required: RequiredAnswer[T])(
+  override protected val
+  executionContext: ExecutionContext,
   val reads: Reads[T]
 ) extends ActionRefiner[RegistrationDataRequest, RegistrationDataRequest] {
 
   override protected def refine[A](
     request: RegistrationDataRequest[A]
   ): Future[Either[Result, RegistrationDataRequest[A]]] =
-    request.userAnswers.get(required.answer) match {
+    request.userAnswers.get(required.answer)(using reads) match {
       case None    =>
         Future.successful(Left(Redirect(required.redirect)))
       case Some(_) =>
@@ -47,9 +48,9 @@ class RequiredAnswerAction[T] @Inject() (required: RequiredAnswer[T])(implicit
 
 }
 
-class RequiredAnswerActionProvider @Inject() (implicit ec: ExecutionContext) {
+class RequiredAnswerActionProvider @Inject() (ec: ExecutionContext) {
 
-  def apply[T](required: RequiredAnswer[T])(implicit reads: Reads[T]) =
-    new RequiredAnswerAction(required)
+  def apply[T](required: RequiredAnswer[T])(using reads: Reads[T]) =
+    new RequiredAnswerAction[T](required)(ec, reads)
 
 }

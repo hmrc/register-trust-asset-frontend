@@ -45,7 +45,7 @@ class PartnershipStartDateController @Inject() (
   formProvider: StartDateFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: PartnershipStartDateView
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   private def form = formProvider.withConfig("partnership.startDate")
@@ -69,7 +69,7 @@ class PartnershipStartDateController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, index, draftId))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, index, draftId))),
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(PartnershipStartDatePage(index), value))

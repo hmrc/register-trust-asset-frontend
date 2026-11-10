@@ -27,13 +27,13 @@ import scala.reflect.ClassTag
 
 trait Mocked {
 
-  def mock[T <: AnyRef]()(implicit classTag: ClassTag[T]) = Mockito.mock(classTag.runtimeClass.asInstanceOf[Class[T]])
+  def mock[T <: AnyRef]()(using classTag: ClassTag[T]) = Mockito.mock(classTag.runtimeClass.asInstanceOf[Class[T]])
 
   val registrationsRepository: RegistrationsRepository = mock[RegistrationsRepository]()
 
-  when(registrationsRepository.get(any())(any())).thenReturn(Future.successful(None))
-  when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+  when(registrationsRepository.get(any())(using any())).thenReturn(Future.successful(None))
+  when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
 
   val mockViewUtils: ViewUtils = mock[ViewUtils]()
-  when(mockViewUtils.breadcrumbTitle(any())(any(), any())).thenReturn("")
+  when(mockViewUtils.breadcrumbTitle(any())(using any(), any())).thenReturn("")
 }

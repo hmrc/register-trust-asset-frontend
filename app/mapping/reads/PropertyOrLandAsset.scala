@@ -19,8 +19,8 @@ package mapping.reads
 import models.WhatKindOfAsset.PropertyOrLand
 import models.{Address, WhatKindOfAsset}
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.property_or_land._
-import play.api.libs.functional.syntax._
+import pages.asset.property_or_land.*
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{JsSuccess, Reads, __}
 
 final case class PropertyOrLandAsset(
@@ -33,7 +33,7 @@ final case class PropertyOrLandAsset(
 
 object PropertyOrLandAsset {
 
-  implicit lazy val reads: Reads[PropertyOrLandAsset] = {
+  given reads: Reads[PropertyOrLandAsset] = {
 
     val optionalAddressReads: Reads[Option[Address]] =
       (__ \ PropertyOrLandUKAddressPage.key).read[Address].map(Some(_): Option[Address]) orElse
@@ -44,7 +44,7 @@ object PropertyOrLandAsset {
       (__ \ PropertyOrLandDescriptionPage.key).readNullable[String] and
       optionalAddressReads and
       (__ \ PropertyLandValueTrustPage.key).readNullable[Long] and
-      (__ \ PropertyOrLandTotalValuePage.key).read[Long])(PropertyOrLandAsset.apply _)
+      (__ \ PropertyOrLandTotalValuePage.key).read[Long])(PropertyOrLandAsset.apply)
 
   }
 

@@ -33,8 +33,8 @@ class SharePortfolioValueInTrustViewSpec extends LongViewBehaviours {
 
     val view = viewFor[SharePortfolioValueInTrustView](Some(emptyUserAnswers))
 
-    def applyView(form: Form[_]): HtmlFormat.Appendable =
-      view.apply(form, fakeDraftId, index)(fakeRequest, messages)
+    def applyView(form: Form[?]): HtmlFormat.Appendable =
+      view.apply(form, fakeDraftId, index)(using fakeRequest, messages)
 
     behave like normalPage(applyView(form), messageKeyPrefix)
 

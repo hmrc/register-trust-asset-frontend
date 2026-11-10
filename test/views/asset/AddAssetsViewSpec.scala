@@ -45,18 +45,18 @@ class AddAssetsViewSpec
       messages(s"$prefix.title")
     }
 
-  private def applyView(form: Form[_], prefix: String): HtmlFormat.Appendable = {
+  private def applyView(form: Form[?], prefix: String): HtmlFormat.Appendable = {
     val title = if (prefix == taxableAddAssetsPrefix) {
       "Add assets"
     } else {
       messages(s"$prefix.title")
     }
 
-    view.apply(form, fakeDraftId, Nil, Nil, title, prefix, Nil)(fakeRequest, messages)
+    view.apply(form, fakeDraftId, Nil, Nil, title, prefix, Nil)(using fakeRequest, messages)
   }
 
   private def applyView(
-    form: Form[_],
+    form: Form[?],
     inProgressAssets: Seq[AddRow],
     completeAssets: Seq[AddRow],
     count: Int,
@@ -65,21 +65,21 @@ class AddAssetsViewSpec
 
     val title = deriveTitleFromPrefix(count, prefix)
 
-    view.apply(form, fakeDraftId, inProgressAssets, completeAssets, title, prefix, Nil)(
+    view.apply(form, fakeDraftId, inProgressAssets, completeAssets, title, prefix, Nil)(using
       fakeRequest,
       messages
     )
   }
 
   def applyView(
-    form: Form[_],
+    form: Form[?],
     completeAssets: Seq[AddRow],
     count: Int,
     maxedOut: List[(String, Int)],
     prefix: String
   ): HtmlFormat.Appendable = {
     val title = deriveTitleFromPrefix(count, prefix)
-    view.apply(form, fakeDraftId, Nil, completeAssets, title, prefix, maxedOut)(fakeRequest, messages)
+    view.apply(form, fakeDraftId, Nil, completeAssets, title, prefix, maxedOut)(using fakeRequest, messages)
   }
 
   "Taxable AddAssetsView" when {
@@ -93,7 +93,7 @@ class AddAssetsViewSpec
       AddRow("Tesco", WhatKindOfAsset.Shares.toString, "#", "#")
     )
 
-    val taxableCreateViewFn = (f: Form[_]) => applyView(f, taxableAddAssetsPrefix)
+    val taxableCreateViewFn = (f: Form[?]) => applyView(f, taxableAddAssetsPrefix)
 
     "there are no assets" must {
       behave like normalPage(applyView(form, taxableAddAssetsPrefix), taxableAddAssetsPrefix)
@@ -197,7 +197,7 @@ class AddAssetsViewSpec
       behave like pageWithBackLink(nonEeaView)
 
       val taxableCreateViewFn =
-        (f: Form[_]) => applyView(form, inProgressAssets, Seq.empty[AddRow], 2, nonTaxableAddAssetsPrefix)
+        (_: Form[?]) => applyView(form, inProgressAssets, Seq.empty[AddRow], 2, nonTaxableAddAssetsPrefix)
 
       behave like pageWithSubHeadings(
         form,
@@ -225,7 +225,7 @@ class AddAssetsViewSpec
       behave like pageWithBackLink(nonEeaView)
 
       val taxableCreateViewFn =
-        (f: Form[_]) => applyView(form, inProgressAssets, completeAssets, 2, nonTaxableAddAssetsPrefix)
+        (_: Form[?]) => applyView(form, inProgressAssets, completeAssets, 2, nonTaxableAddAssetsPrefix)
 
       behave like pageWithSubHeadings(
         form,
@@ -254,7 +254,7 @@ class AddAssetsViewSpec
       behave like pageWithBackLink(nonEeaView)
 
       val taxableCreateViewFn =
-        (f: Form[_]) => applyView(form, inProgressAssets, completeAssets, 2, nonTaxableAddAssetsPrefix)
+        (_: Form[?]) => applyView(form, inProgressAssets, completeAssets, 2, nonTaxableAddAssetsPrefix)
 
       behave like pageWithSubHeadings(
         form,

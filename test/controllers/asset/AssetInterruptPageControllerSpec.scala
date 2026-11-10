@@ -24,7 +24,7 @@ import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{reset, verify, when}
 import pages.asset.WhatKindOfAssetPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import views.html.asset.{NonTaxableInfoView, TaxableInfoView}
 
 import scala.concurrent.Future
@@ -50,7 +50,7 @@ class AssetInterruptPageControllerSpec extends SpecBase {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(fakeDraftId)(request, messages).toString
+          view(fakeDraftId)(using request, messages).toString
 
         application.stop()
       }
@@ -70,7 +70,7 @@ class AssetInterruptPageControllerSpec extends SpecBase {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(fakeDraftId)(request, messages).toString
+          view(fakeDraftId)(using request, messages).toString
 
         application.stop()
       }
@@ -86,7 +86,7 @@ class AssetInterruptPageControllerSpec extends SpecBase {
         "not set value in WhatKindOfAssetPage" in {
 
           reset(registrationsRepository)
-          when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+          when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
           val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
           val application = applicationBuilder(userAnswers = Some(emptyUserAnswers.copy(isTaxable = isTaxable))).build()
@@ -99,7 +99,7 @@ class AssetInterruptPageControllerSpec extends SpecBase {
 
           redirectLocation(result).value mustBe fakeNavigator.desiredRoute.url
 
-          verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+          verify(registrationsRepository).set(uaCaptor.capture)(using any(), any())
           uaCaptor.getValue.get(WhatKindOfAssetPage(0)) mustNot be(defined)
 
           application.stop()
@@ -113,7 +113,7 @@ class AssetInterruptPageControllerSpec extends SpecBase {
         "set value in WhatKindOfAssetPage" in {
 
           reset(registrationsRepository)
-          when(registrationsRepository.set(any())(any(), any())).thenReturn(Future.successful(true))
+          when(registrationsRepository.set(any())(using any(), any())).thenReturn(Future.successful(true))
           val uaCaptor: ArgumentCaptor[UserAnswers] = ArgumentCaptor.forClass(classOf[UserAnswers])
 
           val application = applicationBuilder(userAnswers = Some(emptyUserAnswers.copy(isTaxable = isTaxable))).build()
@@ -126,7 +126,7 @@ class AssetInterruptPageControllerSpec extends SpecBase {
 
           redirectLocation(result).value mustBe fakeNavigator.desiredRoute.url
 
-          verify(registrationsRepository).set(uaCaptor.capture)(any(), any())
+          verify(registrationsRepository).set(uaCaptor.capture)(using any(), any())
           uaCaptor.getValue.get(WhatKindOfAssetPage(0)).get mustBe NonEeaBusiness
 
           application.stop()

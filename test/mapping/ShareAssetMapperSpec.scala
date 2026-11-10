@@ -23,8 +23,8 @@ import models.{ShareClass, SharesType, WhatKindOfAsset}
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import pages.AssetStatus
-import pages.asset._
-import pages.asset.shares._
+import pages.asset.*
+import pages.asset.shares.*
 
 class ShareAssetMapperSpec extends SpecBase with Matchers with OptionValues with Generators {
 

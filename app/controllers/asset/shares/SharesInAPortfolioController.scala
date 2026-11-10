@@ -45,7 +45,7 @@ class SharesInAPortfolioController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: SharesInAPortfolioView,
   validateIndex: IndexActionFilterProvider
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   val form: Form[Boolean] = formProvider.withPrefix("shares.inAPortfolioYesNo")
@@ -68,7 +68,7 @@ class SharesInAPortfolioController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(SharesInAPortfolioPage(index), value))

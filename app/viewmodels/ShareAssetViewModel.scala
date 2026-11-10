@@ -21,9 +21,9 @@ import models.WhatKindOfAsset.Shares
 import models.{Status, WhatKindOfAsset}
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.shares._
-import play.api.libs.functional.syntax._
-import play.api.libs.json._
+import pages.asset.shares.*
+import play.api.libs.functional.syntax.*
+import play.api.libs.json.*
 
 final case class ShareAssetViewModel(`type`: WhatKindOfAsset, name: Option[String], status: Status)
     extends AssetViewModel {
@@ -33,7 +33,7 @@ final case class ShareAssetViewModel(`type`: WhatKindOfAsset, name: Option[Strin
 
 object ShareAssetViewModel extends AssetViewModelReads {
 
-  implicit lazy val reads: Reads[ShareAssetViewModel] = {
+  given reads: Reads[ShareAssetViewModel] = {
 
     val nameReads: Reads[Option[String]] =
       (__ \ SharePortfolioNamePage.key).read[String].map(_.toOption) orElse
@@ -41,7 +41,7 @@ object ShareAssetViewModel extends AssetViewModelReads {
 
     ((__ \ WhatKindOfAssetPage.key).read[WhatKindOfAsset].filter(_ == Shares) and
       nameReads and
-      (__ \ AssetStatus.key).readWithDefault[Status](InProgress))(ShareAssetViewModel.apply _)
+      (__ \ AssetStatus.key).readWithDefault[Status](InProgress))(ShareAssetViewModel.apply)
 
   }
 

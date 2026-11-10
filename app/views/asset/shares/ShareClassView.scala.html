@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@import controllers.asset.shares.routes._
+@import controllers.asset.shares.routes.*
 @import models.ShareClass
 @import views.html.components.{ErrorSummary, InputRadio, SubmitButton}
 
@@ -26,7 +26,7 @@
     submitButton: SubmitButton
 )
 
-@(form: Form[_], draftId: String, index : Int, companyName: String)(implicit request: RequestHeader, messages: Messages)
+@(form: Form[?], draftId: String, index : Int, companyName: String)(using request: RequestHeader, messages: Messages)
 
 @main_template(
     title = s"${errorPrefix(form)} ${messages("shares.class.title")}",

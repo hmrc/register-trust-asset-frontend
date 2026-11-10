@@ -28,7 +28,7 @@ trait Asset {
 
 object Asset {
 
-  implicit class ReadsWithContravariantOr[A](a: Reads[A]) {
+  extension [A](a: Reads[A]) {
 
     def or[B >: A](b: Reads[B]): Reads[B] =
       a.map[B](identity).orElse(b)
@@ -38,14 +38,14 @@ object Asset {
   implicit def convertToSupertype[A, B >: A](a: Reads[A]): Reads[B] =
     a.map(identity)
 
-  implicit lazy val reads: Reads[Asset] =
-    MoneyAsset.reads or
-      PropertyOrLandAsset.reads or
-      ShareNonPortfolioAsset.reads or
-      SharePortfolioAsset.reads or
-      BusinessAsset.reads or
-      PartnershipAsset.reads or
-      OtherAsset.reads or
-      NonEeaBusinessAsset.reads
+  given reads: Reads[Asset] =
+    MoneyAsset.reads
+      .or(PropertyOrLandAsset.reads)
+      .or(ShareNonPortfolioAsset.reads)
+      .or(SharePortfolioAsset.reads)
+      .or(BusinessAsset.reads)
+      .or(PartnershipAsset.reads)
+      .or(OtherAsset.reads)
+      .or(NonEeaBusinessAsset.reads)
 
 }

@@ -18,11 +18,11 @@ package controllers.asset
 
 import base.SpecBase
 import controllers.IndexValidation
-import controllers.routes._
+import controllers.routes.*
 import forms.WhatKindOfAssetFormProvider
 import models.Status.Completed
 import models.WhatKindOfAsset
-import models.WhatKindOfAsset._
+import models.WhatKindOfAsset.*
 import org.scalacheck.Arbitrary.arbitrary
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
@@ -59,7 +59,7 @@ class WhatKindOfAssetControllerSpec extends SpecBase with IndexValidation {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, fakeDraftId, index, options)(request, messages).toString
+        view(form, fakeDraftId, index, options)(using request, messages).toString
 
       application.stop()
     }
@@ -82,7 +82,7 @@ class WhatKindOfAssetControllerSpec extends SpecBase with IndexValidation {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(Shares), fakeDraftId, index, options)(request, messages).toString
+        view(form.fill(Shares), fakeDraftId, index, options)(using request, messages).toString
 
       application.stop()
     }
@@ -105,7 +105,7 @@ class WhatKindOfAssetControllerSpec extends SpecBase with IndexValidation {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(Money), fakeDraftId, index, options)(request, messages).toString
+        view(form.fill(Money), fakeDraftId, index, options)(using request, messages).toString
 
       application.stop()
     }
@@ -130,7 +130,7 @@ class WhatKindOfAssetControllerSpec extends SpecBase with IndexValidation {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form, fakeDraftId, 1, optionsWithoutMoney)(request, messages).toString
+          view(form, fakeDraftId, 1, optionsWithoutMoney)(using request, messages).toString
 
         application.stop()
       }
@@ -153,7 +153,7 @@ class WhatKindOfAssetControllerSpec extends SpecBase with IndexValidation {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(form, fakeDraftId, 1, optionsWithoutMoney)(request, messages).toString
+          view(form, fakeDraftId, 1, optionsWithoutMoney)(using request, messages).toString
 
         application.stop()
       }
@@ -176,7 +176,7 @@ class WhatKindOfAssetControllerSpec extends SpecBase with IndexValidation {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, fakeDraftId, index, options)(request, messages).toString
+        view(boundForm, fakeDraftId, index, options)(using request, messages).toString
 
       application.stop()
     }

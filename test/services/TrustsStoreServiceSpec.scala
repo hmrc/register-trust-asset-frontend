@@ -37,14 +37,14 @@ class TrustsStoreServiceSpec extends SpecBase {
   ".updateTaskStatus" must {
     "call trusts store connector" in {
 
-      when(mockConnector.updateTaskStatus(any(), any())(any(), any()))
+      when(mockConnector.updateTaskStatus(any(), any())(using any(), any()))
         .thenReturn(Future.successful(HttpResponse(OK, "")))
 
       val result = trustsStoreService.updateTaskStatus(draftId, TaskStatus.Completed)
 
       whenReady(result) { res =>
         res.status mustBe OK
-        verify(mockConnector).updateTaskStatus(eqTo(draftId), eqTo(TaskStatus.Completed))(any(), any())
+        verify(mockConnector).updateTaskStatus(eqTo(draftId), eqTo(TaskStatus.Completed))(using any(), any())
       }
     }
   }

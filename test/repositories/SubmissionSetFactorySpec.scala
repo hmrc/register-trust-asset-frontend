@@ -21,10 +21,9 @@ import mapping.AssetMapper
 import models.RegistrationSubmission
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
-import pages.RegistrationProgress
 import pages.asset.TrustOwnsNonEeaBusinessYesNoPage
 import play.api.libs.json.Json
-import utils.answers._
+import utils.answers.*
 import viewmodels.AnswerSection
 
 import scala.collection.immutable.Nil
@@ -69,8 +68,7 @@ class SubmissionSetFactorySpec extends SpecBase {
 
       "return completed answer sections" when {
 
-        val registrationProgress: RegistrationProgress = injector.instanceOf[RegistrationProgress]
-        val assetMapper: AssetMapper                   = injector.instanceOf[AssetMapper]
+        val assetMapper: AssetMapper = injector.instanceOf[AssetMapper]
 
         val moneyAnswersHelper: MoneyAnswersHelper                   = mock[MoneyAnswersHelper]()
         val propertyOrLandAnswersHelper: PropertyOrLandAnswersHelper = mock[PropertyOrLandAnswersHelper]()
@@ -80,13 +78,12 @@ class SubmissionSetFactorySpec extends SpecBase {
         val otherAnswersHelper: OtherAnswersHelper                   = mock[OtherAnswersHelper]()
         val nonEeaBusinessAnswersHelper: NonEeaBusinessAnswersHelper = mock[NonEeaBusinessAnswersHelper]()
 
-        when(moneyAnswersHelper(any())(any())).thenReturn(Nil)
-        when(propertyOrLandAnswersHelper(any())(any())).thenReturn(Nil)
-        when(sharesAnswersHelper(any())(any())).thenReturn(Nil)
-        when(businessAnswersHelper(any())(any())).thenReturn(Nil)
+        when(moneyAnswersHelper(any())(using any())).thenReturn(Nil)
+        when(propertyOrLandAnswersHelper(any())(using any())).thenReturn(Nil)
+        when(sharesAnswersHelper(any())(using any())).thenReturn(Nil)
+        when(businessAnswersHelper(any())(using any())).thenReturn(Nil)
 
         val factory = new SubmissionSetFactory(
-          registrationProgress = registrationProgress,
           assetMapper = assetMapper,
           moneyAnswersHelper = moneyAnswersHelper,
           propertyOrLandAnswersHelper = propertyOrLandAnswersHelper,
@@ -111,10 +108,10 @@ class SubmissionSetFactorySpec extends SpecBase {
 
           "only one asset" in {
 
-            when(partnershipAnswersHelper(any())(any())).thenReturn(Nil)
-            when(otherAnswersHelper(any())(any()))
+            when(partnershipAnswersHelper(any())(using any())).thenReturn(Nil)
+            when(otherAnswersHelper(any())(using any()))
               .thenReturn(Seq(assetSection("answerPage.section.otherAsset.subheading", 1)))
-            when(nonEeaBusinessAnswersHelper(any())(any())).thenReturn(Nil)
+            when(nonEeaBusinessAnswersHelper(any())(using any())).thenReturn(Nil)
 
             val result = factory.answerSections(baseAnswers)
 
@@ -130,11 +127,11 @@ class SubmissionSetFactorySpec extends SpecBase {
 
           "when more than one asset" in {
 
-            when(partnershipAnswersHelper(any())(any()))
+            when(partnershipAnswersHelper(any())(using any()))
               .thenReturn(Seq(assetSection("answerPage.section.partnershipAsset.subheading", 1)))
-            when(otherAnswersHelper(any())(any()))
+            when(otherAnswersHelper(any())(using any()))
               .thenReturn(Seq(assetSection("answerPage.section.otherAsset.subheading", 1)))
-            when(nonEeaBusinessAnswersHelper(any())(any())).thenReturn(Nil)
+            when(nonEeaBusinessAnswersHelper(any())(using any())).thenReturn(Nil)
 
             val result = factory.answerSections(baseAnswers)
 
@@ -161,9 +158,9 @@ class SubmissionSetFactorySpec extends SpecBase {
 
           "only one asset" in {
 
-            when(partnershipAnswersHelper(any())(any())).thenReturn(Nil)
-            when(otherAnswersHelper(any())(any())).thenReturn(Nil)
-            when(nonEeaBusinessAnswersHelper(any())(any()))
+            when(partnershipAnswersHelper(any())(using any())).thenReturn(Nil)
+            when(otherAnswersHelper(any())(using any())).thenReturn(Nil)
+            when(nonEeaBusinessAnswersHelper(any())(using any()))
               .thenReturn(Seq(assetSection("answerPage.section.nonEeaBusinessAsset.subheading", 1)))
 
             val result = factory.answerSections(baseAnswers)
@@ -180,9 +177,9 @@ class SubmissionSetFactorySpec extends SpecBase {
 
           "when more than one asset" in {
 
-            when(partnershipAnswersHelper(any())(any())).thenReturn(Nil)
-            when(otherAnswersHelper(any())(any())).thenReturn(Nil)
-            when(nonEeaBusinessAnswersHelper(any())(any()))
+            when(partnershipAnswersHelper(any())(using any())).thenReturn(Nil)
+            when(otherAnswersHelper(any())(using any())).thenReturn(Nil)
+            when(nonEeaBusinessAnswersHelper(any())(using any()))
               .thenReturn(
                 Seq(
                   assetSection("answerPage.section.nonEeaBusinessAsset.subheading", 1),

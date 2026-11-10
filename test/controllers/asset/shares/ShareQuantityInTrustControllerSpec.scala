@@ -56,7 +56,7 @@ class ShareQuantityInTrustControllerSpec extends SpecBase with ModelGenerators w
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, fakeDraftId, index, companyName)(request, messages).toString
+        view(form, fakeDraftId, index, companyName)(using request, messages).toString
 
       application.stop()
     }
@@ -82,7 +82,7 @@ class ShareQuantityInTrustControllerSpec extends SpecBase with ModelGenerators w
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), fakeDraftId, index, companyName)(request, messages).toString
+        view(form.fill(validAnswer), fakeDraftId, index, companyName)(using request, messages).toString
 
       application.stop()
     }
@@ -125,7 +125,7 @@ class ShareQuantityInTrustControllerSpec extends SpecBase with ModelGenerators w
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, fakeDraftId, index, companyName)(request, messages).toString
+        view(boundForm, fakeDraftId, index, companyName)(using request, messages).toString
 
       application.stop()
     }

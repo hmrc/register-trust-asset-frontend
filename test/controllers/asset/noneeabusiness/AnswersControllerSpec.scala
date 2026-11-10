@@ -17,7 +17,7 @@
 package controllers.asset.noneeabusiness
 
 import base.SpecBase
-import controllers.routes._
+import controllers.routes.*
 import models.Status.Completed
 import models.WhatKindOfAsset.NonEeaBusiness
 import models.{InternationalAddress, UserAnswers}
@@ -25,10 +25,10 @@ import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.noneeabusiness._
+import pages.asset.noneeabusiness.*
 import play.api.inject.bind
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import utils.print.NonEeaBusinessPrintHelper
 import views.html.asset.noneeabusiness.AnswersView
 
@@ -83,7 +83,7 @@ class AnswersControllerSpec extends SpecBase {
 
       val expectedSections                           = Nil
       val mockPrintHelper: NonEeaBusinessPrintHelper = mock[NonEeaBusinessPrintHelper]()
-      when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(any())).thenReturn(Nil)
+      when(mockPrintHelper.checkDetailsSection(any(), any(), any(), any())(using any())).thenReturn(Nil)
 
       val application = applicationBuilder(userAnswers = Some(answers))
         .overrides(bind[NonEeaBusinessPrintHelper].toInstance(mockPrintHelper))
@@ -98,7 +98,7 @@ class AnswersControllerSpec extends SpecBase {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(index, fakeDraftId, expectedSections)(request, messages).toString
+        view(index, fakeDraftId, expectedSections)(using request, messages).toString
 
       application.stop()
     }

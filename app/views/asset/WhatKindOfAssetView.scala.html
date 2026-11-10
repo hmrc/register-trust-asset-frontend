@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@import controllers.asset.routes._
+@import controllers.asset.routes.*
 @import models.WhatKindOfAsset
 @import viewmodels.RadioOption
 @import views.html.components.{SubmitButton, ErrorSummary, InputRadio}
@@ -27,7 +27,7 @@
     inputRadio: InputRadio
 )
 
-@(form: Form[_], draftId: String, index: Int, options: List[RadioOption])(implicit request: RequestHeader, messages: Messages)
+@(form: Form[?], draftId: String, index: Int, options: List[RadioOption])(using request: RequestHeader, messages: Messages)
 
 @title = {
     @if(index == 0) {@messages("whatKindOfAsset.first.title")} else {@messages("whatKindOfAsset.next.title")}

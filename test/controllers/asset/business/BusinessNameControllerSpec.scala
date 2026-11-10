@@ -18,7 +18,7 @@ package controllers.asset.business
 
 import base.SpecBase
 import controllers.IndexValidation
-import controllers.routes._
+import controllers.routes.*
 import forms.NameFormProvider
 import models.UserAnswers
 import org.scalacheck.Arbitrary.arbitrary
@@ -55,7 +55,7 @@ class BusinessNameControllerSpec extends SpecBase with IndexValidation {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form, fakeDraftId, index)(request, messages).toString
+        view(form, fakeDraftId, index)(using request, messages).toString
 
       application.stop()
     }
@@ -78,7 +78,7 @@ class BusinessNameControllerSpec extends SpecBase with IndexValidation {
       status(result) mustEqual OK
 
       contentAsString(result) mustEqual
-        view(form.fill(validAnswer), fakeDraftId, index)(request, messages).toString
+        view(form.fill(validAnswer), fakeDraftId, index)(using request, messages).toString
 
       application.stop()
     }
@@ -117,7 +117,7 @@ class BusinessNameControllerSpec extends SpecBase with IndexValidation {
       status(result) mustEqual BAD_REQUEST
 
       contentAsString(result) mustEqual
-        view(boundForm, fakeDraftId, index)(request, messages).toString
+        view(boundForm, fakeDraftId, index)(using request, messages).toString
 
       application.stop()
     }

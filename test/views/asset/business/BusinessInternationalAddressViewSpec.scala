@@ -38,8 +38,8 @@ class BusinessInternationalAddressViewSpec extends InternationalAddressViewBehav
 
   "AssetInternationalAddressView" must {
 
-    def applyView(form: Form[_]): HtmlFormat.Appendable =
-      view.apply(form, countryOptions, index, fakeDraftId, businessName)(fakeRequest, messages)
+    def applyView(form: Form[?]): HtmlFormat.Appendable =
+      view.apply(form, countryOptions, index, fakeDraftId, businessName)(using fakeRequest, messages)
 
     behave like pageWithBackLink(applyView(form))
 

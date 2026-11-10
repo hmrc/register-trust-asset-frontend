@@ -19,8 +19,8 @@ package mapping.reads
 import models.WhatKindOfAsset
 import models.WhatKindOfAsset.Partnership
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.partnership._
-import play.api.libs.functional.syntax._
+import pages.asset.partnership.*
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{Reads, __}
 
 import java.time.LocalDate
@@ -33,10 +33,10 @@ final case class PartnershipAsset(
 
 object PartnershipAsset {
 
-  implicit lazy val reads: Reads[PartnershipAsset] = (
+  given reads: Reads[PartnershipAsset] = (
     (__ \ WhatKindOfAssetPage.key).read[WhatKindOfAsset].filter(_ == Partnership) and
       (__ \ PartnershipDescriptionPage.key).read[String] and
       (__ \ PartnershipStartDatePage.key).read[LocalDate]
-  )(PartnershipAsset.apply _)
+  )(PartnershipAsset.apply)
 
 }

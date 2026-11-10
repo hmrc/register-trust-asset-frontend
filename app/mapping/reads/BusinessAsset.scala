@@ -19,8 +19,8 @@ package mapping.reads
 import models.WhatKindOfAsset.Business
 import models.{Address, WhatKindOfAsset}
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.business._
-import play.api.libs.functional.syntax._
+import pages.asset.business.*
+import play.api.libs.functional.syntax.*
 import play.api.libs.json.{Reads, __}
 
 final case class BusinessAsset(
@@ -36,7 +36,7 @@ final case class BusinessAsset(
 
 object BusinessAsset {
 
-  implicit lazy val reads: Reads[BusinessAsset] = {
+  given reads: Reads[BusinessAsset] = {
 
     val addressReads: Reads[Address] =
       (__ \ BusinessUkAddressPage.key).read[Address] orElse
@@ -46,7 +46,7 @@ object BusinessAsset {
       (__ \ BusinessNamePage.key).read[String] and
       (__ \ BusinessDescriptionPage.key).read[String] and
       addressReads and
-      (__ \ BusinessValuePage.key).read[Long])(BusinessAsset.apply _)
+      (__ \ BusinessValuePage.key).read[Long])(BusinessAsset.apply)
 
   }
 

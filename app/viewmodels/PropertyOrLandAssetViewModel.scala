@@ -21,9 +21,9 @@ import models.WhatKindOfAsset.PropertyOrLand
 import models.{InternationalAddress, Status, UKAddress, WhatKindOfAsset}
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.property_or_land._
-import play.api.libs.functional.syntax._
-import play.api.libs.json._
+import pages.asset.property_or_land.*
+import play.api.libs.functional.syntax.*
+import play.api.libs.json.*
 
 final case class PropertyOrLandAssetViewModel(
   `type`: WhatKindOfAsset,
@@ -38,7 +38,7 @@ final case class PropertyOrLandAssetViewModel(
 
 object PropertyOrLandAssetViewModel extends AssetViewModelReads {
 
-  implicit lazy val reads: Reads[PropertyOrLandAssetViewModel] = {
+  given reads: Reads[PropertyOrLandAssetViewModel] = {
 
     val addressLine1Reads: Reads[Option[String]] =
       (__ \ PropertyOrLandUKAddressPage.key).read[UKAddress].map(_.toLine1Option) orElse
@@ -49,7 +49,7 @@ object PropertyOrLandAssetViewModel extends AssetViewModelReads {
       (__ \ PropertyOrLandAddressYesNoPage.key).readNullable[Boolean] and
       addressLine1Reads and
       (__ \ PropertyOrLandDescriptionPage.key).readNullable[String] and
-      (__ \ AssetStatus.key).readWithDefault[Status](InProgress))(PropertyOrLandAssetViewModel.apply _)
+      (__ \ AssetStatus.key).readWithDefault[Status](InProgress))(PropertyOrLandAssetViewModel.apply)
 
   }
 

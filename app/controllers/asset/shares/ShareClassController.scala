@@ -17,7 +17,7 @@
 package controllers.asset.shares
 
 import config.annotations.Shares
-import controllers.actions._
+import controllers.actions.*
 import controllers.filters.IndexActionFilterProvider
 import forms.shares.ShareClassFormProvider
 import models.Enumerable
@@ -46,7 +46,7 @@ class ShareClassController @Inject() (
   view: ShareClassView,
   validateIndex: IndexActionFilterProvider,
   requiredAnswer: RequiredAnswerActionProvider
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport with Enumerable.Implicits {
 
   private val form = formProvider()
@@ -79,7 +79,7 @@ class ShareClassController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index, companyName))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, draftId, index, companyName))),
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(ShareClassPage(index), value))

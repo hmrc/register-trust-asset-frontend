@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@import controllers.asset.shares.routes._
+@import controllers.asset.shares.routes.*
 @import views.html.components.{ErrorSummary, InputText, SubmitButton}
 
 @this(
@@ -25,7 +25,7 @@
     submitButton: SubmitButton
 )
 
-@(form: Form[_], draftId: String, index: Int)(implicit request: RequestHeader, messages: Messages)
+@(form: Form[?], draftId: String, index: Int)(using request: RequestHeader, messages: Messages)
 
 @main_template(
     title = s"${errorPrefix(form)} ${messages("shares.portfolioValueInTrust.title")}",

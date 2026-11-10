@@ -16,9 +16,9 @@
 
 package utils.print
 
-import controllers.asset.property_or_land.routes._
+import controllers.asset.property_or_land.routes.*
 import models.UserAnswers
-import pages.asset.property_or_land._
+import pages.asset.property_or_land.*
 import play.api.i18n.Messages
 import utils.{AnswerRowConverter, CheckAnswersFormatters}
 import viewmodels.AnswerRow
@@ -29,7 +29,7 @@ class PropertyOrLandPrintHelper @Inject() (checkAnswersFormatters: CheckAnswersF
 
   override val assetType: String = "propertyOrLandAsset"
 
-  override def answerRows(userAnswers: UserAnswers, arg: String, index: Int, draftId: String)(implicit
+  override def answerRows(userAnswers: UserAnswers, arg: String, index: Int, draftId: String)(using
     messages: Messages
   ): Seq[AnswerRow] = {
 

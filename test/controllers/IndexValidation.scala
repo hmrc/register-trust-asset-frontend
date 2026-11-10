@@ -24,7 +24,7 @@ import pages.QuestionPage
 import play.api.http.Writeable
 import play.api.libs.json.Writes
 import play.api.mvc.Request
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import views.html.PageNotFoundView
 
 trait IndexValidation extends SpecBase with ScalaCheckPropertyChecks with Generators {
@@ -33,9 +33,9 @@ trait IndexValidation extends SpecBase with ScalaCheckPropertyChecks with Genera
     generator: Gen[A],
     createPage: Int => QuestionPage[A],
     requestForIndex: Int => Request[B]
-  )(implicit writes: Writes[A], writeable: Writeable[B]): Unit =
+  )(using writes: Writes[A], writeable: Writeable[B]): Unit =
     "return not found if a given index is out of bounds" in {
-      implicit val generatorDrivenConfig: PropertyCheckConfiguration = PropertyCheckConfiguration(
+      given generatorDrivenConfig: PropertyCheckConfiguration = PropertyCheckConfiguration(
         minSuccessful = 2
       )
 
@@ -61,7 +61,7 @@ trait IndexValidation extends SpecBase with ScalaCheckPropertyChecks with Genera
 
         val view = application.injector.instanceOf[PageNotFoundView]
 
-        val applyView = view.apply()(request, messages)
+        val applyView = view.apply()(using request, messages)
 
         status(result) mustEqual NOT_FOUND
 

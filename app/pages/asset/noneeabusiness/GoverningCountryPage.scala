@@ -20,6 +20,7 @@ import pages.QuestionPage
 import pages.asset.noneeabusiness.GoverningCountryPage.key
 import play.api.libs.json.JsPath
 import sections.Assets
+import scala.language.implicitConversions
 
 final case class GoverningCountryPage(index: Int) extends QuestionPage[String] {
 

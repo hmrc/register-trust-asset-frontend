@@ -17,12 +17,12 @@
 package navigation
 
 import base.SpecBase
-import controllers.asset.property_or_land.routes._
+import controllers.asset.property_or_land.routes.*
 import generators.Generators
 import models.{InternationalAddress, UKAddress, UserAnswers}
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
-import pages.asset.property_or_land._
+import pages.asset.property_or_land.*
 
 class PropertyOrLandNavigatorSpec extends SpecBase with ScalaCheckPropertyChecks with Generators {
 

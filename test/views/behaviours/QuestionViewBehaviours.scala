@@ -21,7 +21,7 @@ import play.api.data.{Form, FormError}
 import play.twirl.api.HtmlFormat
 
 import scala.collection.mutable
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 
 trait QuestionViewBehaviours[A] extends ViewBehaviours {
 
@@ -36,7 +36,6 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
     form: Form[A],
     createView: Form[A] => HtmlFormat.Appendable,
     messageKeyPrefix: String,
-    expectedFormAction: String,
     fields: String*
   ): Unit =
     "behave like a question page" when {
@@ -66,7 +65,7 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
             "title",
             mockViewUtils.breadcrumbTitle(s"""${messages("error.browser.title.prefix")} ${messages(
                 s"$messageKeyPrefix.title"
-              )}""")(fakeRequest, messages)
+              )}""")(using fakeRequest, messages)
           )
         }
       }
@@ -85,7 +84,7 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
 
             val doc       = asDocument(createView(form.withError(FormError(field, "error"))))
             val errorSpan = doc.getElementsByClass("govuk-error-message").first
-            doc.getElementById(field).attr("aria-describedby") contains errorSpan.attr("id")
+            doc.getElementById(field).attr("aria-describedby").contains(errorSpan.attr("id"))
             errorSpan.parent.attr("for") mustBe field
           }
         }
@@ -174,8 +173,8 @@ trait QuestionViewBehaviours[A] extends ViewBehaviours {
             doc,
             "title",
             mockViewUtils.breadcrumbTitle(
-              s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title", args: _*)}"""
-            )(fakeRequest, messages)
+              s"""${messages("error.browser.title.prefix")} ${messages(s"$messageKeyPrefix.title", args*)}"""
+            )(using fakeRequest, messages)
           )
         }
       }

@@ -22,8 +22,8 @@ import models.{Status, WhatKindOfAsset}
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
 import pages.asset.other.OtherAssetDescriptionPage
-import play.api.libs.functional.syntax._
-import play.api.libs.json._
+import play.api.libs.functional.syntax.*
+import play.api.libs.json.*
 
 final case class OtherAssetViewModel(`type`: WhatKindOfAsset, description: Option[String], status: Status)
     extends AssetViewModel {
@@ -33,10 +33,10 @@ final case class OtherAssetViewModel(`type`: WhatKindOfAsset, description: Optio
 
 object OtherAssetViewModel {
 
-  implicit lazy val reads: Reads[OtherAssetViewModel] = (
+  given reads: Reads[OtherAssetViewModel] = (
     (__ \ WhatKindOfAssetPage.key).read[WhatKindOfAsset].filter(_ == Other) and
       (__ \ OtherAssetDescriptionPage.key).readNullable[String] and
       (__ \ AssetStatus.key).readWithDefault[Status](InProgress)
-  )(OtherAssetViewModel.apply _)
+  )(OtherAssetViewModel.apply)
 
 }

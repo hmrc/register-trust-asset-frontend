@@ -18,7 +18,7 @@ package controllers.actions
 
 import config.FrontendAppConfig
 import models.requests.IdentifierRequest
-import play.api.mvc._
+import play.api.mvc.*
 import uk.gov.hmrc.auth.core.{AffinityGroup, Enrolment, Enrolments}
 
 import javax.inject.Inject

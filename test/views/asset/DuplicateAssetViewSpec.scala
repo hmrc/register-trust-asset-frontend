@@ -24,7 +24,7 @@ class DuplicateAssetViewSpec extends ViewBehaviours {
 
   private val view: DuplicateAssetView = viewFor[DuplicateAssetView](Some(emptyUserAnswers))
 
-  private val applyView: HtmlFormat.Appendable = view(draftId)(fakeRequest, messages)
+  private val applyView: HtmlFormat.Appendable = view(draftId)(using fakeRequest, messages)
 
   "DuplicateAsset view" must {
 

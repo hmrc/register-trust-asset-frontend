@@ -17,7 +17,7 @@
 package controllers.asset.business
 
 import config.annotations.Business
-import controllers.actions._
+import controllers.actions.*
 import controllers.filters.IndexActionFilterProvider
 import forms.ValueFormProvider
 import models.Status.Completed
@@ -48,7 +48,7 @@ class BusinessValueController @Inject() (
   formProvider: ValueFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: BusinessValueView
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   private val form: Form[Long] = formProvider.withConfig(prefix = "business.currentValue")
@@ -77,7 +77,7 @@ class BusinessValueController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index, businessName))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, draftId, index, businessName))),
         value => {
 
           val answers = request.userAnswers

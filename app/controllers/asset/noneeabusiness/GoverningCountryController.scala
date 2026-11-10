@@ -17,7 +17,7 @@
 package controllers.asset.noneeabusiness
 
 import config.annotations.NonEeaBusiness
-import controllers.actions._
+import controllers.actions.*
 import controllers.filters.IndexActionFilterProvider
 import forms.CountryFormProvider
 import models.requests.RegistrationDataRequest
@@ -48,7 +48,7 @@ class GoverningCountryController @Inject() (
   val controllerComponents: MessagesControllerComponents,
   view: GoverningCountryView,
   countryOptions: CountryOptions
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   private val form: Form[String] = countryFormProvider.withPrefix("nonEeaBusiness.governingCountry")
@@ -77,7 +77,7 @@ class GoverningCountryController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) =>
+        (formWithErrors: Form[?]) =>
           Future.successful(BadRequest(view(formWithErrors, countryOptions.options(), draftId, index, name))),
         value =>
           for {

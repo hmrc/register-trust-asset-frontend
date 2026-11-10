@@ -21,6 +21,7 @@ import pages.QuestionPage
 import pages.asset.noneeabusiness.InternationalAddressPage.key
 import play.api.libs.json.JsPath
 import sections.Assets
+import scala.language.implicitConversions
 
 final case class InternationalAddressPage(index: Int) extends QuestionPage[InternationalAddress] {
 

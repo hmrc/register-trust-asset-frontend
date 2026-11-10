@@ -17,7 +17,7 @@
 package controllers.asset.shares
 
 import config.annotations.Shares
-import controllers.actions._
+import controllers.actions.*
 import mapping.reads.{ShareAsset, ShareNonPortfolioAsset, SharePortfolioAsset}
 import models.Status.Completed
 import models.UserAnswers
@@ -53,7 +53,7 @@ class ShareAnswerController @Inject() (
   view: ShareAnswersView,
   val controllerComponents: MessagesControllerComponents,
   printHelper: SharesPrintHelper
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport with Logging {
 
   private def actions(index: Int, draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
@@ -97,7 +97,7 @@ class ShareAnswerController @Inject() (
     val name: String = (getPage(ShareCompanyNamePage(index)), getPage(SharePortfolioNamePage(index))) match {
       case (Some(name), None) => name
       case (None, Some(name)) => name
-      case _                  => request.messages(messagesApi)("assets.defaultText")
+      case _                  => request.messages(using messagesApi)("assets.defaultText")
     }
 
     val sections = printHelper.checkDetailsSection(

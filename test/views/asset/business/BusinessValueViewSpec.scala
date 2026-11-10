@@ -34,8 +34,8 @@ class BusinessValueViewSpec extends LongViewBehaviours {
 
     val view = viewFor[BusinessValueView](Some(emptyUserAnswers))
 
-    def applyView(form: Form[_]): HtmlFormat.Appendable =
-      view.apply(form, fakeDraftId, index, businessName)(fakeRequest, messages)
+    def applyView(form: Form[?]): HtmlFormat.Appendable =
+      view.apply(form, fakeDraftId, index, businessName)(using fakeRequest, messages)
 
     behave like normalPage(applyView(form), messageKeyPrefix)
 

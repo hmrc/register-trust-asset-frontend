@@ -18,6 +18,7 @@ package queries
 
 import play.api.libs.json.JsPath
 import sections.Assets
+import scala.language.implicitConversions
 
 final case class RemoveAssetQuery(index: Int) extends Settable[Boolean] {
 

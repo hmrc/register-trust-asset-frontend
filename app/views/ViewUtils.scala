@@ -28,9 +28,9 @@ import scala.collection.immutable
 
 class ViewUtils {
 
-  def breadcrumbTitle[T <: RequestHeader](title: String)(implicit request: T, messages: Messages): String = {
+  def breadcrumbTitle[T <: RequestHeader](title: String)(using request: T, messages: Messages): String = {
     val section = request match {
-      case x: RegistrationDataRequest[_] => Some(s"entities.${if (x.userAnswers.isTaxable) "assets" else "nonTaxable"}")
+      case x: RegistrationDataRequest[?] => Some(s"entities.${if (x.userAnswers.isTaxable) "assets" else "nonTaxable"}")
       case _                             => None
     }
 
@@ -41,7 +41,7 @@ class ViewUtils {
 
 object ViewUtils {
 
-  def errorPrefix(form: Form[_])(implicit messages: Messages): String =
+  def errorPrefix(form: Form[?])(using messages: Messages): String =
     if (form.hasErrors || form.hasGlobalErrors) messages("error.browser.title.prefix") else ""
 
   def errorHref(error: FormError, radioOptions: Seq[RadioOption] = Nil): String =
@@ -62,7 +62,7 @@ object ViewUtils {
         }
     }
 
-  def mapRadioOptionsToRadioItems(field: Field, inputs: Seq[RadioOption])(implicit messages: Messages): Seq[RadioItem] =
+  def mapRadioOptionsToRadioItems(field: Field, inputs: Seq[RadioOption])(using messages: Messages): Seq[RadioItem] =
     inputs.map { a =>
       RadioItem(
         id = Some(a.id),

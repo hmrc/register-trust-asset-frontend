@@ -25,11 +25,11 @@ import org.mockito.ArgumentMatchers.{any, eq => eqTo}
 import org.mockito.Mockito.when
 import pages.AssetStatus
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.shares._
+import pages.asset.shares.*
 import play.api.inject.bind
 import play.api.mvc.Call
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import utils.print.SharesPrintHelper
 import views.html.asset.shares.ShareAnswersView
 
@@ -122,7 +122,7 @@ class ShareAnswerControllerSpec extends SpecBase {
 
         val expectedSections                   = Nil
         val mockPrintHelper: SharesPrintHelper = mock[SharesPrintHelper]()
-        when(mockPrintHelper.checkDetailsSection(any(), eqTo(companyName), any(), any())(any())).thenReturn(Nil)
+        when(mockPrintHelper.checkDetailsSection(any(), eqTo(companyName), any(), any())(using any())).thenReturn(Nil)
 
         val application = applicationBuilder(userAnswers = Some(userAnswers))
           .overrides(bind[SharesPrintHelper].toInstance(mockPrintHelper))
@@ -137,7 +137,7 @@ class ShareAnswerControllerSpec extends SpecBase {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(index, fakeDraftId, expectedSections)(request, messages).toString
+          view(index, fakeDraftId, expectedSections)(using request, messages).toString
 
         application.stop()
       }
@@ -148,7 +148,7 @@ class ShareAnswerControllerSpec extends SpecBase {
 
         val expectedSections                   = Nil
         val mockPrintHelper: SharesPrintHelper = mock[SharesPrintHelper]()
-        when(mockPrintHelper.checkDetailsSection(any(), eqTo(portfolioName), any(), any())(any())).thenReturn(Nil)
+        when(mockPrintHelper.checkDetailsSection(any(), eqTo(portfolioName), any(), any())(using any())).thenReturn(Nil)
 
         val application = applicationBuilder(userAnswers = Some(userAnswers))
           .overrides(bind[SharesPrintHelper].toInstance(mockPrintHelper))
@@ -163,7 +163,7 @@ class ShareAnswerControllerSpec extends SpecBase {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(index, fakeDraftId, expectedSections)(request, messages).toString
+          view(index, fakeDraftId, expectedSections)(using request, messages).toString
 
         application.stop()
       }
@@ -177,7 +177,7 @@ class ShareAnswerControllerSpec extends SpecBase {
 
         val expectedSections                   = Nil
         val mockPrintHelper: SharesPrintHelper = mock[SharesPrintHelper]()
-        when(mockPrintHelper.checkDetailsSection(any(), eqTo("the asset"), any(), any())(any())).thenReturn(Nil)
+        when(mockPrintHelper.checkDetailsSection(any(), eqTo("the asset"), any(), any())(using any())).thenReturn(Nil)
 
         val application = applicationBuilder(userAnswers = Some(userAnswers))
           .overrides(bind[SharesPrintHelper].toInstance(mockPrintHelper))
@@ -192,7 +192,7 @@ class ShareAnswerControllerSpec extends SpecBase {
         status(result) mustEqual OK
 
         contentAsString(result) mustEqual
-          view(index, fakeDraftId, expectedSections)(request, messages).toString
+          view(index, fakeDraftId, expectedSections)(using request, messages).toString
 
         application.stop()
       }

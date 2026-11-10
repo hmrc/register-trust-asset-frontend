@@ -19,12 +19,12 @@ package mapping
 import base.SpecBase
 import generators.Generators
 import models.Status.Completed
-import models._
+import models.*
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.OptionValues
 import pages.AssetStatus
-import pages.asset._
-import pages.asset.money._
+import pages.asset.*
+import pages.asset.money.*
 
 class MoneyAssetMapperSpec extends SpecBase with Matchers with OptionValues with Generators {
 

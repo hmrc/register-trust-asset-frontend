@@ -46,7 +46,7 @@ class AssetMoneyValueController @Inject() (
   formProvider: ValueFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: AssetMoneyValueView
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   private def actions(draftId: String): ActionBuilder[RegistrationDataRequest, AnyContent] =
@@ -67,7 +67,7 @@ class AssetMoneyValueController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
         value => {
 
           val answers = request.userAnswers

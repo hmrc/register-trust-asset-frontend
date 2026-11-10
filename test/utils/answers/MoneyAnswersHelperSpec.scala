@@ -22,7 +22,7 @@ import models.WhatKindOfAsset.{Money, Other}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{verify, when}
 import pages.asset.WhatKindOfAssetPage
-import pages.asset.money._
+import pages.asset.money.*
 import pages.asset.other.{OtherAssetDescriptionPage, OtherAssetValuePage}
 import play.twirl.api.Html
 import utils.print.MoneyPrintHelper
@@ -52,7 +52,7 @@ class MoneyAnswersHelperSpec extends SpecBase {
 
       "interact with MoneyPrintHelper" in {
 
-        when(mockPrintHelper.printSection(any(), any(), any(), any(), any())(any())).thenReturn(AnswerSection())
+        when(mockPrintHelper.printSection(any(), any(), any(), any(), any())(using any())).thenReturn(AnswerSection())
 
         val userAnswers: UserAnswers = emptyUserAnswers
           .set(WhatKindOfAssetPage(index), Money)
@@ -66,7 +66,7 @@ class MoneyAnswersHelperSpec extends SpecBase {
 
         result mustBe Seq(AnswerSection())
 
-        verify(mockPrintHelper).printSection(any(), any(), any(), any(), any())(any())
+        verify(mockPrintHelper).printSection(any(), any(), any(), any(), any())(using any())
       }
 
       "index headings correctly" in {

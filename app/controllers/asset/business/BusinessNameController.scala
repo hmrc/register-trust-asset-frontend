@@ -47,7 +47,7 @@ class BusinessNameController @Inject() (
   formProvider: NameFormProvider,
   val controllerComponents: MessagesControllerComponents,
   view: BusinessNameView
-)(implicit ec: ExecutionContext)
+)(using ec: ExecutionContext)
     extends FrontendBaseController with I18nSupport {
 
   private val maxLength          = 105
@@ -72,7 +72,7 @@ class BusinessNameController @Inject() (
     form
       .bindFromRequest()
       .fold(
-        (formWithErrors: Form[_]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
+        (formWithErrors: Form[?]) => Future.successful(BadRequest(view(formWithErrors, draftId, index))),
         value =>
           for {
             updatedAnswers <- Future.fromTry(request.userAnswers.set(BusinessNamePage(index), value))
